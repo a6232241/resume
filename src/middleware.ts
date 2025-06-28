@@ -27,7 +27,7 @@ const getLang = (request: NextRequest) => {
   const headers = Object.fromEntries(request.headers.entries());
   const negotiator = new Negotiator({ headers });
   const languages = negotiator.languages();
-  let defaultLang = "en";
+  const defaultLang = "en";
   return match(languages, supportLangs, defaultLang);
 };
 
