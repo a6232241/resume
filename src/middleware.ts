@@ -35,9 +35,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (staticExt.some((ext) => pathname.endsWith(ext))) return;
 
-  const pathnameHasLang = supportLangs.some(
-    (lang) => pathname.startsWith(`/${lang}/`) || pathname === `/${lang}`
-  );
+  const pathnameHasLang = supportLangs.some((lang) => pathname.startsWith(`/${lang}/`) || pathname === `/${lang}`);
   if (pathnameHasLang) return;
 
   const lang = getLang(request);
