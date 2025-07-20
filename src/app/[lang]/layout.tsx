@@ -1,3 +1,4 @@
+import ThemeToggle from "@src/components/ThemeToggle";
 import "@src/styles/globals.css";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -30,7 +31,12 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang={(await params).lang} className="h-full">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <header className="p-4">
+          <ThemeToggle />
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
