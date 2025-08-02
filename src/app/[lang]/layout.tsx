@@ -1,3 +1,5 @@
+import Menu from "@src/components/Menu";
+import SocialLinks from "@src/components/SocialLinks";
 import ThemeToggle from "@src/components/ThemeToggle";
 import "@src/styles/globals.css";
 import type { Metadata } from "next";
@@ -32,8 +34,10 @@ export default async function RootLayout({
   return (
     <html lang={(await params).lang} className="h-full">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <header className="p-4">
+        <header className="flex flex-row items-center justify-between p-4">
           <ThemeToggle />
+          <Menu />
+          <SocialLinks />
         </header>
         {children}
       </body>

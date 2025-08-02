@@ -14,8 +14,14 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
   return (
     <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
       <main className="row-start-2 flex flex-col items-start gap-[32px]">
-        <p className="mt-2 text-lg">{dict["Kuan-Cheng Tsai"]}</p>
-        <p className="text-muted-foreground text-sm italic">{dict["Frontend Engineer"]}</p>
+        <header className="flex w-full items-center justify-between">
+          <div>
+            <p className="text-3xl font-semibold tracking-tight">{dict["Kuan-Cheng Tsai"]}</p>
+            <p className="text-base text-neutral-400">{dict["Frontend Engineer"]}</p>
+          </div>
+        </header>
+
+        <p className="text-sm text-neutral-400 italic">{dict["Build fast. Think clean."]}</p>
 
         <section className="mt-6">
           <h2 className="mb-2 text-xl font-semibold">{dict["About"]}</h2>
