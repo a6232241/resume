@@ -1,10 +1,8 @@
 {
-  "Kuan-Cheng Tsai": "Kuan-Cheng Tsai",
-  "Frontend Engineer": "Frontend Engineer",
-  "Build fast. Think clean.": "Build fast. Think clean.",
-  "I'm a frontend engineer specializing in cross-platform app development using React Native and Next.js.": "I'm a frontend engineer specializing in cross-platform app development using React Native and Next.js.",
-  "Experience": "Experience",
-  "Projects": "Projects",
-  "Contact": "Contact",
-  "About": "About"
+  "Hello, I'm Kuan-Cheng Tsai": "Hello, I'm Kuan-Cheng Tsai",
+  "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using Next.js for web application development.": "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using Next.js for web application development.",
+  "I have worked with companies such as": "I have worked with companies such as",
+  "Work": "Work",
+  "Personal Projects": "Personal Projects",
+  "Optimization loading speed": "Optimization loading speed"
 }

@@ -1,10 +1,8 @@
 {
-  "Kuan-Cheng Tsai": "蔡寬程",
-  "Frontend Engineer": "前端工程師",
-  "Build fast. Think clean.": "快速開發，清晰思考。",
-  "I'm a frontend engineer specializing in cross-platform app development using React Native and Next.js.": "我是一名專注於 React Native 和 Next.js 跨平台開發的前端工程師。",
-  "Experience": "經歷",
-  "Projects": "作品集",
-  "Contact": "聯絡方式",
-  "About": "關於"
+  "Hello, I'm Kuan-Cheng Tsai": "你好，我是蔡寬程",
+  "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using Next.js for web application development.": "我是一名專注於手機應用程式的前端開發人員，擁有 React Native 四年以上的開發經驗，並且也有使用 Next.js 進行 Web 應用程式開發的經驗。",
+  "I have worked with companies such as": "我過去合作過的公司包括",
+  "Work": "工作",
+  "Personal Projects": "個人專案",
+  "Optimization loading speed": "優化加載速度"
 }
