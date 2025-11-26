@@ -1,3 +1,4 @@
+import DayNightVisuals from "@src/components/DayNightVisuals";
 import { getDictionary } from "@src/util/dictionaries";
 import Image from "next/image";
 
@@ -8,6 +9,7 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
 
   return (
     <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
+      <DayNightVisuals />
       <main className="row-start-2 flex flex-col items-start gap-[32px]">
         <header className="flex flex-col gap-[32px]">
           <div className="flex flex-col gap-4">
