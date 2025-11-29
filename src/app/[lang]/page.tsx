@@ -1,4 +1,3 @@
-import DayNightVisuals from "@src/components/DayNightVisuals";
 import Experience from "@src/components/Experience";
 import Hero from "@src/components/Hero";
 import ProjectCard from "@src/components/ProjectCard";
@@ -28,8 +27,6 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
 
   return (
     <div className="relative min-h-screen overflow-hidden font-[family-name:var(--font-geist-sans)]">
-      <DayNightVisuals />
-
       <main className="container mx-auto flex flex-col items-center gap-24 px-6 pt-10 pb-24">
         <Hero
           title={t("Hello, I'm Kuan-Cheng Tsai")}
@@ -50,7 +47,12 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
               description={t("Optimization loading speed")}
               imageUrl="https://placehold.co/600x400.png"
             />
-            {/* Placeholder for more projects */}
+            <ProjectCard
+              title="Project Showcase Demo"
+              description="Click to see the project detail page with carousel and full description"
+              imageUrl="https://placehold.co/600x400/4F46E5/FFFFFF?text=Demo+Project"
+              link={`/${lang}/project-demo`}
+            />
             <ProjectCard
               title="Project Placeholder"
               description="Coming soon..."

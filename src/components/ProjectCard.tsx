@@ -5,12 +5,17 @@ interface ProjectProps {
   title: string;
   description: string;
   imageUrl: string;
-  link?: string;
+  link?: string; // External link
 }
 
-export default function ProjectCard({ title, description, imageUrl, link }: ProjectProps) {
+export default function ProjectCard({ 
+  title, 
+  description, 
+  imageUrl, 
+  link,
+}: ProjectProps) {
   const CardContent = (
-    <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-white/5">
+    <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
       <div className="relative h-48 w-full overflow-hidden">
         <Image
           src={imageUrl}
@@ -29,7 +34,7 @@ export default function ProjectCard({ title, description, imageUrl, link }: Proj
 
   if (link) {
     return (
-      <Link href={link} target="_blank" rel="noopener noreferrer">
+      <Link href={link}>
         {CardContent}
       </Link>
     );

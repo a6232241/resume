@@ -1,3 +1,4 @@
+import DayNightVisuals from '@src/components/DayNightVisuals';
 import Menu from "@src/components/Menu";
 import SocialLinks from "@src/components/SocialLinks";
 import ThemeToggle from "@src/components/ThemeToggle";
@@ -34,6 +35,7 @@ export default async function RootLayout({
   return (
     <html lang={(await params).lang} className="h-full">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <DayNightVisuals />
         <header className="flex flex-row items-center justify-between p-4">
           <ThemeToggle />
           <Menu />
