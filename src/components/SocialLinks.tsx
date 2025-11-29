@@ -14,14 +14,14 @@ export default function SocialLinks() {
         {isDark ? (
           <GithubIcon width={24} height={24} color="var(--color-foreground)" />
         ) : (
-          <GithubIcon width={24} height={24} color="var(--color-background)" />
+          <GithubIcon width={24} height={24} color="var(--color-foreground)" />
         )}
       </Link>
       <Link href="https://www.linkedin.com/in/kuan-cheng-cai-766623172" className="text-lg font-semibold">
         {isDark ? (
           <LinkedInIcon width={24} height={24} color="var(--color-foreground)" />
         ) : (
-          <LinkedInIcon width={24} height={24} color="var(--color-background)" />
+          <LinkedInIcon width={24} height={24} color="var(--color-foreground)" />
         )}
       </Link>
     </div>
