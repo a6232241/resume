@@ -1,11 +1,11 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
 interface ProjectProps {
   title: string;
   description: string;
-  imageUrl: string;
-  link?: string; // External link
+  imageUrl: StaticImageData | string;
+  link?: string;
 }
 
 export default function ProjectCard({ title, description, imageUrl, link }: ProjectProps) {

@@ -1,3 +1,4 @@
+import MusicPlayerPreview from "@public/side-projects/music_player_00.png";
 import Experience from "@src/components/Experience";
 import Hero from "@src/components/Hero";
 import ProjectCard from "@src/components/ProjectCard";
@@ -40,7 +41,7 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
         <Skills title={t("Skills")} items={skills} />
 
         <section className="w-full">
-          <h2 className="mb-12 text-center text-3xl font-bold">{t("Work")}</h2>
+          <h2 className="mb-12 text-center text-3xl font-bold">{t("Work Projects")}</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
               title={t("Optimization loading speed")}
@@ -48,15 +49,21 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
               imageUrl="https://placehold.co/600x400.png"
             />
             <ProjectCard
-              title="Project Showcase Demo"
-              description="Click to see the project detail page with carousel and full description"
-              imageUrl="https://placehold.co/600x400/4F46E5/FFFFFF?text=Demo+Project"
-              link={`/${lang}/project-demo`}
-            />
-            <ProjectCard
               title="Project Placeholder"
               description="Coming soon..."
               imageUrl="https://placehold.co/600x400.png"
+            />
+          </div>
+        </section>
+
+        <section className="w-full">
+          <h2 className="mb-12 text-center text-3xl font-bold">{t("Personal Projects")}</h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <ProjectCard
+              title={"Music Player"}
+              description={t("This is a music player app that allows users to listen to music.")}
+              imageUrl={MusicPlayerPreview}
+              link={`/${lang}/project-demo/music-player`}
             />
           </div>
         </section>

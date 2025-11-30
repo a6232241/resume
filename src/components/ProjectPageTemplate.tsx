@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 interface MediaItem {
   type: "image" | "video";
-  url: string;
+  url: StaticImageData | string;
   alt?: string;
 }
 
@@ -34,25 +33,14 @@ export default function ProjectPageTemplate({
   mediaItems,
   backLink = "/",
 }: ProjectPageTemplateProps) {
-  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
-
-  // Auto-change carousel every 1 second
-  useEffect(() => {
-    if (mediaItems.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setCurrentMediaIndex((prevIndex) => (prevIndex + 1) % mediaItems.length);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [mediaItems.length]);
-
-  const currentMedia = mediaItems[currentMediaIndex];
+  const getVideoSrc = (url: string | StaticImageData): string => {
+    return typeof url === "string" ? url : url.src;
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-900/80">
+      <header className="border-b border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-900/80">
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-4">
             <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-blue-500 shadow-lg">
@@ -89,75 +77,33 @@ export default function ProjectPageTemplate({
             {title}
           </h1>
 
-          {/* Carousel */}
-          <div className="group relative mb-8 animate-[fadeIn_1s_ease-out_0.2s_forwards] overflow-hidden rounded-3xl bg-white opacity-0 shadow-2xl dark:bg-gray-800">
-            <div className="relative aspect-video w-full">
-              {currentMedia.type === "image" ? (
-                <Image
-                  src={currentMedia.url}
-                  alt={currentMedia.alt || `Demo ${currentMediaIndex + 1}`}
-                  fill
-                  className="object-cover transition-opacity duration-500"
-                  priority
-                />
-              ) : (
-                <video src={currentMedia.url} className="h-full w-full object-cover" autoPlay muted loop playsInline />
-              )}
-
-              {/* Carousel Indicators */}
-              {mediaItems.length > 1 && (
-                <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-                  {mediaItems.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentMediaIndex(index)}
-                      className={`h-2 rounded-full transition-all ${
-                        index === currentMediaIndex ? "w-8 bg-white" : "w-2 bg-white/50 hover:bg-white/75"
-                      }`}
-                      aria-label={`Go to slide ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              )}
-
-              {/* Navigation Arrows */}
-              {mediaItems.length > 1 && (
-                <>
-                  <button
-                    onClick={() =>
-                      setCurrentMediaIndex((currentMediaIndex - 1 + mediaItems.length) % mediaItems.length)
-                    }
-                    className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/75"
-                    aria-label="Previous slide">
-                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => setCurrentMediaIndex((currentMediaIndex + 1) % mediaItems.length)}
-                    className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/75"
-                    aria-label="Next slide">
-                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Media counter */}
-            {mediaItems.length > 1 && (
-              <div className="absolute top-4 right-4 rounded-full bg-black/50 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">
-                {currentMediaIndex + 1} / {mediaItems.length}
+          <div className="group relative mb-8 flex animate-[fadeIn_1s_ease-out_0.2s_forwards] flex-row flex-nowrap gap-5 overflow-scroll bg-transparent opacity-0">
+            {mediaItems.map((item, index) => (
+              <div
+                className="flex-shrink-0 flex-grow-0 basis-[200px] overflow-hidden rounded-xl shadow-2xl"
+                key={index}>
+                {item.type === "image" ? (
+                  <Image
+                    src={item.url}
+                    alt={item.alt || `Demo ${index + 1}`}
+                    className="object-contain transition-opacity duration-500"
+                    priority
+                  />
+                ) : (
+                  <video className="h-full w-full object-contain" autoPlay muted loop playsInline>
+                    <source src={getVideoSrc(item.url)} type="video/mp4" />
+                    {item.alt && <p>{item.alt}</p>}
+                  </video>
+                )}
               </div>
-            )}
+            ))}
           </div>
 
           {/* Description */}
           <div className="animate-[fadeIn_1s_ease-out_0.4s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
             <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">About This Project</h2>
             <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="leading-relaxed text-gray-700 dark:text-gray-300">{description}</p>
+              <p className="leading-relaxed whitespace-pre-wrap text-gray-700 dark:text-gray-300">{description}</p>
             </div>
           </div>
         </div>

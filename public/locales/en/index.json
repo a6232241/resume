@@ -2,9 +2,10 @@
   "Hello, I'm Kuan-Cheng Tsai": "Hello, I'm Kuan-Cheng Tsai",
   "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using Next.js for web application development.": "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using Next.js for web application development.",
   "I have worked with companies such as": "I have worked with companies such as",
-  "Work": "Work",
+  "Work Projects": "Work Projects",
   "Personal Projects": "Personal Projects",
   "Optimization loading speed": "Optimization loading speed",
   "Experience": "Experience",
-  "Skills": "Skills"
+  "Skills": "Skills",
+  "This is a music player app that allows users to listen to music.": "This is a music player app that allows users to listen to music."
 }

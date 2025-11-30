@@ -2,9 +2,10 @@
   "Hello, I'm Kuan-Cheng Tsai": "你好，我是蔡寬程",
   "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using Next.js for web application development.": "我是一名專注於手機應用程式的前端開發人員，擁有 React Native 四年以上的開發經驗，並且也有使用 Next.js 進行 Web 應用程式開發的經驗。",
   "I have worked with companies such as": "我過去合作過的公司包括",
-  "Work": "工作",
+  "Work Projects": "工作專案",
   "Personal Projects": "個人專案",
   "Optimization loading speed": "優化加載速度",
   "Experience": "經歷",
-  "Skills": "技能"
+  "Skills": "技能",
+  "This is a music player app that allows users to listen to music.": "這是一個音樂播放器應用程式，允許使用者收聽音樂。"
 }

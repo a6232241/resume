@@ -21,6 +21,7 @@ const staticExt = [
   ".eot",
   ".otf",
   ".map",
+  ".mp4",
 ];
 
 const getLang = (request: NextRequest) => {
