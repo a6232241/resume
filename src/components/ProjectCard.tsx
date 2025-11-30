@@ -8,12 +8,7 @@ interface ProjectProps {
   link?: string; // External link
 }
 
-export default function ProjectCard({ 
-  title, 
-  description, 
-  imageUrl, 
-  link,
-}: ProjectProps) {
+export default function ProjectCard({ title, description, imageUrl, link }: ProjectProps) {
   const CardContent = (
     <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
       <div className="relative h-48 w-full overflow-hidden">
@@ -33,11 +28,7 @@ export default function ProjectCard({
   );
 
   if (link) {
-    return (
-      <Link href={link}>
-        {CardContent}
-      </Link>
-    );
+    return <Link href={link}>{CardContent}</Link>;
   }
 
   return CardContent;

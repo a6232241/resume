@@ -1,4 +1,4 @@
-import DayNightVisuals from '@src/components/DayNightVisuals';
+import DayNightVisuals from "@src/components/DayNightVisuals";
 import Menu from "@src/components/Menu";
 import SocialLinks from "@src/components/SocialLinks";
 import ThemeToggle from "@src/components/ThemeToggle";
