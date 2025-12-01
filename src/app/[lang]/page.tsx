@@ -1,4 +1,4 @@
-import MusicPlayerPreview from "@public/side-projects/music_player_00.png";
+import MusicPlayerPreview from "@public/side-projects/music-player/launch_screen-light_theme.png";
 import Experience from "@src/components/Experience";
 import Hero from "@src/components/Hero";
 import ProjectCard from "@src/components/ProjectCard";

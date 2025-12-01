@@ -1,57 +1,58 @@
-import LaunchScreenLight from "@public/side-projects/music_player_00.png";
-import LaunchScreenDark from "@public/side-projects/music_player_01.png";
-import HomeScreenLight from "@public/side-projects/music_player_02.png";
-import HomeScreenDark from "@public/side-projects/music_player_03.png";
-import ProfileScreenLight from "@public/side-projects/music_player_06.png";
-import ProfileScreenDark from "@public/side-projects/music_player_07.png";
+import HomeScreenDark from "@public/side-projects/music-player/home_screen-dark_theme.png";
+import HomeScreenLight from "@public/side-projects/music-player/home_screen-light_theme.png";
+import LaunchScreenDark from "@public/side-projects/music-player/launch_screen-dark_theme.png";
+import LaunchScreenLight from "@public/side-projects/music-player/launch_screen-light_theme.png";
+import ProfileScreenDark from "@public/side-projects/music-player/profile_screen-dark_theme.png";
+import ProfileScreenLight from "@public/side-projects/music-player/profile_screen-light_theme.png";
 import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getDictionary } from "@src/util/dictionaries";
 
 const demoMediaItems = [
   {
+    type: "video" as const,
+    url: "/side-projects/music-player/show_music_detail_modal.mp4",
+    alt: "show music detail modal - light theme",
+  },
+  {
+    type: "video" as const,
+    url: "/side-projects/music-player/filter_music.mp4",
+    alt: "filter music - light theme",
+  },
+  {
+    type: "video" as const,
+    url: "/side-projects/music-player/download_all_audios.mp4",
+    alt: "download all audios - light theme",
+  },
+  {
     type: "image" as const,
     url: LaunchScreenLight,
-    alt: "launch screen - light mode",
+    alt: "launch screen - light theme",
   },
   {
     type: "image" as const,
     url: LaunchScreenDark,
-    alt: "launch screen - dark mode",
+    alt: "launch screen - dark theme",
   },
   {
     type: "image" as const,
     url: HomeScreenLight,
-    alt: "home screen - light mode",
+    alt: "home screen - light theme",
   },
   {
     type: "image" as const,
     url: HomeScreenDark,
-    alt: "home screen - dark mode",
+    alt: "home screen - dark theme",
   },
-  {
-    type: "video" as const,
-    url: "/side-projects/music_player_02.mp4",
-    alt: "music detail on modal - light mode",
-  },
-  {
-    type: "video" as const,
-    url: "/side-projects/music_player_01.mp4",
-    alt: "filter music - light mode",
-  },
-  {
-    type: "video" as const,
-    url: "/side-projects/music_player_00.mp4",
-    alt: "download all audios - light mode",
-  },
+
   {
     type: "image" as const,
     url: ProfileScreenLight,
-    alt: "profile screen - light mode",
+    alt: "profile screen - light theme",
   },
   {
     type: "image" as const,
     url: ProfileScreenDark,
-    alt: "profile screen - dark mode",
+    alt: "profile screen - dark theme",
   },
 ];
 
@@ -66,7 +67,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
       authorAvatar="/favicon.ico"
       title="Music Player"
       description={t(
-        "這是一個音樂播放器應用程式，允許使用者收聽音樂，並在本地儲存音樂列表，確保沒有網路連線時也能播放音樂。並提供過濾功能，可以按照歌手、音樂類別、音樂名稱等進行過濾。\n\n開發主因是想要解決市面上多數音樂播放器沒有過濾功能，以及網路不穩定導致音樂中斷等問題。\n\n該專案採用 Expo 進行開發，並透過 SQLite 作為本地資料庫，後端使用 Node.js，使用 Express.js 進行開發，負責備份資料庫和音樂檔案。\n\n預計未來會用 Google Drive 或其他雲端儲存服務進行備份，以提供更好的使用者體驗。",
+        "This is a music player application that allows users to listen to music and store music lists locally, ensuring that music can be played without an internet connection. It also provides a filtering function, allowing users to filter music by artist, music category, music name, etc.\n\nDevelopment was motivated by the fact that most music players on the market do not have a filtering function, and unstable networks can cause music to be interrupted.\n\nThe project uses Expo for development, SQLite as a local database, Node.js as the backend, and Express.js to backup the database and music files.\n\nIn the future, it is expected to use Google Drive or other cloud storage services for backup to provide a better user experience.",
       )}
       mediaItems={demoMediaItems}
       backLink="/"
