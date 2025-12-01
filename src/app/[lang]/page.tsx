@@ -1,4 +1,5 @@
 import MusicPlayerPreview from "@public/side-projects/music-player/launch_screen-light_theme.png";
+import VisualStreamingPreview from "@public/side-projects/visual-streaming/demo_preview.png";
 import Experience from "@src/components/Experience";
 import Hero from "@src/components/Hero";
 import ProjectCard from "@src/components/ProjectCard";
@@ -49,9 +50,10 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
               imageUrl="https://placehold.co/600x400.png"
             />
             <ProjectCard
-              title="Project Placeholder"
-              description="Coming soon..."
-              imageUrl="https://placehold.co/600x400.png"
+              title="Visual Streaming"
+              description={t("This is a 2D face swap app that allows users to swap their face with another face.")}
+              imageUrl={VisualStreamingPreview}
+              link={`/${lang}/project-demo/visual-streaming`}
             />
           </div>
         </section>

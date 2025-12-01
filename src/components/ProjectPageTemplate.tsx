@@ -101,7 +101,7 @@ export default function ProjectPageTemplate({
 
           {/* Description */}
           <div className="animate-[fadeIn_1s_ease-out_0.4s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">About This Project</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">About</h2>
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="leading-relaxed whitespace-pre-wrap text-gray-700 dark:text-gray-300">{description}</p>
             </div>
