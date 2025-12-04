@@ -1,5 +1,5 @@
 import MusicPlayerPreview from "@public/side-projects/music-player/launch_screen-light_theme.png";
-import VisualStreamingPreview from "@public/side-projects/visual-streaming/demo_preview.png";
+import VisualStreamingPreview from "@public/work-projects/visual-streaming/demo_preview.png";
 import Experience from "@src/components/Experience";
 import Hero from "@src/components/Hero";
 import ProjectCard from "@src/components/ProjectCard";
@@ -13,8 +13,8 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
 
   const experienceItems = [
     { company: "樂創互娛", role: "Frontend Developer", period: "2021 - Present" },
-    { company: "Byte x Byte", role: "Mobile Developer", period: "2020 - 2021" },
-    { company: "智慧價值", role: "Intern", period: "2019 - 2020" },
+    { company: "Byte x Byte", role: "Software Developer", period: "2020 - 2021" },
+    { company: "智慧價值", role: "Programmer", period: "2019 - 2020" },
   ];
 
   const skills = [
@@ -46,8 +46,9 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
               title={t("Optimization loading speed")}
-              description={t("Optimization loading speed")}
+              description={t("Use React devtools and fliper find the performance issue and optimize it.")}
               imageUrl="https://placehold.co/600x400.png"
+              link={`/${lang}/project-demo/optimization-loading-speed`}
             />
             <ProjectCard
               title="Visual Streaming"
@@ -62,10 +63,16 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
           <h2 className="mb-12 text-center text-3xl font-bold">{t("Personal Projects")}</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
-              title={"Music Player"}
+              title="Music Player"
               description={t("This is a music player app that allows users to listen to music.")}
               imageUrl={MusicPlayerPreview}
               link={`/${lang}/project-demo/music-player`}
+            />
+            <ProjectCard
+              title="AI Chat App"
+              description={t("This is a chat application with artificial intelligence.")}
+              imageUrl="https://placehold.co/600x400.png"
+              link={`/${lang}/project-demo/ai-chat-app`}
             />
           </div>
         </section>

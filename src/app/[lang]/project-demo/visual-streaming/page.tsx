@@ -1,5 +1,5 @@
-import Demo00 from "@public/side-projects/visual-streaming/demo_00.png";
-import Demo01 from "@public/side-projects/visual-streaming/demo_01.png";
+import Demo00 from "@public/work-projects/visual-streaming/demo_00.png";
+import Demo01 from "@public/work-projects/visual-streaming/demo_01.png";
 import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getDictionary } from "@src/util/dictionaries";
 
@@ -16,12 +16,12 @@ const demoMediaItems = [
   },
   {
     type: "video" as const,
-    url: "/side-projects/visual-streaming/demo_android_00.mp4",
+    url: "/work-projects/visual-streaming/demo_android_00.mp4",
     alt: "demo_android_00",
   },
   {
     type: "video" as const,
-    url: "/side-projects/visual-streaming/demo_ios_00.mp4",
+    url: "/work-projects/visual-streaming/demo_ios_00.mp4",
     alt: "demo_ios_00",
   },
 ];
