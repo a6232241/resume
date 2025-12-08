@@ -1,3 +1,4 @@
+import AIChatAppPreview from "@public/side-projects/ai-chat-app/preview-light_theme.png";
 import MusicPlayerPreview from "@public/side-projects/music-player/launch_screen-light_theme.png";
 import VisualStreamingPreview from "@public/work-projects/visual-streaming/demo_preview.png";
 import Experience from "@src/components/Experience";
@@ -71,7 +72,7 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
             <ProjectCard
               title="AI Chat App"
               description={t("This is a chat application with artificial intelligence.")}
-              imageUrl="https://placehold.co/600x400.png"
+              imageUrl={AIChatAppPreview}
               link={`/${lang}/project-demo/ai-chat-app`}
             />
           </div>

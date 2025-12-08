@@ -1,21 +1,45 @@
+import EitherChatScreenDarkTheme from "@public/side-projects/ai-chat-app/either_chat_screen-dark_theme.png";
+import EitherChatScreenLightTheme from "@public/side-projects/ai-chat-app/either_chat_screen-light_theme.png";
+import LaunchScreenDarkTheme from "@public/side-projects/ai-chat-app/launch_screen-dark_theme.png";
+import LaunchScreenLightTheme from "@public/side-projects/ai-chat-app/launch_screen-light_theme.png";
 import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getDictionary } from "@src/util/dictionaries";
 
 const demoMediaItems = [
   {
-    type: "image" as const,
-    url: "https://placehold.co/600x800.png?text=AI+Chat+App",
-    alt: "AI Chat App - Chat Interface",
+    type: "video" as const,
+    url: "side-projects/ai-chat-app/send_message-dark_theme.mp4",
+    alt: "AI Chat App - Send Message",
+  },
+  {
+    type: "video" as const,
+    url: "side-projects/ai-chat-app/resend_message-dark_theme.mp4",
+    alt: "AI Chat App - Resend Message",
+  },
+  {
+    type: "video" as const,
+    url: "side-projects/ai-chat-app/delete_message-dark_theme.mp4",
+    alt: "AI Chat App - Delete Message",
   },
   {
     type: "image" as const,
-    url: "https://placehold.co/600x800.png?text=Chat+Rooms",
-    alt: "AI Chat App - Chat Rooms",
+    url: LaunchScreenDarkTheme,
+    alt: "AI Chat App - Launch Screen Dark Theme",
   },
   {
     type: "image" as const,
-    url: "https://placehold.co/600x800.png?text=Conversation+History",
-    alt: "AI Chat App - Conversation History",
+    url: LaunchScreenLightTheme,
+    alt: "AI Chat App - Launch Screen Light Theme",
+  },
+  {
+    type: "image" as const,
+    url: EitherChatScreenDarkTheme,
+    alt: "AI Chat App - Either Chat Screen Dark Theme",
+  },
+  {
+    type: "image" as const,
+    url: EitherChatScreenLightTheme,
+    alt: "AI Chat App - Either Chat Screen Light Theme",
   },
 ];
 
