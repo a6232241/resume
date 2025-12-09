@@ -8,17 +8,17 @@ import { getDictionary } from "@src/util/dictionaries";
 const demoMediaItems = [
   {
     type: "video" as const,
-    url: "side-projects/ai-chat-app/send_message-dark_theme.mp4",
+    url: "/side-projects/ai-chat-app/send_message-dark_theme.mp4",
     alt: "AI Chat App - Send Message",
   },
   {
     type: "video" as const,
-    url: "side-projects/ai-chat-app/resend_message-dark_theme.mp4",
+    url: "/side-projects/ai-chat-app/resend_message-dark_theme.mp4",
     alt: "AI Chat App - Resend Message",
   },
   {
     type: "video" as const,
-    url: "side-projects/ai-chat-app/delete_message-dark_theme.mp4",
+    url: "/side-projects/ai-chat-app/delete_message-dark_theme.mp4",
     alt: "AI Chat App - Delete Message",
   },
   {

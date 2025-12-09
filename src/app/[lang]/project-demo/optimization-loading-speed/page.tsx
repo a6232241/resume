@@ -3,19 +3,14 @@ import { getDictionary } from "@src/util/dictionaries";
 
 const demoMediaItems = [
   {
-    type: "image" as const,
-    url: "https://placehold.co/800x600.png?text=React+DevTools",
-    alt: "React DevTools - Performance Analysis",
+    type: "video" as const,
+    url: "/work-projects/optimization-loading-speed/demo_before.mp4",
+    alt: "Optimization Loading Speed - Demo Before",
   },
   {
-    type: "image" as const,
-    url: "https://placehold.co/800x600.png?text=Flipper+Plugin",
-    alt: "Flipper Plugin - State Monitoring",
-  },
-  {
-    type: "image" as const,
-    url: "https://placehold.co/800x600.png?text=Before+vs+After",
-    alt: "Performance Comparison",
+    type: "video" as const,
+    url: "/work-projects/optimization-loading-speed/demo_after.mp4",
+    alt: "Optimization Loading Speed - Demo After",
   },
 ];
 

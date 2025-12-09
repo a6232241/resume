@@ -22,7 +22,9 @@ export default function ProjectCard({ title, description, imageUrl, link }: Proj
       </div>
       <div className="p-6">
         <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
-        <p className="text-gray-600 dark:text-gray-300">{description}</p>
+        <p className="line-clamp-1 text-gray-600 dark:text-gray-300" title={description}>
+          {description}
+        </p>
       </div>
     </div>
   );
