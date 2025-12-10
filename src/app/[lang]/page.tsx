@@ -46,16 +46,21 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
           <h2 className="mb-12 text-center text-3xl font-bold">{t("Work Projects")}</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
-              title={t("Optimization loading speed")}
-              description={t("Use React devtools and fliper find the performance issue and optimize it.")}
-              imageUrl="https://placehold.co/600x400.png"
-              link={`/${lang}/project-demo/optimization-loading-speed`}
-            />
-            <ProjectCard
               title="Visual Streaming"
               description={t("This is a 2D face swap app that allows users to swap their face with another face.")}
               imageUrl={VisualStreamingPreview}
               link={`/${lang}/project-demo/visual-streaming`}
+            />
+          </div>
+        </section>
+
+        <section className="w-full">
+          <h2 className="mb-12 text-center text-3xl font-bold">{t("Work Experience")}</h2>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <ProjectCard
+              title={t("Optimization loading speed")}
+              description={t("Use React devtools and fliper find the performance issue and optimize it.")}
+              link={`/${lang}/project-demo/optimization-loading-speed`}
             />
           </div>
         </section>

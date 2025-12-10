@@ -4,12 +4,12 @@ import { getDictionary } from "@src/util/dictionaries";
 const demoMediaItems = [
   {
     type: "video" as const,
-    url: "/work-projects/optimization-loading-speed/demo_before.mp4",
+    url: "/work-experience/optimization-loading-speed/demo_before.mp4",
     alt: "Optimization Loading Speed - Demo Before",
   },
   {
     type: "video" as const,
-    url: "/work-projects/optimization-loading-speed/demo_after.mp4",
+    url: "/work-experience/optimization-loading-speed/demo_after.mp4",
     alt: "Optimization Loading Speed - Demo After",
   },
 ];
