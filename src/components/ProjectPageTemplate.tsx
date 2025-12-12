@@ -80,7 +80,7 @@ export default function ProjectPageTemplate({
           <div className="group relative mb-8 flex animate-[fadeIn_1s_ease-out_0.2s_forwards] flex-row flex-nowrap gap-5 overflow-scroll bg-transparent opacity-0">
             {mediaItems.map((item, index) => (
               <div
-                className="relative flex-shrink-0 flex-grow-0 basis-[200px] overflow-hidden rounded-xl shadow-2xl"
+                className="relative flex-shrink-0 flex-grow-0 basis-[200px] overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800"
                 style={{ minHeight: "350px" }}
                 key={index}>
                 {item.type === "image" ? (

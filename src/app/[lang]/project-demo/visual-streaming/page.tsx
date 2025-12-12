@@ -7,22 +7,22 @@ const demoMediaItems = [
   {
     type: "image" as const,
     url: Demo00,
-    alt: "demo_00",
+    alt: "Visual Streaming - Demo 00",
   },
   {
     type: "image" as const,
     url: Demo01,
-    alt: "demo_01",
+    alt: "Visual Streaming - Demo 01",
   },
   {
     type: "video" as const,
     url: "/work-projects/visual-streaming/demo_android_00.mp4",
-    alt: "demo_android_00",
+    alt: "Visual Streaming - Demo Android 00",
   },
   {
     type: "video" as const,
     url: "/work-projects/visual-streaming/demo_ios_00.mp4",
-    alt: "demo_ios_00",
+    alt: "Visual Streaming - Demo iOS 00",
   },
 ];
 

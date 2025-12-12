@@ -1,3 +1,5 @@
+import ReactDevToolsAfter from "@public/work-experience/optimization-loading-speed/react_devtools-after.png";
+import ReactDevToolsBefore from "@public/work-experience/optimization-loading-speed/react_devtools-before.png";
 import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getDictionary } from "@src/util/dictionaries";
 
@@ -11,6 +13,16 @@ const demoMediaItems = [
     type: "video" as const,
     url: "/work-experience/optimization-loading-speed/demo_after.mp4",
     alt: "Optimization Loading Speed - Demo After",
+  },
+  {
+    type: "image" as const,
+    url: ReactDevToolsBefore,
+    alt: "Optimization Loading Speed - React DevTools Before",
+  },
+  {
+    type: "image" as const,
+    url: ReactDevToolsAfter,
+    alt: "Optimization Loading Speed - React DevTools After",
   },
 ];
 

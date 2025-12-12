@@ -11,48 +11,48 @@ const demoMediaItems = [
   {
     type: "video" as const,
     url: "/side-projects/music-player/show_music_detail_modal.mp4",
-    alt: "show music detail modal - light theme",
+    alt: "Music Player - Show Music Detail Modal - Light Theme",
   },
   {
     type: "video" as const,
     url: "/side-projects/music-player/filter_music.mp4",
-    alt: "filter music - light theme",
+    alt: "Music Player - Filter Music - Light Theme",
   },
   {
     type: "video" as const,
     url: "/side-projects/music-player/download_all_audios.mp4",
-    alt: "download all audios - light theme",
+    alt: "Music Player - Download All Audios - Light Theme",
   },
   {
     type: "image" as const,
     url: LaunchScreenLight,
-    alt: "launch screen - light theme",
+    alt: "Music Player - Launch Screen - Light Theme",
   },
   {
     type: "image" as const,
     url: LaunchScreenDark,
-    alt: "launch screen - dark theme",
+    alt: "Music Player - Launch Screen - Dark Theme",
   },
   {
     type: "image" as const,
     url: HomeScreenLight,
-    alt: "home screen - light theme",
+    alt: "Music Player - Home Screen - Light Theme",
   },
   {
     type: "image" as const,
     url: HomeScreenDark,
-    alt: "home screen - dark theme",
+    alt: "Music Player - Home Screen - Dark Theme",
   },
 
   {
     type: "image" as const,
     url: ProfileScreenLight,
-    alt: "profile screen - light theme",
+    alt: "Music Player - Profile Screen - Light Theme",
   },
   {
     type: "image" as const,
     url: ProfileScreenDark,
-    alt: "profile screen - dark theme",
+    alt: "Music Player - Profile Screen - Dark Theme",
   },
 ];
 
