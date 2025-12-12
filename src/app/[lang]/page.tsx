@@ -19,13 +19,17 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
   ];
 
   const skills = [
+    "React Native",
+    "Expo",
     "React",
     "Next.js",
+    "Redux",
     "TypeScript",
     "Tailwind CSS",
-    "React Native",
-    "Mobile Development",
-    "Web Development",
+    "Objective-C",
+    "Kotlin",
+    "Swift",
+    "C++",
   ];
 
   return (
