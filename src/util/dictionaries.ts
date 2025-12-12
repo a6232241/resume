@@ -5,8 +5,11 @@ const dictionaries = {
   zh: () => import("@public/locales/zh/index.json").then((module) => module.default),
 };
 
-export const getDictionary = async (locale: "en" | "zh") => {
-  const loader = dictionaries[locale];
+export const getDictionary = async (locale: string) => {
+  if (locale !== "en" && locale !== "zh") {
+    throw new Error(`Unsupported locale: ${locale}. Only "en" and "zh" are supported.`);
+  }
+  const loader = dictionaries[locale as "en" | "zh"];
   if (typeof loader !== "function") {
     throw new Error(`No dictionary loader found for locale: ${locale}`);
   }

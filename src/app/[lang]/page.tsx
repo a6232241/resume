@@ -7,7 +7,7 @@ import ProjectCard from "@src/components/ProjectCard";
 import Skills from "@src/components/Skills";
 import { getDictionary } from "@src/util/dictionaries";
 
-export default async function Home({ params }: { params: Promise<{ lang: "en" | "zh" }> }) {
+export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
   const t = (key: keyof typeof dict) => dict[key] || key;

@@ -29,7 +29,7 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: "en" | "zh" }>;
+  params: Promise<{ lang: string }>;
 }>) {
   return (
     <html lang={(await params).lang} className="h-full">
