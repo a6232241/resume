@@ -59,7 +59,7 @@ export default async function Home({ params }: { params: Promise<{ lang: "en" | 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
               title={t("Optimization loading speed")}
-              description={t("Use React devtools and fliper find the performance issue and optimize it.")}
+              description={t("The page load time has been reduced from more than ten seconds to less than one second.")}
               link={`/${lang}/project-demo/optimization-loading-speed`}
             />
           </div>
