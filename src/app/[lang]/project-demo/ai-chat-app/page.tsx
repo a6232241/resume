@@ -3,7 +3,7 @@ import EitherChatScreenLightTheme from "@public/side-projects/ai-chat-app/either
 import LaunchScreenDarkTheme from "@public/side-projects/ai-chat-app/launch_screen-dark_theme.png";
 import LaunchScreenLightTheme from "@public/side-projects/ai-chat-app/launch_screen-light_theme.png";
 import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
-import { getDictionary } from "@src/util/dictionaries";
+import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [
   {
@@ -45,8 +45,7 @@ const demoMediaItems = [
 
 export default async function AIChatAppPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const dict = await getDictionary(lang);
-  const t = (key: keyof typeof dict) => dict[key] || key;
+  const t = await getTranslations({ locale: lang });
 
   return (
     <ProjectPageTemplate
@@ -54,7 +53,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
       authorAvatar="/favicon.ico"
       title="AI Chat App"
       description={t(
-        "This is a simple chat application with artificial intelligence that was created for learning about AI, that allows users to create multiple chat rooms, and keeps memories of conversation. users can also delete conversation history.\n\nThis project was developed using Expo and GitHub models.",
+        "This is a simple chat application with artificial intelligence that was created for learning about AI, that allows users to create multiple chat rooms, and keeps memories of conversation, users can also delete conversation history \n\nThis project was developed using Expo and GitHub models",
       )}
       mediaItems={demoMediaItems}
       backLink={`/${lang}`}

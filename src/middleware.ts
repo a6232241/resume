@@ -1,5 +1,6 @@
 import { match } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
+import createNextIntlMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 const supportLangs = ["en", "zh"];
@@ -45,5 +46,10 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next).*)"],
+  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };
+
+export default createNextIntlMiddleware({
+  locales: ["en", "zh"],
+  defaultLocale: "zh",
+});

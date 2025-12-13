@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 
@@ -37,6 +38,8 @@ export default function ProjectPageTemplate({
     return typeof url === "string" ? url : url.src;
   };
 
+  const t = useTranslations();
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Header */}
@@ -63,7 +66,7 @@ export default function ProjectPageTemplate({
                 viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Back
+              {t("Back")}
             </Link>
           )}
         </div>
@@ -103,7 +106,7 @@ export default function ProjectPageTemplate({
 
           {/* Description */}
           <div className="animate-[fadeIn_1s_ease-out_0.4s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">About</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("About")}</h2>
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="leading-relaxed whitespace-pre-wrap text-gray-700 dark:text-gray-300">{description}</p>
             </div>

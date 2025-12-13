@@ -8,7 +8,7 @@ import ProductDetailScreen from "@public/work-projects/berify/product_detail_scr
 import ProfileScreen from "@public/work-projects/berify/profile_screen.png";
 import RewardsScreen from "@public/work-projects/berify/rewards_screen.png";
 import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
-import { getDictionary } from "@src/util/dictionaries";
+import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [
   {
@@ -60,8 +60,7 @@ const demoMediaItems = [
 
 export default async function BerifyPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const dict = await getDictionary(lang);
-  const t = (key: keyof typeof dict) => dict[key] || key;
+  const t = await getTranslations({ locale: lang });
 
   return (
     <ProjectPageTemplate
@@ -69,7 +68,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       authorAvatar="/favicon.ico"
       title="Berify"
       description={t(
-        "This is a Web3 smart retail system. Merchants can view, manage, and analyze products through the backend, while consumers can unlock product information, special promotions, NFTs, and gifts by scanning product tags. It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs. The application is implemented using React Native, with app clips developed in Swift. It offers scanning functionality and displays simple product descriptions. Next.js is used as the backend server, and the CMS is also developed entirely using Next.js.",
+        "This is a Web3 smart retail system, Merchants can view, manage, and analyze products through the backend, while consumers can unlock product information, special promotions, NFTs, and gifts by scanning product tags, It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs, The application is implemented using React Native, with app clips developed in Swift, It offers scanning functionality and displays simple product descriptions, NextJs is used as the backend server, and the CMS is also developed entirely using NextJs",
       )}
       mediaItems={demoMediaItems}
       backLink={`/${lang}`}

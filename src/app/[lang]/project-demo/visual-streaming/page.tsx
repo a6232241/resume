@@ -1,7 +1,7 @@
 import Demo00 from "@public/work-projects/visual-streaming/demo_00.png";
 import Demo01 from "@public/work-projects/visual-streaming/demo_01.png";
 import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
-import { getDictionary } from "@src/util/dictionaries";
+import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [
   {
@@ -28,8 +28,7 @@ const demoMediaItems = [
 
 export default async function VisualStreamingPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const dict = await getDictionary(lang);
-  const t = (key: keyof typeof dict) => dict[key] || key;
+  const t = await getTranslations({ locale: lang });
 
   return (
     <ProjectPageTemplate
@@ -37,7 +36,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
       authorAvatar="/favicon.ico"
       title="Visual Streaming"
       description={t(
-        "This is a simple 2D face swap application, allowing users to replace their face with another person's face. Initially, the manager wanted to use existing streaming platforms to let users switch faces in real-time, but due to the performance of current mobile phones or personal computers, it was too difficult to achieve. Therefore, traditional mathematical formulas were used to implement the face swap logic. This project was developed using React Native and implemented the face swap logic using native modules Kotlin, Objective-C, C++, and OpenCV.",
+        "This is a simple 2D face swap application, allowing users to replace their face with another person's face, Initially, the manager wanted to use existing streaming platforms to let users switch faces in real-time, but due to the performance of current mobile phones or personal computers, it was too difficult to achieve, Therefore, traditional mathematical formulas were used to implement the face swap logic, This project was developed using React Native and implemented the face swap logic using native modules Kotlin, Objective-C, C++, and OpenCV",
       )}
       mediaItems={demoMediaItems}
       backLink="/"

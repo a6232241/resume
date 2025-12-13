@@ -6,12 +6,11 @@ import Experience from "@src/components/Experience";
 import Hero from "@src/components/Hero";
 import ProjectCard from "@src/components/ProjectCard";
 import Skills from "@src/components/Skills";
-import { getDictionary } from "@src/util/dictionaries";
+import { getTranslations } from "next-intl/server";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const dict = await getDictionary(lang);
-  const t = (key: keyof typeof dict) => dict[key] || key;
+  const t = await getTranslations({ locale: lang });
 
   const experienceItems = [
     { company: "樂創互娛", role: "Frontend Developer", period: "2021 - Present" },
@@ -39,7 +38,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <Hero
           title={t("Hello, I'm Kuan-Cheng Tsai")}
           description={t(
-            "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using Next.js for web application development.",
+            "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using NextJs for web application development",
           )}
         />
 
@@ -52,14 +51,14 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
               title="Visual Streaming"
-              description={t("This is a 2D face swap app that allows users to swap their face with another face.")}
+              description={t("This is a 2D face swap app that allows users to swap their face with another face")}
               imageUrl={VisualStreamingPreview}
               link={`/${lang}/project-demo/visual-streaming`}
             />
             <ProjectCard
               title="Berify"
               description={t(
-                "This is a Web3 smart retail system where merchants can manage and analyze products through the backend, while consumers can scan product tags to unlock product information, special promotions, NFTs, and gifts. It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs through the wallet.",
+                "This is a Web3 smart retail system where merchants can manage and analyze products through the backend, while consumers can scan product tags to unlock product information, special promotions, NFTs, and gifts, It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs through the wallet",
               )}
               imageUrl={BerifyPreview}
               link={`/${lang}/project-demo/berify`}
@@ -72,7 +71,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
               title={t("Optimization loading speed")}
-              description={t("The page load time has been reduced from more than ten seconds to less than one second.")}
+              description={t("The page load time has been reduced from more than ten seconds to less than one second")}
               link={`/${lang}/project-demo/optimization-loading-speed`}
             />
           </div>
@@ -83,13 +82,13 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <ProjectCard
               title="Music Player"
-              description={t("This is a music player app that allows users to listen to music.")}
+              description={t("This is a music player app that allows users to listen to music")}
               imageUrl={MusicPlayerPreview}
               link={`/${lang}/project-demo/music-player`}
             />
             <ProjectCard
               title="AI Chat App"
-              description={t("This is a chat application with artificial intelligence.")}
+              description={t("This is a chat application with artificial intelligence")}
               imageUrl={AIChatAppPreview}
               link={`/${lang}/project-demo/ai-chat-app`}
             />

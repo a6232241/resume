@@ -3,6 +3,8 @@ import SocialLinks from "@src/components/SocialLinks";
 import ThemeToggle from "@src/components/ThemeToggle";
 import "@src/styles/globals.css";
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
@@ -31,16 +33,21 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }>) {
+  const { lang } = await params;
+  const messages = await getMessages({ locale: lang });
+
   return (
-    <html lang={(await params).lang} className="h-full">
+    <html lang={lang} className="h-full">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <DayNightVisuals />
-        <header className="sticky top-0 z-50 flex flex-row items-center justify-between p-4">
-          <ThemeToggle />
-          {/* <Menu /> */}
-          <SocialLinks />
-        </header>
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          <DayNightVisuals />
+          <header className="sticky top-0 z-50 flex flex-row items-center justify-between p-4">
+            <ThemeToggle />
+            {/* <Menu /> */}
+            <SocialLinks />
+          </header>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );
