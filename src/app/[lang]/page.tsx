@@ -1,5 +1,6 @@
 import AIChatAppPreview from "@public/side-projects/ai-chat-app/preview-light_theme.png";
 import MusicPlayerPreview from "@public/side-projects/music-player/launch_screen-light_theme.png";
+import BerifyPreview from "@public/work-projects/berify/preview.png";
 import VisualStreamingPreview from "@public/work-projects/visual-streaming/demo_preview.png";
 import Experience from "@src/components/Experience";
 import Hero from "@src/components/Hero";
@@ -54,6 +55,14 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
               description={t("This is a 2D face swap app that allows users to swap their face with another face.")}
               imageUrl={VisualStreamingPreview}
               link={`/${lang}/project-demo/visual-streaming`}
+            />
+            <ProjectCard
+              title="Berify"
+              description={t(
+                "This is a Web3 smart retail system where merchants can manage and analyze products through the backend, while consumers can scan product tags to unlock product information, special promotions, NFTs, and gifts. It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs through the wallet.",
+              )}
+              imageUrl={BerifyPreview}
+              link={`/${lang}/project-demo/berify`}
             />
           </div>
         </section>
