@@ -41,7 +41,7 @@ export default async function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <DayNightVisuals />
-          <header className="sticky top-0 z-50 flex flex-row items-center justify-between p-4">
+          <header className="sticky top-0 z-50 flex flex-row items-center justify-between bg-[var(--background)] p-4">
             <ThemeToggle />
             {/* <Menu /> */}
             <SocialLinks />

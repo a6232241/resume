@@ -6,9 +6,10 @@ interface ProjectProps {
   description: string;
   imageUrl?: StaticImageData | string;
   link?: string;
+  period?: string;
 }
 
-export default function ProjectCard({ title, description, imageUrl, link }: ProjectProps) {
+export default function ProjectCard({ title, description, imageUrl, link, period }: ProjectProps) {
   const CardContent = (
     <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
       {imageUrl && (
@@ -24,9 +25,16 @@ export default function ProjectCard({ title, description, imageUrl, link }: Proj
       )}
       <div className="p-6">
         <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
-        <p className="line-clamp-1 text-gray-600 dark:text-gray-300" title={description}>
+        <p className="mb-2 line-clamp-1 text-gray-600 dark:text-gray-300" title={description}>
           {description}
         </p>
+        <div className="flex h-6 items-center">
+          {period && (
+            <span className="line-clamp-1 rounded-full bg-[var(--foreground)] px-2 py-1 text-xs text-gray-300 dark:bg-white dark:text-gray-600">
+              {period}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
