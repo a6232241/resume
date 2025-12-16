@@ -57,6 +57,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
       )}
       mediaItems={demoMediaItems}
       backLink={`/${lang}`}
+      sourceCodeLink="https://github.com/a6232241/ai-chat-app"
     />
   );
 }

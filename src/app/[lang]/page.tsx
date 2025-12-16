@@ -42,6 +42,7 @@ const workProjects: React.ComponentProps<typeof ProjectCard>[] = [
       "This is a Web3 smart retail system where merchants can manage and analyze products through the backend, while consumers can scan product tags to unlock product information, special promotions, NFTs, and gifts, It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs through the wallet",
     imageUrl: BerifyPreview,
     link: "berify",
+    period: "2023/05 - 2025/09",
   },
 ];
 

@@ -72,6 +72,10 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       )}
       mediaItems={demoMediaItems}
       backLink={`/${lang}`}
+      storeLink={{
+        appleAppStoreLink: "https://apps.apple.com/us/app/berify/id1526630785",
+        googlePlayStoreLink: "https://play.google.com/store/apps/details?id=com.berify",
+      }}
     />
   );
 }

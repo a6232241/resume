@@ -70,6 +70,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
       )}
       mediaItems={demoMediaItems}
       backLink="/"
+      sourceCodeLink="https://github.com/a6232241/music-player"
     />
   );
 }

@@ -19,5 +19,7 @@
   "This is a Web3 smart retail system where merchants can manage and analyze products through the backend, while consumers can scan product tags to unlock product information, special promotions, NFTs, and gifts, It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs through the wallet": "這是一個 Web3 智慧零售系統，商家可以透過後臺查看管理和分析商品，而消費者則透過掃描相關產品的標籤，來解鎖商品資訊、特別促銷、NFT和贈品等，也提供第三方串接錢包，透過錢包查看加密貨幣和 NFT。",
   "This is a Web3 smart retail system, Merchants can view, manage, and analyze products through the backend, while consumers can unlock product information, special promotions, NFTs, and gifts by scanning product tags, It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs, The application is implemented using React Native, with app clips developed in Swift, It offers scanning functionality and displays simple product descriptions, NextJs is used as the backend server, and the CMS is also developed entirely using NextJs": "這是一個 Web3 智慧零售系統，商家可以透過後臺查看管理和分析商品，而消費者則透過掃描相關產品的標籤，來解鎖商品資訊、特別促銷、NFT和贈品等，也提供第三方串接錢包，透過錢包查看加密貨幣和 NFT。應用程式用 react-native 實現，並用 swift 開發 app clip，提供掃描功能，可以看到簡易的產品介紹，並使用NextJs 作爲後台伺服器，內容管理系統 (CMS) 也完全基於 NextJs 開發。",
   "About": "關於",
-  "Back": "返回"
+  "Back": "返回",
+  "Source Code": "原始碼",
+  "Store": "商店"
 }
