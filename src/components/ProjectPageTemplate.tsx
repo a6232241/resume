@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import LightBox from "./LightBox";
 
 interface MediaItem {
   type: "image" | "video";
@@ -24,6 +26,16 @@ interface ProjectPageTemplateProps {
 
   // Optional back link
   backLink?: string;
+
+  // Optional source code link
+  sourceCodeLink?: string;
+
+  // Optional store link
+  storeLink?: {
+    appleAppStoreLink?: string;
+    googlePlayStoreLink?: string;
+    websiteLink?: string;
+  };
 }
 
 export default function ProjectPageTemplate({
@@ -33,9 +45,19 @@ export default function ProjectPageTemplate({
   description,
   mediaItems,
   backLink = "/",
+  sourceCodeLink,
+  storeLink,
 }: ProjectPageTemplateProps) {
+  const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+  const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
+
   const getVideoSrc = (url: string | StaticImageData): string => {
     return typeof url === "string" ? url : url.src;
+  };
+
+  const handleMediaClick = (index: number) => {
+    setCurrentMediaIndex(index);
+    setIsLightBoxOpen(true);
   };
 
   const t = useTranslations();
@@ -51,7 +73,7 @@ export default function ProjectPageTemplate({
             </div>
             <div>
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">{authorName}</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Developer & Designer</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Developer</p>
             </div>
           </div>
 
@@ -74,18 +96,20 @@ export default function ProjectPageTemplate({
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto flex max-w-5xl flex-col gap-8">
           {/* Title */}
-          <h1 className="mb-6 animate-[fadeIn_1s_ease-out_forwards] bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent opacity-0 sm:text-6xl dark:from-blue-400 dark:to-purple-400">
+          <h1 className="animate-[fadeIn_1s_ease-out_forwards] bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent opacity-0 sm:text-6xl dark:from-blue-400 dark:to-purple-400">
             {title}
           </h1>
 
+          {/* Carousel */}
           <div className="group relative mb-8 flex animate-[fadeIn_1s_ease-out_0.2s_forwards] flex-row flex-nowrap gap-5 overflow-scroll bg-transparent opacity-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {mediaItems.map((item, index) => (
               <div
-                className="relative flex-shrink-0 flex-grow-0 basis-[200px] overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800"
+                className="relative flex-shrink-0 flex-grow-0 basis-[200px] cursor-pointer overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800"
                 style={{ minHeight: "350px" }}
-                key={index}>
+                key={index}
+                onClick={() => handleMediaClick(index)}>
                 {item.type === "image" ? (
                   <Image
                     src={item.url}
@@ -107,12 +131,75 @@ export default function ProjectPageTemplate({
           {/* Description */}
           <div className="animate-[fadeIn_1s_ease-out_0.4s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
             <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("About")}</h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
+            <div>
               <p className="leading-relaxed whitespace-pre-wrap text-gray-700 dark:text-gray-300">{description}</p>
             </div>
           </div>
+
+          {/* Source code link */}
+          {sourceCodeLink && (
+            <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
+              <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("Source Code")}</h2>
+              <div>
+                <Link
+                  href={sourceCodeLink}
+                  target="_blank"
+                  className="leading-relaxed whitespace-pre-wrap text-gray-700 hover:underline dark:text-gray-300">
+                  {sourceCodeLink}
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {/* Apple App Store link and Google Play Store link and Website link */}
+          {storeLink && (
+            <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
+              <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("Store")}</h2>
+              <div>
+                <p>
+                  {storeLink?.appleAppStoreLink && (
+                    <Link
+                      href={storeLink?.appleAppStoreLink}
+                      target="_blank"
+                      className="leading-relaxed whitespace-pre-wrap text-gray-700 hover:underline dark:text-gray-300">
+                      {storeLink?.appleAppStoreLink}
+                    </Link>
+                  )}
+                </p>
+                <p>
+                  {storeLink?.googlePlayStoreLink && (
+                    <Link
+                      href={storeLink?.googlePlayStoreLink}
+                      target="_blank"
+                      className="leading-relaxed whitespace-pre-wrap text-gray-700 hover:underline dark:text-gray-300">
+                      {storeLink?.googlePlayStoreLink}
+                    </Link>
+                  )}
+                </p>
+                <p>
+                  {storeLink?.websiteLink && (
+                    <Link
+                      href={storeLink?.websiteLink}
+                      target="_blank"
+                      className="leading-relaxed whitespace-pre-wrap text-gray-700 hover:underline dark:text-gray-300">
+                      {storeLink?.websiteLink}
+                    </Link>
+                  )}
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </main>
+
+      {/* LightBox Component */}
+      <LightBox
+        isOpen={isLightBoxOpen}
+        onClose={() => setIsLightBoxOpen(false)}
+        mediaItems={mediaItems}
+        currentIndex={currentMediaIndex}
+        onNavigate={setCurrentMediaIndex}
+      />
     </div>
   );
 }
