@@ -79,7 +79,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
     <div className="relative min-h-screen overflow-hidden font-[family-name:var(--font-geist-sans)]">
       <main className="container mx-auto flex flex-col items-center gap-24 px-6 pt-10 pb-24">
         <Hero
-          title={t("Hello, I'm Kuan-Cheng Tsai")}
+          title={t("Hello, I'm Kuan-Cheng Cai")}
           description={t(
             "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using NextJs for web application development",
           )}

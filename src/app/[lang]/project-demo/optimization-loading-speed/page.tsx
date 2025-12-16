@@ -32,7 +32,7 @@ export default async function OptimizationLoadingSpeedPage({ params }: { params:
 
   return (
     <ProjectPageTemplate
-      authorName="Kai Kuan Cheng"
+      authorName="Kuan-Cheng Cai"
       authorAvatar="/favicon.ico"
       title={t("Optimization loading speed")}
       description={t(

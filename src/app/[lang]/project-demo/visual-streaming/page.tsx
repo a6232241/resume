@@ -32,7 +32,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
 
   return (
     <ProjectPageTemplate
-      authorName="Kai Kuan Cheng"
+      authorName="Kuan-Cheng Cai"
       authorAvatar="/favicon.ico"
       title="Visual Streaming"
       description={t(

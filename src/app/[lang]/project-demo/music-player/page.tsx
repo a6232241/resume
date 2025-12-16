@@ -62,7 +62,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
 
   return (
     <ProjectPageTemplate
-      authorName="Kai Kuan Cheng"
+      authorName="Kuan-Cheng Cai"
       authorAvatar="/favicon.ico"
       title="Music Player"
       description={t(

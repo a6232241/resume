@@ -64,7 +64,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
 
   return (
     <ProjectPageTemplate
-      authorName="Kai Kuan Cheng"
+      authorName="Kuan-Cheng Cai"
       authorAvatar="/favicon.ico"
       title="Berify"
       description={t(

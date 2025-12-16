@@ -49,7 +49,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
 
   return (
     <ProjectPageTemplate
-      authorName="Kai Kuan Cheng"
+      authorName="Kuan-Cheng Cai"
       authorAvatar="/favicon.ico"
       title="AI Chat App"
       description={t(
