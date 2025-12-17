@@ -39,3 +39,28 @@ body {
     transform: translateY(0);
   }
 }
+
+
+@keyframes planetShow {
+  0% {
+    opacity: 0;
+    transform: translateX(calc(calc(100vw + 100px) * -1));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(32px);
+  }
+}
+
+@keyframes planetHide {
+  0% {
+    opacity: 1;
+    transform: translateX(32px);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(calc(calc(100vw + 100px)));
+  }
+}

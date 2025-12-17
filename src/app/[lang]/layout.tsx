@@ -43,7 +43,6 @@ export default async function RootLayout({
           <DayNightVisuals />
           <header className="sticky top-0 z-50 flex flex-row items-center justify-between bg-[var(--background)] p-4">
             <ThemeToggle />
-            {/* <Menu /> */}
             <SocialLinks />
           </header>
           {children}
