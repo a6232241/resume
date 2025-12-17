@@ -106,7 +106,7 @@ export default function ProjectPageTemplate({
           <div className="group relative mb-8 flex animate-[fadeIn_1s_ease-out_0.2s_forwards] flex-row flex-nowrap gap-5 overflow-scroll bg-transparent opacity-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {mediaItems.map((item, index) => (
               <div
-                className="relative flex-shrink-0 flex-grow-0 basis-[200px] cursor-pointer overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-gray-800"
+                className="relative flex-shrink-0 flex-grow-0 basis-[200px] cursor-pointer overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-white/5"
                 style={{ minHeight: "350px" }}
                 key={index}
                 onClick={() => handleMediaClick(index)}>
@@ -129,7 +129,7 @@ export default function ProjectPageTemplate({
           </div>
 
           {/* Description */}
-          <div className="animate-[fadeIn_1s_ease-out_0.4s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
+          <div className="animate-[fadeIn_1s_ease-out_0.4s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-white/5">
             <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("About")}</h2>
             <div>
               <p className="leading-relaxed whitespace-pre-wrap text-gray-700 dark:text-gray-300">{description}</p>
@@ -138,7 +138,7 @@ export default function ProjectPageTemplate({
 
           {/* Source code link */}
           {sourceCodeLink && (
-            <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
+            <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-white/5">
               <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("Source Code")}</h2>
               <div>
                 <Link
@@ -153,7 +153,7 @@ export default function ProjectPageTemplate({
 
           {/* Apple App Store link and Google Play Store link and Website link */}
           {storeLink && (
-            <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-gray-800">
+            <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-white/5">
               <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("Store")}</h2>
               <div>
                 <p>

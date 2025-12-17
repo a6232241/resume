@@ -73,7 +73,7 @@ export default function LightBox({ isOpen, onClose, mediaItems, currentIndex, on
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 text-white transition-all hover:rotate-90 hover:bg-white/20"
+        className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 text-white mix-blend-difference shadow-lg transition-all hover:rotate-90 hover:bg-white/20"
         aria-label="Close lightbox">
         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -87,7 +87,7 @@ export default function LightBox({ isOpen, onClose, mediaItems, currentIndex, on
             e.stopPropagation();
             handlePrevious();
           }}
-          className="absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-all hover:scale-110 hover:bg-white/20"
+          className="absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white mix-blend-difference shadow-lg transition-all hover:scale-110 hover:bg-white/20"
           aria-label="Previous media">
           <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -102,7 +102,7 @@ export default function LightBox({ isOpen, onClose, mediaItems, currentIndex, on
             e.stopPropagation();
             handleNext();
           }}
-          className="absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white transition-all hover:scale-110 hover:bg-white/20"
+          className="absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white mix-blend-difference shadow-lg transition-all hover:scale-110 hover:bg-white/20"
           aria-label="Next media">
           <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -112,28 +112,30 @@ export default function LightBox({ isOpen, onClose, mediaItems, currentIndex, on
 
       {/* Media content */}
       <div
-        className="relative max-h-[90vh] max-w-[90vw] animate-[fadeIn_0.3s_ease-out_forwards]"
+        className="relative flex h-[90vh] w-[90vw] animate-[fadeIn_0.3s_ease-out_forwards] flex-col items-center gap-4"
         onClick={(e) => e.stopPropagation()}>
-        {currentItem.type === "image" ? (
-          <div className="relative h-full w-full">
-            <Image
-              src={currentItem.url}
-              alt={currentItem.alt || `Media ${currentIndex + 1}`}
-              className="max-h-[90vh] w-auto object-contain"
-              width={1200}
-              height={800}
-              priority
-            />
-          </div>
-        ) : (
-          <video className="max-h-[90vh] max-w-[90vw] rounded-lg shadow-2xl" controls autoPlay loop key={currentIndex}>
-            <source src={getVideoSrc(currentItem.url)} type="video/mp4" />
-            {currentItem.alt && <p>{currentItem.alt}</p>}
-          </video>
-        )}
+        <div className="relative min-h-0 flex-1">
+          {currentItem.type === "image" ? (
+            <div className="relative h-full w-full">
+              <Image
+                src={currentItem.url}
+                alt={currentItem.alt || `Media ${currentIndex + 1}`}
+                className="h-full w-full object-contain"
+                width={1200}
+                height={800}
+                priority
+              />
+            </div>
+          ) : (
+            <video className="h-full w-full rounded-lg shadow-2xl" controls autoPlay loop key={currentIndex}>
+              <source src={getVideoSrc(currentItem.url)} type="video/mp4" />
+              {currentItem.alt && <p>{currentItem.alt}</p>}
+            </video>
+          )}
+        </div>
 
         {/* Media counter */}
-        <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm">
+        <div className="rounded-full bg-white/10 px-2 py-1 text-xs text-white backdrop-blur-sm">
           {currentIndex + 1} / {mediaItems.length}
         </div>
       </div>

@@ -22,8 +22,8 @@ export async function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: "蔡寬程的履歷",
-  description: "蔡寬程的履歷，使用 Next.js 13 App Router 和 TypeScript 開發。",
+  title: "Kuan-Cheng Cai's Resume",
+  description: "Kuan-Cheng Cai's Resume, built with Next.js 13 App Router and TypeScript.",
 };
 
 export default async function RootLayout({
