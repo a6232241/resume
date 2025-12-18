@@ -2,7 +2,7 @@
 
 import DarkModeIcon from "@public/dark_mode.svg";
 import LightModeIcon from "@public/light_mode.svg";
-import { useTheme } from "@src/hooks/useTheme";
+import { useTheme } from "@src/context/ThemeContext";
 
 export default function ThemeToggle() {
   const { isDark, toggle } = useTheme();

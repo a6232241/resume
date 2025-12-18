@@ -44,23 +44,23 @@ body {
 @keyframes planetShow {
   0% {
     opacity: 0;
-    transform: translateX(calc(calc(100vw + 100px) * -1));
+    transform: translateX(calc(100vw + 100px));
   }
 
-  to {
+  100% {
     opacity: 1;
-    transform: translateX(32px);
+    transform: translateX(0);
   }
 }
 
 @keyframes planetHide {
   0% {
     opacity: 1;
-    transform: translateX(32px);
+    transform: translateX(0);
   }
 
-  to {
+  100% {
     opacity: 0;
-    transform: translateX(calc(calc(100vw + 100px)));
+    transform: translateX(calc(calc(100vw + 100px) * -1));
   }
 }

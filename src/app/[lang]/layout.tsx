@@ -1,6 +1,7 @@
 import DayNightVisuals from "@src/components/DayNightVisuals";
 import SocialLinks from "@src/components/SocialLinks";
 import ThemeToggle from "@src/components/ThemeToggle";
+import ThemeProvider from "@src/context/ThemeContext";
 import "@src/styles/globals.css";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
@@ -37,17 +38,37 @@ export default async function RootLayout({
   const messages = await getMessages({ locale: lang });
 
   return (
-    <html lang={lang} className="h-full">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <DayNightVisuals />
-          <header className="sticky top-0 z-50 flex flex-row items-center justify-between bg-[var(--background)] p-4">
-            <ThemeToggle />
-            <SocialLinks />
-          </header>
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <ThemeProvider>
+      <html lang={lang} className="h-full" suppressHydrationWarning>
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem("theme");
+                  const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                  if (theme === "dark" || (!theme && systemPrefersDark)) {
+                    document.documentElement.classList.add("dark");
+                  }
+                } catch (e) {}
+              })();
+            `,
+            }}
+            suppressHydrationWarning // 關鍵：避免 hydration mismatch
+          />
+        </head>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <NextIntlClientProvider messages={messages}>
+            <DayNightVisuals />
+            <header className="sticky top-0 z-50 flex flex-row items-center justify-between bg-[var(--background)] p-4">
+              <ThemeToggle />
+              <SocialLinks />
+            </header>
+            {children}
+          </NextIntlClientProvider>
+        </body>
+      </html>
+    </ThemeProvider>
   );
 }
