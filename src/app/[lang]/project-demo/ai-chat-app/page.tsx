@@ -49,8 +49,6 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
 
   return (
     <ProjectPageTemplate
-      authorName="Kuan-Cheng Cai"
-      authorAvatar="/favicon.ico"
       title="AI Chat App"
       description={t(
         "This is a simple chat application with artificial intelligence that was created for learning about AI, that allows users to create multiple chat rooms, and keeps memories of conversation, users can also delete conversation history \n\nThis project was developed using Expo and GitHub models",

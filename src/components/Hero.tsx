@@ -1,4 +1,5 @@
 import SocialLinks from "@src/components/SocialLinks";
+import Image from "next/image";
 
 interface HeroProps {
   title: string;
@@ -20,13 +21,10 @@ export default function Hero({ title, description }: HeroProps) {
 
       <div className="relative flex flex-1 animate-[fadeIn_1s_ease-out_0.5s_forwards] justify-center opacity-0">
         <div className="relative h-64 w-64 overflow-hidden rounded-full border-4 border-white shadow-2xl dark:border-gray-800">
-          {/* Placeholder for profile image - using a gradient for now if no image is provided, 
-                but keeping the Image component structure for future use */}
           <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 text-4xl dark:from-blue-900 dark:to-purple-900">
-            👋
+            <Image src="/avatar.jpg" alt="Avatar" fill className="object-contain" />
           </div>
         </div>
-        {/* Decorative elements */}
         <div className="absolute top-1/2 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl dark:bg-blue-500/10"></div>
       </div>
     </section>

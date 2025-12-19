@@ -7,10 +7,10 @@ export default function DayNightVisuals() {
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-sky-200 transition-colors duration-1000 ease-in-out dark:bg-slate-900" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-sky-100 transition-colors duration-1000 ease-in-out dark:bg-slate-900" />
 
       <div
-        className={`pointer-events-none fixed top-20 right-4 -z-10 ${hasFirstToggle ? "animate-[planetShow_1s_ease-out_forwards] dark:animate-[planetHide_1s_ease-out_forwards]" : "opacity-100 dark:opacity-0"}`}>
+        className={`pointer-events-none fixed top-50 right-4 -z-10 ${hasFirstToggle ? "animate-[planetShow_1s_linear_forwards] dark:animate-[planetHide_1s_linear_forwards]" : "opacity-100 dark:opacity-0"}`}>
         <svg className="h-24 w-24" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <g className="animate-pulse" opacity="0.6">
             <line x1="50" y1="5" x2="50" y2="15" stroke="#FDB813" strokeWidth="3" strokeLinecap="round" />
@@ -28,7 +28,7 @@ export default function DayNightVisuals() {
       </div>
 
       <div
-        className={`pointer-events-none fixed top-20 right-4 -z-10 ${hasFirstToggle ? "animate-[planetHide_1s_ease-out_forwards] dark:animate-[planetShow_1s_ease-out_forwards]" : "opacity-0 dark:opacity-100"}`}>
+        className={`pointer-events-none fixed top-50 right-4 -z-10 ${hasFirstToggle ? "animate-[planetHide_1s_linear_forwards] dark:animate-[planetShow_1s_linear_forwards]" : "opacity-0 dark:opacity-100"}`}>
         <svg className="h-24 w-24" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <circle cx="50" cy="50" r="22" fill="#E5E7EB" />
           <circle cx="58" cy="45" r="18" fill="#1E293B" />

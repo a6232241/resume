@@ -1,5 +1,6 @@
 "use client";
 
+import Avatar from "@public/avatar.jpg";
 import { useTranslations } from "next-intl";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
@@ -12,11 +13,9 @@ interface MediaItem {
   alt?: string;
 }
 
-interface ProjectPageTemplateProps {
-  // Header data
-  authorName: string;
-  authorAvatar: string;
+const authorName = "Kuan-Cheng Cai";
 
+interface ProjectPageTemplateProps {
   // Project content
   title: string;
   description: string;
@@ -39,8 +38,6 @@ interface ProjectPageTemplateProps {
 }
 
 export default function ProjectPageTemplate({
-  authorName,
-  authorAvatar,
   title,
   description,
   mediaItems,
@@ -69,7 +66,7 @@ export default function ProjectPageTemplate({
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-4">
             <div className="relative h-12 w-12 overflow-hidden rounded-full border-2 border-blue-500 shadow-lg">
-              <Image src={authorAvatar} alt={authorName} fill className="object-cover" />
+              <Image src={Avatar} alt={authorName} fill className="object-cover" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">{authorName}</h2>
