@@ -31,15 +31,14 @@ const skills = [
 const workProjects: React.ComponentProps<typeof ProjectCard>[] = [
   {
     title: "Visual Streaming",
-    description: "This is a 2D face swap app that allows users to swap their face with another face",
+    description: "projects.visualStreaming.shortDesc",
     imageUrl: VisualStreamingPreview,
     link: "visual-streaming",
     period: "2025/04 - 2025/07",
   },
   {
     title: "Berify",
-    description:
-      "This is a Web3 smart retail system where merchants can manage and analyze products through the backend, while consumers can scan product tags to unlock product information, special promotions, NFTs, and gifts, It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs through the wallet",
+    description: "projects.berify.shortDesc",
     imageUrl: BerifyPreview,
     link: "berify",
     period: "2023/05 - 2025/09",
@@ -49,7 +48,7 @@ const workProjects: React.ComponentProps<typeof ProjectCard>[] = [
 const workExperiences: React.ComponentProps<typeof ProjectCard>[] = [
   {
     title: "Optimization loading speed",
-    description: "The page load time has been reduced from more than ten seconds to less than one second",
+    description: "projects.optimizationLoadingSpeed.shortDesc",
     link: "optimization-loading-speed",
   },
 ];
@@ -57,14 +56,14 @@ const workExperiences: React.ComponentProps<typeof ProjectCard>[] = [
 const personalProjects: React.ComponentProps<typeof ProjectCard>[] = [
   {
     title: "Music Player",
-    description: "This is a music player app that allows users to listen to music",
+    description: "projects.musicPlayer.shortDesc",
     imageUrl: MusicPlayerPreview,
     link: "music-player",
     period: "2025/09 - Present",
   },
   {
     title: "AI Chat App",
-    description: "This is a chat application with artificial intelligence",
+    description: "projects.aiChatApp.shortDesc",
     imageUrl: AIChatAppPreview,
     link: "ai-chat-app",
     period: "2025/07 - 2025/10",
@@ -78,19 +77,14 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   return (
     <div className="relative min-h-screen overflow-hidden font-[family-name:var(--font-geist-sans)]">
       <main className="container mx-auto flex flex-col items-center gap-24 px-6 pt-10 pb-24">
-        <Hero
-          title={t("Hello, I'm Kuan-Cheng Cai")}
-          description={t(
-            "I am a frontend developer specializing in mobile applications with React Native, with over four years of experience, and I also have experience using NextJs for web application development",
-          )}
-        />
+        <Hero title={t("profile.greeting")} description={t("profile.bio")} />
 
-        <Experience title={t("Experience")} items={experienceItems} />
+        <Experience title={t("section.experience")} items={experienceItems} />
 
-        <Skills title={t("Skills")} items={skills} />
+        <Skills title={t("section.skills")} items={skills} />
 
         <section className="w-full">
-          <h2 className="mb-12 text-center text-3xl font-bold">{t("Work Projects")}</h2>
+          <h2 className="mb-12 text-center text-3xl font-bold">{t("section.workProjects")}</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {workProjects.map((project, index) => (
               <ProjectCard
@@ -104,7 +98,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </section>
 
         <section className="w-full">
-          <h2 className="mb-12 text-center text-3xl font-bold">{t("Work Experience")}</h2>
+          <h2 className="mb-12 text-center text-3xl font-bold">{t("section.workExperience")}</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {workExperiences.map((project, index) => (
               <ProjectCard
@@ -118,7 +112,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </section>
 
         <section className="w-full">
-          <h2 className="mb-12 text-center text-3xl font-bold">{t("Personal Projects")}</h2>
+          <h2 className="mb-12 text-center text-3xl font-bold">{t("section.personalProjects")}</h2>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {personalProjects.map((project, index) => (
               <ProjectCard

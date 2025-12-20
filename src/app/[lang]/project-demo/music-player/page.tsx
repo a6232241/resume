@@ -63,9 +63,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
   return (
     <ProjectPageTemplate
       title="Music Player"
-      description={t(
-        "This is a music player application that allows users to listen to music and store music lists locally, ensuring that music can be played without an internet connection, It also provides a filtering function, allowing users to filter music by artist, music category, music name, etc \n\nDevelopment was motivated by the fact that most music players on the market do not have a filtering function, and unstable networks can cause music to be interrupted \n\nThe project uses Expo for development, SQLite as a local database, NodeJs as the backend, and ExpressJs to backup the database and music files \n\nIn the future, it is expected to use Google Drive or other cloud storage services for backup to provide a better user experience",
-      )}
+      description={t("projects.musicPlayer.fullDesc")}
       mediaItems={demoMediaItems}
       backLink="/"
       sourceCodeLink="https://github.com/a6232241/music-player"

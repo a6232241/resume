@@ -85,7 +85,7 @@ export default function ProjectPageTemplate({
                 viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              {t("Back")}
+              {t("nav.back")}
             </Link>
           )}
         </div>
@@ -127,7 +127,7 @@ export default function ProjectPageTemplate({
 
           {/* Description */}
           <div className="animate-[fadeIn_1s_ease-out_0.4s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-white/5">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("About")}</h2>
+            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("section.about")}</h2>
             <div>
               <p className="leading-relaxed whitespace-pre-wrap text-gray-700 dark:text-gray-300">{description}</p>
             </div>
@@ -136,7 +136,7 @@ export default function ProjectPageTemplate({
           {/* Source code link */}
           {sourceCodeLink && (
             <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-white/5">
-              <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("Source Code")}</h2>
+              <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("projects.sourceCode")}</h2>
               <div>
                 <Link
                   href={sourceCodeLink}
@@ -151,7 +151,7 @@ export default function ProjectPageTemplate({
           {/* Apple App Store link and Google Play Store link and Website link */}
           {storeLink && (
             <div className="animate-[fadeIn_1s_ease-out_0.6s_forwards] space-y-4 rounded-2xl bg-white p-8 opacity-0 shadow-lg dark:bg-white/5">
-              <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("Store")}</h2>
+              <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("projects.storeLink")}</h2>
               <div>
                 <p>
                   {storeLink?.appleAppStoreLink && (

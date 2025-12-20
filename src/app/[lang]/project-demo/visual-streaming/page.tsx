@@ -33,9 +33,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
   return (
     <ProjectPageTemplate
       title="Visual Streaming"
-      description={t(
-        "This is a simple 2D face swap application, allowing users to replace their face with another person's face, Initially, the manager wanted to use existing streaming platforms to let users switch faces in real-time, but due to the performance of current mobile phones or personal computers, it was too difficult to achieve, Therefore, traditional mathematical formulas were used to implement the face swap logic, This project was developed using React Native and implemented the face swap logic using native modules Kotlin, Objective-C, C++, and OpenCV",
-      )}
+      description={t("projects.visualStreaming.fullDesc")}
       mediaItems={demoMediaItems}
       backLink="/"
     />

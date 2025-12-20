@@ -65,9 +65,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
   return (
     <ProjectPageTemplate
       title="Berify"
-      description={t(
-        "This is a Web3 smart retail system, Merchants can view, manage, and analyze products through the backend, while consumers can unlock product information, special promotions, NFTs, and gifts by scanning product tags, It also provides third-party wallet integration, allowing users to view cryptocurrencies and NFTs, The application is implemented using React Native, with app clips developed in Swift, It offers scanning functionality and displays simple product descriptions, NextJs is used as the backend server, and the CMS is also developed entirely using NextJs",
-      )}
+      description={t("projects.berify.fullDesc")}
       mediaItems={demoMediaItems}
       backLink={`/${lang}`}
       storeLink={{
