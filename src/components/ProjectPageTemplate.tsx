@@ -100,7 +100,7 @@ export default function ProjectPageTemplate({
           </h1>
 
           {/* Carousel */}
-          <div className="group relative mb-8 flex animate-[fadeIn_1s_ease-out_0.2s_forwards] flex-row flex-nowrap gap-5 overflow-scroll bg-transparent opacity-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="relative mb-8 flex animate-[fadeIn_1s_ease-out_0.2s_forwards] flex-row flex-nowrap gap-5 overflow-scroll bg-transparent opacity-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {mediaItems.map((item, index) => (
               <div
                 className="relative flex-shrink-0 flex-grow-0 basis-[200px] cursor-pointer overflow-hidden rounded-xl bg-white shadow-2xl dark:bg-white/5"
@@ -112,11 +112,16 @@ export default function ProjectPageTemplate({
                     src={item.url}
                     alt={item.alt || `Demo ${index + 1}`}
                     fill
-                    className="object-contain transition-opacity duration-500"
+                    className="object-contain transition-transform duration-500 hover:scale-110"
                     priority
                   />
                 ) : (
-                  <video className="h-full w-full object-contain" autoPlay muted loop playsInline>
+                  <video
+                    className="h-full w-full object-contain transition-transform duration-500 hover:scale-110"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline>
                     <source src={getVideoSrc(item.url)} type="video/mp4" />
                     {item.alt && <p>{item.alt}</p>}
                   </video>

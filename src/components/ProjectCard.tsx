@@ -11,7 +11,7 @@ interface ProjectProps {
 
 export default function ProjectCard({ title, description, imageUrl, link, period }: ProjectProps) {
   const CardContent = (
-    <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
+    <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
       {imageUrl && (
         <div className="relative h-48 w-full overflow-hidden">
           <Image
