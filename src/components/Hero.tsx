@@ -9,7 +9,7 @@ interface HeroProps {
 export default function Hero({ title, description }: HeroProps) {
   return (
     <section className="flex min-h-[60vh] flex-col-reverse items-center justify-center gap-8 py-20 md:flex-row md:justify-between">
-      <div className="flex flex-1 animate-[fadeIn_1s_ease-out_forwards] flex-col items-start gap-6 opacity-0">
+      <div className="flex flex-2 animate-[fadeIn_1s_ease-out_forwards] flex-col items-start gap-6 opacity-0">
         <h1 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-6xl dark:from-blue-400 dark:to-purple-400">
           {title}
         </h1>

@@ -9,9 +9,9 @@ import Skills from "@src/components/Skills";
 import { getTranslations } from "next-intl/server";
 
 const experienceItems = [
-  { company: "樂創互娛", role: "Frontend Developer", period: "2021 - Present" },
-  { company: "Byte x Byte", role: "Software Developer", period: "2020 - 2021" },
-  { company: "智慧價值", role: "Programmer", period: "2019 - 2020" },
+  { company: "樂創互娛", role: "Frontend Developer", period: "2024 - Present" },
+  { company: "Byte x Byte", role: "Software Developer", period: "2023 - 2024" },
+  { company: "智慧價值", role: "Programmer", period: "2021 - 2023" },
 ];
 
 const skills = [
