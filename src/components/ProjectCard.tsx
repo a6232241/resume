@@ -7,7 +7,6 @@ interface ProjectProps {
   imageUrl?: StaticImageData | string;
   link?: string;
   period?: string;
-  scenario?: string;
   technologies?: string[];
   achievements?: string[];
   role?: string;
@@ -19,7 +18,6 @@ export default function ProjectCard({
   imageUrl,
   link,
   period,
-  scenario,
   technologies = [],
   achievements = [],
   role = "獨立開發",
@@ -44,14 +42,11 @@ export default function ProjectCard({
         {/* 標題 */}
         <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
 
-        {/* 簡短描述 */}
-        <p className="line-clamp-1 text-sm text-gray-600 dark:text-gray-300" title={description}>
-          {description}
-        </p>
-
         {/* 核心場景描述 */}
-        {scenario && (
-          <p className="line-clamp-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400">{scenario}</p>
+        {description && (
+          <p className="line-clamp-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400" title={description}>
+            {description}
+          </p>
         )}
 
         {/* 技術 Tag 橫列 */}

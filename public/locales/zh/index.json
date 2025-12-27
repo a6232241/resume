@@ -18,8 +18,7 @@
       "fullDesc": "這款音樂播放器 App 支援本地儲存音樂列表，確保離線也能播放，並提供歌手、音樂類別、名稱等多條件篩選功能。\n\n開發初衷是解決市面音樂播放器缺乏篩選機制，以及網路不穩導致播放中斷的痛點。\n\n技術棧：Expo 開發框架、SQLite 本地資料庫、Node.js + Express.js 後端備份。未來計畫整合 Google Drive 等雲端服務，提升使用者體驗。"
     },
     "visualStreaming": {
-      "shortDesc": "這是一個 2D 臉部替換 App，讓使用者輕鬆替換臉部。",
-      "scenario": "在直播預覽中即時替換臉部，驗證高效能影像處理與原生整合可行性。",
+      "shortDesc": "在直播預覽中即時替換臉部，驗證高效能影像處理與原生整合可行性。",
       "technologies": ["React Native", "Vision Camera", "Kotlin/ObjC", "C++"],
       "achievements": [
         "單人 4 個月完成 Android/iOS 雙平台 Demo",
@@ -39,8 +38,7 @@
       "fullDesc": "這是工作專案中的登入效能優化案例。主要問題：\n\n• 登入時狀態重置兩次，導致 API 重複呼叫與全畫面重新渲染；\n• Redux 版本過舊，造成 `useQuery` 的 `selectFromResult` 持續重新渲染。\n\n透過 React DevTools 追蹤渲染次數、Flipper 監控狀態變化，精準定位問題。修正後不僅解決瓶頸，還大幅提升整體應用速度。"
     },
     "berify": {
-      "shortDesc": "這是一個 Web3 智慧零售系統，商家透過後台管理與分析商品，消費者掃描標籤解鎖商品資訊、促銷、NFT 及贈品。",
-      "scenario": "協助商家管理商品與會員，透過 Web3 提供可驗證的數位資產與行銷工具。",
+      "shortDesc": "協助商家管理商品與會員，透過 Web3 提供可驗證的數位資產與行銷工具。",
       "technologies": ["React Native", "Swift App Clips", "Next.js", "Web3"],
       "role": "核心開發 · React Native 主應用",
       "achievements": [],

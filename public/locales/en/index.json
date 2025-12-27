@@ -18,8 +18,7 @@
       "fullDesc": "This music player app supports local music list storage for offline playback, with multi-condition filtering by artist, genre, and name.\n\nBuilt to solve common issues like lack of filtering in existing apps and playback interruptions from unstable networks.\n\nTech stack: Expo framework, SQLite local database, Node.js + Express.js backend for backups. Future plans include Google Drive integration for enhanced user experience."
     },
     "visualStreaming": {
-      "shortDesc": "A 2D face swap app for easy face replacement.",
-      "scenario": "Real-time face replacement in live streaming preview, validating feasibility of high-performance image processing and native integration.",
+      "shortDesc": "Real-time face replacement in live streaming preview, validating feasibility of high-performance image processing and native integration.",
       "technologies": ["React Native", "Vision Camera", "Kotlin/ObjC", "C++"],
       "achievements": [
         "Solo developer: Completed Android/iOS dual-platform Demo in 4 months",
@@ -39,8 +38,7 @@
       "fullDesc": "Login performance optimization case from a work project. Key issues:\n\n• State reset twice during login, causing duplicate API calls and full re-renders;\n• Outdated Redux version making `useQuery`'s `selectFromResult` re-render constantly.\n\nUsed React DevTools to track renders and Flipper to monitor state changes for precise diagnosis. Fix resolved bottleneck and significantly improved app speed."
     },
     "berify": {
-      "shortDesc": "A Web3 smart retail system for merchants to manage products and customers, enabling NFTs and exclusive promotions.",
-      "scenario": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",
+      "shortDesc": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",
       "technologies": ["React Native", "Swift App Clips", "Next.js", "Web3"],
       "achievements": [
         "Serving multiple brick-and-mortar retail merchants",
