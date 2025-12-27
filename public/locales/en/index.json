@@ -19,6 +19,14 @@
     },
     "visualStreaming": {
       "shortDesc": "A 2D face swap app for easy face replacement.",
+      "scenario": "Real-time face replacement in live streaming preview, validating feasibility of high-performance image processing and native integration.",
+      "technologies": ["React Native", "Vision Camera", "Kotlin/ObjC", "C++"],
+      "achievements": [
+        "Solo developer: Completed Android/iOS dual-platform Demo in 4 months",
+        "80%+ C++ code reuse across platforms with shared core logic",
+        "Coordinate transformation achieving pixel-perfect alignment"
+      ],
+      "role": "Solo · 4 months",
       "fullDesc": "This simple 2D face swap app lets users replace their face with another's. Originally planned for real-time streaming, but due to mobile/PC performance limits, implemented using traditional math formulas.\n\nTech stack: React Native framework with Kotlin, Objective-C, C++ native modules and OpenCV for face swap logic."
     },
     "aiChatApp": {
@@ -31,8 +39,16 @@
       "fullDesc": "Login performance optimization case from a work project. Key issues:\n\n• State reset twice during login, causing duplicate API calls and full re-renders;\n• Outdated Redux version making `useQuery`'s `selectFromResult` re-render constantly.\n\nUsed React DevTools to track renders and Flipper to monitor state changes for precise diagnosis. Fix resolved bottleneck and significantly improved app speed."
     },
     "berify": {
-      "shortDesc": "Web3 smart retail system for merchant management and consumer tag scanning.",
-      "fullDesc": "Web3 smart retail system: Merchants manage/analyze products via backend; consumers scan tags to unlock product info, promotions, NFTs, gifts, with third-party wallet integration.\n\nTech stack: React Native for main app, Swift for App Clips (scanning & previews), Next.js backend server & full CMS."
+      "shortDesc": "A Web3 smart retail system for merchants to manage products and customers, enabling NFTs and exclusive promotions.",
+      "scenario": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",
+      "technologies": ["React Native", "Swift App Clips", "Next.js", "Web3"],
+      "achievements": [
+        "Serving multiple brick-and-mortar retail merchants",
+        "Supporting consumer digital certificates and NFT interactions",
+        "Complete admin CMS and analytics system"
+      ],
+      "role": "Core Developer · React Native Main App",
+      "fullDesc": "Complete Web3 smart retail ecosystem. Merchants manage and analyze products via admin dashboard, customers scan product tags to unlock product info, special promotions, NFTs and rewards, with third-party wallet integration.\n\nTech stack: React Native main app, Swift App Clips scanning, Next.js backend server and full CMS."
     },
     "sourceCode": "Source Code",
     "storeLink": "Store"

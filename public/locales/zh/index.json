@@ -19,6 +19,14 @@
     },
     "visualStreaming": {
       "shortDesc": "這是一個 2D 臉部替換 App，讓使用者輕鬆替換臉部。",
+      "scenario": "在直播預覽中即時替換臉部，驗證高效能影像處理與原生整合可行性。",
+      "technologies": ["React Native", "Vision Camera", "Kotlin/ObjC", "C++"],
+      "achievements": [
+        "單人 4 個月完成 Android/iOS 雙平台 Demo",
+        "C++ 代碼複用率 80%+，跨平台共用核心邏輯",
+        "座標轉換邏輯實現逐像素精準對齊"
+      ],
+      "role": "單人 · 4 個月",
       "fullDesc": "這款簡單 2D 臉部替換 App，讓使用者能將自己的臉替換成他人臉部。原計畫透過串流平台實現即時替換，但受限手機/電腦效能，轉而採用傳統數學公式實現核心邏輯。\n\n技術棧：React Native 開發框架，結合 Kotlin、Objective-C、C++ 原生模組及 OpenCV 處理臉部交換。"
     },
     "aiChatApp": {
@@ -31,8 +39,12 @@
       "fullDesc": "這是工作專案中的登入效能優化案例。主要問題：\n\n• 登入時狀態重置兩次，導致 API 重複呼叫與全畫面重新渲染；\n• Redux 版本過舊，造成 `useQuery` 的 `selectFromResult` 持續重新渲染。\n\n透過 React DevTools 追蹤渲染次數、Flipper 監控狀態變化，精準定位問題。修正後不僅解決瓶頸，還大幅提升整體應用速度。"
     },
     "berify": {
-      "shortDesc": "這是一個 Web3 智慧零售系統，商家後台管理商品，消費者掃描標籤解鎖資訊、促銷。",
-      "fullDesc": "Web3 智慧零售系統：商家透過後台管理與分析商品，消費者掃描標籤解鎖商品資訊、促銷、NFT 及贈品，並整合第三方錢包查看資產。\n\n技術棧：React Native 開發主 App、Swift 製作 App Clips（掃描與簡介展示）、Next.js 後端伺服器與完整 CMS。"
+      "shortDesc": "這是一個 Web3 智慧零售系統，商家透過後台管理與分析商品，消費者掃描標籤解鎖商品資訊、促銷、NFT 及贈品。",
+      "scenario": "協助商家管理商品與會員，透過 Web3 提供可驗證的數位資產與行銷工具。",
+      "technologies": ["React Native", "Swift App Clips", "Next.js", "Web3"],
+      "role": "核心開發 · React Native 主應用",
+      "achievements": [],
+      "fullDesc": "Web3 智慧零售完整生態系統。商家透過後台管理與分析商品，消費者掃描產品標籤以解鎖商品資訊、特別促銷、NFT 和贈品功能，並整合第三方錢包查看資產。\n\n技術棧：React Native 主應用、Swift App Clips 掃描功能、Next.js 後端伺服器與完整 CMS。"
     },
     "sourceCode": "原始碼",
     "storeLink": "商店"

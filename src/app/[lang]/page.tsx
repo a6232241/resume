@@ -28,10 +28,14 @@ const skills = [
   "C++",
 ];
 
-const workProjects: React.ComponentProps<typeof ProjectCard>[] = [
+const workProjects = [
   {
     title: "Visual Streaming",
     description: "projects.visualStreaming.shortDesc",
+    scenario: "projects.visualStreaming.scenario",
+    technologies: "projects.visualStreaming.technologies",
+    achievements: "projects.visualStreaming.achievements",
+    role: "projects.visualStreaming.role",
     imageUrl: VisualStreamingPreview,
     link: "visual-streaming",
     period: "2025/04 - 2025/07",
@@ -39,6 +43,10 @@ const workProjects: React.ComponentProps<typeof ProjectCard>[] = [
   {
     title: "Berify",
     description: "projects.berify.shortDesc",
+    scenario: "projects.berify.scenario",
+    technologies: "projects.berify.technologies",
+    achievements: "projects.berify.achievements",
+    role: "projects.berify.role",
     imageUrl: BerifyPreview,
     link: "berify",
     period: "2023/05 - 2025/09",
@@ -89,9 +97,15 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {workProjects.map((project, index) => (
               <ProjectCard
                 key={index}
-                {...project}
+                title={project.title}
                 description={t(project.description)}
+                imageUrl={project.imageUrl}
                 link={`/${lang}/project-demo/${project.link}`}
+                period={project.period}
+                scenario={t(project.scenario)}
+                technologies={t.raw(project?.technologies) ?? []}
+                achievements={t.raw(project?.achievements) ?? []}
+                role={t(project.role)}
               />
             ))}
           </div>
