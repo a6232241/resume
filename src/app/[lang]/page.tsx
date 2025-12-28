@@ -51,18 +51,20 @@ const workProjects = [
   },
 ];
 
-const workExperiences: React.ComponentProps<typeof ProjectCard>[] = [
+const workExperiences = [
   {
     title: "Optimization loading speed",
     description: "projects.optimizationLoadingSpeed.shortDesc",
+    technologies: "projects.optimizationLoadingSpeed.technologies",
     link: "optimization-loading-speed",
   },
 ];
 
-const personalProjects: React.ComponentProps<typeof ProjectCard>[] = [
+const personalProjects = [
   {
     title: "Music Player",
     description: "projects.musicPlayer.shortDesc",
+    technologies: "projects.musicPlayer.technologies",
     imageUrl: MusicPlayerPreview,
     link: "music-player",
     period: "2025/09 - Present",
@@ -70,6 +72,7 @@ const personalProjects: React.ComponentProps<typeof ProjectCard>[] = [
   {
     title: "AI Chat App",
     description: "projects.aiChatApp.shortDesc",
+    technologies: "projects.aiChatApp.technologies",
     imageUrl: AIChatAppPreview,
     link: "ai-chat-app",
     period: "2025/07 - 2025/10",
@@ -114,9 +117,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {workExperiences.map((project, index) => (
               <ProjectCard
                 key={index}
-                {...project}
+                title={project.title}
                 description={t(project.description)}
                 link={`/${lang}/project-demo/${project.link}`}
+                technologies={t.raw(project?.technologies) ?? []}
               />
             ))}
           </div>
@@ -128,9 +132,12 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {personalProjects.map((project, index) => (
               <ProjectCard
                 key={index}
-                {...project}
+                title={project.title}
                 description={t(project.description)}
+                imageUrl={project.imageUrl}
                 link={`/${lang}/project-demo/${project.link}`}
+                period={project.period}
+                technologies={t.raw(project?.technologies) ?? []}
               />
             ))}
           </div>

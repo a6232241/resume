@@ -40,7 +40,6 @@ body {
   }
 }
 
-
 @keyframes planetShow {
   0% {
     opacity: 0;
@@ -60,7 +59,7 @@ body {
   }
 
   50% {
-    opacity: .5;
+    opacity: 0.5;
     transform: translate(calc(calc(50vw + 50px) * -1), calc(30px * -1));
   }
 

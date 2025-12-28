@@ -47,12 +47,14 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
   const { lang } = await params;
   const t = await getTranslations({ locale: lang });
 
+  const projectDetail = t.raw("projects.aiChatApp.detail");
+
   return (
     <ProjectPageTemplate
       title="AI Chat App"
       description={t("projects.aiChatApp.fullDesc")}
       mediaItems={demoMediaItems}
-      backLink={`/${lang}`}
+      projectDetail={projectDetail}
       sourceCodeLink="https://github.com/a6232241/ai-chat-app"
     />
   );

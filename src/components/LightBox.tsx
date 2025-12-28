@@ -1,13 +1,8 @@
 "use client";
 
+import { MediaItem } from "@src/types";
 import Image, { StaticImageData } from "next/image";
 import { useCallback, useEffect } from "react";
-
-interface MediaItem {
-  type: "image" | "video";
-  url: StaticImageData | string;
-  alt?: string;
-}
 
 interface LightBoxProps {
   isOpen: boolean;

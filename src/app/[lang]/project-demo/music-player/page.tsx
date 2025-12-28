@@ -60,12 +60,14 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
   const { lang } = await params;
   const t = await getTranslations({ locale: lang });
 
+  const projectDetail = t.raw("projects.musicPlayer.detail");
+
   return (
     <ProjectPageTemplate
       title="Music Player"
       description={t("projects.musicPlayer.fullDesc")}
       mediaItems={demoMediaItems}
-      backLink="/"
+      projectDetail={projectDetail}
       sourceCodeLink="https://github.com/a6232241/music-player"
     />
   );

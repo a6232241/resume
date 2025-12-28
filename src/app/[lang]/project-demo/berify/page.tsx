@@ -62,12 +62,14 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
   const { lang } = await params;
   const t = await getTranslations({ locale: lang });
 
+  const projectDetail = t.raw("projects.berify.detail");
+
   return (
     <ProjectPageTemplate
       title="Berify"
       description={t("projects.berify.fullDesc")}
       mediaItems={demoMediaItems}
-      backLink={`/${lang}`}
+      projectDetail={projectDetail}
       storeLink={{
         appleAppStoreLink: "https://apps.apple.com/us/app/berify/id1526630785",
         googlePlayStoreLink: "https://play.google.com/store/apps/details?id=com.berify",

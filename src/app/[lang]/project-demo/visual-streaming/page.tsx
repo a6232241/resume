@@ -30,12 +30,15 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
   const { lang } = await params;
   const t = await getTranslations({ locale: lang });
 
+  // 從 i18n 取得詳情數據
+  const projectDetail = t.raw("projects.visualStreaming.detail");
+
   return (
     <ProjectPageTemplate
       title="Visual Streaming"
       description={t("projects.visualStreaming.fullDesc")}
       mediaItems={demoMediaItems}
-      backLink="/"
+      projectDetail={projectDetail}
     />
   );
 }

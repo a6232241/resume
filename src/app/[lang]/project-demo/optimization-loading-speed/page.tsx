@@ -30,12 +30,14 @@ export default async function OptimizationLoadingSpeedPage({ params }: { params:
   const { lang } = await params;
   const t = await getTranslations({ locale: lang });
 
+  const projectDetail = t.raw("projects.optimizationLoadingSpeed.detail");
+
   return (
     <ProjectPageTemplate
       title={t("projects.optimizationLoadingSpeed.title")}
       description={t("projects.optimizationLoadingSpeed.fullDesc")}
       mediaItems={demoMediaItems}
-      backLink={`/${lang}`}
+      projectDetail={projectDetail}
     />
   );
 }
