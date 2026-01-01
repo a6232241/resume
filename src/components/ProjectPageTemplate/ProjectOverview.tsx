@@ -5,9 +5,6 @@ interface Props {
 }
 
 export default function ProjectOverview({ data }: Props) {
-  const technologies = data.mainTechs ?? [];
-  console.log(technologies);
-
   return (
     <section className="space-y-6">
       <h2 className="text-2xl font-bold">項目概況</h2>

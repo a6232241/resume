@@ -1,16 +1,16 @@
 "use client";
 
+import { useTheme } from "@context/theme";
 import DarkModeIcon from "@public/dark_mode.svg";
 import LightModeIcon from "@public/light_mode.svg";
-import { useTheme } from "@src/context/ThemeContext";
 
 export default function ThemeToggle() {
-  const { isDark, toggle } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <>
       <button
-        onClick={toggle}
+        onClick={toggleTheme}
         className="rounded-lg p-2 transition-colors hover:bg-gray-200 dark:hover:bg-gray-800"
         aria-label={isDark ? "切換到淺色模式" : "切換到深色模式"}>
         {isDark ? (

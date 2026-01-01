@@ -1,8 +1,8 @@
 "use client";
 
+import { useTheme } from "@context/theme";
 import GithubIcon from "@public/github.svg";
 import LinkedInIcon from "@public/linkedin.svg";
-import { useTheme } from "@src/context/ThemeContext";
 import Link from "next/link";
 
 export default function SocialLinks() {

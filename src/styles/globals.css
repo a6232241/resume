@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --background: var(--color-white);
   --foreground: var(--color-neutral-950);
 }
 
 html.dark {
+  color-scheme: dark;
   --background: var(--color-neutral-950);
   --foreground: var(--color-white);
 }

@@ -1,10 +1,10 @@
 "use client";
 
+import { LightBox } from "@components/ui";
 import { MediaItem } from "@src/types";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState } from "react";
-import LightBox from "../LightBox";
 import ProjectArchitecture from "./ProjectArchitecture";
 import ProjectChallenges from "./ProjectChallenges";
 import ProjectLearnings from "./ProjectLearnings";

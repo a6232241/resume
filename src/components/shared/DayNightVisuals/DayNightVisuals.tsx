@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "@src/context/ThemeContext";
+import { useTheme } from "@context/theme";
 
 export default function DayNightVisuals() {
   const { hasFirstToggle } = useTheme();

@@ -1,5 +1,5 @@
+import { MediaItem } from "@src/types";
 import Image, { StaticImageData } from "next/image";
-import { MediaItem } from "./types";
 
 interface Props {
   mediaItems: MediaItem[];

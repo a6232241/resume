@@ -4,7 +4,7 @@ import { MediaItem } from "@src/types";
 import Image, { StaticImageData } from "next/image";
 import { useCallback, useEffect } from "react";
 
-interface LightBoxProps {
+export interface LightBoxProps {
   isOpen: boolean;
   onClose: () => void;
   mediaItems: MediaItem[];

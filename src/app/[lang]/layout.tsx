@@ -1,7 +1,6 @@
-import DayNightVisuals from "@src/components/DayNightVisuals";
+import { DayNightVisuals, ThemeToggle } from "@components/shared";
+import { ThemeProvider } from "@context/theme";
 import SocialLinks from "@src/components/SocialLinks";
-import ThemeToggle from "@src/components/ThemeToggle";
-import ThemeProvider from "@src/context/ThemeContext";
 import "@src/styles/globals.css";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
@@ -27,6 +26,8 @@ export const metadata: Metadata = {
   description: "Kuan-Cheng Cai's Resume, built with Next.js 13 App Router and TypeScript.",
 };
 
+export const THEME_STORAGE_KEY = "theme";
+
 export default async function RootLayout({
   children,
   params,
@@ -38,27 +39,29 @@ export default async function RootLayout({
   const messages = await getMessages({ locale: lang });
 
   return (
-    <ThemeProvider>
-      <html lang={lang} className="h-full" suppressHydrationWarning>
-        <head>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+    <html lang={lang} className="h-full" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
               (function() {
                 try {
-                  const theme = localStorage.getItem("theme");
+                  const storedTheme = localStorage.getItem("${THEME_STORAGE_KEY}");
                   const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-                  if (theme === "dark" || (!theme && systemPrefersDark)) {
+                  if (storedTheme === "dark" || (!storedTheme && systemPrefersDark)) {
                     document.documentElement.classList.add("dark");
+                  } else {
+                    document.documentElement.classList.remove("dark");
                   }
                 } catch (e) {}
               })();
             `,
-            }}
-            suppressHydrationWarning // 關鍵：避免 hydration mismatch
-          />
-        </head>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          }}
+          suppressHydrationWarning // 關鍵：避免 hydration mismatch
+        />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider storageKey={THEME_STORAGE_KEY}>
           <NextIntlClientProvider messages={messages}>
             <DayNightVisuals />
             <header className="sticky top-0 z-50 flex flex-row items-center justify-between bg-[var(--background)] p-4">
@@ -67,8 +70,8 @@ export default async function RootLayout({
             </header>
             {children}
           </NextIntlClientProvider>
-        </body>
-      </html>
-    </ThemeProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
