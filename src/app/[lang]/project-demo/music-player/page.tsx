@@ -1,10 +1,10 @@
+import { ProjectPageTemplate } from "@features/portfolio";
 import HomeScreenDark from "@public/side-projects/music-player/home_screen-dark_theme.png";
 import HomeScreenLight from "@public/side-projects/music-player/home_screen-light_theme.png";
 import LaunchScreenDark from "@public/side-projects/music-player/launch_screen-dark_theme.png";
 import LaunchScreenLight from "@public/side-projects/music-player/launch_screen-light_theme.png";
 import ProfileScreenDark from "@public/side-projects/music-player/profile_screen-dark_theme.png";
 import ProfileScreenLight from "@public/side-projects/music-player/profile_screen-light_theme.png";
-import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [

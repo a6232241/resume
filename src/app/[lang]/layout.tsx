@@ -1,6 +1,6 @@
 import { DayNightVisuals, ThemeToggle } from "@components/shared";
 import { ThemeProvider } from "@context/theme";
-import SocialLinks from "@src/components/SocialLinks";
+import { SocialLinks } from "@features/profile";
 import "@src/styles/globals.css";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";

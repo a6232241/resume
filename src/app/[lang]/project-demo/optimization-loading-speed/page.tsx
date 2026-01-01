@@ -1,6 +1,6 @@
+import { ProjectPageTemplate } from "@features/portfolio";
 import ReactDevToolsAfter from "@public/work-experience/optimization-loading-speed/react_devtools-after.png";
 import ReactDevToolsBefore from "@public/work-experience/optimization-loading-speed/react_devtools-before.png";
-import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [

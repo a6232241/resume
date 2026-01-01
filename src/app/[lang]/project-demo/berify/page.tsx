@@ -1,3 +1,4 @@
+import { ProjectPageTemplate } from "@features/portfolio";
 import CMSDashboardPage from "@public/work-projects/berify/CMS-dashboard_page.png";
 import CMSProductSettingPage from "@public/work-projects/berify/CMS-product_setting_page.png";
 import CMSRewardsPage from "@public/work-projects/berify/CMS-rewards_page.png";
@@ -7,7 +8,6 @@ import ProductDetailScreenShowChat from "@public/work-projects/berify/product_de
 import ProductDetailScreen from "@public/work-projects/berify/product_detail_screen.png";
 import ProfileScreen from "@public/work-projects/berify/profile_screen.png";
 import RewardsScreen from "@public/work-projects/berify/rewards_screen.png";
-import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [

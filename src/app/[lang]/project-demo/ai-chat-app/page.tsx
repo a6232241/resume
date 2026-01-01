@@ -1,8 +1,8 @@
+import { ProjectPageTemplate } from "@features/portfolio";
 import EitherChatScreenDarkTheme from "@public/side-projects/ai-chat-app/either_chat_screen-dark_theme.png";
 import EitherChatScreenLightTheme from "@public/side-projects/ai-chat-app/either_chat_screen-light_theme.png";
 import LaunchScreenDarkTheme from "@public/side-projects/ai-chat-app/launch_screen-dark_theme.png";
 import LaunchScreenLightTheme from "@public/side-projects/ai-chat-app/launch_screen-light_theme.png";
-import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [

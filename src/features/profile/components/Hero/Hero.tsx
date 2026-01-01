@@ -1,4 +1,4 @@
-import SocialLinks from "@src/components/SocialLinks";
+import { SocialLinks } from "@features/profile";
 import Image from "next/image";
 
 interface HeroProps {

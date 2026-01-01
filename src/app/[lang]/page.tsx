@@ -1,11 +1,9 @@
+import { Experience, ProjectCard } from "@features/portfolio";
+import { Hero, Skills } from "@features/profile";
 import AIChatAppPreview from "@public/side-projects/ai-chat-app/preview-light_theme.png";
 import MusicPlayerPreview from "@public/side-projects/music-player/launch_screen-light_theme.png";
 import BerifyPreview from "@public/work-projects/berify/preview.png";
 import VisualStreamingPreview from "@public/work-projects/visual-streaming/demo_preview.png";
-import Experience from "@src/components/Experience";
-import Hero from "@src/components/Hero";
-import ProjectCard from "@src/components/ProjectCard";
-import Skills from "@src/components/Skills";
 import { getTranslations } from "next-intl/server";
 
 const experienceItems = [

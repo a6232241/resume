@@ -1,6 +1,6 @@
+import { ProjectPageTemplate } from "@features/portfolio";
 import Demo00 from "@public/work-projects/visual-streaming/demo_00.png";
 import Demo01 from "@public/work-projects/visual-streaming/demo_01.png";
-import ProjectPageTemplate from "@src/components/ProjectPageTemplate";
 import { getTranslations } from "next-intl/server";
 
 const demoMediaItems = [
