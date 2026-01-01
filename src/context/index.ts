@@ -1,2 +1,8 @@
-export * from "./theme";
-
+export {
+  ThemeContext,
+  ThemeProvider,
+  useTheme,
+  type Theme,
+  type ThemeContextValue,
+  type ThemeProviderProps,
+} from "./theme";

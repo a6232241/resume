@@ -1,6 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
-import prettier from "eslint-plugin-prettier";
 import { defineConfig } from "eslint/config";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,13 +15,6 @@ const compat = new FlatCompat({
 export default defineConfig([
   {
     extends: compat.extends("eslint:recommended", "next/core-web-vitals", "next/typescript", "prettier"),
-
-    plugins: {
-      prettier,
-    },
-
-    rules: {
-      "prettier/prettier": "warn",
-    },
+    rules: {},
   },
 ]);
