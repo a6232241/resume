@@ -20,12 +20,12 @@ const overviewData = {
     duration: "2 週",
     team: "獨立診斷與優化",
     projectType: "工作專案 · 性能優化",
-    mainTechs: ["React DevTools", "Redux DevTools", "Flipper", "RTK Query", "Redux Toolkit"],
+    mainTechs: ["React DevTools", "Flipper", "RTK Query", "Redux Toolkit"],
     focus: ["登入流程", "多頁面導航", "狀態管理"],
   },
   metrics: [
     {
-      area: "登入返回",
+      area: "登入流程",
       before: "10s",
       after: "1s",
       improvement: "10x",
@@ -109,7 +109,7 @@ const solutionsData = {
       risk: "🔴 高",
       maintainability: "低",
       decision: "❌",
-      reason: "成本過高，維護困難",
+      tradeoff: "成本過高，維護困難",
     },
     {
       id: 2,
@@ -118,7 +118,7 @@ const solutionsData = {
       risk: "🟡 中",
       maintainability: "中",
       decision: "⚠️",
-      tradeoff: "每次切頁都重新刷新",
+      tradeoff: "每次切頁需手動刷新",
     },
     {
       id: 3,
@@ -196,7 +196,7 @@ const evidenceData = {
       fileUrl:
         "/work-experience/optimization-loading-speed/other_optimizations_and_removing_redundant_resetStateApi_before.mp4",
       icon: "🎬",
-      watchPoint: "注意登入後頁面載入的白屏時間",
+      watchPoint: "注意時間 00:23 處，登入後頁面載入的白屏時間",
     },
     {
       id: 2,
@@ -207,7 +207,7 @@ const evidenceData = {
       fileUrl:
         "/work-experience/optimization-loading-speed/other_optimizations_and_removing_redundant_resetStateApi_after.mp4",
       icon: "🎬",
-      watchPoint: "對比優化後的即時響應效果",
+      watchPoint: "注意時間 00:15 處，登入後頁面載入的白屏時間",
     },
     {
       id: 3,
@@ -216,6 +216,7 @@ const evidenceData = {
       fileUrl:
         "/work-experience/optimization-loading-speed/other_optimizations_and_removing_redundant_resetStateApi_by_flipper_before.mov",
       icon: "🔴",
+      watchPoint: "注意時間 01:03 處，resetApiState() 被執行兩次",
     },
     {
       id: 4,
@@ -224,6 +225,7 @@ const evidenceData = {
       fileUrl:
         "/work-experience/optimization-loading-speed/other_optimizations_and_removing_redundant_resetStateApi_by_flipper_after.mov",
       icon: "🟢",
+      watchPoint: "注意時間 00:37 處，resetApiState() 只被執行一次，且 redux action 相對較少",
     },
     {
       id: 5,
@@ -231,6 +233,7 @@ const evidenceData = {
       description: "添加 createSelector 前的實機畫面",
       fileUrl: "/work-experience/optimization-loading-speed/add_createSelector_before.mp4",
       icon: "⚡",
+      watchPoint: "注意導航切換後，頁面載入的白屏時間",
     },
     {
       id: 6,
@@ -238,6 +241,7 @@ const evidenceData = {
       description: "添加 createSelector 後的實機畫面",
       fileUrl: "/work-experience/optimization-loading-speed/add_createSelector_after.mp4",
       icon: "⚡",
+      watchPoint: "注意導航切換後，頁面載入的白屏時間",
     },
     {
       id: 7,
@@ -245,7 +249,7 @@ const evidenceData = {
       description: "Redux Toolkit 升級前的直播列表頁面導航",
       fileUrl: "/work-experience/optimization-loading-speed/update_reduxToolkit_before.MP4",
       icon: "🔴",
-      watchPoint: "注意導航切換後的資料獲取速度",
+      watchPoint: "注意每次導航切換後，頁面載入的白屏時間",
     },
     {
       id: 8,
@@ -253,7 +257,7 @@ const evidenceData = {
       description: "Redux Toolkit 升級後的直播列表頁面導航",
       fileUrl: "/work-experience/optimization-loading-speed/update_reduxToolkit_after.MP4",
       icon: "🟢",
-      watchPoint: "對比優化後的速度差異",
+      watchPoint: "注意每次導航切換後，頁面載入的白屏時間",
     },
     {
       id: 9,
@@ -274,7 +278,7 @@ const evidenceData = {
   screenshots: [
     {
       id: 1,
-      title: "登入優化火焰圖 (前)",
+      title: "登入流程火焰圖 (前)",
       type: "profiling",
       shows: "登入流程優化前的渲染火焰圖",
       imageUrl:
@@ -299,7 +303,7 @@ const evidenceData = {
     },
     {
       id: 4,
-      title: "登入優化火焰圖 (後)",
+      title: "登入流程火焰圖 (後)",
       type: "profiling",
       shows: "登入流程優化後的渲染火焰圖",
       imageUrl:

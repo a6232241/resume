@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface Video {
   id: number;
@@ -89,7 +90,7 @@ export default function EvidenceGallery({ videos, screenshots, references }: Evi
                 key={screenshot.id}
                 className="cursor-pointer overflow-hidden rounded-xl border border-gray-200 bg-gray-50 transition-transform hover:scale-105 dark:border-gray-700 dark:bg-gray-800"
                 onClick={() => setSelectedImage(screenshot.imageUrl)}>
-                <img src={screenshot.imageUrl} alt={screenshot.title} className="h-40 w-full object-cover" />
+                <Image src={screenshot.imageUrl} alt={screenshot.title} height={400} width={400} className="h-40 w-full object-cover" />
                 <div className="p-3">
                   <h3 className="font-semibold text-gray-900 dark:text-white">
                     {screenshot.icon} {screenshot.title}
@@ -105,9 +106,17 @@ export default function EvidenceGallery({ videos, screenshots, references }: Evi
       {/* 大圖模態框 */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 m-0"
           onClick={() => setSelectedImage(null)}>
-          <img src={selectedImage} alt="Full size" className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain" />
+          <div className="relative h-[90vh] w-[90vw]">
+            <Image
+              src={selectedImage}
+              alt="Full size"
+              fill
+              className="object-contain"
+              sizes="90vw"
+            />
+          </div>
           <button
             className="absolute top-4 right-4 text-3xl text-white hover:text-gray-300"
             onClick={() => setSelectedImage(null)}>

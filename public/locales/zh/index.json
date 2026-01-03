@@ -182,8 +182,8 @@
       }
     },
     "aiChatApp": {
-      "shortDesc": "這是一個 AI 聊天 App。",
-      "technologies": ["Expo", "React Native", "GitHub Models"],
+      "shortDesc": "使用 GitHub Models 提供 AI 對話功能，並使用 SQLite 進行本地數據存儲，確保用戶的聊天記錄安全且可離線訪問",
+      "technologies": ["Expo", "React Native", "GitHub Models", "SQLite"],
       "fullDesc": "這款 AI 聊天 App 專為學習 AI 而建，使用者可建立多聊天室、保留對話記憶，並隨時刪除歷史紀錄。\n\n技術棧：Expo 開發框架，整合 GitHub Models 實現 AI 對話功能。",
       "detail": {
         "hero": {
