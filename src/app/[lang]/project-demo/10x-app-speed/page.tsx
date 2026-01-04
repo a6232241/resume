@@ -13,8 +13,29 @@ import {
 const heroData = {
   title: "10x App Speed: Performance Optimization",
   tagline: "登入流程 × 多頁面導航 × 狀態管理",
-  description:
-    "針對一款登入流程出現嚴重效能瓶頸（耗時達 10 秒）的應用程式，我主導了從「診斷、評估到重構」的全流程優化。透過 Flipper 與 React DevTools 定位出全域重複渲染（Re-render）與 API 狀態頻繁重置的核心問題。在評估了維護成本與風險後，我決定升級 Redux Toolkit 並導入 createSelector 緩存機制，最終成功將登入耗時降低 90%，並大幅提升了多頁面導航的流暢度。",
+  description: (
+    <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:divide-x md:divide-gray-200 dark:md:divide-gray-700">
+      <div className="space-y-2">
+        <h3 className="text-sm font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">
+          挑戰 (Challenge)
+        </h3>
+        <p className="text-gray-900 dark:text-gray-100">
+          解決登入 <span className="font-bold text-blue-600 dark:text-blue-400">10s</span> 延遲與白屏卡頓。
+        </p>
+      </div>
+      <div className="space-y-2 md:pl-8">
+        <h3 className="text-sm font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">方案 (Solution)</h3>
+        <p className="text-gray-900 dark:text-gray-100">重構 Redux 緩存機制並升級 RTK。</p>
+      </div>
+      <div className="space-y-2 md:pl-8">
+        <h3 className="text-sm font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">成效 (Impact)</h3>
+        <p className="text-gray-900 dark:text-gray-100">
+          提速 <span className="font-bold text-blue-600 dark:text-blue-400">90%</span> (
+          <span className="font-bold text-blue-600 dark:text-blue-400">10x</span>)，改善導航流暢度。
+        </p>
+      </div>
+    </div>
+  ),
 };
 
 // 概覽數據
