@@ -207,24 +207,12 @@
         }
       }
     },
-    "optimizationLoadingSpeed": {
-      "title": "Loading Speed Optimization",
+    "10xAppSpeed": {
+      "title": "10x App Speed",
       "shortDesc": "Reduced page load time from 10+ seconds to under 1 second.",
       "technologies": ["React Native", "Redux", "React DevTools", "Flipper"],
       "fullDesc": "Login performance optimization case from a work project. Key issues:\n\n• State reset twice during login, causing duplicate API calls and full re-renders;\n• Outdated Redux version making `useQuery`'s `selectFromResult` re-render constantly.\n\nUsed React DevTools to track renders and Flipper to monitor state changes for precise diagnosis. Fix resolved bottleneck and significantly improved app speed.",
-      "detail": {
-        "hero": {
-          "title": "Loading Speed Optimization",
-          "tagline": "From 10s to <1s Performance Boost"
-        },
-        "overview": {
-          "duration": "2 weeks",
-          "team": "Tech Lead",
-          "projectType": "Performance Optimization",
-          "mainTechs": ["React Native", "Redux", "React DevTools", "Flipper"],
-          "platforms": ["Android", "iOS"]
-        }
-      }
+      "badge": "-90% Latency"
     },
     "berify": {
       "shortDesc": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",

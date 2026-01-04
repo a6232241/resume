@@ -51,10 +51,11 @@ const workProjects = [
 
 const workExperiences = [
   {
-    title: "Optimization loading speed",
-    description: "projects.optimizationLoadingSpeed.shortDesc",
-    technologies: "projects.optimizationLoadingSpeed.technologies",
-    link: "optimization-loading-speed",
+    title: "projects.10xAppSpeed.title",
+    description: "projects.10xAppSpeed.shortDesc",
+    technologies: "projects.10xAppSpeed.technologies",
+    badge: "projects.10xAppSpeed.badge",
+    link: "10x-app-speed",
   },
 ];
 
@@ -115,10 +116,11 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {workExperiences.map((project, index) => (
               <ProjectCard
                 key={index}
-                title={project.title}
+                title={t(project.title)}
                 description={t(project.description)}
                 link={`/${lang}/project-demo/${project.link}`}
                 technologies={t.raw(project?.technologies) ?? []}
+                badge={project.badge ? t(project.badge) : undefined}
               />
             ))}
           </div>

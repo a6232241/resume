@@ -10,6 +10,7 @@ interface ProjectProps {
   technologies?: string[];
   achievements?: string[];
   role?: string;
+  badge?: string;
 }
 
 export default function ProjectCard({
@@ -21,9 +22,17 @@ export default function ProjectCard({
   technologies = [],
   achievements = [],
   role = "獨立開發",
+  badge,
 }: ProjectProps) {
   const CardContent = (
     <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
+      {/* 徽章 (Badge) */}
+      {badge && (
+        <div className="absolute top-3 right-3 z-10 rounded-full bg-green-500 px-3 py-1.5 shadow-lg">
+          <span className="text-xs font-bold text-white">{badge}</span>
+        </div>
+      )}
+
       {/* 圖片區 */}
       {imageUrl && (
         <div className="relative h-48 w-full overflow-hidden">

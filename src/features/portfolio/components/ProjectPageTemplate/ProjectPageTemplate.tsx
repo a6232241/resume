@@ -5,6 +5,7 @@ import { MediaItem } from "@src/types";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState } from "react";
+import { ProjectDescription } from "../ProjectDescription";
 import ProjectArchitecture from "./ProjectArchitecture";
 import ProjectChallenges from "./ProjectChallenges";
 import ProjectLearnings from "./ProjectLearnings";
@@ -95,10 +96,7 @@ export default function ProjectPageTemplate({
           {projectDetail.learnings && <ProjectLearnings data={projectDetail.learnings} />}
 
           {/* 簡單描述 */}
-          <div className="space-y-4 rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
-            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-white">{t("section.about")}</h2>
-            <p className="leading-relaxed whitespace-pre-wrap text-gray-700 dark:text-gray-300">{description}</p>
-          </div>
+          <ProjectDescription description={description} />
 
           {/* Source code link */}
           {sourceCodeLink && (

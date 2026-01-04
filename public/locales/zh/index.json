@@ -199,24 +199,12 @@
         }
       }
     },
-    "optimizationLoadingSpeed": {
-      "title": "優化加載速度",
-      "shortDesc": "將頁面載入時間從 10 多秒縮短至 1 秒以內。",
-      "technologies": ["React Native", "Redux", "React DevTools", "Flipper"],
-      "fullDesc": "這是工作專案中的登入效能優化案例。主要問題：\n\n• 登入時狀態重置兩次，導致 API 重複呼叫與全畫面重新渲染；\n• Redux 版本過舊，造成 `useQuery` 的 `selectFromResult` 持續重新渲染。\n\n透過 React DevTools 追蹤渲染次數、Flipper 監控狀態變化，精準定位問題。修正後不僅解決瓶頸，還大幅提升整體應用速度。",
-      "detail": {
-        "hero": {
-          "title": "載入速度優化",
-          "tagline": "從 10 秒到 1 秒內的極致優化"
-        },
-        "overview": {
-          "duration": "2 週",
-          "team": "技術負責人",
-          "projectType": "效能優化",
-          "mainTechs": ["React Native", "Redux", "React DevTools", "Flipper"],
-          "platforms": ["Android", "iOS"]
-        }
-      }
+    "10xAppSpeed": {
+      "title": "10x App Speed",
+      "shortDesc": "主導深度架構重構，成功將載入耗時降低 90%，並建立全域狀態管理規範。",
+      "technologies": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
+      "fullDesc": "針對一款登入流程出現嚴重效能瓶頸(耗時達 10 秒)的應用程式,我主導了從「診斷、評估到重構」的全流程優化。透過 Flipper 與 React DevTools 定位出全域重複渲染(Re-render)與 API 狀態頻繁重置的核心問題。在評估了維護成本與風險後,我決定升級 Redux Toolkit 並導入 createSelector 緩存機制,最終成功將登入耗時降低 90%,並大幅提升了多頁面導航的流暢度。",
+      "badge": "-90% 延遲時間"
     },
     "berify": {
       "shortDesc": "協助商家管理商品與會員，透過 Web3 提供可驗證的數位資產與行銷工具。",
