@@ -1,0 +1,151 @@
+{
+  "shortDesc": "Real-time face replacement in live streaming preview, validating feasibility of high-performance image processing and native integration.",
+  "technologies": ["React Native", "Vision Camera", "Kotlin/ObjC", "C++", "OpenCV"],
+  "achievements": [
+    "Solo developer: Completed Android/iOS dual-platform Demo in 4 months",
+    "80%+ C++ code reuse across platforms with shared core logic",
+    "Adopted React Native new architecture (Fabric & TurboModules) to build Native Components"
+  ],
+  "role": "Solo · 4 months",
+  "fullDesc": "A React Native full-stack project: implementing real-time face-swapping effects in live streaming applications. The core challenge is verifying feasibility using traditional geometric image processing (without training deep learning models), while ensuring cross-platform compatibility.\n\nTechnical Highlights:\n• React Native + Vision Camera real-time preview with a custom Frame Processor design\n• Native layer integration of ML Kit Face Detection, solving coordinate discrepancies between sensor frames and camera preview\n• Kotlin ↔ C++ (OpenCV) direct communication with 80%+ C++ code reuse on iOS\n\nIndependently completed Android/iOS dual-platform Demo in 4 months, covering full-stack integration across frontend, native, and algorithm layers.",
+  "detail": {
+    "hero": {
+      "title": "Visual Streaming",
+      "tagline": "Real-time Live Face Swap PoC"
+    },
+    "overview": {
+      "duration": "4 months",
+      "team": "Solo Developer",
+      "projectType": "PoC Exploration Project",
+      "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
+      "platforms": ["Android", "iOS"]
+    },
+    "motivation": {
+      "title": "Why Build This Project?",
+      "description": "To verify whether real-time face swapping on mobile devices is feasible.",
+      "keyQuestions": [
+        "Can real-time image processing run on mobile phones?",
+        "How can frontend (RN) and backend (native) collaborate efficiently?",
+        "What's the cost of cross-platform code reuse with C++?"
+      ]
+    },
+    "challenges": [
+      {
+        "title": "Coordinate Transform & Device Adaptation",
+        "symptom": "Face landmarks do not align with the preview",
+        "rootCause": "The coordinate system of Vision Camera preview and the frame data are different",
+        "impact": "Face swap effect appears at the wrong position"
+      },
+      {
+        "title": "Compute Performance Bottleneck",
+        "symptom": "Face detection causes UI stutter",
+        "rootCause": "ML Kit face detection is expensive; running it on the main thread blocks rendering",
+        "impact": "Stuttering UX and poor interaction responsiveness"
+      },
+      {
+        "title": "Cross-platform Development Cost",
+        "symptom": "Duplicated code and complex maintenance",
+        "rootCause": "Separate Android/iOS implementations double the workload",
+        "impact": "Longer project timeline"
+      }
+    ],
+    "solutions": [
+      {
+        "problem": "Coordinate Transform & Device Adaptation",
+        "approach": "Custom rendering logic for coordinate mapping",
+        "details": [
+          "Capture Vision Camera's frame.orientation to get current device orientation",
+          "Use Matrix.postRotate() to apply rotation compensation",
+          "Apply corresponding matrix transforms based on camera position (front/back): flip or no flip",
+          "Apply the final transform matrix when drawing on Canvas"
+        ],
+        "result": "Face landmarks perfectly align with the preview; supports multiple device orientations",
+        "category": "Coordinate Mapping"
+      },
+      {
+        "problem": "Compute Performance Bottleneck",
+        "approach": "Async processing + result caching",
+        "details": [
+          "Run FaceDetector on a background thread using Kotlin Coroutines with Dispatchers.IO",
+          "Cache face detection results in a member variable",
+          "Render layer reads cached results to avoid redundant computation",
+          "Draw directly with SurfaceView to reduce View hierarchy overhead"
+        ],
+        "result": "Main thread focuses on Canvas drawing while compute-intensive work runs in the background",
+        "category": "Performance Optimization"
+      },
+      {
+        "problem": "Cross-platform Development Cost",
+        "approach": "C++ code reuse",
+        "details": [
+          "Canvas performance is insufficient for complex deformation",
+          "OpenCV provides more optimized algorithms",
+          "C++ can be reused on both iOS and Android, lowering development cost"
+        ],
+        "result": "80%+ C++ code reuse; development cycle reduced by 50%",
+        "category": "Cross-platform"
+      }
+    ],
+    "architecture": {
+      "title": "Three-layer Modular Architecture",
+      "layers": [
+        {
+          "name": "React Native (UI Layer)",
+          "responsibilities": ["Vision Camera real-time preview"]
+        },
+        {
+          "name": "Kotlin / Objective-C (Platform Layer)",
+          "responsibilities": [
+            "ML Kit face detection",
+            "Camera frame data management",
+            "Color channel conversion (ARGB ↔ BGRA)"
+          ]
+        },
+        {
+          "name": "C++ (Algorithm Layer, 80% Reuse)",
+          "responsibilities": [
+            "OpenCV image processing (geometric transform / blending)",
+            "Delaunay triangulation",
+            "Face swapping"
+          ]
+        }
+      ]
+    },
+    "metrics": {
+      "accuracy": {
+        "title": "Coordinate Mapping Accuracy",
+        "before": "Landmark positions incorrect",
+        "after": "Visually perfectly aligned",
+        "improvement": "From incorrect → correct"
+      },
+      "performance": {
+        "title": "Rendering Smoothness",
+        "before": "Frequent stuttering",
+        "after": "Mostly smooth (near real-time)",
+        "improvement": "From stuttery → usable"
+      },
+      "development": {
+        "cpp_reuse_rate": "80%+",
+        "timeline": "4 months"
+      }
+    },
+    "learnings": [
+      {
+        "title": "System Bottleneck vs Code Bottleneck",
+        "category": "Architecture Design",
+        "description": "Learned to identify architectural bottlenecks (not just code-level issues), and solve performance problems through architectural optimization rather than micro-optimizations."
+      },
+      {
+        "title": "End-to-end Mastery",
+        "category": "Cross-layer Integration",
+        "description": "Hands-on integration experience across the full stack: React Native → Kotlin/Objective-C → C++."
+      },
+      {
+        "title": "Reuse Strategy",
+        "category": "Cross-platform Design",
+        "description": "80%+ C++ reuse is not accidental; it requires cross-platform considerations in the architecture from day one."
+      }
+    ]
+  }
+}
+

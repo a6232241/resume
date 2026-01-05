@@ -64,6 +64,7 @@ const personalProjects = [
     title: "Music Player",
     description: "projects.musicPlayer.shortDesc",
     technologies: "projects.musicPlayer.technologies",
+    badge: "projects.musicPlayer.badge",
     imageUrl: MusicPlayerPreview,
     link: "music-player",
     period: "2025/09 - Present",
@@ -138,6 +139,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                 link={`/${lang}/project-demo/${project.link}`}
                 period={project.period}
                 technologies={t.raw(project?.technologies) ?? []}
+                badge={project.badge ? t(project.badge) : undefined}
               />
             ))}
           </div>

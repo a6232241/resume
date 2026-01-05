@@ -1,0 +1,139 @@
+{
+  "shortDesc": "在直播預覽中即時替換臉部，驗證高效能影像處理與原生整合可行性。",
+  "technologies": ["React Native", "Vision Camera", "Kotlin/ObjC", "C++", "OpenCV"],
+  "achievements": [
+    "單人 4 個月完成 Android/iOS 雙平台 Demo",
+    "C++ 代碼複用率 80%+，跨平台共用核心邏輯",
+    "採用 RN 新架構 Fabric & TurboModules，開發 Native Component"
+  ],
+  "role": "單人 · 4 個月",
+  "fullDesc": "一個 React Native 全棧項目：在直播應用中實現實時人臉交換特效。核心挑戰是在無深度學習模型訓練的前提下，用傳統幾何影像處理完成概念驗證，同時確保跨平台相容性。\n\n技術亮點：\n• React Native + Vision Camera 實時預覽與自訂 Frame Processor 設計\n• 原生層集成 ML Kit 人臉檢測，解決感測器幀與相機預覽的座標偏差問題\n• Kotlin ↔ C++（OpenCV）直接通訊，C++ 代碼在 iOS 端複用率達 80%+\n\n4 個月獨立完成 Android/iOS 雙平台 Demo，涵蓋前端、原生、算法的完整技術棧整合。",
+  "detail": {
+    "hero": {
+      "title": "Visual Streaming",
+      "tagline": "實時直播換臉特效 PoC"
+    },
+    "overview": {
+      "duration": "4 個月",
+      "team": "獨立開發",
+      "projectType": "PoC 探索性項目",
+      "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
+      "platforms": ["Android", "iOS"]
+    },
+    "motivation": {
+      "title": "為什麼做這個項目？",
+      "description": "想驗證『在移動設備上實現實時人臉交換』是否可行。",
+      "keyQuestions": [
+        "實時影像處理能否在手機上跑？",
+        "前端（RN）+ 後端（原生）如何高效協作？",
+        "跨平台代碼（C++）的複用成本有多低？"
+      ]
+    },
+    "challenges": [
+      {
+        "title": "座標轉換與設備適配",
+        "symptom": "人臉特徵點位置與預覽畫面不對齊",
+        "rootCause": "透過 Vision Camera 的預覽畫面與 frame 的座標系統不一致",
+        "impact": "人臉交換效果位置錯亂"
+      },
+      {
+        "title": "計算性能瓶頸",
+        "symptom": "人臉檢測導致 UI 卡頓",
+        "rootCause": "ML Kit 人臉檢測是耗時操作，在主執行緒進行會阻塞渲染",
+        "impact": "用戶體驗卡頓，交互不流暢"
+      },
+      {
+        "title": "跨平台開發成本",
+        "symptom": "代碼重複、維護複雜",
+        "rootCause": "Android/iOS 分別實現導致 2 倍工作量",
+        "impact": "項目周期拉長"
+      }
+    ],
+    "solutions": [
+      {
+        "problem": "座標轉換與設備適配",
+        "approach": "自定義影像繪製邏輯",
+        "details": [
+          "捕獲 Vision Camera 的 frame.orientation 獲取設備當前方向",
+          "使用 Matrix.postRotate() 應用設備旋轉補償",
+          "根據相機位置（前/後）應用對應的矩陣變換（翻轉/無翻轉）",
+          "在 Canvas 繪製時應用最終變換矩陣"
+        ],
+        "result": "人臉檢測點與屏幕預覽完全對齊，支持各種設備方向",
+        "category": "座標映射"
+      },
+      {
+        "problem": "計算性能瓶頸",
+        "approach": "異步處理 + 結果快取",
+        "details": [
+          "使用 Kotlin Coroutines 的 Dispatchers.IO 在後台執行 FaceDetector",
+          "人臉檢測結果快取在成員變數中",
+          "渲染層直接使用快取結果，避免重複計算",
+          "SurfaceView 直接繪製，減少 View 層級開銷"
+        ],
+        "result": "UI 執行緒主要進行 Canvas 繪製，計算密集工作在後台進行",
+        "category": "性能優化"
+      },
+      {
+        "problem": "跨平台開發成本",
+        "approach": "C++ 代碼複用",
+        "details": ["Canvas 複雜變形效能不足", "OpenCV 提供更優化的算法", "C++ 可在 iOS/Android 上複用，降低開發成本"],
+        "result": "80%+ C++ 代碼複用，開發周期減少 50%",
+        "category": "跨平台"
+      }
+    ],
+    "architecture": {
+      "title": "三層模組化架構",
+      "layers": [
+        {
+          "name": "React Native（UI 層）",
+          "responsibilities": ["Vision Camera 實時預覽"]
+        },
+        {
+          "name": "Kotlin / Objective-C（Platform 層）",
+          "responsibilities": ["ML Kit 人臉檢測", "相機幀數據管理", "色彩通道轉換（ARGB ↔ BGRA）"]
+        },
+        {
+          "name": "C++（算法層，80% 複用）",
+          "responsibilities": ["OpenCV 圖像處理 (幾何變換/融合)", "Deluanay 三角剖分", "人臉交換"]
+        }
+      ]
+    },
+    "metrics": {
+      "accuracy": {
+        "title": "座標映射精準度",
+        "before": "特徵點位置錯亂",
+        "after": "視覺上完全對齊",
+        "improvement": "從錯誤 → 正確"
+      },
+      "performance": {
+        "title": "渲染流暢度",
+        "before": "頻繁卡頓",
+        "after": "基本流暢（接近實時）",
+        "improvement": "從卡頓 → 可用"
+      },
+      "development": {
+        "cpp_reuse_rate": "80%+",
+        "timeline": "4 個月"
+      }
+    },
+    "learnings": [
+      {
+        "title": "系統瓶頸 vs 代碼瓶頸",
+        "category": "架構設計",
+        "description": "學會識別『架構瓶頸』而非『代碼瓶頸』，用架構優化而非代碼優化來解決性能問題"
+      },
+      {
+        "title": "掌握完整鏈路",
+        "category": "跨層整合",
+        "description": "從 React Native → Kotlin/Objective-C → C++ 的完整技術棧整合經驗"
+      },
+      {
+        "title": "複用策略",
+        "category": "跨平台設計",
+        "description": "80%+ C++ 複用不是偶然，需要前期架構設計考慮跨平台性"
+      }
+    ]
+  }
+}
+

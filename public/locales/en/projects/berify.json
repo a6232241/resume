@@ -1,0 +1,21 @@
+{
+  "shortDesc": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",
+  "technologies": ["React Native", "Swift App Clips", "Next.js", "Web3"],
+  "role": "Core Developer · React Native Main App",
+  "achievements": [],
+  "fullDesc": "Complete Web3 smart retail ecosystem. Merchants manage and analyze products via admin dashboard, customers scan product tags to unlock product info, special promotions, NFTs and rewards, with third-party wallet integration.\n\nTech stack: React Native main app, Swift App Clips scanning, Next.js backend server and full CMS.",
+  "detail": {
+    "hero": {
+      "title": "Berify",
+      "tagline": "Web3 Smart Retail Ecosystem"
+    },
+    "overview": {
+      "duration": "1 year",
+      "team": "Core Developer",
+      "projectType": "Commercial Product",
+      "mainTechs": ["React Native", "Swift App Clips", "Next.js", "Web3"],
+      "platforms": ["Android", "iOS", "Web"]
+    }
+  }
+}
+

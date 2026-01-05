@@ -1,0 +1,21 @@
+{
+  "shortDesc": "協助商家管理商品與會員，透過 Web3 提供可驗證的數位資產與行銷工具。",
+  "technologies": ["React Native", "Swift App Clips", "Next.js", "Web3"],
+  "role": "核心開發 · React Native 主應用",
+  "achievements": [],
+  "fullDesc": "Web3 智慧零售完整生態系統。商家透過後台管理與分析商品，消費者掃描產品標籤以解鎖商品資訊、特別促銷、NFT 和贈品功能，並整合第三方錢包查看資產。\n\n技術棧：React Native 主應用、Swift App Clips 掃描功能、Next.js 後端伺服器與完整 CMS。",
+  "detail": {
+    "hero": {
+      "title": "Berify",
+      "tagline": "Web3 智慧零售生態系統"
+    },
+    "overview": {
+      "duration": "1 年",
+      "team": "核心開發",
+      "projectType": "商業產品",
+      "mainTechs": ["React Native", "Swift App Clips", "Next.js", "Web3"],
+      "platforms": ["Android", "iOS", "Web"]
+    }
+  }
+}
+

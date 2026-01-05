@@ -1,0 +1,166 @@
+{
+  "shortDesc": "A music player app for easy music listening.",
+  "technologies": ["Expo", "React Native", "SQLite", "Node.js", "Express.js"],
+  "badge": "Offline-First",
+  "fullDesc": "This music player app supports local music list storage for offline playback, with multi-condition filtering by artist, genre, and name.\n\nBuilt to solve common issues like lack of filtering in existing apps and playback interruptions from unstable networks.\n\nTech stack: Expo framework, SQLite local database, Node.js + Express.js backend for backups. Future plans include Google Drive integration for enhanced user experience.",
+  "detail": {
+    "hero": {
+      "title": "Music Player",
+      "tagline": "Offline-First × Custom Tags × Data Backup",
+      "description": "A cross-platform music management system designed to solve playback interruptions, complex filtering, and data backup pain points.",
+      "summary": {
+        "problem": {
+          "title": "Challenge",
+          "desc": "Existing players <highlight>lack advanced filtering</highlight> and music interrupts on unstable networks"
+        },
+        "solution": {
+          "title": "Solution",
+          "desc": "Developed offline-first architecture with SQLite database and resumable downloads"
+        },
+        "impact": {
+          "title": "Impact",
+          "desc": "Achieved <highlight>100% offline playback</highlight> and <highlight>multi-dimensional filtering</highlight>"
+        }
+      }
+    },
+    "overview": {
+      "duration": "2 months",
+      "team": "Solo Developer",
+      "projectType": "Personal Project · Mobile Full-Stack",
+      "focus": "Database Migration, Playback State Machine, File System Management",
+      "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
+      "platforms": ["Android", "iOS"]
+    },
+    "motivation": {
+      "title": "Why Build This Project?",
+      "description": "A cross-platform music system solving audio disconnection and tag filtering pain points.",
+      "keyQuestions": [
+        "How to ensure filtering doesn't interrupt currently playing music?",
+        "How to safely perform SQLite database migrations?",
+        "How to handle resumable downloads for large files?"
+      ]
+    },
+    "challenges": [
+      {
+        "id": 1,
+        "title": "State Guarding - Filter Without Interruption",
+        "symptom": "Music stops unexpectedly when filtering tags",
+        "rootCause": "Filtering resets the playlist, causing current playback state to be lost",
+        "impact": "User experience interrupted, need to reselect song",
+        "codeSnippet": "// State guard logic\nif (!player.playing) {\n  // Only reset list when not playing\n  resetPlaylist(filteredSongs);\n} else {\n  // Update view only when playing\n  updateViewOnly(filteredSongs);\n}",
+        "highlightTerms": ["!player.playing"],
+        "solution": {
+          "approach": "!player.playing State Guard Logic",
+          "details": [
+            "Check player.playing state before filtering",
+            "Use !player.playing logic to only reset list when not playing",
+            "When playing, only update view without touching playback queue"
+          ],
+          "result": "Music continues playing during tag filtering, smooth UX",
+          "category": "State Management"
+        }
+      },
+      {
+        "id": 2,
+        "title": "SQLite Migration - Version Control",
+        "symptom": "App updates with schema changes may cause crashes",
+        "rootCause": "Lack of version control mechanism to track database schema changes",
+        "impact": "Users may lose data or experience crashes after upgrade",
+        "codeSnippet": "// Version migration logic\nconst currentVersion = await db.getVersion();\nif (currentVersion < PRAGMA user_version) {\n  await runMigrations(currentVersion);\n  await db.setVersion(PRAGMA user_version);\n}",
+        "highlightTerms": ["PRAGMA user_version"],
+        "solution": {
+          "approach": "PRAGMA user_version Versioning",
+          "details": [
+            "Use PRAGMA user_version to track database version",
+            "Check version number on app startup",
+            "Execute corresponding migration scripts based on version diff",
+            "Update user_version after migration completes"
+          ],
+          "result": "Supports smooth database upgrades, user data preserved",
+          "category": "Database Management"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Download Resumable - Large File Transfer",
+        "symptom": "Downloads fail on unstable networks and must restart",
+        "rootCause": "Native download API doesn't support resume",
+        "impact": "Wastes user bandwidth and time",
+        "codeSnippet": "// Resumable download implementation\nconst downloadResumable = FileSystem\n  .createDownloadResumable(\n    uri, fileUri,\n    {}, // options\n    (progress) => updateProgress(progress)\n  );\n\nawait downloadResumable.downloadAsync();",
+        "highlightTerms": ["createDownloadResumable"],
+        "solution": {
+          "approach": "Wrapped createDownloadResumable",
+          "details": [
+            "Use Expo FileSystem's createDownloadResumable API",
+            "Implement download progress tracking and state storage",
+            "Support pause, resume, cancel operations",
+            "Auto-resume download when network recovers"
+          ],
+          "result": "Large file downloads are stable and reliable with resume support",
+          "category": "File Management"
+        }
+      }
+    ],
+    "evidence": {
+      "videos": [
+        {
+          "id": 1,
+          "title": "Music Filtering",
+          "description": "Demonstrates multi-condition filtering while keeping music playing",
+          "fileUrl": "/side-projects/music-player/filter_music.mp4"
+        },
+        {
+          "id": 2,
+          "title": "Music Detail Modal",
+          "description": "Tap song to show details including cover, artist, album",
+          "fileUrl": "/side-projects/music-player/show_music_detail_modal.mp4"
+        },
+        {
+          "id": 3,
+          "title": "Batch Audio Download",
+          "description": "Demonstrates resumable download with pause/resume support",
+          "fileUrl": "/side-projects/music-player/download_all_audios.mp4"
+        }
+      ],
+      "screenshots": [
+        {
+          "id": 1,
+          "title": "Launch Screen - Light Theme",
+          "description": "App launch branding screen",
+          "imageUrl": "/side-projects/music-player/launch_screen-light_theme.png"
+        },
+        {
+          "id": 2,
+          "title": "Launch Screen - Dark Theme",
+          "description": "Launch screen with system dark mode support",
+          "imageUrl": "/side-projects/music-player/launch_screen-dark_theme.png"
+        },
+        {
+          "id": 3,
+          "title": "Home Screen - Light Theme",
+          "description": "Music list with filter tags and playback controls",
+          "imageUrl": "/side-projects/music-player/home_screen-light_theme.png"
+        },
+        {
+          "id": 4,
+          "title": "Home Screen - Dark Theme",
+          "description": "Dark mode music list interface",
+          "imageUrl": "/side-projects/music-player/home_screen-dark_theme.png"
+        },
+        {
+          "id": 5,
+          "title": "Profile Screen - Light Theme",
+          "description": "User settings and backup features",
+          "imageUrl": "/side-projects/music-player/profile_screen-light_theme.png"
+        },
+        {
+          "id": 6,
+          "title": "Profile Screen - Dark Theme",
+          "description": "Dark mode settings page",
+          "imageUrl": "/side-projects/music-player/profile_screen-dark_theme.png"
+        }
+      ]
+    }
+  }
+}
+

@@ -1,0 +1,242 @@
+{
+  "title": "10x App Speed",
+  "shortDesc": "主導深度架構重構，成功將載入耗時降低 90%，並建立全域狀態管理規範。",
+  "technologies": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
+  "fullDesc": "針對一款登入流程出現嚴重效能瓶頸(耗時達 10 秒)的應用程式,我主導了從「診斷、評估到重構」的全流程優化。透過 Flipper 與 React DevTools 定位出全域重複渲染(Re-render)與 API 狀態頻繁重置的核心問題。在評估了維護成本與風險後,我決定升級 Redux Toolkit 並導入 createSelector 緩存機制,最終成功將登入耗時降低 90%,並大幅提升了多頁面導航的流暢度。",
+  "badge": "-90% 延遲時間",
+  "detail": {
+    "hero": {
+      "title": "10x App Speed: Performance Optimization",
+      "tagline": "登入流程 × 多頁面導航 × 狀態管理",
+      "challenge": {
+        "title": "挑戰 (Challenge)",
+        "desc": "解決登入 <highlight>10s</highlight> 延遲與白屏卡頓。"
+      },
+      "solution": {
+        "title": "方案 (Solution)",
+        "desc": "重構 Redux 緩存機制並升級 RTK。"
+      },
+      "impact": {
+        "title": "成效 (Impact)",
+        "desc": "提速 <highlight>90%</highlight> (<highlight>10x</highlight>)，改善導航流暢度。"
+      }
+    },
+    "overview": {
+      "duration": "2 週",
+      "team": "獨立診斷與優化",
+      "projectType": "工作專案 · 性能優化",
+      "mainTechs": "React Native, Redux Toolkit, React Query, React DevTools, Flipper",
+      "focus": "登入流程, 多頁面導航, 狀態管理",
+      "metrics": {
+        "login": {
+          "area": "登入流程",
+          "exp": "有效解決了原本用戶在登入後常見的白屏與操作卡頓感"
+        },
+        "nav": {
+          "area": "多頁面導航",
+          "exp": "顯著降低了 QA 階段的性能投訴率"
+        }
+      }
+    },
+    "diagnosis": {
+      "steps": {
+        "qa": { "title": "QA 反饋", "desc": "App 性能瓶頸投訴", "finding": "QA 反饋登入後頁面卡頓超過 10 秒" },
+        "api": { "title": "API 檢測", "finding": "排除後端問題，確認瓶頸在前端" },
+        "render": { "title": "渲染分析", "finding": "發現登入後的重複重置導致全域 re-render" },
+        "state": { "title": "狀態檢查", "finding": "定位到兩處重複調用 resetApiState 加重 re-render 的次數" }
+      },
+      "findings": {
+        "cascade": {
+          "title": "跨頁面級聯重新渲染",
+          "symptom": "登入後所有使用 useQuery 的頁面受影響",
+          "metric": "無關頁面被渲染多次"
+        },
+        "reset": {
+          "title": "重複執行 resetApiState",
+          "symptom": "登入後執行兩次，加重渲染問題",
+          "loc1": "登入按鈕完成後",
+          "loc2": "Token 成功後"
+        },
+        "select": {
+          "title": "selectFromResult 過度計算",
+          "symptom": "每次 store 變化都重新執行，缺乏記憶化",
+          "impact": "導致淺比較失敗，觸發不必要重新渲染"
+        }
+      }
+    },
+    "solutions": {
+      "title": "解決方案評估",
+      "approaches": {
+        "source": {
+          "name": "修改 RTK Query 源代碼",
+          "risk": "🔴 高",
+          "maintainability": "低",
+          "tradeoff": "成本過高，維護困難"
+        },
+        "skip": {
+          "name": "全局啟用 Skip 邏輯",
+          "risk": "🟡 中",
+          "maintainability": "中",
+          "tradeoff": "每次切頁需手動刷新"
+        },
+        "selector": {
+          "name": "CreateSelector 優化",
+          "risk": "🟢 低",
+          "maintainability": "高",
+          "decision": "✅ 先選",
+          "reason": "安全的優化路線"
+        },
+        "upgrade": {
+          "name": "升級 Redux Toolkit",
+          "risk": "🟡 中",
+          "maintainability": "高",
+          "decision": "✅ 最終",
+          "result": "效果超出預期"
+        }
+      }
+    },
+    "implementation": {
+      "phases": {
+        "p1": {
+          "title": "登入流程狀態管理優化",
+          "duration": "2-3 天",
+          "steps": "分析與驗證,代碼分離並優化,識別重複 resetApiState,決定移除其中一個調用,完整流程驗證測試",
+          "keyChangeType": "移除重複調用",
+          "keyChangeRemoved": "handleLogin() 中的 resetApiState()"
+        },
+        "p2": {
+          "title": "多頁面導航性能優化",
+          "duration": "1-2 週",
+          "steps": "RTK Query 源代碼分析,識別 selectFromResult 過度計算,評估 4 個解決方案,實施 createSelector 優化,升級 Redux Toolkit,與 QA 協同測試",
+          "change1": "createSelector 優化",
+          "impact1": "明確依賴追蹤",
+          "change2": "Redux 升級",
+          "impact2": "根本性能提升"
+        },
+        "p3": {
+          "title": "訂閱同步問題修復",
+          "duration": "1 天",
+          "issue": "升級後數據獲取過快導致訂閱前被刪除",
+          "solution": "調整操作順序：導航前清理 vs 進入後清理",
+          "result": "數據完整性確保 ✅"
+        }
+      }
+    },
+    "evidence": {
+      "videos": {
+        "v1": {
+          "title": "登入流程優化 (前)",
+          "desc": "登入流程優化前的實機畫面",
+          "watch": "注意時間 00:23 處，登入後頁面載入的白屏時間"
+        },
+        "v2": {
+          "title": "登入流程優化 (後)",
+          "desc": "登入流程優化後的實機畫面",
+          "watch": "注意時間 00:15 處，登入後頁面載入的白屏時間"
+        },
+        "v5": {
+          "title": "多頁面導航 createSelector 優化 (前)",
+          "desc": "添加 createSelector 前的實機畫面",
+          "watch": "注意導航切換後，頁面載入的白屏時間"
+        },
+        "v6": {
+          "title": "多頁面導航 createSelector 優化 (後)",
+          "desc": "添加 createSelector 後的實機畫面",
+          "watch": "注意導航切換後，頁面載入的白屏時間"
+        },
+        "v7": {
+          "title": "多頁面導航 Redux Toolkit 升級 (前)",
+          "desc": "Redux Toolkit 升級前的直播列表頁面導航",
+          "watch": "注意每次導航切換後，頁面載入的白屏時間"
+        },
+        "v8": {
+          "title": "多頁面導航 Redux Toolkit 升級 (後)",
+          "desc": "Redux Toolkit 升級後的直播列表頁面導航",
+          "watch": "注意每次導航切換後，頁面載入的白屏時間"
+        },
+        "v9": { "title": "聊天室訂閱同步問題修復 (前)", "desc": "數據丟失問題" },
+        "v10": { "title": "聊天室訂閱同步問題修復 (後)", "desc": "數據完整性確保", "result": "數據完整 ✅" }
+      },
+      "screenshots": {
+        "s1": {
+          "title": "定位重複 API 重置邏輯",
+          "shows": "通過分析發現 handleLogin 與 Token 更新時重複調用 resetApiState，加重重複渲染問題"
+        },
+        "s2": {
+          "title": "createSelector 記憶化重構",
+          "shows": "將 selectFromResult 使用 createSelector 重構，確保僅在相關數據變更時才觸發組件重新渲染"
+        },
+        "s3": {
+          "title": "狀態同步時序修正",
+          "shows": "修正導航與數據清理的執行順序，解決在高頻更新場景下的數據丟失問題"
+        },
+        "s4": { "title": "登入流程火焰圖 (前)", "shows": "登入流程優化前的渲染火焰圖" },
+        "s5": { "title": "登入流程火焰圖 (後)", "shows": "登入流程優化後的渲染火焰圖" },
+        "s10": { "title": "登入流程 Flipper 狀態監控 (前)", "shows": "登入流程優化前的 Flipper 狀態變化" },
+        "s11": { "title": "登入流程 Flipper 狀態監控 (後)", "shows": "登入流程優化後的 Flipper 狀態變化" },
+        "s6": {
+          "title": "多頁面導航 createSelector 優化 (前）",
+          "shows": "添加 createSelector 前的多頁面導航火焰圖"
+        },
+        "s7": {
+          "title": "多頁面導航 createSelector 優化 (後）",
+          "shows": "添加 createSelector 後的多頁面導航火焰圖"
+        },
+        "s8": { "title": "多頁面導航 Redux Toolkit 升級 (前）", "shows": "Redux Toolkit 升級前的多頁面導航火焰圖" },
+        "s9": { "title": "多頁面導航 Redux Toolkit 升級 (後）", "shows": "Redux Toolkit 升級後的多頁面導航火焰圖" }
+      },
+      "references": {
+        "r1": { "desc": "selectFromResult 過度重新渲染社區討論" }
+      }
+    },
+    "insights": {
+      "i1": {
+        "title": "Redux 全局更新的級聯效應",
+        "summary": "理解 store 變更引發全應用重新渲染的防禦機制",
+        "concept": "Redux store 任何改變都會通知所有訂閱者",
+        "impact": "導致全應用級的連鎖重新渲染",
+        "solution": "組件層加防護（React.memo、選擇器記憶化）",
+        "key": "架構設計決定性能上限"
+      },
+      "i2": {
+        "title": "SelectFromResult 反模式",
+        "summary": "解決緩存失效主因：缺乏記憶化導致的無效淺比較",
+        "concept": "沒有記憶化的選擇器在每次 store 變化都重新執行",
+        "impact": "缺乏依賴追蹤，導致過度重新渲染",
+        "key": "依賴管理是性能優化的核心"
+      },
+      "i3": {
+        "title": "狀態同步時序問題",
+        "summary": "掌握非同步操作順序對邏輯正確性的影響",
+        "concept": "非同步操作的順序決定了邏輯的正確性",
+        "impact": "升級依賴改變性能特性，暴露原有缺陷",
+        "lesson": "充分測試、明確操作順序",
+        "key": "優化與重構需要系統思維"
+      },
+      "i4": {
+        "title": "系統化的性能診斷方法",
+        "summary": "建立一套標準的排除 API、確認渲染、定位根因流程",
+        "methodology": "排除 API → 確認渲染 → 定位根因",
+        "benefit": "快速定位複雜問題",
+        "key": "工具 and 方法論一樣重要"
+      },
+      "i5": {
+        "title": "依賴升級的風險管理",
+        "summary": "平衡升級帶來的收益與潛在的性能特性變化風險",
+        "challenge": "升級有風險但不升級有遺憾",
+        "approach": "充分評估 → 謹慎嘗試 → 完整驗證",
+        "outcome": "通常能帶來超出預期的收益",
+        "key": "計算化風險管理推動進步"
+      },
+      "i6": {
+        "title": "社區知識的價值",
+        "summary": "利用 GitHub Issues 驗證方案，加速核心瓶頸定位",
+        "resource": "GitHub Issues 是快速獲取知識和驗證方案的途徑",
+        "example": "Issue #4028 驗證了性能問題的根本原因",
+        "practice": "積極參與、主動分享",
+        "key": "社區知識加速個人成長"
+      }
+    }
+  }
+}
+

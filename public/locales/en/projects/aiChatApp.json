@@ -1,0 +1,19 @@
+{
+  "shortDesc": "An AI chat app.",
+  "technologies": ["Expo", "React Native", "GitHub Models"],
+  "fullDesc": "This AI chat app, built for learning AI, allows multiple chat rooms, conversation memory retention, and history deletion.\n\nTech stack: Expo framework integrated with GitHub Models for AI conversations.",
+  "detail": {
+    "hero": {
+      "title": "AI Chat App",
+      "tagline": "Multi-room Chat with AI Memory"
+    },
+    "overview": {
+      "duration": "1 month",
+      "team": "Solo Developer",
+      "projectType": "Learning Project",
+      "mainTechs": ["Expo", "React Native", "GitHub Models"],
+      "platforms": ["Android", "iOS"]
+    }
+  }
+}
+

@@ -1,0 +1,166 @@
+{
+  "shortDesc": "這是一個音樂播放器 App，讓使用者輕鬆收聽音樂。",
+  "technologies": ["Expo", "React Native", "SQLite", "Node.js", "Express.js"],
+  "badge": "離線優先 (Offline-First)",
+  "fullDesc": "這款音樂播放器 App 支援本地儲存音樂列表，確保離線也能播放，並提供歌手、音樂類別、名稱等多條件篩選功能。\n\n開發初衷是解決市面音樂播放器缺乏篩選機制，以及網路不穩導致播放中斷的痛點。\n\n技術棧：Expo 開發框架、SQLite 本地資料庫、Node.js + Express.js 後端備份。未來計畫整合 Google Drive 等雲端服務，提升使用者體驗。",
+  "detail": {
+    "hero": {
+      "title": "Music Player",
+      "tagline": "離線優先 × 自定義標籤 × 數據備份",
+      "description": "專為解決播放中斷、無法複雜過濾與數據備份痛點而設計的跨平台音樂管理系統。",
+      "summary": {
+        "problem": {
+          "title": "挑戰",
+          "desc": "市面播放器<highlight>缺乏進階篩選</highlight>，且網路不穩時音樂會中斷"
+        },
+        "solution": {
+          "title": "方案",
+          "desc": "開發離線優先架構，搭配 SQLite 資料庫與斷點續傳機制"
+        },
+        "impact": {
+          "title": "成效",
+          "desc": "實現<highlight>100% 離線播放</highlight>與<highlight>多維度過濾</highlight>功能"
+        }
+      }
+    },
+    "overview": {
+      "duration": "2 個月",
+      "team": "獨立開發",
+      "projectType": "個人專案 · 行動端全端",
+      "focus": "數據庫遷移, 播放狀態機, 檔案系統管理",
+      "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
+      "platforms": ["Android", "iOS"]
+    },
+    "motivation": {
+      "title": "為什麼做這個專案？",
+      "description": "解決音訊斷連與標籤過濾痛點的跨平台音樂系統。",
+      "keyQuestions": [
+        "如何確保過濾操作不中斷正在播放的音樂？",
+        "如何安全地進行 SQLite 資料庫遷移？",
+        "如何處理大檔案下載的斷點續傳？"
+      ]
+    },
+    "challenges": [
+      {
+        "id": 1,
+        "title": "State Guarding - 過濾不斷歌",
+        "symptom": "篩選標籤時音樂會意外停止",
+        "rootCause": "過濾操作會重置播放列表，導致當前播放狀態丟失",
+        "impact": "用戶體驗中斷，需要重新選擇歌曲",
+        "codeSnippet": "// 狀態守衛邏輯\nif (!player.playing) {\n  // 只在非播放狀態時重置列表\n  resetPlaylist(filteredSongs);\n} else {\n  // 播放中僅更新視圖\n  updateViewOnly(filteredSongs);\n}",
+        "highlightTerms": ["!player.playing"],
+        "solution": {
+          "approach": "!player.playing 狀態守衛邏輯",
+          "details": [
+            "在過濾前檢查 player.playing 狀態",
+            "使用 !player.playing 邏輯確保只在非播放狀態時重置列表",
+            "播放中時僅更新視圖，不觸碰播放隊列"
+          ],
+          "result": "篩選標籤時音樂持續播放，用戶體驗流暢",
+          "category": "狀態管理"
+        }
+      },
+      {
+        "id": 2,
+        "title": "SQLite Migration - 版本控管",
+        "symptom": "App 更新後資料庫結構變更可能導致崩潰",
+        "rootCause": "缺乏版本控管機制，無法追蹤資料庫 schema 變更",
+        "impact": "用戶升級後可能丟失資料或 App 崩潰",
+        "codeSnippet": "// 版本遷移邏輯\nconst currentVersion = await db.getVersion();\nif (currentVersion < PRAGMA user_version) {\n  await runMigrations(currentVersion);\n  await db.setVersion(PRAGMA user_version);\n}",
+        "highlightTerms": ["PRAGMA user_version"],
+        "solution": {
+          "approach": "PRAGMA user_version 版本控管",
+          "details": [
+            "使用 PRAGMA user_version 追蹤資料庫版本",
+            "App 啟動時檢查版本號",
+            "根據版本差異執行對應的遷移腳本",
+            "遷移完成後更新 user_version"
+          ],
+          "result": "支援平滑的資料庫升級，用戶資料完整保留",
+          "category": "數據庫管理"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Download Resumable - 大檔案傳輸",
+        "symptom": "網路不穩時下載失敗需要重新開始",
+        "rootCause": "原生下載 API 不支援斷點續傳",
+        "impact": "浪費用戶流量和時間",
+        "codeSnippet": "// 斷點續傳實現\nconst downloadResumable = FileSystem\n  .createDownloadResumable(\n    uri, fileUri,\n    {}, // options\n    (progress) => updateProgress(progress)\n  );\n\nawait downloadResumable.downloadAsync();",
+        "highlightTerms": ["createDownloadResumable"],
+        "solution": {
+          "approach": "封裝 createDownloadResumable",
+          "details": [
+            "使用 Expo FileSystem 的 createDownloadResumable API",
+            "實現下載進度追蹤和狀態存儲",
+            "支援暫停、恢復、取消操作",
+            "網路恢復後自動繼續下載"
+          ],
+          "result": "大檔案下載穩定可靠，支援斷點續傳",
+          "category": "檔案管理"
+        }
+      }
+    ],
+    "evidence": {
+      "videos": [
+        {
+          "id": 1,
+          "title": "音樂篩選功能",
+          "description": "展示多條件過濾音樂列表，同時保持音樂播放不中斷",
+          "fileUrl": "/side-projects/music-player/filter_music.mp4"
+        },
+        {
+          "id": 2,
+          "title": "音樂詳情彈窗",
+          "description": "點擊歌曲顯示詳細資訊，包含封面、歌手、專輯等",
+          "fileUrl": "/side-projects/music-player/show_music_detail_modal.mp4"
+        },
+        {
+          "id": 3,
+          "title": "批量下載音檔",
+          "description": "展示斷點續傳功能，支援暫停恢復的批量下載",
+          "fileUrl": "/side-projects/music-player/download_all_audios.mp4"
+        }
+      ],
+      "screenshots": [
+        {
+          "id": 1,
+          "title": "啟動畫面 - 淺色主題",
+          "description": "App 啟動時的品牌展示畫面",
+          "imageUrl": "/side-projects/music-player/launch_screen-light_theme.png"
+        },
+        {
+          "id": 2,
+          "title": "啟動畫面 - 深色主題",
+          "description": "支援系統深色模式的啟動畫面",
+          "imageUrl": "/side-projects/music-player/launch_screen-dark_theme.png"
+        },
+        {
+          "id": 3,
+          "title": "主畫面 - 淺色主題",
+          "description": "音樂列表主畫面，展示篩選標籤與播放控制",
+          "imageUrl": "/side-projects/music-player/home_screen-light_theme.png"
+        },
+        {
+          "id": 4,
+          "title": "主畫面 - 深色主題",
+          "description": "深色模式下的音樂列表介面",
+          "imageUrl": "/side-projects/music-player/home_screen-dark_theme.png"
+        },
+        {
+          "id": 5,
+          "title": "個人頁面 - 淺色主題",
+          "description": "用戶設定與備份功能頁面",
+          "imageUrl": "/side-projects/music-player/profile_screen-light_theme.png"
+        },
+        {
+          "id": 6,
+          "title": "個人頁面 - 深色主題",
+          "description": "深色模式下的個人設定頁面",
+          "imageUrl": "/side-projects/music-player/profile_screen-dark_theme.png"
+        }
+      ]
+    }
+  }
+}
+
