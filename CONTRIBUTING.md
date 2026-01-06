@@ -7,6 +7,8 @@
 - [Setup](#setup)
 - [Development Environment](#development-environment)
 - [Project Structure](#project-structure)
+- [i18n Conventions](#i18n-conventions)
+- [Static Assets Conventions](#static-assets-conventions)
 - [Code Style & Conventions](#code-style--conventions)
 - [Context Organization](#context-organization)
 - [Component Development Guide](#component-development-guide)
@@ -171,10 +173,8 @@ src/
 │   ├── useLocalStorage.ts
 │   └── index.ts
 │
-├── lib/                         # 工具庫
-│   ├── utils.ts
-│   ├── helpers.ts
-│   ├── api.ts
+├── util/                        # 工具庫
+│   ├── common.ts
 │   └── index.ts
 │
 ├── types/                       # 全局類型定義
@@ -207,9 +207,149 @@ src/
 | `components/shared/` | 容器組件 | `PascalCase` | 有 hooks、有邏輯、跨 feature 共享 |
 | `context/` | React Context | `camelCase` (文件夾) | Context + Provider + Hook 分離 |
 | `hooks/` | 全局 custom hooks | `camelCase` | 可復用的邏輯 |
-| `lib/` | 工具函數 | `camelCase` | 幫助函數、常量 |
+| `util/` | 工具函數 | `camelCase` | 幫助函數、常量 |
 | `types/` | 全局類型定義 | `camelCase` | 通用和 API 相關類型 |
 | `services/` | API 調用服務 | `camelCase` | 數據服務層 |
+
+---
+
+## i18n Conventions
+
+本專案使用 `next-intl` 進行國際化，所有翻譯檔案存放於 `public/locales/` 目錄下。
+
+### 翻譯檔案結構
+
+```
+public/locales/
+├── en/
+│   ├── index.json              # 通用翻譯（導航、通用文字）
+│   └── projects/
+│       ├── _common.json        # 專案共用翻譯
+│       ├── 10xAppSpeed.json    # 特定專案描述
+│       ├── aiChatApp.json
+│       ├── berify.json
+│       ├── musicPlayer.json
+│       └── visualStreaming.json
+│
+└── zh/
+    ├── index.json
+    └── projects/
+        ├── _common.json
+        ├── 10xAppSpeed.json
+        ├── aiChatApp.json
+        ├── berify.json
+        ├── musicPlayer.json
+        └── visualStreaming.json
+```
+
+### 翻譯檔案拆分原則
+
+| 檔案 | 用途 | 範例內容 |
+|------|------|----------|
+| `index.json` | 通用頁面文字 | 導航、Hero 區塊、技能區塊、頁尾等 |
+| `projects/_common.json` | 專案共用標籤 | "查看詳情"、"技術棧"、"返回" 等 |
+| `projects/{projectName}.json` | 特定專案描述 | 專案標題、描述、挑戰、解決方案等 |
+
+### 使用規範
+
+```typescript
+// ✅ Good - 使用 t() 取得翻譯
+import { useTranslations } from 'next-intl';
+
+const t = useTranslations('hero');
+const title = t('title');
+
+// ✅ Good - 使用 t() 取得翻譯
+import { getTranslations } from 'next-intl/server';
+
+const t = await getTranslations({ locale: 'en', namespace: 'hero' });
+const title = t('title');
+
+// ✅ Good - 使用 t.rich() 進行文字樣式化
+const description = t.rich('description', {
+  highlight: (chunks) => <span className="text-highlight">{chunks}</span>,
+});
+
+// ❌ Bad - 組件內硬編碼字串
+const title = '歡迎來到我的網站';  // 禁止！
+const buttonText = 'Learn More';   // 禁止！
+```
+
+### 新增翻譯的流程
+
+1. 確定翻譯類型（通用 / 專案專用）
+2. 在對應的 JSON 檔案中新增 key-value
+3. **同時更新 `en/` 和 `zh/` 目錄下的對應檔案**
+4. 在組件中使用 `t()` 或 `t.rich()` 取得翻譯
+
+---
+
+## Static Assets Conventions
+
+所有靜態資源存放於 `public/` 目錄下。
+
+### 目錄結構
+
+```
+public/
+├── locales/                     # 翻譯檔案（見 i18n Conventions）
+├── side-projects/               # 個人專案資源
+│   ├── ai-chat-app/
+│   │   ├── launch_screen-dark_theme.png
+│   │   └── send_message-dark_theme.mp4
+│   └── music-player/
+│       ├── home_screen-dark_theme.png
+│       └── filter_music.mp4
+│
+├── work-projects/               # 工作專案資源
+│   ├── berify/
+│   │   ├── home_screen.png
+│   │   └── preview.png
+│   └── visual-streaming/
+│       ├── demo_00.png
+│       └── demo_android_00.mp4
+│
+├── avatar.jpg                   # 全局資源
+├── favicon.ico
+└── *.svg                        # 圖標資源
+```
+
+### 命名規範
+
+> [!IMPORTANT]
+> **新建立的資源檔案必須使用 `kebab-case` 命名。**
+
+```bash
+# ✅ Good
+home-screen-dark-theme.png
+filter-music-demo.mp4
+product-detail-screen.png
+
+# ❌ Bad
+homeScreen-darkTheme.png      # 使用了 camelCase
+Filter_Music.mp4              # 使用了 snake_case 和大寫
+ProductDetailScreen.png       # 使用了 PascalCase
+```
+
+### ⚠️ 現有資源凍結聲明
+
+> [!CAUTION]
+> **請勿更改現有的檔案名稱！**
+>
+> 專案計畫將資源遷移至外部檔案資料庫（Storage），隨意更改檔名會導致：
+> - 現有引用路徑失效
+> - 國際化 JSON 中的路徑需要同步更新
+> - 版本控制歷史難以追蹤
+>
+> 如需重新命名，請在遷移計畫中統一處理。
+
+### 資源分類原則
+
+| 目錄 | 用途 | 範例 |
+|------|------|------|
+| `side-projects/{project}/` | 個人專案截圖與影片 | AI Chat App、Music Player |
+| `work-projects/{project}/` | 工作專案截圖與影片 | Berify、Visual Streaming |
+| 根目錄 | 全局共用資源 | avatar、favicon、SVG 圖標 |
 
 ---
 
@@ -335,7 +475,7 @@ import { useTheme } from '@context/theme';
 import { useTheme as useGlobalTheme } from '@hooks/useTheme';
 import { apiService } from '@services/apiService';
 import type { User } from '@types/user';
-import { calculateTotal } from '@lib/utils';
+import { calculateTotal } from '@util/common';
 
 // ❌ Bad - 相對路徑
 import { Button } from '../../../../components/ui/Button';
@@ -353,7 +493,7 @@ import { useTheme } from '../../hooks/useTheme';
       "@features/*": ["src/features/*"],
       "@hooks/*": ["src/hooks/*"],
       "@types/*": ["src/types/*"],
-      "@lib/*": ["src/lib/*"],
+      "@util/*": ["src/util/*"],
       "@services/*": ["src/services/*"]
     }
   }
@@ -646,6 +786,69 @@ const context = { theme, user, notifications, ... }; // 職責混亂
 ---
 
 ## Component Development Guide
+
+### 頁面私有組件（過渡狀態）
+
+在 `app/[lang]/project-demo/` 目錄下，部分頁面擁有自己的 `components/` 子目錄：
+
+```
+app/[lang]/project-demo/
+├── 10x-app-speed/
+│   ├── components/              # 頁面私有組件（過渡狀態）
+│   │   ├── DiagnosticProcess.tsx
+│   │   ├── EvidenceGallery.tsx
+│   │   ├── SolutionEvaluation.tsx
+│   │   ├── TechnicalImplementation.tsx
+│   │   ├── TechnicalInsights.tsx
+│   │   └── index.ts
+│   └── page.tsx
+│
+├── music-player/
+│   ├── components/              # 頁面私有組件（過渡狀態）
+│   │   ├── FutureRoadmap.tsx
+│   │   ├── LegalDisclaimer.tsx
+│   │   ├── MusicPlayerEvidence.tsx
+│   │   ├── TechnicalChallengeCard.tsx
+│   │   └── index.ts
+│   └── page.tsx
+│
+└── ...
+```
+
+> [!NOTE]
+> **這些組件目前定義為「頁面私有組件（過渡狀態）」。**
+>
+> 它們是為特定頁面建立的高度客製化組件，目前僅在該頁面中使用。
+
+#### 何時應搬遷組件？
+
+當組件符合以下任一條件時，應優先搬遷至 `@features/portfolio/components/`：
+
+| 條件 | 說明 |
+|------|------|
+| **跨頁面復用** | 組件需要在多個專案頁面中使用 |
+| **邏輯過於複雜** | 組件包含大量業務邏輯或狀態管理 |
+| **通用性高** | 組件可抽象為通用模板（如 `ProjectHero`） |
+| **測試需求** | 組件需要獨立的單元測試 |
+
+#### 搬遷流程
+
+```bash
+# 1. 將組件移動至 features/portfolio/components/
+mv src/app/[lang]/project-demo/10x-app-speed/components/EvidenceGallery.tsx \
+   src/features/portfolio/components/EvidenceGallery/EvidenceGallery.tsx
+
+# 2. 創建 barrel export
+touch src/features/portfolio/components/EvidenceGallery/index.ts
+
+# 3. 更新 features/portfolio/components/index.ts
+echo "export { EvidenceGallery } from './EvidenceGallery';" >> src/features/portfolio/components/index.ts
+
+# 4. 更新頁面的 import 路徑
+# 從: import { EvidenceGallery } from './components';
+# 改: import { EvidenceGallery } from '@features/portfolio/components';
+```
+
 
 ### 關鍵概念：Presentational vs Container Components
 

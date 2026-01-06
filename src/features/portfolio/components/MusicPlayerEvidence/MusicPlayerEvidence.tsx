@@ -26,7 +26,7 @@ interface ScreenshotEvidence {
 /**
  * Props for the MusicPlayerEvidence component
  */
-interface MusicPlayerEvidenceProps {
+export interface MusicPlayerEvidenceProps {
   /** Array of video evidence */
   videos: VideoEvidence[];
   /** Array of screenshot evidence */
@@ -40,7 +40,7 @@ interface MusicPlayerEvidenceProps {
  * Clicking on an item opens a lightbox with navigation controls.
  * Supports keyboard navigation (Escape to close, arrows to navigate).
  */
-export default function MusicPlayerEvidence({ videos, screenshots }: MusicPlayerEvidenceProps) {
+export function MusicPlayerEvidence({ videos, screenshots }: MusicPlayerEvidenceProps) {
   // Combine all media for lightbox navigation
   const allMedia = [
     ...videos.map((v) => ({ ...v, type: "video" as const })),

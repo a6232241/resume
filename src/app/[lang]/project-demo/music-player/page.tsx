@@ -1,7 +1,13 @@
-import { ProjectHero, ProjectOverview } from "@features/portfolio/components";
-import { SourceCodeLink } from "@src/features/portfolio";
+import {
+  FutureRoadmap,
+  LegalDisclaimer,
+  MusicPlayerEvidence,
+  ProjectHero,
+  ProjectOverview,
+  SourceCodeLink,
+  TechnicalChallengeCard,
+} from "@features/portfolio/components";
 import { getTranslations } from "next-intl/server";
-import { FutureRoadmap, LegalDisclaimer, MusicPlayerEvidence, TechnicalChallengeCard } from "./components";
 
 export default async function MusicPlayerPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;

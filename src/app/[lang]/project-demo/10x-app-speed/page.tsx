@@ -1,13 +1,14 @@
-import { ProjectHero, ProjectOverview } from "@features/portfolio/components";
-import { getMediaUrl } from "@src/util";
-import { getTranslations } from "next-intl/server";
 import {
   DiagnosticProcess,
   EvidenceGallery,
+  ProjectHero,
+  ProjectOverview,
   SolutionEvaluation,
   TechnicalImplementation,
   TechnicalInsights,
-} from "./components";
+} from "@features/portfolio/components";
+import { getMediaUrl } from "@src/util";
+import { getTranslations } from "next-intl/server";
 
 export default async function tenXAppSpeedPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;

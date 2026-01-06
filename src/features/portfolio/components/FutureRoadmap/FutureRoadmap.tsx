@@ -1,17 +1,29 @@
 "use client";
 
+/**
+ * Roadmap category data structure
+ */
 interface RoadmapCategory {
   icon: string;
   title: string;
   items: string[];
 }
 
-interface FutureRoadmapProps {
+/**
+ * Props for FutureRoadmap component
+ */
+export interface FutureRoadmapProps {
   title: string;
   categories: RoadmapCategory[];
 }
 
-export default function FutureRoadmap({ title, categories }: FutureRoadmapProps) {
+/**
+ * FutureRoadmap Component
+ *
+ * Displays a grid of future roadmap categories
+ * with icons and item lists.
+ */
+export function FutureRoadmap({ title, categories }: FutureRoadmapProps) {
   return (
     <section className="mb-12">
       <h2 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">🚀 {title}</h2>

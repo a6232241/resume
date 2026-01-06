@@ -49,7 +49,7 @@ interface ChallengeData {
 /**
  * Props for the TechnicalChallengeCard component
  */
-interface TechnicalChallengeCardProps {
+export interface TechnicalChallengeCardProps {
   /** Array of challenge data */
   challenges: ChallengeData[];
 }
@@ -104,7 +104,13 @@ function highlightCode(code: string, terms: string[]): React.ReactNode {
   });
 }
 
-export default function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardProps) {
+/**
+ * TechnicalChallengeCard Component
+ *
+ * Displays a timeline of technical challenges with their
+ * problem analysis, solutions, and code snippets.
+ */
+export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardProps) {
   return (
     <section className="relative mb-12">
       <h2 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">🔧 技術挑戰與解決方案</h2>
