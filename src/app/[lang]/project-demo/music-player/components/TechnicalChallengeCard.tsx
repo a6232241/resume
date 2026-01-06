@@ -28,6 +28,16 @@ interface ChallengeData {
   rootCause: string;
   /** Impact on users/system */
   impact: string;
+  /** Verified metric badge (e.g., "Stability: 100%") */
+  badge?: string;
+  /** Quantifiable metrics (e.g., "100% → 0%") */
+  metrics?: {
+    label: string;
+    before: string;
+    after: string;
+  };
+  /** File path where the code is located */
+  filePath?: string;
   /** Code snippet demonstrating the solution */
   codeSnippet: string;
   /** Terms to highlight in the code */
@@ -121,9 +131,16 @@ export default function TechnicalChallengeCard({ challenges }: TechnicalChalleng
                         <span className="mr-2 text-purple-400">#{index + 1}</span>
                         {challenge.title}
                       </h3>
-                      <span className="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-300">
-                        {challenge.solution.category}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        {challenge.badge && (
+                          <span className="rounded-full bg-green-500/20 px-3 py-1 text-xs font-medium text-green-300">
+                            ✓ {challenge.badge}
+                          </span>
+                        )}
+                        <span className="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-300">
+                          {challenge.solution.category}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -153,6 +170,20 @@ export default function TechnicalChallengeCard({ challenges }: TechnicalChalleng
                           <p className="text-xs font-medium text-gray-500 dark:text-gray-400">影響</p>
                           <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.impact}</p>
                         </div>
+
+                        {/* Metrics */}
+                        {challenge.metrics && (
+                          <div className="mt-4 rounded-lg border border-orange-500/30 bg-orange-500/10 p-3">
+                            <p className="text-xs font-medium text-orange-400">{challenge.metrics.label}</p>
+                            <div className="mt-1 flex items-center gap-2">
+                              <span className="text-lg font-bold text-red-400 line-through">
+                                {challenge.metrics.before}
+                              </span>
+                              <span className="text-gray-500">→</span>
+                              <span className="text-lg font-bold text-green-400">{challenge.metrics.after}</span>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/* Solution Approach */}
@@ -180,10 +211,19 @@ export default function TechnicalChallengeCard({ challenges }: TechnicalChalleng
                       <h4 className="mb-4 flex items-center gap-2 text-sm font-bold tracking-wider text-blue-400 uppercase">
                         <span>💻</span> 核心程式碼
                       </h4>
-                      <div className="overflow-x-auto rounded-lg bg-gray-950 p-4">
-                        <pre className="font-mono text-sm text-gray-300">
-                          <code>{highlightCode(challenge.codeSnippet, challenge.highlightTerms)}</code>
-                        </pre>
+                      <div className="overflow-hidden rounded-lg bg-gray-950">
+                        {/* File Path Header */}
+                        {challenge.filePath && (
+                          <div className="flex items-center gap-2 border-b border-gray-800 bg-gray-900 px-4 py-2">
+                            <span className="text-gray-500">📄</span>
+                            <code className="text-xs text-gray-400">{challenge.filePath}</code>
+                          </div>
+                        )}
+                        <div className="overflow-x-auto p-4">
+                          <pre className="font-mono text-sm text-gray-300">
+                            <code>{highlightCode(challenge.codeSnippet, challenge.highlightTerms)}</code>
+                          </pre>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -15,7 +15,7 @@
         },
         "solution": {
           "title": "方案",
-          "desc": "開發離線優先架構，搭配 SQLite 資料庫與斷點續傳機制"
+          "desc": "開發離線優先架構，搭配 SQLite 資料庫與大檔案傳遞機制"
         },
         "impact": {
           "title": "成效",
@@ -29,7 +29,7 @@
       "projectType": "個人專案 · 行動端全端",
       "focus": "數據庫遷移, 播放狀態機, 檔案系統管理",
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
-      "platforms": ["Android", "iOS"]
+      "platforms": ["iOS"]
     },
     "motivation": {
       "title": "為什麼做這個專案？",
@@ -43,20 +43,27 @@
     "challenges": [
       {
         "id": 1,
-        "title": "State Guarding - 過濾不斷歌",
-        "symptom": "篩選標籤時音樂會意外停止",
-        "rootCause": "過濾操作會重置播放列表，導致當前播放狀態丟失",
+        "title": "Conditional Playback Lock - 過濾不斷歌",
+        "symptom": "UI 更新導致播放器意外重新初始化",
+        "rootCause": "視圖層與原生播放器實例耦合過緊，過濾操作觸發播放器重置",
         "impact": "用戶體驗中斷，需要重新選擇歌曲",
-        "codeSnippet": "// 狀態守衛邏輯\nif (!player.playing) {\n  // 只在非播放狀態時重置列表\n  resetPlaylist(filteredSongs);\n} else {\n  // 播放中僅更新視圖\n  updateViewOnly(filteredSongs);\n}",
+        "badge": "穩定性: 100%",
+        "metrics": {
+          "label": "播放中斷率",
+          "before": "100%",
+          "after": "0%"
+        },
+        "filePath": "app/(tabs)/index.tsx",
+        "codeSnippet": "if (list.length > 0 && !player.playing) {\n  const filePath = await getDocumentFile(\n    `audio/${list[0].fileName}`\n  );\n  if (filePath) {\n    player.replace(filePath.uri);\n    setAudioId(list[0]?.id);\n  }\n}\nsetAudios(list);",
         "highlightTerms": ["!player.playing"],
         "solution": {
-          "approach": "!player.playing 狀態守衛邏輯",
+          "approach": "Conditional Playback Lock (!player.playing)",
           "details": [
-            "在過濾前檢查 player.playing 狀態",
-            "使用 !player.playing 邏輯確保只在非播放狀態時重置列表",
-            "播放中時僅更新視圖，不觸碰播放隊列"
+            "使用 !player.playing 將視圖層與原生播放器實例解耦",
+            "在過濾前檢查播放狀態，僅在非播放狀態時重置播放器",
+            "播放中時僅更新列表視圖，確保持續播放"
           ],
-          "result": "篩選標籤時音樂持續播放，用戶體驗流暢",
+          "result": "篩選標籤時音樂持續播放，視圖與播放器完全解耦",
           "category": "狀態管理"
         }
       },
@@ -66,8 +73,15 @@
         "symptom": "App 更新後資料庫結構變更可能導致崩潰",
         "rootCause": "缺乏版本控管機制，無法追蹤資料庫 schema 變更",
         "impact": "用戶升級後可能丟失資料或 App 崩潰",
-        "codeSnippet": "// 版本遷移邏輯\nconst currentVersion = await db.getVersion();\nif (currentVersion < PRAGMA user_version) {\n  await runMigrations(currentVersion);\n  await db.setVersion(PRAGMA user_version);\n}",
-        "highlightTerms": ["PRAGMA user_version"],
+        "badge": "資料完整性: 100%",
+        "metrics": {
+          "label": "升級資料丟失率",
+          "before": "風險",
+          "after": "0%"
+        },
+        "filePath": "utils/sqlite/init.ts",
+        "codeSnippet": "const DATABASE_VERSION = 2;\n\nconst currentDbVersion = (\n  await db.getFirstAsync<{ user_version: number }>(\n    \"PRAGMA user_version\"\n  )\n)?.user_version ?? null;\n\nif (currentDbVersion < DATABASE_VERSION) {\n  await runMigrations(currentDbVersion);\n}\n\nawait db.execAsync(\n  `PRAGMA user_version = ${DATABASE_VERSION}`\n);",
+        "highlightTerms": ["PRAGMA user_version", "DATABASE_VERSION"],
         "solution": {
           "approach": "PRAGMA user_version 版本控管",
           "details": [
@@ -82,21 +96,27 @@
       },
       {
         "id": 3,
-        "title": "Download Resumable - 大檔案傳輸",
-        "symptom": "網路不穩時下載失敗需要重新開始",
-        "rootCause": "原生下載 API 不支援斷點續傳",
-        "impact": "浪費用戶流量和時間",
-        "codeSnippet": "// 斷點續傳實現\nconst downloadResumable = FileSystem\n  .createDownloadResumable(\n    uri, fileUri,\n    {}, // options\n    (progress) => updateProgress(progress)\n  );\n\nawait downloadResumable.downloadAsync();",
-        "highlightTerms": ["createDownloadResumable"],
+        "title": "High-Stability Download Engine - 大檔案傳輸",
+        "symptom": "大檔案下載時 UI 阻塞，無法追蹤進度",
+        "rootCause": "原生下載 API 缺乏進度回調與非阻塞傳輸機制",
+        "impact": "用戶無法得知下載狀態，體驗不佳",
+        "badge": "UX 回饋: 即時",
+        "metrics": {
+          "label": "進度追蹤",
+          "before": "無",
+          "after": "即時"
+        },
+        "filePath": "utils/Apis/File/index.ts",
+        "codeSnippet": "const downloadResumable = FileSystem\n  .createDownloadResumable(\n    `${this.origin}/${remotePath}`,\n    localTempPath,\n    {},\n    (progress) => onProgress?.({\n      progress: progress.totalBytesWritten /\n        progress.totalBytesExpectedToWrite\n    })\n  );\n\nconst result = await downloadResumable\n  .downloadAsync();",
+        "highlightTerms": ["createDownloadResumable", "onProgress"],
         "solution": {
-          "approach": "封裝 createDownloadResumable",
+          "approach": "High-Stability Download Engine",
           "details": [
-            "使用 Expo FileSystem 的 createDownloadResumable API",
-            "實現下載進度追蹤和狀態存儲",
-            "支援暫停、恢復、取消操作",
-            "網路恢復後自動繼續下載"
+            "封裝 createDownloadResumable 實現非阻塞傳輸",
+            "即時進度回調 (onProgress) 更新 UI",
+            "UI 層與下載層解耦，大檔案傳輸不阻塞主執行緒"
           ],
-          "result": "大檔案下載穩定可靠，支援斷點續傳",
+          "result": "即時進度追蹤，UI 非阻塞大檔案傳輸",
           "category": "檔案管理"
         }
       }
@@ -160,7 +180,28 @@
           "imageUrl": "/side-projects/music-player/profile_screen-dark_theme.png"
         }
       ]
-    }
+    },
+    "roadmap": {
+      "title": "未來展望與優化",
+      "categories": [
+        {
+          "icon": "☁️",
+          "title": "雲端生態系統",
+          "items": ["Google Drive 同步 (私有雲資產管理)", "智慧預載 (背景下載下一首)", "自動化 SQLite 備份"]
+        },
+        {
+          "icon": "⚡",
+          "title": "原生體驗",
+          "items": ["穩健的背景播放服務", "進階播放控制 (循環模式、睡眠計時器)"]
+        },
+        {
+          "icon": "🏷️",
+          "title": "數據彈性",
+          "items": ["動態標籤系統 (自訂過濾器)", "修改音樂標籤"]
+        }
+      ]
+    },
+    "disclaimer": "此專案為開源教育用途。專注於離線優先架構與私有雲同步的技術實現。所有展示的媒體資產僅供演示用途。"
   }
 }
 

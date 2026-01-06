@@ -36,7 +36,8 @@
           "area": "多頁面導航",
           "exp": "顯著降低了 QA 階段的性能投訴率"
         }
-      }
+      },
+      "platforms": ["Android", "iOS"]
     },
     "diagnosis": {
       "steps": {

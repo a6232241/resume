@@ -36,7 +36,8 @@
           "area": "Multi-page Navigation",
           "exp": "Significantly reduced performance-related complaints during the QA phase."
         }
-      }
+      },
+      "platforms": ["Android", "iOS"]
     },
     "diagnosis": {
       "steps": {

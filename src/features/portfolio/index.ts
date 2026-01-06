@@ -1,1 +1,8 @@
-export { Experience, ProjectCard, ProjectPageTemplate } from "./components";
+export {
+  Experience,
+  ProjectCard,
+  ProjectHero,
+  ProjectOverview,
+  ProjectPageTemplate,
+  SourceCodeLink,
+} from "./components";

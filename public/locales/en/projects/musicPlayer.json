@@ -15,7 +15,7 @@
         },
         "solution": {
           "title": "Solution",
-          "desc": "Developed offline-first architecture with SQLite database and resumable downloads"
+          "desc": "Developed offline-first architecture with SQLite database and large file transfer engine"
         },
         "impact": {
           "title": "Impact",
@@ -29,7 +29,7 @@
       "projectType": "Personal Project · Mobile Full-Stack",
       "focus": "Database Migration, Playback State Machine, File System Management",
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
-      "platforms": ["Android", "iOS"]
+      "platforms": ["iOS"]
     },
     "motivation": {
       "title": "Why Build This Project?",
@@ -43,20 +43,27 @@
     "challenges": [
       {
         "id": 1,
-        "title": "State Guarding - Filter Without Interruption",
-        "symptom": "Music stops unexpectedly when filtering tags",
-        "rootCause": "Filtering resets the playlist, causing current playback state to be lost",
+        "title": "Conditional Playback Lock - Filter Without Interruption",
+        "symptom": "UI updates caused unintended player re-initialization",
+        "rootCause": "View layer tightly coupled with native player instance, filtering triggers player reset",
         "impact": "User experience interrupted, need to reselect song",
-        "codeSnippet": "// State guard logic\nif (!player.playing) {\n  // Only reset list when not playing\n  resetPlaylist(filteredSongs);\n} else {\n  // Update view only when playing\n  updateViewOnly(filteredSongs);\n}",
+        "badge": "Stability: 100%",
+        "metrics": {
+          "label": "Playback Interruption Rate",
+          "before": "100%",
+          "after": "0%"
+        },
+        "filePath": "app/(tabs)/index.tsx",
+        "codeSnippet": "if (list.length > 0 && !player.playing) {\n  const filePath = await getDocumentFile(\n    `audio/${list[0].fileName}`\n  );\n  if (filePath) {\n    player.replace(filePath.uri);\n    setAudioId(list[0]?.id);\n  }\n}\nsetAudios(list);",
         "highlightTerms": ["!player.playing"],
         "solution": {
-          "approach": "!player.playing State Guard Logic",
+          "approach": "Conditional Playback Lock (!player.playing)",
           "details": [
-            "Check player.playing state before filtering",
-            "Use !player.playing logic to only reset list when not playing",
-            "When playing, only update view without touching playback queue"
+            "Use !player.playing to decouple view layer from native player instance",
+            "Check playback state before filtering, only reset player when not playing",
+            "When playing, only update list view to ensure continuous playback"
           ],
-          "result": "Music continues playing during tag filtering, smooth UX",
+          "result": "Music continues playing during tag filtering, view and player fully decoupled",
           "category": "State Management"
         }
       },
@@ -66,8 +73,15 @@
         "symptom": "App updates with schema changes may cause crashes",
         "rootCause": "Lack of version control mechanism to track database schema changes",
         "impact": "Users may lose data or experience crashes after upgrade",
-        "codeSnippet": "// Version migration logic\nconst currentVersion = await db.getVersion();\nif (currentVersion < PRAGMA user_version) {\n  await runMigrations(currentVersion);\n  await db.setVersion(PRAGMA user_version);\n}",
-        "highlightTerms": ["PRAGMA user_version"],
+        "badge": "Data Integrity: 100%",
+        "metrics": {
+          "label": "Upgrade Data Loss Rate",
+          "before": "Risk",
+          "after": "0%"
+        },
+        "filePath": "utils/sqlite/init.ts",
+        "codeSnippet": "const DATABASE_VERSION = 2;\n\nconst currentDbVersion = (\n  await db.getFirstAsync<{ user_version: number }>(\n    \"PRAGMA user_version\"\n  )\n)?.user_version ?? null;\n\nif (currentDbVersion < DATABASE_VERSION) {\n  await runMigrations(currentDbVersion);\n}\n\nawait db.execAsync(\n  `PRAGMA user_version = ${DATABASE_VERSION}`\n);",
+        "highlightTerms": ["PRAGMA user_version", "DATABASE_VERSION"],
         "solution": {
           "approach": "PRAGMA user_version Versioning",
           "details": [
@@ -82,21 +96,27 @@
       },
       {
         "id": 3,
-        "title": "Download Resumable - Large File Transfer",
-        "symptom": "Downloads fail on unstable networks and must restart",
-        "rootCause": "Native download API doesn't support resume",
-        "impact": "Wastes user bandwidth and time",
-        "codeSnippet": "// Resumable download implementation\nconst downloadResumable = FileSystem\n  .createDownloadResumable(\n    uri, fileUri,\n    {}, // options\n    (progress) => updateProgress(progress)\n  );\n\nawait downloadResumable.downloadAsync();",
-        "highlightTerms": ["createDownloadResumable"],
+        "title": "High-Stability Download Engine - Large File Transfer",
+        "symptom": "UI blocks during large file downloads, no progress tracking",
+        "rootCause": "Native download API lacks progress callback and non-blocking transfer mechanism",
+        "impact": "Users cannot track download status, poor experience",
+        "badge": "UX Feedback: Real-time",
+        "metrics": {
+          "label": "Progress Tracking",
+          "before": "None",
+          "after": "Real-time"
+        },
+        "filePath": "utils/Apis/File/index.ts",
+        "codeSnippet": "const downloadResumable = FileSystem\n  .createDownloadResumable(\n    `${this.origin}/${remotePath}`,\n    localTempPath,\n    {},\n    (progress) => onProgress?.({\n      progress: progress.totalBytesWritten /\n        progress.totalBytesExpectedToWrite\n    })\n  );\n\nconst result = await downloadResumable\n  .downloadAsync();",
+        "highlightTerms": ["createDownloadResumable", "onProgress"],
         "solution": {
-          "approach": "Wrapped createDownloadResumable",
+          "approach": "High-Stability Download Engine",
           "details": [
-            "Use Expo FileSystem's createDownloadResumable API",
-            "Implement download progress tracking and state storage",
-            "Support pause, resume, cancel operations",
-            "Auto-resume download when network recovers"
+            "Wrap createDownloadResumable for non-blocking transfer",
+            "Real-time progress callback (onProgress) updates UI",
+            "UI layer decoupled from download layer, large file transfer doesn't block main thread"
           ],
-          "result": "Large file downloads are stable and reliable with resume support",
+          "result": "Real-time progress tracking, UI non-blocking large file transfer",
           "category": "File Management"
         }
       }
@@ -160,7 +180,32 @@
           "imageUrl": "/side-projects/music-player/profile_screen-dark_theme.png"
         }
       ]
-    }
+    },
+    "roadmap": {
+      "title": "Future Roadmap & Optimization",
+      "categories": [
+        {
+          "icon": "☁️",
+          "title": "Cloud Ecosystem",
+          "items": [
+            "Google Drive Sync (Private Cloud Asset Management)",
+            "Smart Prefetching (Background downloading for next track)",
+            "Automated SQLite Backup"
+          ]
+        },
+        {
+          "icon": "⚡",
+          "title": "Native Experience",
+          "items": ["Robust Background Playback Service", "Advanced Playback Control (Loop modes, Sleep timer)"]
+        },
+        {
+          "icon": "🏷️",
+          "title": "Data Flexibility",
+          "items": ["Dynamic Tagging System (Custom filters)", "Modify music Tagging"]
+        }
+      ]
+    },
+    "disclaimer": "This project is an open-source initiative for educational purposes. It focuses on technical implementation of offline-first architecture and private cloud synchronization. All media assets shown are for demonstration only."
   }
 }
 

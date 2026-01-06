@@ -1,10 +1,9 @@
+import { ProjectHero, ProjectOverview } from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
 import {
   DiagnosticProcess,
   EvidenceGallery,
-  PerformanceHero,
-  PerformanceOverview,
   SolutionEvaluation,
   TechnicalImplementation,
   TechnicalInsights,
@@ -59,6 +58,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
       projectType: t("overview.projectType"),
       mainTechs: t("overview.mainTechs").split(", "), // JSON 中存字串，這裡轉回陣列
       focus: t("overview.focus").split(", "),
+      platforms: t.raw("overview.platforms") as string[],
     },
     metrics: [
       {
@@ -465,8 +465,18 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
 
   return (
     <main className="container mx-auto max-w-6xl px-6 py-12">
-      <PerformanceHero {...heroData} />
-      <PerformanceOverview {...overviewData} />
+      <ProjectHero
+        title={heroData.title}
+        tagline={heroData.tagline}
+        description={heroData.description}
+        gradient={{ from: "blue-600", to: "purple-600" }}
+      />
+      <ProjectOverview
+        overview={overviewData.overview}
+        metrics={overviewData.metrics}
+        techBadgeColor="blue"
+        focusBadgeColor="purple"
+      />
       <DiagnosticProcess {...diagnosisData} />
       <SolutionEvaluation {...solutionsData} />
       <TechnicalImplementation {...implementationData} />
