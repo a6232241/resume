@@ -1,31 +1,55 @@
 "use client";
 
-import { MediaItem } from "@src/types";
+import { getVideoMimeType } from "@src/util";
 import Image, { StaticImageData } from "next/image";
 import { useCallback, useEffect } from "react";
+import { createPortal } from "react-dom";
+
+/** Supports both simple media items (url + alt) and rich media items (title + description) */
+export interface LightBoxMediaItem {
+  type: "image" | "video";
+  url: StaticImageData | string;
+  alt?: string;
+  title?: string;
+  description?: string;
+}
 
 export interface LightBoxProps {
   isOpen: boolean;
   onClose: () => void;
-  mediaItems: MediaItem[];
+  mediaItems: LightBoxMediaItem[];
   currentIndex: number;
   onNavigate: (index: number) => void;
+  loop?: boolean;
+  showCaption?: boolean;
 }
 
-export default function LightBox({ isOpen, onClose, mediaItems, currentIndex, onNavigate }: LightBoxProps) {
+export default function LightBox({
+  isOpen,
+  onClose,
+  mediaItems,
+  currentIndex,
+  onNavigate,
+  loop = false,
+  showCaption = false,
+}: LightBoxProps) {
   const currentItem = mediaItems[currentIndex];
 
   const handlePrevious = useCallback(() => {
-    if (currentIndex > 0) {
+    if (loop) {
+      onNavigate(currentIndex === 0 ? mediaItems.length - 1 : currentIndex - 1);
+    } else if (currentIndex > 0) {
       onNavigate(currentIndex - 1);
     }
-  }, [currentIndex, onNavigate]);
+  }, [currentIndex, onNavigate, loop, mediaItems.length]);
 
   const handleNext = useCallback(() => {
-    if (currentIndex < mediaItems.length - 1) {
+    if (loop) {
+      onNavigate(currentIndex === mediaItems.length - 1 ? 0 : currentIndex + 1);
+    } else if (currentIndex < mediaItems.length - 1) {
       onNavigate(currentIndex + 1);
     }
-  }, [currentIndex, mediaItems.length, onNavigate]);
+  }, [currentIndex, mediaItems.length, onNavigate, loop]);
 
   const getVideoSrc = (url: string | StaticImageData): string => {
     return typeof url === "string" ? url : url.src;
@@ -63,77 +87,88 @@ export default function LightBox({ isOpen, onClose, mediaItems, currentIndex, on
 
   if (!isOpen || !currentItem) return null;
 
-  return (
+  const showPrevButton = loop || currentIndex > 0;
+  const showNextButton = loop || currentIndex < mediaItems.length - 1;
+
+  // Use createPortal to render the lightbox at document.body level,
+  // bypassing any ancestor's transform/filter/backdrop-filter containing block
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm" onClick={onClose}>
-      {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 text-white mix-blend-difference shadow-lg transition-all hover:rotate-90 hover:bg-white/20"
+        className="absolute top-4 right-4 z-50 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
         aria-label="Close lightbox">
-        <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      {/* Previous button */}
-      {currentIndex > 0 && (
+      {showPrevButton && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             handlePrevious();
           }}
-          className="absolute top-1/2 left-4 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white mix-blend-difference shadow-lg transition-all hover:scale-110 hover:bg-white/20"
+          className="absolute left-4 z-50 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
           aria-label="Previous media">
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
       )}
 
-      {/* Next button */}
-      {currentIndex < mediaItems.length - 1 && (
+      {showNextButton && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             handleNext();
           }}
-          className="absolute top-1/2 right-4 z-10 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white mix-blend-difference shadow-lg transition-all hover:scale-110 hover:bg-white/20"
+          className="absolute right-4 z-50 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
           aria-label="Next media">
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       )}
 
-      {/* Media content */}
       <div
-        className="relative flex h-[90vh] w-[90vw] animate-[fadeIn_0.3s_ease-out_forwards] flex-col items-center gap-4"
+        className="relative flex h-[90vh] w-full max-w-5xl flex-col items-center justify-center p-4"
         onClick={(e) => e.stopPropagation()}>
-        <div className="relative min-h-0 flex-1">
+        <div className="relative h-full w-full">
           {currentItem.type === "image" ? (
-            <div className="relative h-full w-full">
-              <Image
-                src={currentItem.url}
-                alt={currentItem.alt || `Media ${currentIndex + 1}`}
-                className="h-full w-full object-contain"
-                width={1200}
-                height={800}
-                priority
-              />
-            </div>
+            <Image
+              src={currentItem.url}
+              alt={currentItem.title || currentItem.alt || `Media ${currentIndex + 1}`}
+              fill
+              className="object-contain"
+              sizes="90vw"
+              priority
+            />
           ) : (
-            <video className="h-full w-full rounded-lg shadow-2xl" controls autoPlay loop key={currentIndex}>
-              <source src={getVideoSrc(currentItem.url)} type="video/mp4" />
-              {currentItem.alt && <p>{currentItem.alt}</p>}
+            <video controls autoPlay className="h-full w-full object-contain" preload="metadata" key={currentIndex}>
+              <source src={getVideoSrc(currentItem.url)} type={getVideoMimeType(getVideoSrc(currentItem.url))} />
+              Your browser does not support the video tag.
             </video>
           )}
         </div>
 
-        {/* Media counter */}
-        <div className="rounded-full bg-white/10 px-2 py-1 text-xs text-white backdrop-blur-sm">
-          {currentIndex + 1} / {mediaItems.length}
-        </div>
+        {showCaption && currentItem.title && (
+          <div className="absolute right-0 bottom-8 left-0 mx-auto max-w-2xl rounded-xl bg-black/60 p-4 text-center text-white backdrop-blur-md">
+            <h3 className="text-xl font-bold">{currentItem.title}</h3>
+            {currentItem.description && <p className="mt-2 text-sm text-gray-200">{currentItem.description}</p>}
+            <div className="mt-2 text-xs text-gray-400">
+              ({currentIndex + 1} / {mediaItems.length})
+            </div>
+          </div>
+        )}
+
+        {!showCaption && (
+          <div className="mt-4 rounded-full bg-white/10 px-2 py-1 text-xs text-white backdrop-blur-sm">
+            {currentIndex + 1} / {mediaItems.length}
+          </div>
+        )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

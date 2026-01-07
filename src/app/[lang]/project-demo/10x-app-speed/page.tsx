@@ -1,6 +1,7 @@
 import {
   DiagnosticProcess,
   EvidenceGallery,
+  PerformanceMetric,
   ProjectHero,
   ProjectOverview,
   SolutionEvaluation,
@@ -14,7 +15,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
   const { lang } = await params;
   const t = await getTranslations({ locale: lang, namespace: "projects.10xAppSpeed.detail" });
 
-  // --- 1. Hero 數據重組 ---
+  // --- Hero 數據重組 ---
   // JSX 結構保留在組件內，只替換文字
   const heroData = {
     title: t("hero.title"),
@@ -51,7 +52,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ),
   };
 
-  // --- 2. 概覽數據重組 ---
+  // --- 概覽數據重組 ---
   const overviewData = {
     overview: {
       duration: t("overview.duration"),
@@ -61,25 +62,29 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
       focus: t("overview.focus").split(", "),
       platforms: t.raw("overview.platforms") as string[],
     },
+  };
+
+  // --- 指標數據重組 ---
+  const metricsData = {
     metrics: [
       {
-        area: t("overview.metrics.login.area"),
+        area: t("metrics.login.area"),
         before: "10s",
         after: "1s",
         improvement: "10x",
-        experienceDescription: t("overview.metrics.login.exp"),
+        experienceDescription: t("metrics.login.exp"),
       },
       {
-        area: t("overview.metrics.nav.area"),
+        area: t("metrics.nav.area"),
         before: "4s",
         after: "1s",
         improvement: "4x",
-        experienceDescription: t("overview.metrics.nav.exp"),
+        experienceDescription: t("metrics.nav.exp"),
       },
     ],
   };
 
-  // --- 3. 診斷過程數據重組 ---
+  // --- 診斷過程數據重組 ---
   // 保留 Icon 和 Step 的邏輯
   const diagnosisData = {
     process: [
@@ -137,7 +142,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 4. 解決方案評估數據重組 ---
+  // --- 解決方案評估數據重組 ---
   const solutionsData = {
     title: t("solutions.title"),
     approaches: [
@@ -180,7 +185,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 5. 技術實施數據重組 ---
+  // --- 技術實施數據重組 ---
   const implementationData = {
     phases: [
       {
@@ -224,7 +229,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 6. 證據數據重組 ---
+  // --- 證據數據重組 ---
   // 定義靜態資源 Map (檔案路徑與 ID 的對應)
   const evidenceData = {
     videos: [
@@ -398,7 +403,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 7. 技術洞察數據重組 ---
+  // --- 技術洞察數據重組 ---
   const insightsData = {
     insights: [
       {
@@ -465,19 +470,10 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
   };
 
   return (
-    <main className="container mx-auto max-w-6xl px-6 py-12">
-      <ProjectHero
-        title={heroData.title}
-        tagline={heroData.tagline}
-        description={heroData.description}
-        gradient={{ from: "blue-600", to: "purple-600" }}
-      />
-      <ProjectOverview
-        overview={overviewData.overview}
-        metrics={overviewData.metrics}
-        techBadgeColor="blue"
-        focusBadgeColor="purple"
-      />
+    <main className="container mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
+      <ProjectHero {...heroData} gradientClass="from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400" />
+      <ProjectOverview {...overviewData} techBadgeColor="blue" focusBadgeColor="purple" />
+      <PerformanceMetric {...metricsData} />
       <DiagnosticProcess {...diagnosisData} />
       <SolutionEvaluation {...solutionsData} />
       <TechnicalImplementation {...implementationData} />

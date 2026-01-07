@@ -1,8 +1,5 @@
 "use client";
 
-/**
- * Individual step in a diagnostic process
- */
 interface ProcessStep {
   step: number;
   title: string;
@@ -12,9 +9,6 @@ interface ProcessStep {
   keyFinding?: string;
 }
 
-/**
- * Finding from the diagnostic process
- */
 interface Finding {
   id: number;
   title: string;
@@ -25,51 +19,37 @@ interface Finding {
   impact?: string;
 }
 
-/**
- * Props for DiagnosticProcess component
- */
 export interface DiagnosticProcessProps {
   process: ProcessStep[];
   findings: Finding[];
 }
 
-/**
- * DiagnosticProcess Component
- *
- * Displays a horizontal stepper showing the diagnostic process
- * and a grid of core findings.
- */
 export function DiagnosticProcess({ process, findings }: DiagnosticProcessProps) {
   return (
-    <section className="mb-12 space-y-8">
+    <section className="space-y-8">
       <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">🔍 診斷過程</h2>
 
-        {/* Horizontal Stepper */}
+        {/* --- Horizontal Stepper --- */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {process.map((step) => (
             <div key={step.step} className="relative">
-              {/* Step Card */}
               <div className="rounded-xl border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 shadow-md transition-shadow hover:shadow-lg dark:border-blue-700 dark:from-blue-900/30 dark:to-indigo-900/30">
-                {/* Step Number Badge */}
                 <div className="absolute -top-3 -left-3 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-lg font-bold text-white shadow-lg">
                   {step.step}
                 </div>
 
-                {/* Icon and Title */}
                 <div className="mt-2 mb-3 flex items-center gap-2">
                   <span className="text-3xl">{step.icon}</span>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">{step.title}</h3>
                 </div>
 
-                {/* Tool */}
                 {step.tool && (
                   <div className="mb-3 rounded-lg bg-white px-3 py-2 dark:bg-gray-800">
                     <p className="text-sm font-medium text-gray-700 dark:text-gray-300">🛠️ {step.tool}</p>
                   </div>
                 )}
 
-                {/* Key Insight - Made Prominent */}
                 {step.keyFinding && (
                   <div className="mt-3 rounded-lg bg-amber-100 px-3 py-3 dark:bg-amber-900/40">
                     <p className="text-xs font-semibold tracking-wide text-amber-700 uppercase dark:text-amber-300">
@@ -81,13 +61,11 @@ export function DiagnosticProcess({ process, findings }: DiagnosticProcessProps)
                   </div>
                 )}
 
-                {/* Description */}
                 {step.description && (
                   <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">{step.description}</p>
                 )}
               </div>
 
-              {/* Connector Arrow (hidden on last item and mobile) */}
               {step.step < process.length && (
                 <div className="absolute top-1/2 -right-3 hidden -translate-y-1/2 text-2xl text-blue-400 lg:block">
                   →
@@ -98,7 +76,7 @@ export function DiagnosticProcess({ process, findings }: DiagnosticProcessProps)
         </div>
       </div>
 
-      {/* 核心發現 */}
+      {/* --- 核心發現 --- */}
       <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">⚠️ 核心發現</h2>
         <div className="grid gap-6 md:grid-cols-3">

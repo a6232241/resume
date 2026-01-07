@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 
-/**
- * Technical insight data structure
- */
 interface Insight {
   id: number;
   title: string;
@@ -27,19 +24,10 @@ interface Insight {
   keyTakeaway: string;
 }
 
-/**
- * Props for TechnicalInsights component
- */
 export interface TechnicalInsightsProps {
   insights: Insight[];
 }
 
-/**
- * TechnicalInsights Component
- *
- * Displays a collapsible list of technical insights
- * with detailed breakdowns for each insight.
- */
 export function TechnicalInsights({ insights }: TechnicalInsightsProps) {
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
 
@@ -56,7 +44,7 @@ export function TechnicalInsights({ insights }: TechnicalInsightsProps) {
   };
 
   return (
-    <section className="mb-12">
+    <section>
       <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">💡 技術洞察</h2>
 
@@ -68,7 +56,6 @@ export function TechnicalInsights({ insights }: TechnicalInsightsProps) {
               <div
                 key={insight.id}
                 className="rounded-xl border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
-                {/* 標題 - 可點擊展開 */}
                 <div
                   className="flex cursor-pointer items-center justify-between p-4"
                   onClick={() => toggleExpand(insight.id)}>
@@ -95,7 +82,6 @@ export function TechnicalInsights({ insights }: TechnicalInsightsProps) {
                   </span>
                 </div>
 
-                {/* 展開內容 */}
                 {isExpanded && (
                   <div className="border-t border-gray-200 p-4 dark:border-gray-700">
                     <div className="space-y-3 text-sm">

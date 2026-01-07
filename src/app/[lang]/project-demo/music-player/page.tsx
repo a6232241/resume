@@ -13,22 +13,25 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
   const { lang } = await params;
   const t = await getTranslations({ locale: lang, namespace: "projects.musicPlayer.detail" });
 
-  // --- 1. Hero Data ---
+  // --- Hero Data ---
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
     summary: {
       problem: {
+        icon: "🎯",
         title: t("hero.summary.problem.title"),
         desc: t.rich("hero.summary.problem.desc", {
           highlight: (chunks) => <span className="font-bold text-purple-600 dark:text-purple-400">{chunks}</span>,
         }),
       },
       solution: {
+        icon: "💡",
         title: t("hero.summary.solution.title"),
         desc: t("hero.summary.solution.desc"),
       },
       impact: {
+        icon: "🚀",
         title: t("hero.summary.impact.title"),
         desc: t.rich("hero.summary.impact.desc", {
           highlight: (chunks) => <span className="font-bold text-orange-600 dark:text-orange-400">{chunks}</span>,
@@ -37,7 +40,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
     },
   };
 
-  // --- 2. Overview Data ---
+  // --- Overview Data ---
   const overviewData = {
     overview: {
       duration: t("overview.duration"),
@@ -49,7 +52,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
     },
   };
 
-  // --- 3. Challenges Data ---
+  // --- Challenges Data ---
   // Get raw challenges data from i18n
   const challengesRaw = t.raw("challenges") as Array<{
     id: number;
@@ -74,7 +77,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
     };
   }>;
 
-  // --- 4. Evidence Data ---
+  // --- Evidence Data ---
   const evidenceRaw = t.raw("evidence") as {
     videos: Array<{
       id: number;
@@ -90,7 +93,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
     }>;
   };
 
-  // --- 5. Roadmap Data ---
+  // --- Roadmap Data ---
   const roadmapData = {
     title: t("roadmap.title"),
     categories: t.raw("roadmap.categories") as Array<{
@@ -100,34 +103,17 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
     }>,
   };
 
-  // --- 6. Disclaimer ---
+  // --- Disclaimer ---
   const disclaimerText = t("disclaimer");
 
   return (
-    <main className="container mx-auto max-w-6xl px-6 py-12">
+    <main className="container mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
       <ProjectHero
-        title={heroData.title}
-        tagline={heroData.tagline}
-        summary={{
-          problem: {
-            icon: "🎯",
-            title: heroData.summary.problem.title,
-            desc: heroData.summary.problem.desc,
-          },
-          solution: {
-            icon: "💡",
-            title: heroData.summary.solution.title,
-            desc: heroData.summary.solution.desc,
-          },
-          impact: {
-            icon: "🚀",
-            title: heroData.summary.impact.title,
-            desc: heroData.summary.impact.desc,
-          },
-        }}
-        gradient={{ from: "purple-600", via: "pink-600", to: "orange-500" }}
+        {...heroData}
+        gradientClass="from-purple-600 via-pink-600 to-orange-500 dark:from-purple-400 dark:via-pink-400 dark:to-orange-400"
+        borderGradientClass="from-purple-600/20 via-pink-600/20 to-orange-500/20"
       />
-      <ProjectOverview overview={overviewData.overview} techBadgeColor="purple" focusBadgeColor="orange" />
+      <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
       <TechnicalChallengeCard challenges={challengesRaw} />
       <MusicPlayerEvidence videos={evidenceRaw.videos} screenshots={evidenceRaw.screenshots} />
       <FutureRoadmap {...roadmapData} />

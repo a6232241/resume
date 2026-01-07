@@ -1,66 +1,38 @@
 "use client";
 
-/**
- * Solution details for a technical challenge
- */
 interface SolutionData {
-  /** The approach used to solve the problem */
   approach: string;
-  /** Detailed implementation steps */
   details: string[];
-  /** The result achieved */
   result: string;
-  /** Category of the solution (e.g., State Management) */
   category: string;
 }
 
-/**
- * Challenge data structure
- */
 interface ChallengeData {
-  /** Unique identifier */
   id: number;
-  /** Challenge title */
   title: string;
-  /** Visible symptom of the issue */
   symptom: string;
-  /** Root cause of the problem */
   rootCause: string;
-  /** Impact on users/system */
   impact: string;
-  /** Verified metric badge (e.g., "Stability: 100%") */
   badge?: string;
-  /** Quantifiable metrics (e.g., "100% → 0%") */
   metrics?: {
     label: string;
     before: string;
     after: string;
   };
-  /** File path where the code is located */
   filePath?: string;
-  /** Code snippet demonstrating the solution */
   codeSnippet: string;
-  /** Terms to highlight in the code */
   highlightTerms: string[];
-  /** Solution details */
   solution: SolutionData;
 }
 
-/**
- * Props for the TechnicalChallengeCard component
- */
 export interface TechnicalChallengeCardProps {
-  /** Array of challenge data */
   challenges: ChallengeData[];
 }
 
-/**
- * Highlight specific terms in code with custom styling
- */
+/** Highlight specific terms in code with custom styling */
 function highlightCode(code: string, terms: string[]): React.ReactNode {
   if (!terms || terms.length === 0) return code;
 
-  // Split code into lines for proper rendering
   const lines = code.split("\n");
 
   return lines.map((line, lineIndex) => {
@@ -104,37 +76,27 @@ function highlightCode(code: string, terms: string[]): React.ReactNode {
   });
 }
 
-/**
- * TechnicalChallengeCard Component
- *
- * Displays a timeline of technical challenges with their
- * problem analysis, solutions, and code snippets.
- */
 export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardProps) {
   return (
-    <section className="relative mb-12">
+    <section className="relative">
       <h2 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">🔧 技術挑戰與解決方案</h2>
 
-      {/* Container with vertical line */}
+      {/* --- Container with vertical line --- */}
       <div className="relative">
-        {/* Vertical connection line */}
         <div className="absolute top-0 left-6 hidden h-full w-px bg-gradient-to-b from-purple-500/50 via-pink-500/30 to-orange-500/50 md:block" />
 
-        {/* Challenge Cards */}
+        {/* --- Challenge Cards --- */}
         <div className="space-y-8">
           {challenges.map((challenge, index) => (
             <div key={challenge.id} className="relative">
-              {/* Connection dot */}
               <div className="absolute top-8 left-4 z-10 hidden h-4 w-4 rounded-full border-2 border-purple-500 bg-gray-900 md:block" />
 
-              {/* Card Content */}
               <div className="ml-0 md:ml-12">
-                <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-lg backdrop-blur-sm">
-                  {/* Card Header */}
-                  <div className="border-b border-white/10 bg-gradient-to-r from-purple-900/20 to-pink-900/20 px-6 py-4">
+                <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-white/10 dark:bg-white/5 dark:backdrop-blur-sm">
+                  <div className="border-b border-gray-200 bg-gradient-to-r from-purple-100 to-pink-100 px-6 py-4 dark:border-white/10 dark:from-purple-900/20 dark:to-pink-900/20">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-bold text-white">
-                        <span className="mr-2 text-purple-400">#{index + 1}</span>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                        <span className="mr-2 text-purple-600 dark:text-purple-400">#{index + 1}</span>
                         {challenge.title}
                       </h3>
                       <div className="flex items-center gap-2">
@@ -150,34 +112,30 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
                     </div>
                   </div>
 
-                  {/* Card Body - Problem & Solution Pairing */}
+                  {/* --- Problem & Solution Pairing --- */}
                   <div className="grid grid-cols-1 lg:grid-cols-2">
                     {/* Left: Challenge Details */}
-                    <div className="border-b border-white/10 p-6 lg:border-r lg:border-b-0">
+                    <div className="border-b border-gray-200 p-6 lg:border-r lg:border-b-0 dark:border-white/10">
                       <h4 className="mb-4 flex items-center gap-2 text-sm font-bold tracking-wider text-red-400 uppercase">
                         <span>⚠️</span> 問題分析
                       </h4>
 
                       <div className="space-y-4">
-                        {/* Symptom */}
                         <div>
-                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">症狀</p>
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">症狀</p>
                           <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.symptom}</p>
                         </div>
 
-                        {/* Root Cause */}
                         <div>
-                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">根本原因</p>
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">根本原因</p>
                           <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.rootCause}</p>
                         </div>
 
-                        {/* Impact */}
                         <div>
-                          <p className="text-xs font-medium text-gray-500 dark:text-gray-400">影響</p>
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">影響</p>
                           <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.impact}</p>
                         </div>
 
-                        {/* Metrics */}
                         {challenge.metrics && (
                           <div className="mt-4 rounded-lg border border-orange-500/30 bg-orange-500/10 p-3">
                             <p className="text-xs font-medium text-orange-400">{challenge.metrics.label}</p>
@@ -185,7 +143,7 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
                               <span className="text-lg font-bold text-red-400 line-through">
                                 {challenge.metrics.before}
                               </span>
-                              <span className="text-gray-500">→</span>
+                              <span className="text-gray-500 dark:text-gray-500">→</span>
                               <span className="text-lg font-bold text-green-400">{challenge.metrics.after}</span>
                             </div>
                           </div>
@@ -200,7 +158,7 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
                         <p className="mb-3 font-mono text-sm font-bold text-green-300">{challenge.solution.approach}</p>
                         <ul className="space-y-1">
                           {challenge.solution.details.map((detail, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
+                            <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
                               <span className="mt-1 text-green-400">•</span>
                               {detail}
                             </li>
@@ -212,13 +170,12 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
                       </div>
                     </div>
 
-                    {/* Right: Code Snippet */}
-                    <div className="bg-gray-900/50 p-6">
+                    {/* --- Code Snippet --- */}
+                    <div className="bg-gray-100 p-6 dark:bg-gray-900/50">
                       <h4 className="mb-4 flex items-center gap-2 text-sm font-bold tracking-wider text-blue-400 uppercase">
                         <span>💻</span> 核心程式碼
                       </h4>
                       <div className="overflow-hidden rounded-lg bg-gray-950">
-                        {/* File Path Header */}
                         {challenge.filePath && (
                           <div className="flex items-center gap-2 border-b border-gray-800 bg-gray-900 px-4 py-2">
                             <span className="text-gray-500">📄</span>
@@ -226,7 +183,7 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
                           </div>
                         )}
                         <div className="overflow-x-auto p-4">
-                          <pre className="font-mono text-sm text-gray-300">
+                          <pre className="font-mono text-sm text-gray-700 dark:text-gray-300">
                             <code>{highlightCode(challenge.codeSnippet, challenge.highlightTerms)}</code>
                           </pre>
                         </div>

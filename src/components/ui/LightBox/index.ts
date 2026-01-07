@@ -1,1 +1,1 @@
-export { default as LightBox, type LightBoxProps } from "./LightBox";
+export { default as LightBox, type LightBoxMediaItem, type LightBoxProps } from "./LightBox";

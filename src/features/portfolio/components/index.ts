@@ -4,6 +4,7 @@ export { Experience } from "./Experience";
 export { FutureRoadmap } from "./FutureRoadmap";
 export { LegalDisclaimer } from "./LegalDisclaimer";
 export { MusicPlayerEvidence } from "./MusicPlayerEvidence";
+export { PerformanceMetric } from "./PerformanceMetric";
 export { ProjectCard } from "./ProjectCard";
 export { default as ProjectHero } from "./ProjectHero";
 export { default as ProjectOverview } from "./ProjectOverview";

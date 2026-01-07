@@ -27,17 +27,17 @@
       "projectType": "工作專案 · 性能優化",
       "mainTechs": "React Native, Redux Toolkit, React Query, React DevTools, Flipper",
       "focus": "登入流程, 多頁面導航, 狀態管理",
-      "metrics": {
-        "login": {
-          "area": "登入流程",
-          "exp": "有效解決了原本用戶在登入後常見的白屏與操作卡頓感"
-        },
-        "nav": {
-          "area": "多頁面導航",
-          "exp": "顯著降低了 QA 階段的性能投訴率"
-        }
-      },
       "platforms": ["Android", "iOS"]
+    },
+    "metrics": {
+      "login": {
+        "area": "登入流程",
+        "exp": "有效解決了原本用戶在登入後常見的白屏與操作卡頓感"
+      },
+      "nav": {
+        "area": "多頁面導航",
+        "exp": "顯著降低了 QA 階段的性能投訴率"
+      }
     },
     "diagnosis": {
       "steps": {

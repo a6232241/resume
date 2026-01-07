@@ -27,17 +27,17 @@
       "projectType": "Work Project · Performance Optimization",
       "mainTechs": "React Native, Redux Toolkit, React Query, React DevTools, Flipper",
       "focus": "Login Flow, Multi-page Navigation, State Management",
-      "metrics": {
-        "login": {
-          "area": "Login Flow",
-          "exp": "Eliminated the white screen and UI lag previously experienced by users after login."
-        },
-        "nav": {
-          "area": "Multi-page Navigation",
-          "exp": "Significantly reduced performance-related complaints during the QA phase."
-        }
-      },
       "platforms": ["Android", "iOS"]
+    },
+    "metrics": {
+      "login": {
+        "area": "Login Flow",
+        "exp": "Eliminated the white screen and UI lag previously experienced by users after login."
+      },
+      "nav": {
+        "area": "Multi-page Navigation",
+        "exp": "Significantly reduced performance-related complaints during the QA phase."
+      }
     },
     "diagnosis": {
       "steps": {

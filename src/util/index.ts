@@ -1,1 +1,1 @@
-export { getMediaUrl } from "./common";
+export { getMediaUrl, getVideoMimeType } from "./common";

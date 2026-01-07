@@ -6,7 +6,7 @@ interface Props {
 
 export default function SourceCodeLink({ href }: Props) {
   return (
-    <section className="mt-8 text-center">
+    <section className="text-center">
       <a
         href={href}
         target="_blank"
@@ -18,3 +18,4 @@ export default function SourceCodeLink({ href }: Props) {
     </section>
   );
 }
+

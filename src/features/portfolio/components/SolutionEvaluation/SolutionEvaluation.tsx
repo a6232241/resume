@@ -1,8 +1,5 @@
 "use client";
 
-/**
- * Solution approach data structure
- */
 interface Approach {
   id: number;
   name: string;
@@ -15,20 +12,11 @@ interface Approach {
   result?: string;
 }
 
-/**
- * Props for SolutionEvaluation component
- */
 export interface SolutionEvaluationProps {
   title: string;
   approaches: Approach[];
 }
 
-/**
- * SolutionEvaluation Component
- *
- * Displays a grid of solution approaches with their
- * difficulty, risk, and maintainability ratings.
- */
 export function SolutionEvaluation({ title, approaches }: SolutionEvaluationProps) {
   const getDecisionColor = (decision: string) => {
     if (decision.includes("✅")) return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
@@ -37,17 +25,16 @@ export function SolutionEvaluation({ title, approaches }: SolutionEvaluationProp
   };
 
   return (
-    <section className="mb-12 space-y-8">
+    <section className="space-y-8">
       <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">🎯 {title}</h2>
 
-        {/* 方案評估網格 */}
+        {/* --- 方案評估網格 --- */}
         <div className="grid gap-4 md:grid-cols-2">
           {approaches.map((approach) => (
             <div
               key={approach.id}
               className="relative rounded-xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
-              {/* 決策標籤 */}
               <div
                 className={`absolute -top-3 right-4 rounded-full px-3 py-1 text-sm font-bold ${getDecisionColor(approach.decision)}`}>
                 {approach.decision}
