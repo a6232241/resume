@@ -73,6 +73,7 @@ const personalProjects = [
     title: "AI Chat App",
     description: "projects.aiChatApp.shortDesc",
     technologies: "projects.aiChatApp.technologies",
+    badge: "projects.aiChatApp.badge",
     imageUrl: AIChatAppPreview,
     link: "ai-chat-app",
     period: "2025/07 - 2025/10",

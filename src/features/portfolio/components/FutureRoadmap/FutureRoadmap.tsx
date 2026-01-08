@@ -8,13 +8,15 @@ interface RoadmapCategory {
 
 export interface FutureRoadmapProps {
   title: string;
+  subtitle?: string;
   categories: RoadmapCategory[];
 }
 
-export function FutureRoadmap({ title, categories }: FutureRoadmapProps) {
+export function FutureRoadmap({ title, subtitle, categories }: FutureRoadmapProps) {
   return (
     <section>
-      <h2 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">🚀 {title}</h2>
+      <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">🚀 {title}</h2>
+      {subtitle && <p className="mb-8 text-gray-600 dark:text-gray-400">{subtitle}</p>}
 
       <div className="grid gap-6 md:grid-cols-3">
         {categories.map((category, index) => (
@@ -25,8 +27,8 @@ export function FutureRoadmap({ title, categories }: FutureRoadmapProps) {
             <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">{category.title}</h3>
             <ul className="space-y-3">
               {category.items.map((item, itemIndex) => (
-                <li key={itemIndex} className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span className="text-purple-600 dark:text-purple-400">→</span>
+                <li key={itemIndex} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                  <span className="mt-0.5 text-gray-400 dark:text-gray-500">☐</span>
                   <span>{item}</span>
                 </li>
               ))}

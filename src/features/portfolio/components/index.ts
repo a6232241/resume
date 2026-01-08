@@ -1,3 +1,5 @@
+export { ArchitecturalDecisions } from "./ArchitecturalDecisions";
+export { CoreImplementation } from "./CoreImplementation";
 export { DiagnosticProcess } from "./DiagnosticProcess";
 export { EvidenceGallery } from "./EvidenceGallery";
 export { Experience } from "./Experience";
