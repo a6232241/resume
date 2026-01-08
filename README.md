@@ -1,40 +1,52 @@
-## 筆記
+# Resume Portfolio
 
-### ESLint & Prettier
+這是我個人的作品集和工作經歷的網站，展示了我在各種技術領域的開發成果。
 
-- 存儲檔案時，應用 eslint 的修正，以及 prettier 的格式化，至少需要在 settings.json 新增以下設定
+## 技術棧 (Tech Stack)
 
-  ```
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-  },
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
-  ```
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **i18n**: next-intl
+- **Testing**: Jest & React Testing Library
 
-- eslint-config-prettier 用於避免 eslint 和 prettier 的衝突，安裝後，在 eslint 設定檔的 extends 最後添加 "prettier"，即可覆蓋其他設定
+## Setup
 
-- eslint-plugin-prettier 不建議安裝，雖然可以讓 eslint 也使用 prettier 的格式化規則，但會讓 ESLint 也擁有格式化能力，容易和 Prettier 產生衝突
+### 1. Clone the Repository
 
-- prettier-plugin-organize-imports 取代 VScode setting 的 ```"source.organizeImports": "explicit"``` 避免和 prettier 產生衝突
+```bash
+git clone https://github.com/a6232241/resume.git
+cd resume
+```
 
-### Tailwind CSS
+### 2. Install Dependencies
 
-- 定義 @custom-variant XXX 時，符合該條件的元素有使用 XXX: 前綴的 Tailwind 類型，就能應用該樣式，例如以下
+```bash
+npm install
+```
 
-  ```
-  globals.css
+### 3. Run the Development Server
 
-  // .dark 和 .dark 底下所有的元素
-  @custom-variant dark (&:where(.dark, .dark *));
+```bash
+npm run dev
+```
 
+伺服器將在 `http://localhost:3000` 啟動（或其他指定連接埠）
 
-  layout.tsx
+---
 
-  // 符合 .dark
-  <html className='dark'>
-    // 符合 .dark 底下的元素，所以會採用帶有 dark: 前綴的樣式
-    <body className='bg-white dark:bg-black'>
-    </body>
-  </html>
-  ```
+## Development Environment
+
+### 必需工具
+
+- **Node.js** >= 18.18.0
+- **npm** >= 10.7.0
+- **Git** >= 2.40.0
+
+## 開發指引 (Development Guide)
+
+詳細的專案規範、架構說明與開發流程，請參考：
+
+👉 **[CONTRIBUTING.md](./CONTRIBUTING.md)**
+
+本專案遵循嚴格的國際化規範、強健的錯誤處理 (Result Pattern) 以及 Feature-First 的架構設計。
