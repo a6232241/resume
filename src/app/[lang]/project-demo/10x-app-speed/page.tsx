@@ -59,7 +59,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
       team: t("overview.team"),
       projectType: t("overview.projectType"),
       mainTechs: t("overview.mainTechs").split(", "), // JSON 中存字串，這裡轉回陣列
-      focus: t("overview.focus").split(", "),
+      focus: t.raw("overview.focus") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },
   };

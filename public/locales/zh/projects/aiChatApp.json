@@ -32,7 +32,7 @@
       "team": "個人開發 / 技術研究",
       "projectType": "個人專案 · 行動端全端",
       "mainTechs": ["React Native", "Expo", "SQLite", "GitHub Models API"],
-      "focus": "原生模組橋接, SQLite 持久化, Context Menu 整合",
+      "focus": ["原生模組橋接", "SQLite 持久化", "Context Menu 整合"],
       "platforms": ["iOS", "Android"]
     },
     "challenges": [

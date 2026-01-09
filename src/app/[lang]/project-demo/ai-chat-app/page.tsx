@@ -50,7 +50,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
       duration: t("overview.duration"),
       team: t("overview.team"),
       projectType: t("overview.projectType"),
-      focus: t("overview.focus"),
+      focus: t.raw("overview.focus") as string[],
       mainTechs: t.raw("overview.mainTechs") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },

@@ -26,7 +26,7 @@
       "team": "Independent Diagnosis & Optimization",
       "projectType": "Work Project · Performance Optimization",
       "mainTechs": "React Native, Redux Toolkit, React Query, React DevTools, Flipper",
-      "focus": "Login Flow, Multi-page Navigation, State Management",
+      "focus": ["Login Flow", "Multi-page Navigation", "State Management"],
       "platforms": ["Android", "iOS"]
     },
     "metrics": {

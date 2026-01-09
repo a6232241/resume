@@ -1,13 +1,13 @@
 {
   "shortDesc": "這是一個音樂播放器 App，讓使用者輕鬆收聽音樂。",
-  "technologies": ["Expo", "React Native", "SQLite", "Node.js", "Express.js"],
+  "technologies": ["React Native", "Expo", "SQLite", "Node.js"],
   "badge": "離線優先 (Offline-First)",
-  "fullDesc": "這款音樂播放器 App 支援本地儲存音樂列表，確保離線也能播放，並提供歌手、音樂類別、名稱等多條件篩選功能。\n\n開發初衷是解決市面音樂播放器缺乏篩選機制，以及網路不穩導致播放中斷的痛點。\n\n技術棧：Expo 開發框架、SQLite 本地資料庫、Node.js + Express.js 後端備份。未來計畫整合 Google Drive 等雲端服務，提升使用者體驗。",
+  "role": "獨立開發",
   "detail": {
     "hero": {
       "title": "Music Player",
       "tagline": "離線優先 × 自定義標籤 × 數據備份",
-      "description": "專為解決播放中斷、無法複雜過濾與數據備份痛點而設計的跨平台音樂管理系統。",
+      "description": "為解決播放中斷、無法複雜過濾與數據備份痛點，而設計的跨平台音樂管理系統。",
       "summary": {
         "problem": {
           "title": "挑戰",
@@ -27,25 +27,16 @@
       "duration": "2 個月",
       "team": "獨立開發",
       "projectType": "個人專案 · 行動端全端",
-      "focus": "數據庫遷移, 播放狀態機, 檔案系統管理",
+      "focus": ["數據庫遷移", "播放狀態機", "檔案系統管理"],
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
       "platforms": ["iOS"]
-    },
-    "motivation": {
-      "title": "為什麼做這個專案？",
-      "description": "解決音訊斷連與標籤過濾痛點的跨平台音樂系統。",
-      "keyQuestions": [
-        "如何確保過濾操作不中斷正在播放的音樂？",
-        "如何安全地進行 SQLite 資料庫遷移？",
-        "如何處理大檔案下載的斷點續傳？"
-      ]
     },
     "challenges": [
       {
         "id": 1,
         "title": "Conditional Playback Lock - 過濾不斷歌",
         "symptom": "UI 更新導致播放器意外重新初始化",
-        "rootCause": "視圖層與原生播放器實例耦合過緊，過濾操作觸發播放器重置",
+        "rootCause": "視圖層與原生播放器實例沒有去耦合，過濾操作觸發播放器重置",
         "impact": "用戶體驗中斷，需要重新選擇歌曲",
         "badge": "穩定性: 100%",
         "metrics": {
@@ -61,18 +52,18 @@
           "details": [
             "使用 !player.playing 將視圖層與原生播放器實例解耦",
             "在過濾前檢查播放狀態，僅在非播放狀態時重置播放器",
-            "播放中時僅更新列表視圖，確保持續播放"
+            "播放中，僅更新列表視圖，確保持續播放"
           ],
-          "result": "篩選標籤時音樂持續播放，視圖與播放器完全解耦",
+          "result": "篩選標籤時，音樂持續播放，視圖與播放器完全解耦",
           "category": "狀態管理"
         }
       },
       {
         "id": 2,
         "title": "SQLite Migration - 版本控管",
-        "symptom": "App 更新後資料庫結構變更可能導致崩潰",
+        "symptom": "App 更新後，資料庫結構變更可能導致崩潰",
         "rootCause": "缺乏版本控管機制，無法追蹤資料庫 schema 變更",
-        "impact": "用戶升級後可能丟失資料或 App 崩潰",
+        "impact": "用戶升級後，可能丟失資料或 App 崩潰",
         "badge": "資料完整性: 100%",
         "metrics": {
           "label": "升級資料丟失率",
@@ -86,7 +77,7 @@
           "approach": "PRAGMA user_version 版本控管",
           "details": [
             "使用 PRAGMA user_version 追蹤資料庫版本",
-            "App 啟動時檢查版本號",
+            "App 啟動時，檢查版本號",
             "根據版本差異執行對應的遷移腳本",
             "遷移完成後更新 user_version"
           ],
@@ -122,64 +113,50 @@
       }
     ],
     "evidence": {
-      "videos": [
-        {
-          "id": 1,
+      "videos": {
+        "v1": {
           "title": "音樂篩選功能",
-          "description": "展示多條件過濾音樂列表，同時保持音樂播放不中斷",
-          "fileUrl": "/side-projects/music-player/filter_music.mp4"
+          "desc": "展示多條件過濾音樂列表，同時保持音樂播放不中斷"
         },
-        {
-          "id": 2,
+        "v2": {
           "title": "音樂詳情彈窗",
-          "description": "點擊歌曲顯示詳細資訊，包含封面、歌手、專輯等",
-          "fileUrl": "/side-projects/music-player/show_music_detail_modal.mp4"
+          "desc": "點擊歌曲顯示詳細資訊，包含封面、歌手、專輯等"
         },
-        {
-          "id": 3,
+        "v3": {
           "title": "批量下載音檔",
-          "description": "展示斷點續傳功能，支援暫停恢復的批量下載",
-          "fileUrl": "/side-projects/music-player/download_all_audios.mp4"
+          "desc": "展示批量下載音檔的流程，並顯示下載進度"
+        },
+        "v4": {
+          "title": "音樂上傳",
+          "desc": "展示音樂上傳的流程"
         }
-      ],
-      "screenshots": [
-        {
-          "id": 1,
+      },
+      "screenshots": {
+        "s1": {
           "title": "啟動畫面 - 淺色主題",
-          "description": "App 啟動時的品牌展示畫面",
-          "imageUrl": "/side-projects/music-player/launch_screen-light_theme.png"
+          "desc": "App 啟動時的品牌展示畫面"
         },
-        {
-          "id": 2,
+        "s2": {
           "title": "啟動畫面 - 深色主題",
-          "description": "支援系統深色模式的啟動畫面",
-          "imageUrl": "/side-projects/music-player/launch_screen-dark_theme.png"
+          "desc": "支援系統深色模式的啟動畫面"
         },
-        {
-          "id": 3,
+        "s3": {
           "title": "主畫面 - 淺色主題",
-          "description": "音樂列表主畫面，展示篩選標籤與播放控制",
-          "imageUrl": "/side-projects/music-player/home_screen-light_theme.png"
+          "desc": "音樂列表主畫面，展示篩選標籤與播放控制"
         },
-        {
-          "id": 4,
+        "s4": {
           "title": "主畫面 - 深色主題",
-          "description": "深色模式下的音樂列表介面",
-          "imageUrl": "/side-projects/music-player/home_screen-dark_theme.png"
+          "shows": "深色模式下的音樂列表介面"
         },
-        {
-          "id": 5,
+        "s5": {
           "title": "個人頁面 - 淺色主題",
-          "description": "用戶設定與備份功能頁面",
-          "imageUrl": "/side-projects/music-player/profile_screen-light_theme.png"
+          "shows": "用戶設定與備份功能頁面"
         },
-        {
-          "id": 6,
+        "s6": {
           "title": "個人頁面 - 深色主題",
-          "description": "深色模式下的個人設定頁面",
-          "imageUrl": "/side-projects/music-player/profile_screen-dark_theme.png"
+          "shows": "深色模式下的個人設定頁面"
         }
-      ]
+      }
     },
     "roadmap": {
       "title": "未來展望與優化",

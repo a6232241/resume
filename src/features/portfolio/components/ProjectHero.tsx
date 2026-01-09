@@ -84,7 +84,7 @@ export default function ProjectHero({
                 <p className="leading-relaxed text-gray-900 dark:text-gray-100">{summary.problem.desc}</p>
               </div>
 
-              <div className="space-y-2 md:pl-6">
+              <div className="space-y-2 md:pr-6">
                 <h3 className="flex items-center gap-2 text-sm font-bold tracking-wider text-gray-600 uppercase dark:text-gray-400">
                   {summary.solution.icon && <span className="text-lg">{summary.solution.icon}</span>}
                   {summary.solution.title}
@@ -92,7 +92,7 @@ export default function ProjectHero({
                 <p className="leading-relaxed text-gray-900 dark:text-gray-100">{summary.solution.desc}</p>
               </div>
 
-              <div className="space-y-2 md:pl-6">
+              <div className="space-y-2 md:pr-6">
                 <h3 className="flex items-center gap-2 text-sm font-bold tracking-wider text-gray-600 uppercase dark:text-gray-400">
                   {summary.impact.icon && <span className="text-lg">{summary.impact.icon}</span>}
                   {summary.impact.title}

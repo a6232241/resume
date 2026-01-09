@@ -1,9 +1,9 @@
 import { Experience, ProjectCard } from "@features/portfolio";
 import { Hero, Skills } from "@features/profile";
 import AIChatAppPreview from "@public/side-projects/ai-chat-app/preview-light_theme.png";
-import MusicPlayerPreview from "@public/side-projects/music-player/launch_screen-light_theme.png";
 import BerifyPreview from "@public/work-projects/berify/preview.png";
 import VisualStreamingPreview from "@public/work-projects/visual-streaming/demo_preview.png";
+import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
 
 const experienceItems = [
@@ -65,9 +65,10 @@ const personalProjects = [
     description: "projects.musicPlayer.shortDesc",
     technologies: "projects.musicPlayer.technologies",
     badge: "projects.musicPlayer.badge",
-    imageUrl: MusicPlayerPreview,
+    imageUrl: getMediaUrl("/music-player/launch_screen-light_theme.png"),
     link: "music-player",
     period: "2025/09 - Present",
+    role: "projects.musicPlayer.role",
   },
   {
     title: "AI Chat App",
@@ -141,6 +142,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                 period={project.period}
                 technologies={t.raw(project?.technologies) ?? []}
                 badge={project.badge ? t(project.badge) : undefined}
+                role={project?.role ? t(project.role) : undefined}
               />
             ))}
           </div>

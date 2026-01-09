@@ -21,7 +21,7 @@ export default function ProjectCard({
   period,
   technologies = [],
   achievements = [],
-  role = "獨立開發",
+  role,
   badge,
 }: ProjectProps) {
   const CardContent = (

@@ -1,8 +1,8 @@
 {
   "shortDesc": "A music player app for easy music listening.",
-  "technologies": ["Expo", "React Native", "SQLite", "Node.js", "Express.js"],
+  "technologies": ["React Native", "Expo", "SQLite", "Node.js"],
   "badge": "Offline-First",
-  "fullDesc": "This music player app supports local music list storage for offline playback, with multi-condition filtering by artist, genre, and name.\n\nBuilt to solve common issues like lack of filtering in existing apps and playback interruptions from unstable networks.\n\nTech stack: Expo framework, SQLite local database, Node.js + Express.js backend for backups. Future plans include Google Drive integration for enhanced user experience.",
+  "role": "Solo Developer",
   "detail": {
     "hero": {
       "title": "Music Player",
@@ -27,18 +27,9 @@
       "duration": "2 months",
       "team": "Solo Developer",
       "projectType": "Personal Project · Mobile Full-Stack",
-      "focus": "Database Migration, Playback State Machine, File System Management",
+      "focus": ["Database Migration", "Playback State Machine", "File System Management"],
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
       "platforms": ["iOS"]
-    },
-    "motivation": {
-      "title": "Why Build This Project?",
-      "description": "A cross-platform music system solving audio disconnection and tag filtering pain points.",
-      "keyQuestions": [
-        "How to ensure filtering doesn't interrupt currently playing music?",
-        "How to safely perform SQLite database migrations?",
-        "How to handle resumable downloads for large files?"
-      ]
     },
     "challenges": [
       {
@@ -122,64 +113,50 @@
       }
     ],
     "evidence": {
-      "videos": [
-        {
-          "id": 1,
+      "videos": {
+        "v1": {
           "title": "Music Filtering",
-          "description": "Demonstrates multi-condition filtering while keeping music playing",
-          "fileUrl": "/side-projects/music-player/filter_music.mp4"
+          "desc": "Demonstrates multi-condition filtering while keeping music playing"
         },
-        {
-          "id": 2,
+        "v2": {
           "title": "Music Detail Modal",
-          "description": "Tap song to show details including cover, artist, album",
-          "fileUrl": "/side-projects/music-player/show_music_detail_modal.mp4"
+          "desc": "Tap song to show details including cover, artist, album"
         },
-        {
-          "id": 3,
+        "v3": {
           "title": "Batch Audio Download",
-          "description": "Demonstrates resumable download with pause/resume support",
-          "fileUrl": "/side-projects/music-player/download_all_audios.mp4"
+          "desc": "Demonstrates batch audio download with progress tracking"
+        },
+        "v4": {
+          "title": "Music Upload",
+          "desc": "Demonstrates music upload"
         }
-      ],
-      "screenshots": [
-        {
-          "id": 1,
+      },
+      "screenshots": {
+        "s1": {
           "title": "Launch Screen - Light Theme",
-          "description": "App launch branding screen",
-          "imageUrl": "/side-projects/music-player/launch_screen-light_theme.png"
+          "desc": "App launch branding screen"
         },
-        {
-          "id": 2,
+        "s2": {
           "title": "Launch Screen - Dark Theme",
-          "description": "Launch screen with system dark mode support",
-          "imageUrl": "/side-projects/music-player/launch_screen-dark_theme.png"
+          "desc": "Launch screen with system dark mode support"
         },
-        {
-          "id": 3,
+        "s3": {
           "title": "Home Screen - Light Theme",
-          "description": "Music list with filter tags and playback controls",
-          "imageUrl": "/side-projects/music-player/home_screen-light_theme.png"
+          "desc": "Music list with filter tags and playback controls"
         },
-        {
-          "id": 4,
+        "s4": {
           "title": "Home Screen - Dark Theme",
-          "description": "Dark mode music list interface",
-          "imageUrl": "/side-projects/music-player/home_screen-dark_theme.png"
+          "desc": "Dark mode music list interface"
         },
-        {
-          "id": 5,
+        "s5": {
           "title": "Profile Screen - Light Theme",
-          "description": "User settings and backup features",
-          "imageUrl": "/side-projects/music-player/profile_screen-light_theme.png"
+          "desc": "User settings and backup features"
         },
-        {
-          "id": 6,
+        "s6": {
           "title": "Profile Screen - Dark Theme",
-          "description": "Dark mode settings page",
-          "imageUrl": "/side-projects/music-player/profile_screen-dark_theme.png"
+          "desc": "Dark mode settings page"
         }
-      ]
+      }
     },
     "roadmap": {
       "title": "Future Roadmap & Optimization",

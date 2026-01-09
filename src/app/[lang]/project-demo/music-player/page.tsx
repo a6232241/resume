@@ -7,6 +7,7 @@ import {
   SourceCodeLink,
   TechnicalChallengeCard,
 } from "@features/portfolio/components";
+import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
 
 export default async function MusicPlayerPage({ params }: { params: Promise<{ lang: string }> }) {
@@ -17,6 +18,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
+    description: t("hero.description"),
     summary: {
       problem: {
         icon: "🎯",
@@ -46,7 +48,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
       duration: t("overview.duration"),
       team: t("overview.team"),
       projectType: t("overview.projectType"),
-      focus: t("overview.focus"),
+      focus: t.raw("overview.focus") as string[],
       mainTechs: t.raw("overview.mainTechs") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },
@@ -79,18 +81,55 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
 
   // --- Evidence Data ---
   const evidenceRaw = t.raw("evidence") as {
-    videos: Array<{
-      id: number;
-      title: string;
-      description: string;
-      fileUrl: string;
-    }>;
-    screenshots: Array<{
-      id: number;
-      title: string;
-      description: string;
-      imageUrl: string;
-    }>;
+    videos: Record<string, { title: string; desc: string }>;
+    screenshots: Record<string, { title: string; desc: string }>;
+  };
+
+  const evidenceData = {
+    videos: [
+      {
+        ...evidenceRaw.videos.v1,
+        fileUrl: getMediaUrl("/music-player/filter_music.mp4"),
+      },
+      {
+        ...evidenceRaw.videos.v2,
+        fileUrl: getMediaUrl("/music-player/show_music_detail_modal.mp4"),
+      },
+      {
+        ...evidenceRaw.videos.v3,
+        fileUrl: getMediaUrl("/music-player/download_all_audios.mp4"),
+      },
+      {
+        ...evidenceRaw.videos.v4,
+        fileUrl: getMediaUrl("/music-player/upload_audio.mp4"),
+      },
+    ],
+    screenshots: [
+      {
+        ...evidenceRaw.screenshots.s1,
+        imageUrl: getMediaUrl("/music-player/launch_screen-light_theme.png"),
+      },
+      {
+        ...evidenceRaw.screenshots.s2,
+        imageUrl: getMediaUrl("/music-player/launch_screen-dark_theme.png"),
+      },
+      {
+        ...evidenceRaw.screenshots.s3,
+        imageUrl: getMediaUrl("/music-player/home_screen-light_theme.png"),
+      },
+      {
+        ...evidenceRaw.screenshots.s4,
+        imageUrl: getMediaUrl("/music-player/home_screen-dark_theme.png"),
+      },
+      {
+        ...evidenceRaw.screenshots.s5,
+        imageUrl: getMediaUrl("/music-player/profile_screen-light_theme.png"),
+      },
+      {
+        ...evidenceRaw.screenshots.s6,
+        imageUrl: getMediaUrl("/music-player/profile_screen-dark_theme.png"),
+      },
+    ],
   };
 
   // --- Roadmap Data ---
@@ -115,7 +154,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
       />
       <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
       <TechnicalChallengeCard challenges={challengesRaw} />
-      <MusicPlayerEvidence videos={evidenceRaw.videos} screenshots={evidenceRaw.screenshots} />
+      <MusicPlayerEvidence videos={evidenceData.videos} screenshots={evidenceData.screenshots} />
       <FutureRoadmap {...roadmapData} />
       <SourceCodeLink href="https://github.com/a6232241/music-player" />
       <LegalDisclaimer text={disclaimerText} />

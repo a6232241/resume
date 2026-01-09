@@ -28,7 +28,6 @@ export function FutureRoadmap({ title, subtitle, categories }: FutureRoadmapProp
             <ul className="space-y-3">
               {category.items.map((item, itemIndex) => (
                 <li key={itemIndex} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                  <span className="mt-0.5 text-gray-400 dark:text-gray-500">☐</span>
                   <span>{item}</span>
                 </li>
               ))}

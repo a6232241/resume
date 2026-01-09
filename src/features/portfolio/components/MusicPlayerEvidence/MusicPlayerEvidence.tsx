@@ -3,16 +3,14 @@
 import { ProjectImageGrid, type ProjectImageGridItem } from "@components/shared";
 
 interface VideoEvidence {
-  id: number;
   title: string;
-  description: string;
+  desc: string;
   fileUrl: string;
 }
 
 interface ScreenshotEvidence {
-  id: number;
   title: string;
-  description: string;
+  desc: string;
   imageUrl: string;
 }
 
@@ -27,7 +25,7 @@ export function MusicPlayerEvidence({ videos, screenshots }: MusicPlayerEvidence
     src: v.fileUrl,
     alt: v.title,
     title: v.title,
-    description: v.description,
+    description: v.desc,
   }));
 
   const screenshotItems: ProjectImageGridItem[] = screenshots.map((s) => ({
@@ -35,7 +33,7 @@ export function MusicPlayerEvidence({ videos, screenshots }: MusicPlayerEvidence
     src: s.imageUrl,
     alt: s.title,
     title: s.title,
-    description: s.description,
+    description: s.desc,
   }));
 
   return (

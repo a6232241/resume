@@ -26,7 +26,7 @@
       "team": "獨立診斷與優化",
       "projectType": "工作專案 · 性能優化",
       "mainTechs": "React Native, Redux Toolkit, React Query, React DevTools, Flipper",
-      "focus": "登入流程, 多頁面導航, 狀態管理",
+      "focus": ["登入流程", "多頁面導航", "狀態管理"],
       "platforms": ["Android", "iOS"]
     },
     "metrics": {

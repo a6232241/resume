@@ -5,7 +5,7 @@ interface OverviewData {
   team: string;
   projectType: string;
   mainTechs: string[];
-  focus?: string | string[];
+  focus?: string[];
   platforms?: string[];
 }
 
@@ -20,9 +20,6 @@ export default function ProjectOverview({
   techBadgeColor = "blue",
   focusBadgeColor = "purple",
 }: ProjectOverviewProps) {
-  // Parse focus as array if it's a string
-  const focusItems = typeof overview.focus === "string" ? overview.focus.split(", ") : overview.focus;
-
   // Badge color classes
   const techBadgeClasses =
     techBadgeColor === "purple"
@@ -69,11 +66,11 @@ export default function ProjectOverview({
         </div>
 
         {/* --- Focus Areas --- */}
-        {focusItems && focusItems.length > 0 && (
+        {overview.focus && overview.focus.length > 0 && (
           <div className="mt-6">
             <p className="text-sm text-gray-600 dark:text-gray-400">🎯 優化焦點</p>
             <div className="mt-2 flex flex-wrap gap-2">
-              {focusItems.map((item) => (
+              {overview.focus.map((item) => (
                 <span key={item} className={`rounded-full px-3 py-1 text-sm font-medium ${focusBadgeClasses}`}>
                   {item}
                 </span>

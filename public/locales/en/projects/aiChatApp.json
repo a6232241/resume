@@ -32,7 +32,7 @@
       "team": "Independent Research",
       "projectType": "Personal Project · Mobile Full-Stack",
       "mainTechs": ["React Native", "Expo", "SQLite", "GitHub Models API"],
-      "focus": "Native Module Bridging, SQLite Persistence, Context Menu Integration",
+      "focus": ["Native Module Bridging", "SQLite Persistence", "Context Menu Integration"],
       "platforms": ["iOS", "Android"]
     },
     "challenges": [
