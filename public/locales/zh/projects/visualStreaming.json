@@ -1,85 +1,129 @@
 {
   "shortDesc": "在直播預覽中即時替換臉部，驗證高效能影像處理與原生整合可行性。",
-  "technologies": ["React Native", "Vision Camera", "Kotlin/ObjC", "C++", "OpenCV"],
+  "technologies": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
   "achievements": [
     "單人 4 個月完成 Android/iOS 雙平台 Demo",
     "C++ 代碼複用率 80%+，跨平台共用核心邏輯",
     "採用 RN 新架構 Fabric & TurboModules，開發 Native Component"
   ],
   "role": "單人 · 4 個月",
+  "badge": "JSI 跨層整合",
   "fullDesc": "一個 React Native 全棧項目：在直播應用中實現實時人臉交換特效。核心挑戰是在無深度學習模型訓練的前提下，用傳統幾何影像處理完成概念驗證，同時確保跨平台相容性。\n\n技術亮點：\n• React Native + Vision Camera 實時預覽與自訂 Frame Processor 設計\n• 原生層集成 ML Kit 人臉檢測，解決感測器幀與相機預覽的座標偏差問題\n• Kotlin ↔ C++（OpenCV）直接通訊，C++ 代碼在 iOS 端複用率達 80%+\n\n4 個月獨立完成 Android/iOS 雙平台 Demo，涵蓋前端、原生、算法的完整技術棧整合。",
   "detail": {
     "hero": {
       "title": "Visual Streaming",
-      "tagline": "實時直播換臉特效 PoC"
+      "tagline": "實時直播換臉特效 PoC",
+      "description": "透過 JSI 與 Shared C++ Core 實現跨平台高效能實時影像處理。",
+      "summary": {
+        "problem": {
+          "title": "挑戰",
+          "desc": "移動端<highlight>實時人臉處理</highlight>的性能與跨平台複用難題"
+        },
+        "solution": {
+          "title": "方案",
+          "desc": "JSI Worklets 非阻塞處理 + 80% C++ 共享核心"
+        },
+        "impact": {
+          "title": "成效",
+          "desc": "實現<highlight>實時處理</highlight>與<highlight>雙平台代碼復用</highlight>"
+        }
+      }
     },
     "overview": {
       "duration": "4 個月",
       "team": "獨立開發",
       "projectType": "PoC 探索性項目",
+      "focus": ["JSI 跨層通訊", "座標系統映射", "C++ 跨平台複用"],
       "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
       "platforms": ["Android", "iOS"]
     },
-    "motivation": {
-      "title": "為什麼做這個項目？",
-      "description": "想驗證『在移動設備上實現實時人臉交換』是否可行。",
-      "keyQuestions": [
-        "實時影像處理能否在手機上跑？",
-        "前端（RN）+ 後端（原生）如何高效協作？",
-        "跨平台代碼（C++）的複用成本有多低？"
-      ]
-    },
     "challenges": [
       {
-        "title": "座標轉換與設備適配",
-        "symptom": "人臉特徵點位置與預覽畫面不對齊",
-        "rootCause": "透過 Vision Camera 的預覽畫面與 frame 的座標系統不一致",
-        "impact": "人臉交換效果位置錯亂"
-      },
-      {
-        "title": "計算性能瓶頸",
+        "id": 1,
+        "title": "Non-blocking UI - 主執行緒卸載",
         "symptom": "人臉檢測導致 UI 卡頓",
         "rootCause": "ML Kit 人臉檢測是耗時操作，在主執行緒進行會阻塞渲染",
-        "impact": "用戶體驗卡頓，交互不流暢"
+        "impact": "用戶體驗卡頓，交互不流暢",
+        "badge": "JSI Optimized",
+        "metrics": {
+          "label": "UI 響應",
+          "before": "卡頓",
+          "after": "即時"
+        },
+        "solution": {
+          "approach": "JSI Worklets + Native Async Offloading",
+          "details": [
+            "JS 層：透過 runAsync 實現非阻塞式幀處理管道",
+            "Android 層：利用 Coroutines Dispatchers.IO 卸載計算密集型任務",
+            "iOS 層：利用 GCD 異步派發確保主執行緒渲染不中斷"
+          ],
+          "result": "確保在高負載 AI 運算下，UI 仍能維持 60fps 的流暢交互體驗"
+        },
+        "filePaths": ["App.tsx", "android/.../FrameEffectsOverlayView.kt", "ios/FaceDetector/FaceDetector.m"],
+        "codeSnippets": [
+          "// 1. JS Worklet Offloading\nrunAsync(frame, () => {\n  'worklet';\n  applyEffect(frame, cameraPosition);\n});",
+          "// 2. Android Coroutines IO\ncoroutineScope.launch(Dispatchers.IO) {\n  targetFaces = FaceDetector.detect(image)\n}",
+          "// 3. iOS GCD Offloading\ndispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{\n  [self performDetectionOnImage:image completion:completion];\n});"
+        ],
+        "multiHighlightTerms": [
+          ["runAsync", "'worklet'"],
+          ["Dispatchers.IO", "coroutineScope.launch"],
+          ["dispatch_async", "dispatch_get_global_queue"]
+        ]
       },
       {
-        "title": "跨平台開發成本",
+        "id": 2,
+        "title": "Matrix Transformation - 座標映射",
+        "symptom": "人臉特徵點位置與預覽畫面不對齊",
+        "rootCause": "透過 Vision Camera 的預覽畫面與 frame 的座標系統不一致",
+        "impact": "人臉交換效果位置錯亂",
+        "badge": "精準對齊",
+        "metrics": {
+          "label": "座標精準度",
+          "before": "錯亂",
+          "after": "對齊"
+        },
+        "filePath": "FaceOverlayView.kt",
+        "codeSnippet": "// Handle frame.orientation for coordinate mapping\nval matrix = Matrix()\nmatrix.postRotate(frame.orientation.toFloat())\n\nif (isFrontCamera) {\n  // Mirror horizontally for front camera\n  matrix.postScale(-1f, 1f, width / 2f, 0f)\n}\n\ncanvas.drawBitmap(processedBitmap, matrix, paint)",
+        "highlightTerms": ["postRotate", "postScale", "frame.orientation"],
+        "solution": {
+          "approach": "Matrix.postRotate() + 前後鏡頭翻轉補償",
+          "details": [
+            "捕獲 Vision Camera 的 frame.orientation 獲取設備當前方向",
+            "使用 Matrix.postRotate() 應用設備旋轉補償",
+            "根據相機位置（前/後）應用對應的矩陣變換（翻轉/無翻轉）",
+            "在 Canvas 繪製時應用最終變換矩陣"
+          ],
+          "result": "人臉檢測點與屏幕預覽完全對齊，支持各種設備方向",
+          "category": "座標映射"
+        }
+      },
+      {
+        "id": 3,
+        "title": "Shared C++ Core - 80% 代碼複用",
         "symptom": "代碼重複、維護複雜",
         "rootCause": "Android/iOS 分別實現導致 2 倍工作量",
-        "impact": "項目周期拉長"
-      }
-    ],
-    "solutions": [
-      {
-        "problem": "座標轉換與設備適配",
-        "approach": "自定義影像繪製邏輯",
-        "details": [
-          "捕獲 Vision Camera 的 frame.orientation 獲取設備當前方向",
-          "使用 Matrix.postRotate() 應用設備旋轉補償",
-          "根據相機位置（前/後）應用對應的矩陣變換（翻轉/無翻轉）",
-          "在 Canvas 繪製時應用最終變換矩陣"
-        ],
-        "result": "人臉檢測點與屏幕預覽完全對齊，支持各種設備方向",
-        "category": "座標映射"
-      },
-      {
-        "problem": "計算性能瓶頸",
-        "approach": "異步處理 + 結果快取",
-        "details": [
-          "使用 Kotlin Coroutines 的 Dispatchers.IO 在後台執行 FaceDetector",
-          "人臉檢測結果快取在成員變數中",
-          "渲染層直接使用快取結果，避免重複計算",
-          "SurfaceView 直接繪製，減少 View 層級開銷"
-        ],
-        "result": "UI 執行緒主要進行 Canvas 繪製，計算密集工作在後台進行",
-        "category": "性能優化"
-      },
-      {
-        "problem": "跨平台開發成本",
-        "approach": "C++ 代碼複用",
-        "details": ["Canvas 複雜變形效能不足", "OpenCV 提供更優化的算法", "C++ 可在 iOS/Android 上複用，降低開發成本"],
-        "result": "80%+ C++ 代碼複用，開發周期減少 50%",
-        "category": "跨平台"
+        "impact": "項目周期拉長",
+        "badge": "80%+ 複用",
+        "metrics": {
+          "label": "代碼複用率",
+          "before": "0%",
+          "after": "80%+"
+        },
+        "filePath": "faceswap_core.cpp",
+        "codeSnippet": "// faceswap_core.cpp - Called by Android (JNI) & iOS\nvoid FaceSwapper::processFrame(\n  cv::Mat& inputFrame,\n  const std::vector<FaceLandmark>& landmarks\n) {\n  // Delaunay triangulation for face warping\n  cv::Mat delaunay = computeDelaunay(landmarks);\n  \n  // Apply geometric transformation\n  applyWarpTransform(inputFrame, delaunay);\n}",
+        "highlightTerms": ["cv::Mat", "FaceSwapper", "computeDelaunay"],
+        "solution": {
+          "approach": "C++ Core + Platform Bridge (JNI/ObjC)",
+          "details": [
+            "核心算法用 C++ 實現，透過 OpenCV 處理影像",
+            "Android 透過 JNI 調用 C++ 函數",
+            "iOS 透過 Objective-C++ 直接調用",
+            "平台層僅負責數據轉換（ARGB ↔ BGRA）"
+          ],
+          "result": "80%+ C++ 代碼複用，開發周期減少 50%",
+          "category": "跨平台"
+        }
       }
     ],
     "architecture": {
@@ -87,17 +131,42 @@
       "layers": [
         {
           "name": "React Native（UI 層）",
-          "responsibilities": ["Vision Camera 實時預覽"]
+          "icon": "📱",
+          "responsibilities": ["Vision Camera 實時預覽", "Frame Processor Worklets"]
         },
         {
           "name": "Kotlin / Objective-C（Platform 層）",
+          "icon": "🔧",
           "responsibilities": ["ML Kit 人臉檢測", "相機幀數據管理", "色彩通道轉換（ARGB ↔ BGRA）"]
         },
         {
-          "name": "C++（算法層，80% 複用）",
-          "responsibilities": ["OpenCV 圖像處理 (幾何變換/融合)", "Deluanay 三角剖分", "人臉交換"]
+          "name": "C++（Algorithm 層，80% 複用）",
+          "icon": "⚙️",
+          "responsibilities": ["OpenCV 圖像處理 (幾何變換/融合)", "Delaunay 三角剖分", "人臉交換核心算法"]
         }
       ]
+    },
+    "evidence": {
+      "videos": {
+        "v1": {
+          "title": "Android Demo",
+          "desc": "Android 平台實時人臉交換效果展示"
+        },
+        "v2": {
+          "title": "iOS Demo",
+          "desc": "iOS 平台實時人臉交換效果展示"
+        }
+      },
+      "screenshots": {
+        "s1": {
+          "title": "人臉交換效果 - 示例 1",
+          "desc": "展示實時人臉交換的視覺效果"
+        },
+        "s2": {
+          "title": "人臉交換效果 - 示例 2",
+          "desc": "不同角度的人臉交換效果"
+        }
+      }
     },
     "metrics": {
       "accuracy": {
@@ -133,7 +202,8 @@
         "category": "跨平台設計",
         "description": "80%+ C++ 複用不是偶然，需要前期架構設計考慮跨平台性"
       }
-    ]
+    ],
+    "disclaimer": "此專案為概念驗證 (PoC) 項目，展示實時影像處理的技術可行性。所有展示的媒體資產僅供演示用途。"
   }
 }
 

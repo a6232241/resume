@@ -1,18 +1,21 @@
 "use client";
 
+import { SingleCodeBlock } from "./SingleCodeBlock";
+import { TabbedCodeBlock } from "./TabbedCodeBlock";
+
 interface SolutionData {
   approach: string;
   details: string[];
   result: string;
-  category: string;
+  category?: string;
 }
 
 interface ChallengeData {
   id: number;
   title: string;
   symptom: string;
-  rootCause: string;
-  impact: string;
+  rootCause?: string;
+  impact?: string;
   badge?: string;
   metrics?: {
     label: string;
@@ -20,60 +23,16 @@ interface ChallengeData {
     after: string;
   };
   filePath?: string;
-  codeSnippet: string;
-  highlightTerms: string[];
+  codeSnippet?: string;
+  highlightTerms?: string[];
+  multiHighlightTerms?: string[][];
+  filePaths?: string[];
+  codeSnippets?: string[];
   solution: SolutionData;
 }
 
 export interface TechnicalChallengeCardProps {
   challenges: ChallengeData[];
-}
-
-/** Highlight specific terms in code with custom styling */
-function highlightCode(code: string, terms: string[]): React.ReactNode {
-  if (!terms || terms.length === 0) return code;
-
-  const lines = code.split("\n");
-
-  return lines.map((line, lineIndex) => {
-    let result: React.ReactNode[] = [];
-    let currentText = line;
-    let keyIndex = 0;
-
-    // Process each highlight term
-    terms.forEach((term) => {
-      const parts = currentText.split(term);
-      if (parts.length > 1) {
-        const newResult: React.ReactNode[] = [];
-        parts.forEach((part, i) => {
-          if (part) {
-            newResult.push(<span key={`${lineIndex}-${keyIndex++}`}>{part}</span>);
-          }
-          if (i < parts.length - 1) {
-            newResult.push(
-              <span
-                key={`${lineIndex}-hl-${keyIndex++}`}
-                className="rounded bg-yellow-500/30 px-1 font-bold text-yellow-200">
-                {term}
-              </span>,
-            );
-          }
-        });
-        result = newResult;
-        currentText = parts.join("");
-      }
-    });
-
-    if (result.length === 0) {
-      result = [<span key={`${lineIndex}-text`}>{line}</span>];
-    }
-
-    return (
-      <div key={lineIndex} className="leading-relaxed">
-        {result}
-      </div>
-    );
-  });
 }
 
 export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardProps) {
@@ -87,113 +46,134 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
 
         {/* --- Challenge Cards --- */}
         <div className="space-y-8">
-          {challenges.map((challenge, index) => (
-            <div key={challenge.id} className="relative">
-              <div className="absolute top-8 left-4 z-10 hidden h-4 w-4 rounded-full border-2 border-purple-500 bg-gray-900 md:block" />
+          {challenges.map((challenge, index) => {
+            const hasMultiSnippets = challenge.codeSnippets && challenge.codeSnippets.length > 0;
+            const hasFilePaths = challenge.filePaths && challenge.filePaths.length > 0;
+            const hasMultiHighlightTerms = challenge.multiHighlightTerms && challenge.multiHighlightTerms.length > 0;
 
-              <div className="ml-0 md:ml-12">
-                <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-white/10 dark:bg-white/5 dark:backdrop-blur-sm">
-                  <div className="border-b border-gray-200 bg-gradient-to-r from-purple-100 to-pink-100 px-6 py-4 dark:border-white/10 dark:from-purple-900/20 dark:to-pink-900/20">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                        <span className="mr-2 text-purple-600 dark:text-purple-400">#{index + 1}</span>
-                        {challenge.title}
-                      </h3>
-                      <div className="flex items-center gap-2">
-                        {challenge.badge && (
-                          <span className="rounded-full bg-green-500/20 px-3 py-1 text-xs font-medium text-green-300">
-                            ✓ {challenge.badge}
-                          </span>
-                        )}
-                        <span className="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-300">
-                          {challenge.solution.category}
-                        </span>
+            return (
+              <div key={challenge.id} className="relative">
+                <div className="absolute top-8 left-4 z-10 hidden h-4 w-4 rounded-full border-2 border-purple-500 bg-gray-900 md:block" />
+
+                <div className="ml-0 md:ml-12">
+                  <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-white/10 dark:bg-white/5 dark:backdrop-blur-sm">
+                    <div className="border-b border-gray-200 bg-gradient-to-r from-purple-100 to-pink-100 px-6 py-4 dark:border-white/10 dark:from-purple-900/20 dark:to-pink-900/20">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                          <span className="mr-2 text-purple-600 dark:text-purple-400">#{index + 1}</span>
+                          {challenge.title}
+                        </h3>
+                        <div className="flex items-center gap-2">
+                          {challenge.badge && (
+                            <span className="rounded-full bg-green-500/20 px-3 py-1 text-xs font-medium text-green-600 dark:text-green-300">
+                              ✓ {challenge.badge}
+                            </span>
+                          )}
+                          {challenge.solution.category && (
+                            <span className="rounded-full bg-purple-500/20 px-3 py-1 text-xs font-medium text-purple-600 dark:text-purple-300">
+                              {challenge.solution.category}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* --- Problem & Solution Pairing --- */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2">
-                    {/* Left: Challenge Details */}
-                    <div className="border-b border-gray-200 p-6 lg:border-r lg:border-b-0 dark:border-white/10">
-                      <h4 className="mb-4 flex items-center gap-2 text-sm font-bold tracking-wider text-red-400 uppercase">
-                        <span>⚠️</span> 問題分析
-                      </h4>
-
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">症狀</p>
-                          <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.symptom}</p>
-                        </div>
-
-                        <div>
-                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">根本原因</p>
-                          <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.rootCause}</p>
-                        </div>
-
-                        <div>
-                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400">影響</p>
-                          <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.impact}</p>
-                        </div>
-
-                        {challenge.metrics && (
-                          <div className="mt-4 rounded-lg border border-orange-500/30 bg-orange-500/10 p-3">
-                            <p className="text-xs font-medium text-orange-400">{challenge.metrics.label}</p>
-                            <div className="mt-1 flex items-center gap-2">
-                              <span className="text-lg font-bold text-red-400 line-through">
-                                {challenge.metrics.before}
-                              </span>
-                              <span className="text-gray-500 dark:text-gray-500">→</span>
-                              <span className="text-lg font-bold text-green-400">{challenge.metrics.after}</span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Solution Approach */}
-                      <div className="mt-6 rounded-lg bg-green-500/10 p-4">
-                        <h4 className="mb-2 flex items-center gap-2 text-sm font-bold tracking-wider text-green-400 uppercase">
-                          <span>✅</span> 解決方案
+                    {/* --- Problem & Solution Pairing --- */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2">
+                      {/* Left: Challenge Details */}
+                      <div className="border-b border-gray-200 p-6 lg:border-r lg:border-b-0 dark:border-white/10">
+                        <h4 className="mb-4 flex items-center gap-2 text-sm font-bold tracking-wider text-red-500 uppercase dark:text-red-400">
+                          <span>⚠️</span> 問題分析
                         </h4>
-                        <p className="mb-3 font-mono text-sm font-bold text-green-300">{challenge.solution.approach}</p>
-                        <ul className="space-y-1">
-                          {challenge.solution.details.map((detail, i) => (
-                            <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                              <span className="mt-1 text-green-400">•</span>
-                              {detail}
-                            </li>
-                          ))}
-                        </ul>
-                        <p className="mt-3 border-t border-green-500/20 pt-3 text-sm text-green-300">
-                          <span className="font-bold">結果：</span> {challenge.solution.result}
-                        </p>
-                      </div>
-                    </div>
 
-                    {/* --- Code Snippet --- */}
-                    <div className="bg-gray-100 p-6 dark:bg-gray-900/50">
-                      <h4 className="mb-4 flex items-center gap-2 text-sm font-bold tracking-wider text-blue-400 uppercase">
-                        <span>💻</span> 核心程式碼
-                      </h4>
-                      <div className="overflow-hidden rounded-lg bg-gray-950">
-                        {challenge.filePath && (
-                          <div className="flex items-center gap-2 border-b border-gray-800 bg-gray-900 px-4 py-2">
-                            <span className="text-gray-500">📄</span>
-                            <code className="text-xs text-gray-400">{challenge.filePath}</code>
+                        <div className="space-y-4">
+                          <div>
+                            <p className="text-xs font-medium text-gray-600 dark:text-gray-400">症狀</p>
+                            <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.symptom}</p>
                           </div>
-                        )}
-                        <div className="overflow-x-auto p-4">
-                          <pre className="font-mono text-sm text-gray-700 dark:text-gray-300">
-                            <code>{highlightCode(challenge.codeSnippet, challenge.highlightTerms)}</code>
-                          </pre>
+
+                          {challenge.rootCause && (
+                            <div>
+                              <p className="text-xs font-medium text-gray-600 dark:text-gray-400">根本原因</p>
+                              <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.rootCause}</p>
+                            </div>
+                          )}
+
+                          {challenge.impact && (
+                            <div>
+                              <p className="text-xs font-medium text-gray-600 dark:text-gray-400">影響</p>
+                              <p className="mt-1 text-gray-900 dark:text-gray-100">{challenge.impact}</p>
+                            </div>
+                          )}
+
+                          {challenge.metrics && (
+                            <div className="mt-4 rounded-lg border border-orange-500/30 bg-orange-500/10 p-3">
+                              <p className="text-xs font-medium text-orange-600 dark:text-orange-400">
+                                {challenge.metrics.label}
+                              </p>
+                              <div className="mt-1 flex items-center gap-2">
+                                <span className="text-lg font-bold text-red-500 line-through dark:text-red-400">
+                                  {challenge.metrics.before}
+                                </span>
+                                <span className="text-gray-500 dark:text-gray-500">→</span>
+                                <span className="text-lg font-bold text-green-600 dark:text-green-400">
+                                  {challenge.metrics.after}
+                                </span>
+                              </div>
+                            </div>
+                          )}
                         </div>
+
+                        {/* Solution Approach */}
+                        <div className="mt-6 rounded-lg bg-green-500/10 p-4">
+                          <h4 className="mb-2 flex items-center gap-2 text-sm font-bold tracking-wider text-green-600 uppercase dark:text-green-400">
+                            <span>✅</span> 解決方案
+                          </h4>
+                          <p className="mb-3 font-mono text-sm font-bold text-green-700 dark:text-green-300">
+                            {challenge.solution.approach}
+                          </p>
+                          <ul className="space-y-1">
+                            {challenge.solution.details.map((detail, i) => (
+                              <li key={i} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                <span className="mt-1 text-green-500 dark:text-green-400">•</span>
+                                {detail}
+                              </li>
+                            ))}
+                          </ul>
+                          {challenge.solution.result && (
+                            <p className="mt-3 border-t border-green-500/20 pt-3 text-sm text-green-700 dark:text-green-300">
+                              <span className="font-bold">結果：</span> {challenge.solution.result}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* --- Code Snippet --- */}
+                      <div className="bg-gray-100 p-6 dark:bg-gray-900/50">
+                        <h4 className="mb-4 flex items-center gap-2 text-sm font-bold tracking-wider text-blue-500 uppercase dark:text-blue-400">
+                          <span>💻</span> 核心程式碼
+                        </h4>
+
+                        {hasMultiSnippets && hasFilePaths && hasMultiHighlightTerms ? (
+                          <TabbedCodeBlock
+                            filePaths={challenge.filePaths!}
+                            codeSnippets={challenge.codeSnippets!}
+                            multiHighlightTerms={challenge.multiHighlightTerms!}
+                          />
+                        ) : (
+                          <SingleCodeBlock
+                            filePath={challenge.filePath}
+                            codeSnippet={challenge.codeSnippet || ""}
+                            highlightTerms={challenge.highlightTerms || []}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

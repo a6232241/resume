@@ -68,7 +68,7 @@ export default function ProjectOverview({
         {/* --- Focus Areas --- */}
         {overview.focus && overview.focus.length > 0 && (
           <div className="mt-6">
-            <p className="text-sm text-gray-600 dark:text-gray-400">🎯 優化焦點</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">🎯 焦點</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {overview.focus.map((item) => (
                 <span key={item} className={`rounded-full px-3 py-1 text-sm font-medium ${focusBadgeClasses}`}>
