@@ -1,34 +1,30 @@
 {
-  "shortDesc": "整合多模型 LLM 與離線優先架構的 AI 聊天應用",
-  "technologies": ["Expo", "React Native", "GitHub Models", "SQLite"],
+  "shortDesc": "基於 GitHub Models API 與離線優先架構的 AI 聊天應用",
+  "technologies": ["React Native", "Expo", "SQLite", "GitHub Models API"],
   "badge": "原生整合",
-  "fullDesc": "這款 AI 聊天 App 專為學習 AI 而建，使用者可建立多聊天室、保留對話記憶，並隨時刪除歷史紀錄。\n\n技術棧：Expo 開發框架，整合 GitHub Models 實現 AI 對話功能。",
+  "role": "個人開發 / 技術研究",
   "detail": {
     "hero": {
       "title": "AI 聊天 App",
       "tagline": "AI 驅動 × 離線優先 × 原生整合",
-      "description": "基於 Expo Bare Workflow 構建的 AI 對話應用，整合 GitHub Models 提供多模型對話能力，並透過 SQLite 實現數據持久化，確保對話紀錄的安全與可存取性。",
+      "description": "基於 Expo Bare Workflow 構建的 AI 對話應用，整合 GitHub Models 提供強大的對話能力，並透過 SQLite 實現數據持久化，確保對話紀錄的安全與可存取性。",
       "summary": {
         "problem": {
           "title": "挑戰",
-          "desc": "標準 Expo Go <highlight>缺乏原生模組存取</highlight>，且網路不穩時會導致訊息處理問題"
+          "desc": "標準 Expo Go <highlight>缺乏原生模組存取</highlight>，且網路不穩時，會導致訊息處理問題"
         },
         "solution": {
           "title": "方案",
-          "desc": "採用 Bare Workflow 實現深度原生整合，搭配 SQLite 持久化與手動重發支援"
+          "desc": "採用 Bare Workflow 實現深度原生整合，搭配「樂觀式 UI 與預寫持久化」策略"
         },
         "impact": {
           "title": "成效",
-          "desc": "達成<highlight>0% 訊息遺失率</highlight>與<highlight>原子式 DB-First 持久化</highlight>"
+          "desc": "達成<highlight>高可靠性錯誤復原</highlight>、<highlight>樂觀式 UI 與網路前持久化</highlight>"
         }
-      },
-      "badge": {
-        "text": "已驗證 0% 資料遺失",
-        "icon": "shield-check"
       }
     },
     "overview": {
-      "duration": "1 個月",
+      "duration": "約 2 個月 (高強度開發)",
       "team": "個人開發 / 技術研究",
       "projectType": "個人專案 · 行動端全端",
       "mainTechs": ["React Native", "Expo", "SQLite", "GitHub Models API"],
@@ -50,7 +46,7 @@
           "approach": "Expo Bare Workflow 遷移",
           "details": [
             "從託管模式遷移至 Bare Workflow",
-            "保留 Expo 開發體驗同時獲得原生專案存取權",
+            "保留 Expo 開發體驗，同時獲得原生專案存取權",
             "整合 react-native-context-menu-view 於 iOS"
           ],
           "result": "完整控制 Android/iOS 專案，同時享有 Expo 的快速迭代優勢",
@@ -59,23 +55,23 @@
       },
       {
         "id": 2,
-        "title": "響應式 UX 與資料持久化的平衡",
+        "title": "兼顧響應性與耐用性的持久化策略",
         "symptom": "即時使用者回饋與資料持久化保證之間的取捨",
         "rootCause": "純樂觀式 UI 有資料遺失風險；純 DB-First 會造成感知延遲",
-        "impact": "需要即時回饋，同時確保訊息在閃退或網路故障時不會遺失",
-        "badge": "0% 遺失率",
+        "impact": "需要即時回饋，同時確保訊息在閃退或網路故障前已完成本地備份",
+        "badge": "高可靠性",
         "filePath": "app/index.tsx",
-        "codeSnippet": "// 樂觀式 UI + 網路前持久化\n// 1. 即時 UI 回饋\nsetMessages(prev => [userMessage, ...prev]);\n\n// 2. 網路請求前寫入 SQLite\nawait Apis.sqlite.message.putMessage({\n  ...userMessage\n});\n\n// 3. 然後啟動 API 呼叫\nawait Apis.githubModel.postMessageToChat(userMessage);",
-        "highlightTerms": ["setMessages", "putMessage", "網路前"],
+        "codeSnippet": "// 1. 樂觀 UI 更新：提供即時的響應體驗\nsetMessages((prev) => [userMessage, ...prev]);\n\n// 2. 預寫持久化：在網路請求前強制寫入 SQLite 確保數據安全\nif (conversationId) {\n  await Apis.sqlite.message.putMessage({ ...userMessage, conversationId });\n}\n\n// 3. 執行 API：進行遠端對話請求\nconst response = await Apis.githubModel.postMessageToChat(...);",
+        "highlightTerms": ["setMessages", "putMessage", "postMessageToChat"],
         "solution": {
           "approach": "樂觀式 UI + 網路前持久化",
           "details": [
-            "即時 UI 更新提供響應式使用者體驗",
-            "SQLite 寫入在網路請求前暑存資料",
-            "即使 API 呼叫失敗或 App 閃退也能保證資料持久化"
+            "即時 UI 更新提供零延遲的使用者體驗",
+            "在執行異步 API 請求前，強制完成 SQLite 寫入",
+            "確保異常崩潰時，訊息已在本地完成暫存，支援後續錯誤復原"
           ],
-          "result": "驗證 0% 訊息遺失率，同時具備即時感知響應性",
-          "category": "UX 與資料完整性"
+          "result": "驗證高可靠性數據保護，同時具備極致的感知響應性",
+          "category": "UX 與數據可靠性"
         }
       },
       {
@@ -103,10 +99,10 @@
         {
           "icon": "🤖",
           "title": "為什麼選擇 GitHub Models？",
-          "reason": "開發階段免費使用，研究成本效益高",
+          "reason": "優異的擴充性與開發階段的免費配額",
           "details": [
             "與多個 LLM 提供者無縫 API 整合",
-            "透過統一介面支援 GPT-4、DeepSeek 等模型",
+            "統一的介面架構，具備未來快速接入 GPT-4、DeepSeek 等多種模型的潛力",
             "初期開發階段無需信用卡"
           ]
         },
@@ -125,52 +121,42 @@
       ]
     },
     "evidence": {
-      "videos": [
-        {
-          "id": 1,
+      "videos": {
+        "v1": {
           "title": "發送訊息",
-          "description": "展示即時訊息發送與 AI 回應",
-          "fileUrl": "/side-projects/ai-chat-app/send_message-dark_theme.mp4"
+          "desc": "展示即時訊息發送與 AI 回應"
         },
-        {
-          "id": 2,
+        "v2": {
           "title": "重發失敗訊息",
-          "description": "展示透過上下文選單手動重發失敗訊息",
-          "fileUrl": "/side-projects/ai-chat-app/resend_message-dark_theme.mp4"
+          "desc": "展示透過上下文選單手動重發失敗訊息"
         },
-        {
-          "id": 3,
+        "v3": {
           "title": "刪除訊息",
-          "description": "上下文選單整合進行訊息刪除",
-          "fileUrl": "/side-projects/ai-chat-app/delete_message-dark_theme.mp4"
+          "desc": "上下文選單整合進行訊息刪除"
+        },
+        "v4": {
+          "title": "網路前持久化",
+          "desc": "展示網路前持久化機制"
         }
-      ],
-      "screenshots": [
-        {
-          "id": 1,
+      },
+      "screenshots": {
+        "s1": {
           "title": "啟動畫面 - 深色",
-          "description": "深色主題的 App 啟動畫面",
-          "imageUrl": "/side-projects/ai-chat-app/launch_screen-dark_theme.png"
+          "desc": "深色主題的 App 啟動畫面"
         },
-        {
-          "id": 2,
+        "s2": {
           "title": "啟動畫面 - 淺色",
-          "description": "淺色主題的 App 啟動畫面",
-          "imageUrl": "/side-projects/ai-chat-app/launch_screen-light_theme.png"
+          "desc": "淺色主題的 App 啟動畫面"
         },
-        {
-          "id": 3,
+        "s3": {
           "title": "聊天畫面 - 深色",
-          "description": "深色模式的主聊天介面",
-          "imageUrl": "/side-projects/ai-chat-app/either_chat_screen-dark_theme.png"
+          "desc": "深色模式的主聊天介面"
         },
-        {
-          "id": 4,
+        "s4": {
           "title": "聊天畫面 - 淺色",
-          "description": "淺色模式的主聊天介面",
-          "imageUrl": "/side-projects/ai-chat-app/either_chat_screen-light_theme.png"
+          "desc": "淺色模式的主聊天介面"
         }
-      ]
+      }
     },
     "coreImplementation": {
       "title": "核心實作",
@@ -178,9 +164,9 @@
       "categories": [
         {
           "icon": "✅",
-          "title": "網路前持久化",
+          "title": "預寫持久化機制",
           "status": "verified",
-          "items": ["樂觀式 UI + 本地暫存", "API 呼叫前寫入 SQLite 確保持久性", "0% 訊息遺失率已驗證"]
+          "items": ["樂觀式 UI + 本地強制暫存", "API 呼叫前完成 SQLite 持久化", "顯著提升數據可靠性"]
         }
       ]
     },
@@ -190,22 +176,27 @@
       "categories": [
         {
           "icon": "🔄",
-          "title": "狀態機",
-          "items": ["完整的 Sending/Sent 狀態轉換", "訊息狀態視覺指示器"]
+          "title": "狀態機優化",
+          "items": ["補完 Sending/Sent 完整狀態轉換", "訊息狀態視覺指示器"]
         },
         {
           "icon": "⚡",
-          "title": "效能優化",
-          "items": ["FlatList windowSize 優化", "maxToRenderPerBatch 調校", "getItemLayout 即時滾動"]
+          "title": "效能調優",
+          "items": ["FlatList windowSize 優化", "getItemLayout 預計算列表高度"]
         },
         {
           "icon": "🌐",
-          "title": "網路處理",
-          "items": ["自動離線同步（背景）", "網路狀態偵測", "重新連線時自動重試"]
+          "title": "網路恢復機制",
+          "items": ["網路狀態偵測 (NetInfo)", "重新連線時自動重試失敗訊息"]
+        },
+        {
+          "icon": "🤖",
+          "title": "模型演進與調度",
+          "items": ["實作多模型切換 UI (GPT-4 / DeepSeek / Claude)", "支援串接自定義 API Endpoint"]
         }
       ]
     },
-    "disclaimer": "此專案為開源教育用途的展示。專注於原生模組整合與離線優先架構模式。所有展示的媒體資產僅供演示用途。"
+    "disclaimer": "此專案為開源教育用途的展示。專注於原生模組整合與離線優先架構模式。"
   }
 }
 

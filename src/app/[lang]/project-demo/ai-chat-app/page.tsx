@@ -9,6 +9,7 @@ import {
   SourceCodeLink,
   TechnicalChallengeCard,
 } from "@features/portfolio/components";
+import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
 
 export default async function AIChatAppPage({ params }: { params: Promise<{ lang: string }> }) {
@@ -16,11 +17,10 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
   const t = await getTranslations({ locale: lang, namespace: "projects.aiChatApp.detail" });
 
   // --- Hero Data ---
-  const heroBadge = t.raw("hero.badge") as { text: string; icon?: string } | undefined;
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
-    badge: heroBadge,
+    description: t("hero.description"),
     summary: {
       problem: {
         icon: "🎯",
@@ -93,19 +93,59 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
   };
 
   // --- Evidence Data ---
-  const evidenceRaw = t.raw("evidence") as {
-    videos: Array<{
-      id: number;
-      title: string;
-      description: string;
-      fileUrl: string;
-    }>;
-    screenshots: Array<{
-      id: number;
-      title: string;
-      description: string;
-      imageUrl: string;
-    }>;
+  const evidenceData = {
+    videos: [
+      {
+        id: 1,
+        title: t("evidence.videos.v1.title"),
+        desc: t("evidence.videos.v1.desc"),
+        fileUrl: getMediaUrl("/ai-chat-app/send_message-dark_theme.mp4"),
+      },
+      {
+        id: 2,
+        title: t("evidence.videos.v2.title"),
+        desc: t("evidence.videos.v2.desc"),
+        fileUrl: getMediaUrl("/ai-chat-app/resend_message-dark_theme.mp4"),
+      },
+      {
+        id: 3,
+        title: t("evidence.videos.v3.title"),
+        desc: t("evidence.videos.v3.desc"),
+        fileUrl: getMediaUrl("/ai-chat-app/delete_message-dark_theme.mp4"),
+      },
+      {
+        id: 4,
+        title: t("evidence.videos.v4.title"),
+        desc: t("evidence.videos.v4.desc"),
+        fileUrl: getMediaUrl("/ai-chat-app/pre-network-persistence-dark_theme.mp4"),
+      },
+    ],
+    screenshots: [
+      {
+        id: 1,
+        title: t("evidence.screenshots.s1.title"),
+        desc: t("evidence.screenshots.s1.desc"),
+        imageUrl: getMediaUrl("/ai-chat-app/launch_screen-dark_theme.png"),
+      },
+      {
+        id: 2,
+        title: t("evidence.screenshots.s2.title"),
+        desc: t("evidence.screenshots.s2.desc"),
+        imageUrl: getMediaUrl("/ai-chat-app/launch_screen-light_theme.png"),
+      },
+      {
+        id: 3,
+        title: t("evidence.screenshots.s3.title"),
+        desc: t("evidence.screenshots.s3.desc"),
+        imageUrl: getMediaUrl("/ai-chat-app/either_chat_screen-dark_theme.png"),
+      },
+      {
+        id: 4,
+        title: t("evidence.screenshots.s4.title"),
+        desc: t("evidence.screenshots.s4.desc"),
+        imageUrl: getMediaUrl("/ai-chat-app/either_chat_screen-light_theme.png"),
+      },
+    ],
   };
 
   // --- Core Implementation Data ---
@@ -146,7 +186,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
       <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
       <TechnicalChallengeCard challenges={challengesRaw} />
       <ArchitecturalDecisions {...decisionsData} />
-      <MusicPlayerEvidence videos={evidenceRaw.videos} screenshots={evidenceRaw.screenshots} />
+      <MusicPlayerEvidence {...evidenceData} />
       {coreImplementationRaw && (
         <CoreImplementation
           title={coreImplementationRaw.title}

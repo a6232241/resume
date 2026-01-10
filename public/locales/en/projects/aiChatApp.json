@@ -1,13 +1,13 @@
 {
-  "shortDesc": "An AI chat app with multi-model LLM integration and offline-first architecture.",
-  "technologies": ["Expo", "React Native", "GitHub Models", "SQLite"],
+  "shortDesc": "AI chat application integrated with GitHub Models and offline-first architecture.",
+  "technologies": ["React Native", "Expo", "SQLite", "GitHub Models API"],
   "badge": "Native Integration",
-  "fullDesc": "This AI chat app, built for learning AI, allows multiple chat rooms, conversation memory retention, and history deletion.\n\nTech stack: Expo framework integrated with GitHub Models for AI conversations.",
+  "role": "Personal Development / Technical Research",
   "detail": {
     "hero": {
       "title": "AI Chat App",
       "tagline": "AI-Powered × Offline-First × Native Integration",
-      "description": "A high-performance AI chat application built on Expo Bare Workflow, leveraging GitHub Models for multi-model LLM integration and SQLite for secure, offline-accessible data persistence.",
+      "description": "A high-performance AI chat application built on Expo Bare Workflow, leveraging GitHub Models for high-performance LLM integration and SQLite for secure data persistence.",
       "summary": {
         "problem": {
           "title": "Challenge",
@@ -15,20 +15,16 @@
         },
         "solution": {
           "title": "Solution",
-          "desc": "Adopt Bare Workflow for deep native integration with SQLite persistence and manual resend support"
+          "desc": "Adopt Bare Workflow for deep native integration with Optimistic UI and Pre-network Persistence strategy"
         },
         "impact": {
           "title": "Impact",
-          "desc": "Achieved <highlight>0% message loss rate</highlight> with <highlight>atomic DB-first persistence</highlight>"
+          "desc": "Achieved <highlight>High-Reliability Error Recovery</highlight> and <highlight>Optimistic UI with Pre-network Persistence</highlight>"
         }
-      },
-      "badge": {
-        "text": "Verified 0% Data Loss",
-        "icon": "shield-check"
       }
     },
     "overview": {
-      "duration": "1 Month",
+      "duration": "About 2 Months (Core Development)",
       "team": "Independent Research",
       "projectType": "Personal Project · Mobile Full-Stack",
       "mainTechs": ["React Native", "Expo", "SQLite", "GitHub Models API"],
@@ -44,7 +40,7 @@
         "impact": "Unable to implement context menus and advanced gesture handling",
         "badge": "Verified",
         "filePath": "app.json",
-        "codeSnippet": "{\\n  \\\"expo\\\": {\\n    \\\"ios\\\": {\\n      \\\"bundleIdentifier\\\": \\\"com.a55663340.ai-chat-app\\\",\\n      \\\"appleTeamId\\\": \\\"854H39T4U5\\\"\\n    },\\n    \\\"android\\\": {\\n      \\\"package\\\": \\\"com.a55663340.aichatapp\\\"\\n    },\\n    \\\"plugins\\\": [\\n      \\\"expo-router\\\",\\n      [\\\"expo-sqlite\\\", { \\\"enableFTS\\\": true }]\\n    ]\\n  }\\n}",
+        "codeSnippet": "{\n  \"expo\": {\n    \"ios\": {\n      \"bundleIdentifier\": \"com.a55663340.ai-chat-app\",\n      \"appleTeamId\": \"854H39T4U5\"\n    },\n    \"android\": {\n      \"package\": \"com.a55663340.aichatapp\"\n    },\n    \"plugins\": [\n      \"expo-router\",\n      [\"expo-sqlite\", { \"enableFTS\": true }]\n    ]\n  }\n}",
         "highlightTerms": ["bundleIdentifier", "package", "plugins"],
         "solution": {
           "approach": "Expo Bare Workflow Migration",
@@ -59,22 +55,22 @@
       },
       {
         "id": 2,
-        "title": "Balancing Responsive UX with Data Durability",
+        "title": "Persistence Strategy Balancing Responsiveness and Durability",
         "symptom": "Trade-off between immediate user feedback and data persistence guarantees",
         "rootCause": "Pure optimistic UI risks data loss; pure DB-first creates perceived latency",
-        "impact": "Needed instant feedback while ensuring messages survive crashes or network failures",
-        "badge": "0% Loss Rate",
+        "impact": "Needed instant feedback while ensuring messages are staged locally before the network request",
+        "badge": "High Reliability",
         "filePath": "app/index.tsx",
-        "codeSnippet": "// Optimistic UI with Pre-network Persistence\n// 1. Immediate UI feedback\nsetMessages(prev => [userMessage, ...prev]);\n\n// 2. Stage to SQLite before network\nawait Apis.sqlite.message.putMessage({\n  ...userMessage\n});\n\n// 3. Then initiate API call\nawait Apis.githubModel.postMessageToChat(userMessage);",
-        "highlightTerms": ["setMessages", "putMessage", "Pre-network"],
+        "codeSnippet": "// 1. Optimistic UI update: Provides immediate response experience\nsetMessages((prev) => [userMessage, ...prev]);\n\n// 2. Pre-network Persistence: Mandatory SQLite write before API call\nif (conversationId) {\n  await Apis.sqlite.message.putMessage({ ...userMessage, conversationId });\n}\n\n// 3. Initiate API call: Perform remote chat request\nconst response = await Apis.githubModel.postMessageToChat(...);",
+        "highlightTerms": ["setMessages", "putMessage", "postMessageToChat"],
         "solution": {
-          "approach": "Optimistic UI with Pre-network Persistence",
+          "approach": "Optimistic UI + Pre-network Persistence",
           "details": [
-            "Immediate UI update provides responsive user experience",
-            "SQLite write stages data locally before network request",
-            "Data durability guaranteed even if API call fails or app crashes"
+            "Immediate UI updates provide zero-latency perceived experience",
+            "Mandatory SQLite write stages data locally prior to asynchronous API calls",
+            "Ensures data durability for manual recovery even if the app crashes or network fails"
           ],
-          "result": "Verified 0% message loss rate with instant perceived responsiveness",
+          "result": "Verified high-reliability data protection with extreme perceived responsiveness",
           "category": "UX & Data Integrity"
         }
       },
@@ -110,7 +106,7 @@
           "reason": "Cost-effective for research with free tier during development",
           "details": [
             "Seamless API integration with multiple LLM providers",
-            "Supports GPT-4, DeepSeek, and other models through unified interface",
+            "Architected for future scalability to support GPT-4, DeepSeek, and other LLMs via a unified API",
             "No credit card required for initial development phase"
           ]
         },
@@ -119,7 +115,7 @@
           "title": "Why SQLite?",
           "reason": "Complex data relations required a relational database",
           "details": [
-            "One-to-many: Conversations → Messages",
+            "One-to-many relationship: Conversations → Messages",
             "Efficient querying with proper indexing",
             "AsyncStorage inadequate for structured data with relationships"
           ]
@@ -137,52 +133,42 @@
       ]
     },
     "evidence": {
-      "videos": [
-        {
-          "id": 1,
+      "videos": {
+        "v1": {
           "title": "Send Message",
-          "description": "Demonstrates real-time message sending with AI response",
-          "fileUrl": "/side-projects/ai-chat-app/send_message-dark_theme.mp4"
+          "desc": "Demonstrates real-time message sending with AI response"
         },
-        {
-          "id": 2,
+        "v2": {
           "title": "Resend Failed Message",
-          "description": "Shows manual resend via context menu for failed messages",
-          "fileUrl": "/side-projects/ai-chat-app/resend_message-dark_theme.mp4"
+          "desc": "Shows manual resend via context menu for failed messages"
         },
-        {
-          "id": 3,
+        "v3": {
           "title": "Delete Message",
-          "description": "Context menu integration for message deletion",
-          "fileUrl": "/side-projects/ai-chat-app/delete_message-dark_theme.mp4"
+          "desc": "Context menu integration for message deletion"
+        },
+        "v4": {
+          "title": "Pre-network Persistence",
+          "desc": "Demonstrates pre-network persistence with optimistic UI and local staging"
         }
-      ],
-      "screenshots": [
-        {
-          "id": 1,
+      },
+      "screenshots": {
+        "s1": {
           "title": "Launch Screen - Dark",
-          "description": "App launch screen with dark theme",
-          "imageUrl": "/side-projects/ai-chat-app/launch_screen-dark_theme.png"
+          "desc": "App launch screen with dark theme"
         },
-        {
-          "id": 2,
+        "s2": {
           "title": "Launch Screen - Light",
-          "description": "App launch screen with light theme",
-          "imageUrl": "/side-projects/ai-chat-app/launch_screen-light_theme.png"
+          "desc": "App launch screen with light theme"
         },
-        {
-          "id": 3,
+        "s3": {
           "title": "Chat Screen - Dark",
-          "description": "Main chat interface in dark mode",
-          "imageUrl": "/side-projects/ai-chat-app/either_chat_screen-dark_theme.png"
+          "desc": "Main chat interface in dark mode"
         },
-        {
-          "id": 4,
+        "s4": {
           "title": "Chat Screen - Light",
-          "description": "Main chat interface in light mode",
-          "imageUrl": "/side-projects/ai-chat-app/either_chat_screen-light_theme.png"
+          "desc": "Main chat interface in light mode"
         }
-      ]
+      }
     },
     "coreImplementation": {
       "title": "Core Implementation",
@@ -195,7 +181,7 @@
           "items": [
             "Optimistic UI with local staging",
             "SQLite write before API call ensures durability",
-            "0% message loss rate verified"
+            "Significantly enhanced data reliability"
           ]
         }
       ]
@@ -212,11 +198,7 @@
         {
           "icon": "⚡",
           "title": "Performance",
-          "items": [
-            "FlatList windowSize optimization",
-            "maxToRenderPerBatch tuning",
-            "getItemLayout for instant scroll"
-          ]
+          "items": ["FlatList windowSize optimization", "getItemLayout for instant scrolling"]
         },
         {
           "icon": "🌐",
@@ -226,10 +208,18 @@
             "Network status detection",
             "Automatic retry on reconnection"
           ]
+        },
+        {
+          "icon": "🤖",
+          "title": "Model Evolution",
+          "items": [
+            "Implement multi-model switching UI (GPT-4 / DeepSeek / Claude)",
+            "Support custom API endpoint integration"
+          ]
         }
       ]
     },
-    "disclaimer": "This project is an open-source educational demonstration. It focuses on native module integration and offline-first architecture patterns. All media assets shown are for demonstration purposes only."
+    "disclaimer": "This project is an open-source educational demonstration. It focuses on native module integration and offline-first architecture patterns."
   }
 }
 

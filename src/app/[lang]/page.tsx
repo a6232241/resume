@@ -1,6 +1,5 @@
 import { Experience, ProjectCard } from "@features/portfolio";
 import { Hero, Skills } from "@features/profile";
-import AIChatAppPreview from "@public/side-projects/ai-chat-app/preview-light_theme.png";
 import BerifyPreview from "@public/work-projects/berify/preview.png";
 import VisualStreamingPreview from "@public/work-projects/visual-streaming/demo_preview.png";
 import { getMediaUrl } from "@src/util";
@@ -75,9 +74,10 @@ const personalProjects = [
     description: "projects.aiChatApp.shortDesc",
     technologies: "projects.aiChatApp.technologies",
     badge: "projects.aiChatApp.badge",
-    imageUrl: AIChatAppPreview,
+    imageUrl: getMediaUrl("/ai-chat-app/preview-light_theme.png"),
     link: "ai-chat-app",
-    period: "2025/07 - 2025/10",
+    period: "2025/07 - 2025/10 (First version)",
+    role: "projects.aiChatApp.role",
   },
 ];
 

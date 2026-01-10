@@ -2,7 +2,7 @@
   "shortDesc": "A music player app for easy music listening.",
   "technologies": ["React Native", "Expo", "SQLite", "Node.js"],
   "badge": "Offline-First",
-  "role": "Solo Developer",
+  "role": "Personal Development",
   "detail": {
     "hero": {
       "title": "Music Player",
@@ -24,8 +24,8 @@
       }
     },
     "overview": {
-      "duration": "2 months",
-      "team": "Solo Developer",
+      "duration": "About 2 Months (Core Dev)",
+      "team": "Personal Development",
       "projectType": "Personal Project · Mobile Full-Stack",
       "focus": ["Database Migration", "Playback State Machine", "File System Management"],
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],

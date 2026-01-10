@@ -2,7 +2,7 @@
   "shortDesc": "這是一個音樂播放器 App，讓使用者輕鬆收聽音樂。",
   "technologies": ["React Native", "Expo", "SQLite", "Node.js"],
   "badge": "離線優先 (Offline-First)",
-  "role": "獨立開發",
+  "role": "個人開發",
   "detail": {
     "hero": {
       "title": "Music Player",
@@ -24,8 +24,8 @@
       }
     },
     "overview": {
-      "duration": "2 個月",
-      "team": "獨立開發",
+      "duration": "約 2 個月 (核心架構開發)",
+      "team": "個人開發",
       "projectType": "個人專案 · 行動端全端",
       "focus": ["數據庫遷移", "播放狀態機", "檔案系統管理"],
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],

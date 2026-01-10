@@ -154,7 +154,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
       />
       <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
       <TechnicalChallengeCard challenges={challengesRaw} />
-      <MusicPlayerEvidence videos={evidenceData.videos} screenshots={evidenceData.screenshots} />
+      <MusicPlayerEvidence {...evidenceData} />
       <FutureRoadmap {...roadmapData} />
       <SourceCodeLink href="https://github.com/a6232241/music-player" />
       <LegalDisclaimer text={disclaimerText} />
