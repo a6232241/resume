@@ -2,30 +2,32 @@
   "title": "10x App Speed",
   "shortDesc": "Spearheaded deep architectural refactoring, slashing loading times by 90% and establishing global state management standards.",
   "technologies": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
-  "fullDesc": "Led the end-to-end optimization (Diagnosis → Assessment → Refactoring) for an application suffering from severe login bottlenecks (10s+ latency). Leveraged Flipper and React DevTools to pinpoint root causes: excessive global re-renders and redundant API state resets. After assessing maintenance costs and risks, I upgraded Redux Toolkit and implemented createSelector memoization, ultimately reducing login time by 90% and significantly smoothing multi-page navigation.",
   "badge": "-90% Latency",
+  "role": "Individual Research / Optimization",
   "detail": {
     "hero": {
       "title": "10x App Speed: Performance Optimization",
       "tagline": "Login Flow × Multi-page Navigation × State Management",
-      "challenge": {
-        "title": "Challenge",
-        "desc": "Resolve <highlight>10s</highlight> login latency and white screen freezes."
-      },
-      "solution": {
-        "title": "Solution",
-        "desc": "Refactor Redux caching mechanism and upgrade RTK."
-      },
-      "impact": {
-        "title": "Impact",
-        "desc": " accelerated speed by <highlight>90%</highlight> (<highlight>10x</highlight>) and improved navigation smoothness."
+      "summary": {
+        "problem": {
+          "title": "Challenge",
+          "desc": "Resolve <highlight>10s</highlight> login latency and white screen freezes."
+        },
+        "solution": {
+          "title": "Solution",
+          "desc": "Refactor Redux caching mechanism and upgrade RTK."
+        },
+        "impact": {
+          "title": "Impact",
+          "desc": " accelerated speed by <highlight>90%</highlight> (<highlight>10x</highlight>) and improved navigation smoothness."
+        }
       }
     },
     "overview": {
       "duration": "2 Weeks",
       "team": "Independent Diagnosis & Optimization",
       "projectType": "Work Project · Performance Optimization",
-      "mainTechs": "React Native, Redux Toolkit, React Query, React DevTools, Flipper",
+      "mainTechs": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
       "focus": ["Login Flow", "Multi-page Navigation", "State Management"],
       "platforms": ["Android", "iOS"]
     },
@@ -52,11 +54,11 @@
         },
         "render": {
           "title": "Render Analysis",
-          "finding": "Discovered duplicate resets causing global re-renders after login."
+          "finding": "Discovered multiple pages re-rendering after login."
         },
         "state": {
           "title": "State Inspection",
-          "finding": "Pinpointed two redundant resetApiState calls exacerbating re-render counts."
+          "finding": "Discovered two redundant resetApiState calls exacerbating re-render counts."
         }
       },
       "findings": {
@@ -114,14 +116,27 @@
         "p1": {
           "title": "Login State Management Optimization",
           "duration": "2-3 Days",
-          "steps": "Analysis & Verification,Code Separation,Identify Redundant resetApiState,Remove Redundant Call,Full Flow Verification",
+          "steps": [
+            "Analysis & Verification",
+            "Code Separation",
+            "Identify Redundant resetApiState",
+            "Remove Redundant Call",
+            "Full Flow Verification"
+          ],
           "keyChangeType": "Remove Redundant Call",
           "keyChangeRemoved": "resetApiState() in handleLogin()"
         },
         "p2": {
           "title": "Multi-page Navigation Optimization",
           "duration": "1-2 Weeks",
-          "steps": "RTK Query Source Analysis,Identify selectFromResult issues,Evaluate 4 solutions,Implement createSelector,Upgrade Redux Toolkit,QA collaboration",
+          "steps": [
+            "RTK Query Source Analysis",
+            "Identify selectFromResult issues",
+            "Evaluate 4 solutions",
+            "Implement createSelector",
+            "Upgrade Redux Toolkit",
+            "QA collaboration"
+          ],
           "change1": "createSelector Optimization",
           "impact1": "Explicit Dependency Tracking",
           "change2": "Redux Upgrade",

@@ -2,30 +2,32 @@
   "title": "10x App Speed",
   "shortDesc": "主導深度架構重構，成功將載入耗時降低 90%，並建立全域狀態管理規範。",
   "technologies": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
-  "fullDesc": "針對一款登入流程出現嚴重效能瓶頸(耗時達 10 秒)的應用程式,我主導了從「診斷、評估到重構」的全流程優化。透過 Flipper 與 React DevTools 定位出全域重複渲染(Re-render)與 API 狀態頻繁重置的核心問題。在評估了維護成本與風險後,我決定升級 Redux Toolkit 並導入 createSelector 緩存機制,最終成功將登入耗時降低 90%,並大幅提升了多頁面導航的流暢度。",
   "badge": "-90% 延遲時間",
+  "role": "單人研究 / 優化",
   "detail": {
     "hero": {
       "title": "10x App Speed: Performance Optimization",
       "tagline": "登入流程 × 多頁面導航 × 狀態管理",
-      "challenge": {
-        "title": "挑戰 (Challenge)",
-        "desc": "解決登入 <highlight>10s</highlight> 延遲與白屏卡頓。"
-      },
-      "solution": {
-        "title": "方案 (Solution)",
-        "desc": "重構 Redux 緩存機制並升級 RTK。"
-      },
-      "impact": {
-        "title": "成效 (Impact)",
-        "desc": "提速 <highlight>90%</highlight> (<highlight>10x</highlight>)，改善導航流暢度。"
+      "summary": {
+        "problem": {
+          "title": "挑戰 (Challenge)",
+          "desc": "解決登入 <highlight>10s</highlight> 延遲與白屏卡頓。"
+        },
+        "solution": {
+          "title": "方案 (Solution)",
+          "desc": "重構 Redux 緩存機制並升級 RTK。"
+        },
+        "impact": {
+          "title": "成效 (Impact)",
+          "desc": "提速 <highlight>90%</highlight> (<highlight>10x</highlight>)，改善導航流暢度。"
+        }
       }
     },
     "overview": {
       "duration": "2 週",
       "team": "獨立診斷與優化",
       "projectType": "工作專案 · 性能優化",
-      "mainTechs": "React Native, Redux Toolkit, React Query, React DevTools, Flipper",
+      "mainTechs": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
       "focus": ["登入流程", "多頁面導航", "狀態管理"],
       "platforms": ["Android", "iOS"]
     },
@@ -41,15 +43,15 @@
     },
     "diagnosis": {
       "steps": {
-        "qa": { "title": "QA 反饋", "desc": "App 性能瓶頸投訴", "finding": "QA 反饋登入後頁面卡頓超過 10 秒" },
+        "qa": { "title": "QA 反饋", "desc": "App 性能瓶頸投訴", "finding": "QA 反饋登入後，頁面卡頓超過 10 秒" },
         "api": { "title": "API 檢測", "finding": "排除後端問題，確認瓶頸在前端" },
-        "render": { "title": "渲染分析", "finding": "發現登入後的重複重置導致全域 re-render" },
-        "state": { "title": "狀態檢查", "finding": "定位到兩處重複調用 resetApiState 加重 re-render 的次數" }
+        "render": { "title": "渲染分析", "finding": "發現登入後，多個頁面 re-render" },
+        "state": { "title": "狀態檢查", "finding": "定位到兩處重複調用 resetApiState，加重 re-render 的次數" }
       },
       "findings": {
         "cascade": {
-          "title": "跨頁面級聯重新渲染",
-          "symptom": "登入後所有使用 useQuery 的頁面受影響",
+          "title": "跨頁面重新渲染",
+          "symptom": "登入後，所有使用 useQuery 的頁面受影響",
           "metric": "無關頁面被渲染多次"
         },
         "reset": {
@@ -101,14 +103,27 @@
         "p1": {
           "title": "登入流程狀態管理優化",
           "duration": "2-3 天",
-          "steps": "分析與驗證,代碼分離並優化,識別重複 resetApiState,決定移除其中一個調用,完整流程驗證測試",
+          "steps": [
+            "分析與驗證",
+            "代碼分離並優化",
+            "識別重複 resetApiState",
+            "決定移除其中一個調用",
+            "完整流程驗證測試"
+          ],
           "keyChangeType": "移除重複調用",
           "keyChangeRemoved": "handleLogin() 中的 resetApiState()"
         },
         "p2": {
           "title": "多頁面導航性能優化",
           "duration": "1-2 週",
-          "steps": "RTK Query 源代碼分析,識別 selectFromResult 過度計算,評估 4 個解決方案,實施 createSelector 優化,升級 Redux Toolkit,與 QA 協同測試",
+          "steps": [
+            "RTK Query 源代碼分析",
+            "識別 selectFromResult 過度計算",
+            "評估 4 個解決方案",
+            "實施 createSelector 優化",
+            "升級 Redux Toolkit",
+            "與 QA 協同測試"
+          ],
           "change1": "createSelector 優化",
           "impact1": "明確依賴追蹤",
           "change2": "Redux 升級",
@@ -117,7 +132,7 @@
         "p3": {
           "title": "訂閱同步問題修復",
           "duration": "1 天",
-          "issue": "升級後數據獲取過快導致訂閱前被刪除",
+          "issue": "升級後，數據獲取過快導致訂閱前被刪除",
           "solution": "調整操作順序：導航前清理 vs 進入後清理",
           "result": "數據完整性確保 ✅"
         }
@@ -161,7 +176,7 @@
       "screenshots": {
         "s1": {
           "title": "定位重複 API 重置邏輯",
-          "shows": "通過分析發現 handleLogin 與 Token 更新時重複調用 resetApiState，加重重複渲染問題"
+          "shows": "通過分析發現 handleLogin 與 Token 更新時，重複調用 resetApiState，加重重複渲染問題"
         },
         "s2": {
           "title": "createSelector 記憶化重構",

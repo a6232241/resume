@@ -55,6 +55,8 @@ const workExperiences = [
     technologies: "projects.10xAppSpeed.technologies",
     badge: "projects.10xAppSpeed.badge",
     link: "10x-app-speed",
+    period: "2025/02",
+    role: "projects.10xAppSpeed.role",
   },
 ];
 
@@ -122,8 +124,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                 title={t(project.title)}
                 description={t(project.description)}
                 link={`/${lang}/project-demo/${project.link}`}
+                period={project.period}
                 technologies={t.raw(project?.technologies) ?? []}
                 badge={project.badge ? t(project.badge) : undefined}
+                role={t(project.role)}
               />
             ))}
           </div>

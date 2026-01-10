@@ -15,56 +15,46 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
   const { lang } = await params;
   const t = await getTranslations({ locale: lang, namespace: "projects.10xAppSpeed.detail" });
 
-  // --- Hero 數據重組 ---
-  // JSX 結構保留在組件內，只替換文字
+  // --- Hero Data ---
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
-    description: (
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:divide-x md:divide-gray-200 dark:md:divide-gray-700">
-        <div className="space-y-2">
-          <h3 className="text-sm font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">
-            {t("hero.challenge.title")}
-          </h3>
-          <p className="text-gray-900 dark:text-gray-100">
-            {t.rich("hero.challenge.desc", {
-              highlight: (chunks) => <span className="font-bold text-blue-600 dark:text-blue-400">{chunks}</span>,
-            })}
-          </p>
-        </div>
-        <div className="space-y-2 md:pl-8">
-          <h3 className="text-sm font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">
-            {t("hero.solution.title")}
-          </h3>
-          <p className="text-gray-900 dark:text-gray-100">{t("hero.solution.desc")}</p>
-        </div>
-        <div className="space-y-2 md:pl-8">
-          <h3 className="text-sm font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">
-            {t("hero.impact.title")}
-          </h3>
-          <p className="text-gray-900 dark:text-gray-100">
-            {t.rich("hero.impact.desc", {
-              highlight: (chunks) => <span className="font-bold text-blue-600 dark:text-blue-400">{chunks}</span>,
-            })}
-          </p>
-        </div>
-      </div>
-    ),
+    summary: {
+      problem: {
+        icon: "🎯",
+        title: t("hero.summary.problem.title"),
+        desc: t.rich("hero.summary.problem.desc", {
+          highlight: (chunks) => <span className="font-bold text-blue-600 dark:text-blue-400">{chunks}</span>,
+        }),
+      },
+      solution: {
+        icon: "💡",
+        title: t("hero.summary.solution.title"),
+        desc: t("hero.summary.solution.desc"),
+      },
+      impact: {
+        icon: "🚀",
+        title: t("hero.summary.impact.title"),
+        desc: t.rich("hero.summary.impact.desc", {
+          highlight: (chunks) => <span className="font-bold text-blue-600 dark:text-blue-400">{chunks}</span>,
+        }),
+      },
+    },
   };
 
-  // --- 概覽數據重組 ---
+  // --- Overview Data ---
   const overviewData = {
     overview: {
       duration: t("overview.duration"),
       team: t("overview.team"),
       projectType: t("overview.projectType"),
-      mainTechs: t("overview.mainTechs").split(", "), // JSON 中存字串，這裡轉回陣列
+      mainTechs: t.raw("overview.mainTechs") as string[],
       focus: t.raw("overview.focus") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },
   };
 
-  // --- 指標數據重組 ---
+  // --- Metrics Data ---
   const metricsData = {
     metrics: [
       {
@@ -84,8 +74,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 診斷過程數據重組 ---
-  // 保留 Icon 和 Step 的邏輯
+  // --- Diagnosis Data ---
   const diagnosisData = {
     process: [
       {
@@ -142,7 +131,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 解決方案評估數據重組 ---
+  // --- Solutions Data ---
   const solutionsData = {
     title: t("solutions.title"),
     approaches: [
@@ -185,14 +174,14 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 技術實施數據重組 ---
+  // --- Implementation Data ---
   const implementationData = {
     phases: [
       {
         phase: 1,
         title: t("implementation.phases.p1.title"),
         duration: t("implementation.phases.p1.duration"),
-        steps: t("implementation.phases.p1.steps").split(","),
+        steps: t.raw("implementation.phases.p1.steps"),
         result: "10s → 1s ✅",
         keyChange: {
           type: t("implementation.phases.p1.keyChangeType"),
@@ -203,7 +192,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
         phase: 2,
         title: t("implementation.phases.p2.title"),
         duration: t("implementation.phases.p2.duration"),
-        steps: t("implementation.phases.p2.steps").split(","),
+        steps: t.raw("implementation.phases.p2.steps"),
         result: "4s → 1s ✅",
         keyChanges: [
           {
@@ -229,8 +218,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- 證據數據重組 ---
-  // 定義靜態資源 Map (檔案路徑與 ID 的對應)
+  // --- Evidence Data ---
   const evidenceData = {
     videos: [
       {
@@ -253,7 +241,6 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
         icon: "🎬",
         watchPoint: t("evidence.videos.v2.watch"),
       },
-      // ... 依此類推，對應 JSON 中的 Key
       {
         id: 5,
         title: t("evidence.videos.v5.title"),
@@ -311,7 +298,6 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
         imageUrl: getMediaUrl("/10x-app-speed/reset_state_api_annotated.png"),
         icon: "🎯",
       },
-      // ... 簡化起見，中間省略，模式同上 ...
       {
         id: 2,
         title: t("evidence.screenshots.s2.title"),
@@ -398,12 +384,12 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
         title: "GitHub Issue #4028",
         description: t("evidence.references.r1.desc"),
         url: "https://github.com/reduxjs/redux-toolkit/issues/4028",
-        icon: "🔗",
+        icon: "",
       },
     ],
   };
 
-  // --- 技術洞察數據重組 ---
+  // --- Insights Data ---
   const insightsData = {
     insights: [
       {
@@ -471,7 +457,11 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
 
   return (
     <main className="container mx-auto flex max-w-6xl flex-col gap-12 px-6 py-12">
-      <ProjectHero {...heroData} gradientClass="from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400" />
+      <ProjectHero
+        {...heroData}
+        gradientClass="from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
+        borderGradientClass="from-blue-600/20 via-blue-600/20 to-purple-600/20"
+      />
       <ProjectOverview {...overviewData} techBadgeColor="blue" focusBadgeColor="purple" />
       <PerformanceMetric {...metricsData} />
       <DiagnosticProcess {...diagnosisData} />
