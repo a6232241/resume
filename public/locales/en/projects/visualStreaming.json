@@ -1,27 +1,26 @@
 {
-  "shortDesc": "Real-time face replacement in live streaming preview, validating feasibility of high-performance image processing and native integration.",
+  "shortDesc": "Real-time face swapping in live previews to verify the feasibility of high-performance image processing and native integration.",
   "technologies": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
   "achievements": [
-    "Solo developer: Completed Android/iOS dual-platform Demo in 4 months",
-    "80%+ C++ code reuse across platforms with shared core logic",
-    "Adopted React Native new architecture (Fabric & TurboModules) to build Native Components"
+    "Solo developer completed Android/iOS dual-platform Demo in 4 months",
+    "80%+ C++ code reuse rate, sharing core logic across platforms",
+    "Developed Native Components using RN's new architecture (Fabric & TurboModules)"
   ],
-  "role": "Solo · 4 months",
-  "badge": "JSI Cross-Layer",
-  "fullDesc": "A React Native full-stack project: implementing real-time face-swapping effects in live streaming applications. The core challenge is verifying feasibility using traditional geometric image processing (without training deep learning models), while ensuring cross-platform compatibility.\n\nTechnical Highlights:\n• React Native + Vision Camera real-time preview with a custom Frame Processor design\n• Native layer integration of ML Kit Face Detection, solving coordinate discrepancies between sensor frames and camera preview\n• Kotlin ↔ C++ (OpenCV) direct communication with 80%+ C++ code reuse on iOS\n\nIndependently completed Android/iOS dual-platform Demo in 4 months, covering full-stack integration across frontend, native, and algorithm layers.",
+  "role": "Solo · 4 Months",
+  "badge": "High-Performance Arch",
   "detail": {
     "hero": {
       "title": "Visual Streaming",
-      "tagline": "Real-time Live Face Swap PoC",
-      "description": "High-performance real-time image processing via JSI and Shared C++ Core across platforms.",
+      "tagline": "Real-time Live Streaming Face Swap PoC",
+      "description": "Achieving cross-platform high-performance real-time image processing through JSI and Shared C++ Core.",
       "summary": {
         "problem": {
           "title": "Challenge",
-          "desc": "Mobile <highlight>real-time face processing</highlight> performance and cross-platform reuse"
+          "desc": "Performance and cross-platform reuse challenges for mobile <highlight>real-time face processing</highlight>"
         },
         "solution": {
           "title": "Solution",
-          "desc": "JSI Worklets non-blocking processing + 80% shared C++ core"
+          "desc": "Non-blocking processing with JSI Worklets + 80% C++ shared core"
         },
         "impact": {
           "title": "Impact",
@@ -30,10 +29,10 @@
       }
     },
     "overview": {
-      "duration": "4 months",
+      "duration": "4 Months",
       "team": "Solo Developer",
-      "projectType": "PoC Exploration Project",
-      "focus": ["JSI Cross-Layer Communication", "Coordinate System Mapping", "C++ Cross-Platform Reuse"],
+      "projectType": "Exploratory PoC Project",
+      "focus": ["JSI Cross-layer Communication", "Coordinate System Mapping", "C++ Cross-platform Reuse"],
       "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
       "platforms": ["Android", "iOS"]
     },
@@ -41,23 +40,14 @@
       {
         "id": 1,
         "title": "Non-blocking UI - Main Thread Offloading",
-        "symptom": "Face detection causes UI stutter",
-        "rootCause": "ML Kit face detection is expensive; running it on the main thread blocks rendering",
-        "impact": "Stuttering UX and poor interaction responsiveness",
+        "symptom": "Face detection causes UI lag",
+        "rootCause": "ML Kit face detection is a time-consuming operation; executing it on the main thread blocks rendering",
+        "impact": "Laggy user experience, non-fluid interaction",
         "badge": "JSI Optimized",
         "metrics": {
           "label": "UI Response",
-          "before": "Stuttering",
+          "before": "Laggy",
           "after": "Instant"
-        },
-        "solution": {
-          "approach": "JSI Worklets + Native Async Offloading",
-          "details": [
-            "JS Layer: Non-blocking frame processing pipeline via runAsync",
-            "Android Layer: Offload compute-intensive tasks using Coroutines Dispatchers.IO",
-            "iOS Layer: Use GCD async dispatch to keep main thread rendering uninterrupted"
-          ],
-          "result": "Ensures smooth 60fps interaction even under heavy AI computation load"
         },
         "filePaths": ["App.tsx", "android/.../FrameEffectsOverlayView.kt", "ios/FaceDetector/FaceDetector.m"],
         "codeSnippets": [
@@ -69,87 +59,114 @@
           ["runAsync", "'worklet'"],
           ["Dispatchers.IO", "coroutineScope.launch"],
           ["dispatch_async", "dispatch_get_global_queue"]
-        ]
+        ],
+        "codeSnippetTableLabels": ["JS Layer", "Android Layer", "iOS Layer"],
+        "solution": {
+          "approach": "JSI Worklets + Native Async Offloading",
+          "details": [
+            "JS Layer: Implemented non-blocking frame processing pipeline via Vision Camera's runAsync",
+            "Android Layer: Offloaded compute-intensive tasks using Kotlin Coroutines (Dispatchers.IO)",
+            "iOS Layer: Used GCD (dispatch_async) to ensure main thread rendering is never interrupted"
+          ],
+          "result": "Ensures a fluid interaction experience at 60fps even under heavy AI computation loads"
+        }
       },
       {
         "id": 2,
         "title": "Matrix Transformation - Coordinate Mapping",
         "symptom": "Face landmarks do not align with the preview",
-        "rootCause": "The coordinate system of Vision Camera preview and the frame data are different",
-        "impact": "Face swap effect appears at the wrong position",
+        "rootCause": "Inconsistency between the coordinate systems of the Vision Camera preview and raw frame data",
+        "impact": "Face swap effects appear in the wrong positions",
         "badge": "Precise Alignment",
         "metrics": {
           "label": "Coordinate Accuracy",
           "before": "Misaligned",
           "after": "Aligned"
         },
-        "filePath": "FaceOverlayView.kt",
-        "codeSnippet": "// Handle frame.orientation for coordinate mapping\nval matrix = Matrix()\nmatrix.postRotate(frame.orientation.toFloat())\n\nif (isFrontCamera) {\n  // Mirror horizontally for front camera\n  matrix.postScale(-1f, 1f, width / 2f, 0f)\n}\n\ncanvas.drawBitmap(processedBitmap, matrix, paint)",
-        "highlightTerms": ["postRotate", "postScale", "frame.orientation"],
+        "filePaths": ["App.tsx", "ImageUtils.kt", "FrameEffectsProcessorPlugin.m"],
+        "codeSnippets": [
+          "<Camera\n  // Disable native preview, use custom component for rendering\n  preview={false}\n/>\n<FrameEffectsOverlayViewNativeComponent\n  style={{flex: 1}}\n  effect={currentEffect}\n/>",
+          "val matrix = Matrix()\nmatrix.postRotate(rotationDegrees.toFloat())\n\n// Handle mirroring compensation\nif (isHorizontalFlip) {\n  matrix.postScale(if (isHorizontalFlip) -1f else 1f, 1f, viewWidth / 2f, viewHeight / 2f)\n}",
+          "UIImageOrientation orientation = frame.orientation;\nUIImage *image = [UIImage imageWithCGImage:cgImage\n                                     scale:1.0\n                               orientation:orientation];"
+        ],
+        "multiHighlightTerms": [
+          ["preview={false}", "FrameEffectsOverlayViewNativeComponent"],
+          ["Matrix", "postRotate", "postScale", "isHorizontalFlip"],
+          ["UIImageOrientation", "frame.orientation", "orientation"]
+        ],
+        "codeSnippetTableLabels": ["JS Layer", "Android Layer", "iOS Layer"],
         "solution": {
-          "approach": "Matrix.postRotate() + Front/Back Camera Flip Compensation",
+          "approach": "Matrix.postRotate() (Android) / UIImageOrientation (iOS)",
           "details": [
-            "Capture Vision Camera's frame.orientation to get current device orientation",
-            "Use Matrix.postRotate() to apply rotation compensation",
-            "Apply corresponding matrix transforms based on camera position (front/back): flip or no flip",
-            "Apply the final transform matrix when drawing on Canvas"
+            "JS Layer: Developed a custom native component to replace the default Vision Camera preview.",
+            "Android: Manually applied rotation and mirroring compensation via Matrix before drawing to Canvas.",
+            "iOS: Leveraged UIImageOrientation from the Vision Camera frame to automatically handle coordinate mapping during UIImage creation."
           ],
-          "result": "Face landmarks perfectly align with the preview; supports multiple device orientations",
+          "result": "Face landmarks align perfectly with the preview across multiple device orientations",
           "category": "Coordinate Mapping"
         }
       },
       {
         "id": 3,
         "title": "Shared C++ Core - 80% Code Reuse",
-        "symptom": "Duplicated code and complex maintenance",
-        "rootCause": "Separate Android/iOS implementations double the workload",
-        "impact": "Longer project timeline",
+        "symptom": "Code duplication and complex maintenance",
+        "rootCause": "Separate Android and iOS implementations leading to double the workload",
+        "impact": "Prolonged project development cycle",
         "badge": "80%+ Reuse",
         "metrics": {
           "label": "Code Reuse Rate",
           "before": "0%",
           "after": "80%+"
         },
-        "filePath": "faceswap_core.cpp",
-        "codeSnippet": "// faceswap_core.cpp - Called by Android (JNI) & iOS\nvoid FaceSwapper::processFrame(\n  cv::Mat& inputFrame,\n  const std::vector<FaceLandmark>& landmarks\n) {\n  // Delaunay triangulation for face warping\n  cv::Mat delaunay = computeDelaunay(landmarks);\n  \n  // Apply geometric transformation\n  applyWarpTransform(inputFrame, delaunay);\n}",
-        "highlightTerms": ["cv::Mat", "FaceSwapper", "computeDelaunay"],
+        "filePaths": ["face_processing_core.cpp", "face_processing_bridge_android.cpp", "FaceProcessingBridge.mm"],
+        "codeSnippets": [
+          "// C++ Core\ncv::Mat swapFace(...) {\n  // ... (Core Algorithm)\n  Mat alignedSourceImage = alignFace(...);\n  // ... (Core Algorithm)\n  transformImage(alignedSourceImage, ...);\n  return resultImage;\n}",
+          "// Android (JNI)\nextern \"C\" JNIEXPORT jbyteArray JNICALL\nJava_com_frameeffectsoverlayview_FrameEffectsOverlayView_getSwapFace(...) {\n  // Call C++ Core\n  Mat resultImage = FaceProcessing::swapFace(sourceImage, targetImage, sourcePoints, targetPoints);\n  return result;\n}",
+          "// iOS (ObjC++)\n+ (UIImage *)getSwapFace:(UIImage *)sourceImage ... {\n  // Call C++ Core\n  cv::Mat resultMat = FaceProcessing::swapFace(sourceMat, targetMat, srcPoints, tgtPoints);\n  return [self matToUIImageWithOrientation:resultMat ...];\n}"
+        ],
+        "multiHighlightTerms": [
+          ["FaceProcessing::swapFace", "alignFace", "transformImage"],
+          ["Java_com_frameeffectsoverlayview_FrameEffectsOverlayView_getSwapFace", "FaceProcessing::swapFace"],
+          ["getSwapFace", "FaceProcessing::swapFace"]
+        ],
+        "codeSnippetTableLabels": ["C++ Core", "Android JNI", "iOS ObjC++"],
         "solution": {
           "approach": "C++ Core + Platform Bridge (JNI/ObjC)",
           "details": [
-            "Core algorithms implemented in C++, processing images via OpenCV",
-            "Android calls C++ functions through JNI",
-            "iOS calls directly through Objective-C++",
-            "Platform layer only handles data conversion (ARGB ↔ BGRA)"
+            "C++: Implemented core algorithms and image processing via OpenCV",
+            "Android: Bridged Kotlin to C++ via JNI",
+            "iOS: Directly invoked C++ logic through Objective-C++",
+            "Platform Layer: Only responsible for data conversion (ARGB ↔ BGRA) and coordinate mapping"
           ],
-          "result": "80%+ C++ code reuse; development cycle reduced by 50%",
+          "result": "Achieved 80%+ C++ code reuse, reducing the development cycle by 50%",
           "category": "Cross-platform"
         }
       }
     ],
     "architecture": {
-      "title": "Three-layer Modular Architecture",
+      "title": "3-Layer Modular Architecture",
       "layers": [
         {
           "name": "React Native (UI Layer)",
           "icon": "📱",
-          "responsibilities": ["Vision Camera real-time preview", "Frame Processor Worklets"]
+          "responsibilities": ["Custom Fabric Real-time Preview", "Frame Processor Worklets"]
         },
         {
           "name": "Kotlin / Objective-C (Platform Layer)",
           "icon": "🔧",
           "responsibilities": [
-            "ML Kit face detection",
-            "Camera frame data management",
-            "Color channel conversion (ARGB ↔ BGRA)"
+            "ML Kit Face Detection",
+            "Camera Frame Management",
+            "Color Channel Conversion (ARGB ↔ BGRA)"
           ]
         },
         {
           "name": "C++ (Algorithm Layer, 80% Reuse)",
           "icon": "⚙️",
           "responsibilities": [
-            "OpenCV image processing (geometric transform / blending)",
-            "Delaunay triangulation",
-            "Face swapping core algorithm"
+            "OpenCV Processing (Geometry/Blending)",
+            "Delaunay Triangulation",
+            "Core Face Swap Algorithms"
           ]
         }
       ]
@@ -158,60 +175,25 @@
       "videos": {
         "v1": {
           "title": "Android Demo",
-          "desc": "Real-time face swap effect demonstration on Android platform"
+          "desc": "Real-time face swap effect on Android"
         },
         "v2": {
           "title": "iOS Demo",
-          "desc": "Real-time face swap effect demonstration on iOS platform"
+          "desc": "Real-time face swap effect on iOS"
         }
       },
       "screenshots": {
         "s1": {
-          "title": "Face Swap Effect - Sample 1",
-          "desc": "Demonstrating real-time face swap visual effect"
+          "title": "Face Swap Effect - Example 1",
+          "desc": "Visual result of the face swap algorithm"
         },
         "s2": {
-          "title": "Face Swap Effect - Sample 2",
-          "desc": "Face swap effect from different angles"
+          "title": "Face Swap Effect - Example 2",
+          "desc": "Visual result of the face swap algorithm"
         }
       }
     },
-    "metrics": {
-      "accuracy": {
-        "title": "Coordinate Mapping Accuracy",
-        "before": "Landmark positions incorrect",
-        "after": "Visually perfectly aligned",
-        "improvement": "From incorrect → correct"
-      },
-      "performance": {
-        "title": "Rendering Smoothness",
-        "before": "Frequent stuttering",
-        "after": "Mostly smooth (near real-time)",
-        "improvement": "From stuttery → usable"
-      },
-      "development": {
-        "cpp_reuse_rate": "80%+",
-        "timeline": "4 months"
-      }
-    },
-    "learnings": [
-      {
-        "title": "System Bottleneck vs Code Bottleneck",
-        "category": "Architecture Design",
-        "description": "Learned to identify architectural bottlenecks (not just code-level issues), and solve performance problems through architectural optimization rather than micro-optimizations."
-      },
-      {
-        "title": "End-to-end Mastery",
-        "category": "Cross-layer Integration",
-        "description": "Hands-on integration experience across the full stack: React Native → Kotlin/Objective-C → C++."
-      },
-      {
-        "title": "Reuse Strategy",
-        "category": "Cross-platform Design",
-        "description": "80%+ C++ reuse is not accidental; it requires cross-platform considerations in the architecture from day one."
-      }
-    ],
-    "disclaimer": "This project is a Proof of Concept (PoC) demonstrating the technical feasibility of real-time image processing. All media assets shown are for demonstration purposes only."
+    "disclaimer": "This is a Proof of Concept (PoC) project demonstrating the technical feasibility of real-time image processing. All media assets shown are for demonstration purposes only."
   }
 }
 

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { highlightCode } from "./helper";
 
-const TAB_LABELS = ["JS Layer", "Android Layer", "iOS Layer"];
-
 export function TabbedCodeBlock({
   filePaths,
   codeSnippets,
   multiHighlightTerms,
+  codeSnippetTableLabels,
 }: {
   filePaths: string[];
   codeSnippets: string[];
   multiHighlightTerms: string[][];
+  codeSnippetTableLabels: string[];
 }) {
   const [activeTab, setActiveTab] = useState(0);
 
@@ -43,7 +43,7 @@ export function TabbedCodeBlock({
                   ? "bg-cyan-600 text-white shadow-lg shadow-cyan-500/20"
                   : "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-gray-300"
               }`}>
-              {TAB_LABELS[index] || `Tab ${index + 1}`}
+              {codeSnippetTableLabels[index] || `Tab ${index + 1}`}
             </button>
           ))}
         </div>

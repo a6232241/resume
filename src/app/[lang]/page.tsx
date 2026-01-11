@@ -1,7 +1,6 @@
 import { Experience, ProjectCard } from "@features/portfolio";
 import { Hero, Skills } from "@features/profile";
 import BerifyPreview from "@public/work-projects/berify/preview.png";
-import VisualStreamingPreview from "@public/work-projects/visual-streaming/demo_preview.png";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
 
@@ -30,9 +29,10 @@ const workProjects = [
     title: "Visual Streaming",
     description: "projects.visualStreaming.shortDesc",
     technologies: "projects.visualStreaming.technologies",
+    badge: "projects.visualStreaming.badge",
     achievements: "projects.visualStreaming.achievements",
     role: "projects.visualStreaming.role",
-    imageUrl: VisualStreamingPreview,
+    imageUrl: getMediaUrl("/visual-streaming/demo_preview.png"),
     link: "visual-streaming",
     period: "2025/04 - 2025/07",
   },
@@ -109,6 +109,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                 period={project.period}
                 technologies={t.raw(project?.technologies) ?? []}
                 achievements={t.raw(project?.achievements) ?? []}
+                badge={project.badge ? t(project.badge) : undefined}
                 role={t(project.role)}
               />
             ))}

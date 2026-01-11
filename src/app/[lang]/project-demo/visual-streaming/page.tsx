@@ -5,7 +5,10 @@ import { getTranslations } from "next-intl/server";
 
 export default async function VisualStreamingPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const t = await getTranslations({ locale: lang, namespace: "projects.visualStreaming.detail" });
+  const [t, commonT] = await Promise.all([
+    getTranslations({ locale: lang, namespace: "projects.visualStreaming.detail" }),
+    getTranslations({ locale: lang, namespace: "projects" }),
+  ]);
 
   // --- Hero Data ---
   const heroData = {
@@ -70,6 +73,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
       result: string;
       category: string;
     };
+    codeSnippetTableLabels?: string[];
   }>;
 
   // --- Architecture Data ---
@@ -164,9 +168,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
 
       {/* Demo Gallery */}
       <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-gray-50 to-white p-8 dark:border-gray-700/50 dark:from-gray-900/50 dark:to-gray-800/50">
-        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
-          {lang === "zh" ? "專案展示" : "Project Demo"}
-        </h2>
+        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{commonT("projectDemo")}</h2>
         <ProjectImageGrid items={demoMediaItems} accentColor="blue" itemAspectRatio="aspect-video" />
       </section>
 

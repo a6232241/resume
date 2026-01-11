@@ -7,8 +7,7 @@
     "採用 RN 新架構 Fabric & TurboModules，開發 Native Component"
   ],
   "role": "單人 · 4 個月",
-  "badge": "JSI 跨層整合",
-  "fullDesc": "一個 React Native 全棧項目：在直播應用中實現實時人臉交換特效。核心挑戰是在無深度學習模型訓練的前提下，用傳統幾何影像處理完成概念驗證，同時確保跨平台相容性。\n\n技術亮點：\n• React Native + Vision Camera 實時預覽與自訂 Frame Processor 設計\n• 原生層集成 ML Kit 人臉檢測，解決感測器幀與相機預覽的座標偏差問題\n• Kotlin ↔ C++（OpenCV）直接通訊，C++ 代碼在 iOS 端複用率達 80%+\n\n4 個月獨立完成 Android/iOS 雙平台 Demo，涵蓋前端、原生、算法的完整技術棧整合。",
+  "badge": "高效能架構",
   "detail": {
     "hero": {
       "title": "Visual Streaming",
@@ -50,15 +49,6 @@
           "before": "卡頓",
           "after": "即時"
         },
-        "solution": {
-          "approach": "JSI Worklets + Native Async Offloading",
-          "details": [
-            "JS 層：透過 runAsync 實現非阻塞式幀處理管道",
-            "Android 層：利用 Coroutines Dispatchers.IO 卸載計算密集型任務",
-            "iOS 層：利用 GCD 異步派發確保主執行緒渲染不中斷"
-          ],
-          "result": "確保在高負載 AI 運算下，UI 仍能維持 60fps 的流暢交互體驗"
-        },
         "filePaths": ["App.tsx", "android/.../FrameEffectsOverlayView.kt", "ios/FaceDetector/FaceDetector.m"],
         "codeSnippets": [
           "// 1. JS Worklet Offloading\nrunAsync(frame, () => {\n  'worklet';\n  applyEffect(frame, cameraPosition);\n});",
@@ -69,32 +59,50 @@
           ["runAsync", "'worklet'"],
           ["Dispatchers.IO", "coroutineScope.launch"],
           ["dispatch_async", "dispatch_get_global_queue"]
-        ]
+        ],
+        "codeSnippetTableLabels": ["JS Layer", "Android Layer", "iOS Layer"],
+        "solution": {
+          "approach": "JSI Worklets + Native Async Offloading",
+          "details": [
+            "JS 層：透過 runAsync 實現非阻塞式幀處理管道",
+            "Android 層：利用 Coroutines Dispatchers.IO 卸載計算密集型任務",
+            "iOS 層：利用 GCD 異步派發，確保主執行緒渲染不中斷"
+          ],
+          "result": "確保在高負載 AI 運算下，UI 仍能維持流暢的交互體驗"
+        }
       },
       {
         "id": 2,
         "title": "Matrix Transformation - 座標映射",
-        "symptom": "人臉特徵點位置與預覽畫面不對齊",
-        "rootCause": "透過 Vision Camera 的預覽畫面與 frame 的座標系統不一致",
-        "impact": "人臉交換效果位置錯亂",
+        "symptom": "人臉特徵點與預覽畫面不對齊",
+        "rootCause": "Vision Camera 預覽畫面與原始幀數據 (Frame Data) 的座標系統不一致",
+        "impact": "人臉交換效果顯示在錯誤的位置",
         "badge": "精準對齊",
         "metrics": {
           "label": "座標精準度",
-          "before": "錯亂",
-          "after": "對齊"
+          "before": "位置錯亂",
+          "after": "完全對齊"
         },
-        "filePath": "FaceOverlayView.kt",
-        "codeSnippet": "// Handle frame.orientation for coordinate mapping\nval matrix = Matrix()\nmatrix.postRotate(frame.orientation.toFloat())\n\nif (isFrontCamera) {\n  // Mirror horizontally for front camera\n  matrix.postScale(-1f, 1f, width / 2f, 0f)\n}\n\ncanvas.drawBitmap(processedBitmap, matrix, paint)",
-        "highlightTerms": ["postRotate", "postScale", "frame.orientation"],
+        "filePaths": ["App.tsx", "ImageUtils.kt", "FrameEffectsProcessorPlugin.m"],
+        "codeSnippets": [
+          "<Camera\n  // 關閉原生預覽，改用自定義組件渲染\n  preview={false}\n/>\n<FrameEffectsOverlayViewNativeComponent\n  style={{flex: 1}}\n  effect={currentEffect}\n/>",
+          "val matrix = Matrix()\nmatrix.postRotate(rotationDegrees.toFloat())\n\n// 處理鏡像補償\nif (isHorizontalFlip) {\n  matrix.postScale(if (isHorizontalFlip) -1f else 1f, 1f, viewWidth / 2f, viewHeight / 2f)\n}",
+          "UIImageOrientation orientation = frame.orientation;\nUIImage *image = [UIImage imageWithCGImage:cgImage\n                                     scale:1.0\n                               orientation:orientation];"
+        ],
+        "multiHighlightTerms": [
+          ["preview={false}", "FrameEffectsOverlayViewNativeComponent"],
+          ["Matrix", "postRotate", "postScale", "isHorizontalFlip"],
+          ["UIImageOrientation", "frame.orientation", "orientation"]
+        ],
+        "codeSnippetTableLabels": ["JS Layer", "Android Layer", "iOS Layer"],
         "solution": {
-          "approach": "Matrix.postRotate() + 前後鏡頭翻轉補償",
+          "approach": "Matrix.postRotate() (Android) / UIImageOrientation (iOS)",
           "details": [
-            "捕獲 Vision Camera 的 frame.orientation 獲取設備當前方向",
-            "使用 Matrix.postRotate() 應用設備旋轉補償",
-            "根據相機位置（前/後）應用對應的矩陣變換（翻轉/無翻轉）",
-            "在 Canvas 繪製時應用最終變換矩陣"
+            "JS 層：自訂原生組件，取代 Vision Camera 預覽畫面。",
+            "Android：在繪製至 Canvas 前，透過 Matrix 手動套用旋轉與鏡像補償。",
+            "iOS：利用 Vision Camera 提供的 UIImageOrientation，在建立 UIImage 時，自動處理座標映射邏輯。"
           ],
-          "result": "人臉檢測點與屏幕預覽完全對齊，支持各種設備方向",
+          "result": "人臉特徵點精準貼合預覽畫面，並支援多種設備旋轉方向",
           "category": "座標映射"
         }
       },
@@ -110,16 +118,25 @@
           "before": "0%",
           "after": "80%+"
         },
-        "filePath": "faceswap_core.cpp",
-        "codeSnippet": "// faceswap_core.cpp - Called by Android (JNI) & iOS\nvoid FaceSwapper::processFrame(\n  cv::Mat& inputFrame,\n  const std::vector<FaceLandmark>& landmarks\n) {\n  // Delaunay triangulation for face warping\n  cv::Mat delaunay = computeDelaunay(landmarks);\n  \n  // Apply geometric transformation\n  applyWarpTransform(inputFrame, delaunay);\n}",
-        "highlightTerms": ["cv::Mat", "FaceSwapper", "computeDelaunay"],
+        "filePaths": ["face_processing_core.cpp", "face_processing_bridge_android.cpp", "FaceProcessingBridge.mm"],
+        "codeSnippets": [
+          "// C++ Core\ncv::Mat swapFace(...) {\n  // ... (Core Algorithm)\n  Mat alignedSourceImage = alignFace(...);\n  // ... (Core Algorithm)\n  transformImage(alignedSourceImage, ...);\n  return resultImage;\n}",
+          "// Android (JNI)\nextern \"C\" JNIEXPORT jbyteArray JNICALL\nJava_com_frameeffectsoverlayview_FrameEffectsOverlayView_getSwapFace(...) {\n  // 調用 C++ 核心\n  Mat resultImage = FaceProcessing::swapFace(sourceImage, targetImage, sourcePoints, targetPoints);\n  return result;\n}",
+          "// iOS (ObjC++)\n+ (UIImage *)getSwapFace:(UIImage *)sourceImage ... {\n  // 調用 C++ 核心\n  cv::Mat resultMat = FaceProcessing::swapFace(sourceMat, targetMat, srcPoints, tgtPoints);\n  return [self matToUIImageWithOrientation:resultMat ...];\n}"
+        ],
+        "multiHighlightTerms": [
+          ["FaceProcessing::swapFace", "alignFace", "transformImage"],
+          ["Java_com_frameeffectsoverlayview_FrameEffectsOverlayView_getSwapFace", "FaceProcessing::swapFace"],
+          ["getSwapFace", "FaceProcessing::swapFace"]
+        ],
+        "codeSnippetTableLabels": ["C++ Core", "Android JNI", "iOS ObjC++"],
         "solution": {
           "approach": "C++ Core + Platform Bridge (JNI/ObjC)",
           "details": [
-            "核心算法用 C++ 實現，透過 OpenCV 處理影像",
-            "Android 透過 JNI 調用 C++ 函數",
-            "iOS 透過 Objective-C++ 直接調用",
-            "平台層僅負責數據轉換（ARGB ↔ BGRA）"
+            "C++: 實現核心算法，透過 OpenCV 處理影像",
+            "Android: 透過 JNI 調用 C++ 函數",
+            "iOS: 透過 Objective-C++ 直接調用",
+            "平台層僅負責數據轉換（ARGB ↔ BGRA）與座標映射"
           ],
           "result": "80%+ C++ 代碼複用，開發周期減少 50%",
           "category": "跨平台"
@@ -132,7 +149,7 @@
         {
           "name": "React Native（UI 層）",
           "icon": "📱",
-          "responsibilities": ["Vision Camera 實時預覽", "Frame Processor Worklets"]
+          "responsibilities": ["自訂 Fabric 實時預覽", "Frame Processor Worklets"]
         },
         {
           "name": "Kotlin / Objective-C（Platform 層）",
@@ -159,50 +176,15 @@
       },
       "screenshots": {
         "s1": {
-          "title": "人臉交換效果 - 示例 1",
-          "desc": "展示實時人臉交換的視覺效果"
+          "title": "照片換臉效果 - 示例 1",
+          "desc": "展示照片換臉的視覺效果"
         },
         "s2": {
-          "title": "人臉交換效果 - 示例 2",
-          "desc": "不同角度的人臉交換效果"
+          "title": "照片換臉效果 - 示例 2",
+          "desc": "展示照片換臉的視覺效果"
         }
       }
     },
-    "metrics": {
-      "accuracy": {
-        "title": "座標映射精準度",
-        "before": "特徵點位置錯亂",
-        "after": "視覺上完全對齊",
-        "improvement": "從錯誤 → 正確"
-      },
-      "performance": {
-        "title": "渲染流暢度",
-        "before": "頻繁卡頓",
-        "after": "基本流暢（接近實時）",
-        "improvement": "從卡頓 → 可用"
-      },
-      "development": {
-        "cpp_reuse_rate": "80%+",
-        "timeline": "4 個月"
-      }
-    },
-    "learnings": [
-      {
-        "title": "系統瓶頸 vs 代碼瓶頸",
-        "category": "架構設計",
-        "description": "學會識別『架構瓶頸』而非『代碼瓶頸』，用架構優化而非代碼優化來解決性能問題"
-      },
-      {
-        "title": "掌握完整鏈路",
-        "category": "跨層整合",
-        "description": "從 React Native → Kotlin/Objective-C → C++ 的完整技術棧整合經驗"
-      },
-      {
-        "title": "複用策略",
-        "category": "跨平台設計",
-        "description": "80%+ C++ 複用不是偶然，需要前期架構設計考慮跨平台性"
-      }
-    ],
     "disclaimer": "此專案為概念驗證 (PoC) 項目，展示實時影像處理的技術可行性。所有展示的媒體資產僅供演示用途。"
   }
 }

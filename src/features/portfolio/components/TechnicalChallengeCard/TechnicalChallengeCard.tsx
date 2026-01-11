@@ -29,6 +29,7 @@ interface ChallengeData {
   filePaths?: string[];
   codeSnippets?: string[];
   solution: SolutionData;
+  codeSnippetTableLabels?: string[];
 }
 
 export interface TechnicalChallengeCardProps {
@@ -50,6 +51,8 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
             const hasMultiSnippets = challenge.codeSnippets && challenge.codeSnippets.length > 0;
             const hasFilePaths = challenge.filePaths && challenge.filePaths.length > 0;
             const hasMultiHighlightTerms = challenge.multiHighlightTerms && challenge.multiHighlightTerms.length > 0;
+            const hasCodeSnippetTableLabels =
+              challenge.codeSnippetTableLabels && challenge.codeSnippetTableLabels.length > 0;
 
             return (
               <div key={challenge.id} className="relative">
@@ -154,11 +157,12 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
                           <span>💻</span> 核心程式碼
                         </h4>
 
-                        {hasMultiSnippets && hasFilePaths && hasMultiHighlightTerms ? (
+                        {hasMultiSnippets && hasFilePaths && hasMultiHighlightTerms && hasCodeSnippetTableLabels ? (
                           <TabbedCodeBlock
                             filePaths={challenge.filePaths!}
                             codeSnippets={challenge.codeSnippets!}
                             multiHighlightTerms={challenge.multiHighlightTerms!}
+                            codeSnippetTableLabels={challenge.codeSnippetTableLabels!}
                           />
                         ) : (
                           <SingleCodeBlock
