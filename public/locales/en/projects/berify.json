@@ -1,21 +1,173 @@
 {
   "shortDesc": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",
-  "technologies": ["React Native", "Swift App Clips", "Next.js", "Web3"],
+  "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
   "role": "Core Developer · React Native Main App",
   "achievements": [],
   "fullDesc": "Complete Web3 smart retail ecosystem. Merchants manage and analyze products via admin dashboard, customers scan product tags to unlock product info, special promotions, NFTs and rewards, with third-party wallet integration.\n\nTech stack: React Native main app, Swift App Clips scanning, Next.js backend server and full CMS.",
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "Web3 Smart Retail Ecosystem"
+      "tagline": "Web3-Powered O2O Smart Retail Ecosystem",
+      "description": "A commercial Web3 solution connecting physical merchandise with digital assets. NFC verification and marketing automation powering a complete O2O retail ecosystem.",
+      "badge": "My Tenure: 1.5 Years (2023 - 2024)",
+      "statusBadge": "Currently in Production"
+    },
+    "context": {
+      "title": "🌐 Project Context",
+      "description": "Berify is a Web3-powered O2O retail ecosystem featuring NFC verification and marketing automation. The system uses a distributed architecture:",
+      "architecture": [
+        { "name": "Main Web", "tech": "Next.js", "desc": "Primary backend & CMS" },
+        { "name": "Task Queue", "tech": "Node.js", "desc": "Async task processing" },
+        { "name": "WebSocket", "tech": "Socket.io", "desc": "Real-time notifications" }
+      ]
     },
     "overview": {
-      "duration": "1 year",
-      "team": "Core Developer",
+      "duration": "My Tenure: 1.5 Years (2023 - 2024)",
+      "team": "Core Developer (Full Stack)",
       "projectType": "Commercial Product",
-      "mainTechs": ["React Native", "Swift App Clips", "Next.js", "Web3"],
-      "platforms": ["Android", "iOS", "Web"]
-    }
+      "mainTechs": ["React Native", "Next.js", "Node.js", "Prisma", "Shopify API", "Socket.io"],
+      "platforms": ["iOS", "Android", "Web"]
+    },
+    "metrics": {
+      "title": "📊 Project Scale Metrics",
+      "items": [
+        { "value": "114", "label": "DB Migrations", "desc": "Database version migrations" },
+        { "value": "34", "label": "API Modules", "desc": "Backend API modules" },
+        { "value": "10+", "label": "Integrations", "desc": "Third-party integrations" }
+      ]
+    },
+    "challenges": [
+      {
+        "title": "Large-Scale Schema Engineering",
+        "badge": "114 Migrations",
+        "achievement": "Managed **114 DB migrations** and designed a core schema with **50+ tables**",
+        "details": [
+          "Implemented complex relations using Prisma/MySQL",
+          "NFT minting and product binding data models",
+          "Shopify product sync and inventory tracking",
+          "Multi-tier merchant roles and permissions"
+        ],
+        "icon": "🗄️"
+      },
+      {
+        "title": "High-Reliability Microservices",
+        "badge": "Berify-Queue",
+        "achievement": "Engineered **Berify-Queue** service to handle async push notifications and NFT assignments",
+        "details": [
+          "State Machine: waiting → processing → processed",
+          "Ensures task atomicity, prevents duplicate execution",
+          "Supports push scheduling and batch processing",
+          "Error retry and dead letter queue mechanisms"
+        ],
+        "icon": "⚙️"
+      },
+      {
+        "title": "Ecosystem Interoperability",
+        "badge": "Shopify & Web3",
+        "achievement": "Built deep integrations with **Shopify API** (O2O commerce) and **Arbitrum Nova** (automated NFT distribution)",
+        "details": [
+          "Shopify discount code generation and redemption",
+          "AWS SNS cross-platform push integration",
+          "Socket.io real-time merchant notifications",
+          "Web3 wallet connection and NFT claiming"
+        ],
+        "icon": "🔗"
+      }
+    ],
+    "performance": {
+      "title": "📱 Frontend Performance Optimization",
+      "description": "In addition to backend systems, also responsible for React Native App performance tuning",
+      "method": "Used **Android Studio Profiler** for memory and rendering analysis",
+      "result": "Reduced memory footprint and improved rendering performance by **10-15%**"
+    },
+    "architectureFlow": {
+      "title": "🏗️ System Architecture Flow",
+      "nodes": {
+        "app": { "label": "Consumer App", "tech": "React Native" },
+        "merchant": { "label": "Merchant Dashboard", "tech": "Next.js" },
+        "web": { "label": "Main Backend", "tech": "Next.js API" },
+        "queue": { "label": "Task Queue", "tech": "Node.js" },
+        "db": { "label": "Database", "tech": "MySQL" },
+        "shopify": { "label": "Shopify", "tech": "REST API" },
+        "sns": { "label": "AWS SNS", "tech": "Push" },
+        "web3": { "label": "Arbitrum Nova", "tech": "NFT" }
+      },
+      "flows": [
+        "App → Web: Product verification / Reward claiming",
+        "Merchant → Web: Product management / Campaign setup",
+        "Web → Queue: Async task dispatch",
+        "Queue → SNS: Push notifications",
+        "Queue → Web3: NFT minting",
+        "Web → Shopify: Discount sync"
+      ]
+    },
+    "gallery": {
+      "tabs": {
+        "consumerApp": "Consumer Experience",
+        "merchantDashboard": "Merchant Management"
+      },
+      "consumerApp": {
+        "home": {
+          "title": "Home",
+          "desc": "NFC Authentication Entry: Instantly trigger the product verification flow via NFC tag interaction."
+        },
+        "productDetail": {
+          "title": "Product Detail",
+          "desc": "Digital Assets & Details: View product info and associated NFT assets."
+        },
+        "productDetailChat": {
+          "title": "Brand Interaction",
+          "desc": "Real-time Interaction: Integrated WebSocket-based chat for real-time engagement with brands."
+        },
+        "rewards": {
+          "title": "Rewards Center",
+          "desc": "Shopify Reward Sync: Point system integration with automated Shopify discount code synchronization."
+        },
+        "rewardsDetail": {
+          "title": "Reward Details",
+          "desc": "Reward Redemption Details: View detailed reward descriptions and redeem accumulated points for exclusive discount codes valid in physical stores or Shopify."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "desc": "Personalized Push Center: Activity and product updates powered by AWS SNS push notifications."
+        },
+        "profile": {
+          "title": "Profile",
+          "desc": "User Profile Center: Manage personal information, security settings, and integrated saved products or scanning preferences."
+        },
+        "scanHistory": {
+          "title": "Scan History",
+          "desc": "Scan & Interaction History: A comprehensive log of interacted product tags and verification history."
+        }
+      },
+      "merchantDashboard": {
+        "inventory": {
+          "title": "Inventory Management",
+          "desc": "Product Tag Inventory: Centralized management for all digital tags associated with physical merchandise."
+        },
+        "experience": {
+          "title": "Experience Management",
+          "desc": "Experience & Store Management: Configure interactive content and digital experiences across multiple branches."
+        },
+        "experienceDetail": {
+          "title": "Experience Details",
+          "desc": "Digital Experience Customization: Fine-grained configuration of post-scan interaction logic, including custom animations, promotional text, raffle rules, and NFT attachment content."
+        },
+        "analytics": {
+          "title": "Analytics Dashboard",
+          "desc": "Multi-dimensional Analytics: Visualize scan frequencies, geographic regions, and user demographics."
+        },
+        "rewards": {
+          "title": "Rewards Management",
+          "desc": "O2O Reward Configuration: Define point earning criteria, raffle probabilities, and promotion rules."
+        },
+        "account": {
+          "title": "Account Management",
+          "desc": "Access & Account Control: Fine-grained configuration of staff roles, permissions, and access restrictions."
+        }
+      }
+    },
+    "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."
   }
 }
 

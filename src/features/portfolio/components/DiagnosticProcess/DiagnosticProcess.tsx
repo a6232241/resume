@@ -27,7 +27,7 @@ export interface DiagnosticProcessProps {
 export function DiagnosticProcess({ process, findings }: DiagnosticProcessProps) {
   return (
     <section className="space-y-8">
-      <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
+      <div className="rounded-2xl bg-white p-8 shadow-lg backdrop-blur-sm dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">🔍 診斷過程</h2>
 
         {/* --- Horizontal Stepper --- */}
@@ -77,7 +77,7 @@ export function DiagnosticProcess({ process, findings }: DiagnosticProcessProps)
       </div>
 
       {/* --- 核心發現 --- */}
-      <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
+      <div className="rounded-2xl bg-white p-8 shadow-lg backdrop-blur-sm dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">⚠️ 核心發現</h2>
         <div className="grid gap-6 md:grid-cols-3">
           {findings.map((finding) => (

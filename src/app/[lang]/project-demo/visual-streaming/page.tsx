@@ -142,7 +142,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
       <TechnicalChallengeCard challenges={challengesRaw} />
 
       {/* Architecture Visualization */}
-      <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-gray-50 to-white p-8 dark:border-gray-700/50 dark:from-gray-900/50 dark:to-gray-800/50">
+      <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-gray-50 to-white p-8 backdrop-blur-sm dark:border-gray-700/50 dark:from-gray-900/50 dark:to-gray-800/50">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{architectureData.title}</h2>
         <div className="grid gap-4 md:grid-cols-3">
           {architectureData.layers.map((layer, index) => (
@@ -167,7 +167,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
       </section>
 
       {/* Demo Gallery */}
-      <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-gray-50 to-white p-8 dark:border-gray-700/50 dark:from-gray-900/50 dark:to-gray-800/50">
+      <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-gray-50 to-white p-8 backdrop-blur-sm dark:border-gray-700/50 dark:from-gray-900/50 dark:to-gray-800/50">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{commonT("projectDemo")}</h2>
         <ProjectImageGrid items={demoMediaItems} accentColor="blue" itemAspectRatio="aspect-video" />
       </section>

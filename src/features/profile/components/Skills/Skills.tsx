@@ -11,7 +11,7 @@ export default function Skills({ title, items }: SkillsProps) {
         {items.map((skill, index) => (
           <div
             key={index}
-            className="rounded-full bg-gray-100 px-6 py-3 text-sm font-semibold text-gray-700 transition-all hover:scale-110 hover:bg-blue-100 hover:text-blue-600 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-blue-900/30 dark:hover:text-blue-400">
+            className="rounded-full bg-gray-100 px-6 py-3 text-sm font-semibold text-gray-700 backdrop-blur-sm transition-all hover:scale-110 hover:bg-blue-100 hover:text-blue-600 dark:bg-white/10 dark:text-gray-300 dark:hover:bg-blue-900/30 dark:hover:text-blue-400">
             {skill}
           </div>
         ))}

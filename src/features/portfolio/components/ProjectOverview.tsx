@@ -32,7 +32,7 @@ export default function ProjectOverview({
       : "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
 
   return (
-    <section>
+    <section className="backdrop-blur-sm">
       <div className="rounded-2xl border border-white/10 bg-white p-8 shadow-lg dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">📊 項目概況</h2>
 

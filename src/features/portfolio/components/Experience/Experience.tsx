@@ -11,7 +11,7 @@ interface ExperienceProps {
 
 export default function Experience({ title, items }: ExperienceProps) {
   return (
-    <section className="w-full py-16">
+    <section className="w-full py-16 backdrop-blur-sm">
       <h2 className="mb-12 text-center text-3xl font-bold">{title}</h2>
       <div className="grid gap-6 md:grid-cols-3">
         {items.map((item, index) => (

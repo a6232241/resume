@@ -25,7 +25,7 @@ export function SolutionEvaluation({ title, approaches }: SolutionEvaluationProp
   };
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-8 backdrop-blur-sm">
       <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">🎯 {title}</h2>
 

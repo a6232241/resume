@@ -90,8 +90,6 @@ export default function LightBox({
   const showPrevButton = loop || currentIndex > 0;
   const showNextButton = loop || currentIndex < mediaItems.length - 1;
 
-  // Use createPortal to render the lightbox at document.body level,
-  // bypassing any ancestor's transform/filter/backdrop-filter containing block
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm" onClick={onClose}>
       <button
@@ -132,9 +130,9 @@ export default function LightBox({
       )}
 
       <div
-        className="relative flex h-[90vh] w-full max-w-5xl flex-col items-center justify-center p-4"
+        className="flex h-[90vh] w-full max-w-5xl flex-col items-center gap-4 p-4"
         onClick={(e) => e.stopPropagation()}>
-        <div className="relative h-full w-full">
+        <div className="relative min-h-0 w-full flex-1">
           {currentItem.type === "image" ? (
             <Image
               src={currentItem.url}
@@ -153,7 +151,7 @@ export default function LightBox({
         </div>
 
         {showCaption && currentItem.title && (
-          <div className="absolute right-0 bottom-8 left-0 mx-auto max-w-2xl rounded-xl bg-black/60 p-4 text-center text-white backdrop-blur-md">
+          <div className="mx-auto max-w-2xl rounded-xl bg-black/60 p-4 text-center text-white">
             <h3 className="text-xl font-bold">{currentItem.title}</h3>
             {currentItem.description && <p className="mt-2 text-sm text-gray-200">{currentItem.description}</p>}
             <div className="mt-2 text-xs text-gray-400">
@@ -163,7 +161,7 @@ export default function LightBox({
         )}
 
         {!showCaption && (
-          <div className="mt-4 rounded-full bg-white/10 px-2 py-1 text-xs text-white backdrop-blur-sm">
+          <div className="mt-4 rounded-full bg-white/10 px-2 py-1 text-xs text-white">
             {currentIndex + 1} / {mediaItems.length}
           </div>
         )}

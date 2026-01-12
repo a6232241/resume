@@ -58,7 +58,7 @@ export function EvidenceGallery({ videos, screenshots, references }: EvidenceGal
   return (
     <section className="space-y-8">
       {/* --- 視頻演示 --- */}
-      <div className="rounded-2xl bg-white p-4 shadow-lg sm:p-8 dark:bg-white/5">
+      <div className="rounded-2xl bg-white p-4 shadow-lg backdrop-blur-sm sm:p-8 dark:bg-white/5">
         <div className="mb-6 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">🎬 演示影片</h2>
           <div className="flex w-full overflow-x-auto rounded-lg bg-gray-100 p-1 md:w-auto dark:bg-gray-800">
@@ -288,14 +288,14 @@ export function EvidenceGallery({ videos, screenshots, references }: EvidenceGal
       </div>
 
       {screenshots.length > 0 && (
-        <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
+        <div className="rounded-2xl bg-white p-8 shadow-lg backdrop-blur-sm dark:bg-white/5">
           <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">📸 技術截圖</h2>
           <ProjectImageGrid items={screenshotItems} itemAspectRatio="aspect-video" accentColor="blue" />
         </div>
       )}
 
       {references.length > 0 && (
-        <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 shadow-lg dark:from-blue-900/20 dark:to-indigo-900/20">
+        <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 shadow-lg backdrop-blur-sm dark:from-blue-900/20 dark:to-indigo-900/20">
           <h3 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">🔗 相關資源</h3>
           <div className="flex flex-wrap gap-4">
             {references.map((ref) => (

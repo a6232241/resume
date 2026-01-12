@@ -25,7 +25,7 @@ export default function ProjectCard({
   badge,
 }: ProjectProps) {
   const CardContent = (
-    <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
+    <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg backdrop-blur-sm transition-shadow duration-300 hover:shadow-2xl dark:bg-white/5">
       {/* 徽章 (Badge) */}
       {badge && (
         <div className="absolute top-3 right-3 z-10 rounded-full bg-green-500 px-3 py-1.5 shadow-lg">

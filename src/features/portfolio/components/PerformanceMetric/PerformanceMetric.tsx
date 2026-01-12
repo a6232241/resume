@@ -12,7 +12,7 @@ interface Props {
 
 export function PerformanceMetric({ metrics }: Props) {
   return (
-    <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
+    <div className="rounded-2xl bg-white p-8 shadow-lg backdrop-blur-sm dark:bg-white/5">
       <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">🚀 性能成果</h2>
       <div className="grid gap-6 md:grid-cols-2">
         {metrics.map((metric) => {

@@ -32,7 +32,7 @@ export function TechnicalImplementation({ phases }: TechnicalImplementationProps
   const [expandedPhase, setExpandedPhase] = useState<number | null>(null);
 
   return (
-    <section>
+    <section className="backdrop-blur-sm">
       <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-white/5">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">💻 技術實施</h2>
 
