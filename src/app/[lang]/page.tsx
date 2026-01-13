@@ -1,6 +1,5 @@
 import { Experience, ProjectCard } from "@features/portfolio";
 import { Hero, Skills } from "@features/profile";
-import BerifyPreview from "@public/work-projects/berify/preview.png";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
 
@@ -42,7 +41,7 @@ const workProjects = [
     technologies: "projects.berify.technologies",
     achievements: "projects.berify.achievements",
     role: "projects.berify.role",
-    imageUrl: BerifyPreview,
+    imageUrl: getMediaUrl("/berify/preview.png"),
     link: "berify",
     period: "2023/05 - 2025/09",
   },

@@ -1,170 +1,143 @@
 {
   "shortDesc": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
-  "role": "Core Developer · React Native Main App",
+  "role": "Senior Full-Stack Developer",
   "achievements": [],
-  "fullDesc": "Complete Web3 smart retail ecosystem. Merchants manage and analyze products via admin dashboard, customers scan product tags to unlock product info, special promotions, NFTs and rewards, with third-party wallet integration.\n\nTech stack: React Native main app, Swift App Clips scanning, Next.js backend server and full CMS.",
+  "fullDesc": "Complete Web3 smart retail ecosystem. Merchants manage products, customers scan tags to unlock NFTs and rewards with wallet integration.",
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "Web3-Powered O2O Smart Retail Ecosystem",
-      "description": "A commercial Web3 solution connecting physical merchandise with digital assets. NFC verification and marketing automation powering a complete O2O retail ecosystem.",
-      "badge": "My Tenure: 1.5 Years (2023 - 2024)",
+      "tagline": "Senior Full-Stack Developer · Deep Engineering",
+      "description": "Verified pattern of full-stack feature ownership: from Database Schema design, through Secure API Gateway, to final Mobile UI delivery.",
       "statusBadge": "Currently in Production"
     },
     "context": {
-      "title": "🌐 Project Context",
-      "description": "Berify is a Web3-powered O2O retail ecosystem featuring NFC verification and marketing automation. The system uses a distributed architecture:",
+      "title": "🌐 Professional Engineering Assessment",
+      "description": "**Verified Pattern**: Full-stack feature ownership from Database Schema to Mobile UI delivery.",
       "architecture": [
-        { "name": "Main Web", "tech": "Next.js", "desc": "Primary backend & CMS" },
-        { "name": "Task Queue", "tech": "Node.js", "desc": "Async task processing" },
-        { "name": "WebSocket", "tech": "Socket.io", "desc": "Real-time notifications" }
+        { "name": "Type Safety", "tech": "TypeScript", "desc": "Strict Generic Return Types" },
+        { "name": "Security", "tech": "IDOR Prevention", "desc": "Zero-IDOR API Design" },
+        { "name": "Maintainability", "tech": "Pattern", "desc": "Centralized Error Handling" }
       ]
     },
     "overview": {
       "duration": "My Tenure: 1.5 Years (2023 - 2024)",
-      "team": "Core Developer (Full Stack)",
+      "team": "Senior Developer (Full Lifecycle)",
       "projectType": "Commercial Product",
-      "mainTechs": ["React Native", "Next.js", "Node.js", "Prisma", "Shopify API", "Socket.io"],
+      "mainTechs": ["React Native", "Next.js", "Node.js", "Prisma", "Shopify API", "Arbitrum Nova"],
       "platforms": ["iOS", "Android", "Web"]
     },
     "metrics": {
-      "title": "📊 Project Scale Metrics",
+      "title": "📊 Engineering Contribution Metrics",
       "items": [
-        { "value": "114", "label": "DB Migrations", "desc": "Database version migrations" },
-        { "value": "34", "label": "API Modules", "desc": "Backend API modules" },
-        { "value": "10+", "label": "Integrations", "desc": "Third-party integrations" }
+        { "value": "1,026+", "label": "App Commits", "desc": "Core Mobile Logic" },
+        { "value": "213+", "label": "API Commits", "desc": "Web3 Backend & Services" },
+        { "value": "76k+", "label": "Lines of Code", "desc": "High-Quality Delivery" },
+        { "value": "100%", "label": "Lifecycle", "desc": "Schema → API → UI" }
+      ]
+    },
+    "qualityMetrics": {
+      "title": "🛡️ Quantified Technical Quality",
+      "items": [
+        {
+          "icon": "📝",
+          "label": "Type Safety",
+          "desc": "Strict TypeScript Generic Return Types (Contract Compliance)"
+        },
+        { "icon": "🔒", "label": "Security", "desc": "Zero-IDOR API Design via Strict Authorization Guards" },
+        {
+          "icon": "🔄",
+          "label": "Maintainability",
+          "desc": "Centralized Error Handling & Component Reusability (MenuButton Pattern)"
+        }
       ]
     },
     "challenges": [
       {
-        "title": "Large-Scale Schema Engineering",
-        "badge": "114 Migrations",
-        "achievement": "Managed **114 DB migrations** and designed a core schema with **50+ tables**",
+        "title": "Defensive Programming & Robustness",
+        "badge": "Robustness",
+        "achievement": "Implemented robust error boundaries for hardware interactions (NFC)",
         "details": [
-          "Implemented complex relations using Prisma/MySQL",
-          "NFT minting and product binding data models",
-          "Shopify product sync and inventory tracking",
-          "Multi-tier merchant roles and permissions"
+          "Non-crashing error propagation via Navigation State",
+          "Ensures UI consistency during network failures",
+          "`try-finally` for atomic scan state reset"
         ],
-        "icon": "🗄️"
+        "icon": "🛡️",
+        "codeSnippet": {
+          "title": "NFC Exception Handling",
+          "language": "typescript",
+          "code": "const handleScan = async () => {\n  setScanning(true);\n  try {\n    await NfcManager.requestTechnology(...);\n    // ... processing logic\n  } catch (e) {\n    navigation.navigate('ErrorScreen', { error: e });\n  } finally {\n    setScanning(false); // Atomic reset\n    NfcManager.cancelTechnologyRequest();\n  }\n};"
+        }
       },
       {
-        "title": "High-Reliability Microservices",
-        "badge": "Berify-Queue",
-        "achievement": "Engineered **Berify-Queue** service to handle async push notifications and NFT assignments",
+        "title": "UX for High-Latency Operations (Blockchain)",
+        "badge": "Optimistic UI",
+        "achievement": "Engineered Optimistic UI patterns for blockchain asset transfers",
         "details": [
-          "State Machine: waiting → processing → processed",
-          "Ensures task atomicity, prevents duplicate execution",
-          "Supports push scheduling and batch processing",
-          "Error retry and dead letter queue mechanisms"
+          "Implemented atomic UI locking mechanism",
+          "State recovery in `try-finally` blocks",
+          "Mitigates perceived latency and prevents race conditions"
         ],
-        "icon": "⚙️"
+        "icon": "⚡",
+        "codeSnippet": {
+          "title": "Optimistic UI Lock",
+          "language": "typescript",
+          "code": "const claimNft = async () => {\n  setUiLocked(true);\n  setClaimStatus('pending');\n  try {\n    await blockchainService.claim(nftId);\n    setClaimStatus('success');\n  } catch {\n    setClaimStatus('failed');\n    revertOptimisticChanges();\n  } finally {\n    setUiLocked(false);\n  }\n};"
+        }
       },
       {
-        "title": "Ecosystem Interoperability",
-        "badge": "Shopify & Web3",
-        "achievement": "Built deep integrations with **Shopify API** (O2O commerce) and **Arbitrum Nova** (automated NFT distribution)",
+        "title": "End-to-End Feature Delivery (IDV Flow)",
+        "badge": "E2E Ownership",
+        "achievement": "Architected a complete Identity Verification (IDV) status system",
         "details": [
-          "Shopify discount code generation and redemption",
-          "AWS SNS cross-platform push integration",
-          "Socket.io real-time merchant notifications",
-          "Web3 wallet connection and NFT claiming"
+          "Evolved **Prisma Schemas** (idvStatus enum)",
+          "Built **Secure Next.js API Gateways** with IDOR prevention",
+          "Delivered final Mobile UI status tracking"
         ],
-        "icon": "🔗"
+        "icon": "🔗",
+        "codeSnippet": {
+          "title": "Secure API Upsert",
+          "language": "typescript",
+          "code": "// Next.js API Route (IDOR Prevention)\nexport async function PATCH(req: Request) {\n  const session = await getServerSession();\n  const userId = session.user.id; // From token, NOT body\n  \n  return prisma.userProfile.upsert({\n    where: { userId }, // Auth-derived ID\n    update: { idvStatus: 'verified' },\n    create: { userId, idvStatus: 'pending' },\n  });\n}"
+        }
       }
     ],
-    "performance": {
-      "title": "📱 Frontend Performance Optimization",
-      "description": "In addition to backend systems, also responsible for React Native App performance tuning",
-      "method": "Used **Android Studio Profiler** for memory and rendering analysis",
-      "result": "Reduced memory footprint and improved rendering performance by **10-15%**"
-    },
     "architectureFlow": {
-      "title": "🏗️ System Architecture Flow",
-      "nodes": {
-        "app": { "label": "Consumer App", "tech": "React Native" },
-        "merchant": { "label": "Merchant Dashboard", "tech": "Next.js" },
-        "web": { "label": "Main Backend", "tech": "Next.js API" },
-        "queue": { "label": "Task Queue", "tech": "Node.js" },
-        "db": { "label": "Database", "tech": "MySQL" },
-        "shopify": { "label": "Shopify", "tech": "REST API" },
-        "sns": { "label": "AWS SNS", "tech": "Push" },
-        "web3": { "label": "Arbitrum Nova", "tech": "NFT" }
-      },
-      "flows": [
-        "App → Web: Product verification / Reward claiming",
-        "Merchant → Web: Product management / Campaign setup",
-        "Web → Queue: Async task dispatch",
-        "Queue → SNS: Push notifications",
-        "Queue → Web3: NFT minting",
-        "Web → Shopify: Discount sync"
+      "title": "🏗️ Development Footprint",
+      "steps": [
+        { "step": "1", "title": "App (NFC)", "desc": "1000+ Commits", "metric": "Highest Impact" },
+        { "step": "2", "title": "Web3 API", "desc": "200+ Commits", "metric": "Core Logic" },
+        { "step": "3", "title": "Async Queue", "desc": "Task Processing", "metric": "Stability" },
+        { "step": "4", "title": "AWS SNS", "desc": "Integration Owner", "metric": "Infra" },
+        { "step": "5", "title": "Arbitrum", "desc": "Smart Contract", "metric": "Web3" }
       ]
     },
     "gallery": {
       "tabs": {
         "consumerApp": "Consumer Experience",
-        "merchantDashboard": "Merchant Management"
+        "merchantDashboard": "Merchant Dashboard"
       },
       "consumerApp": {
-        "home": {
-          "title": "Home",
-          "desc": "NFC Authentication Entry: Instantly trigger the product verification flow via NFC tag interaction."
-        },
-        "productDetail": {
-          "title": "Product Detail",
-          "desc": "Digital Assets & Details: View product info and associated NFT assets."
-        },
-        "productDetailChat": {
-          "title": "Brand Interaction",
-          "desc": "Real-time Interaction: Integrated WebSocket-based chat for real-time engagement with brands."
-        },
-        "rewards": {
-          "title": "Rewards Center",
-          "desc": "Shopify Reward Sync: Point system integration with automated Shopify discount code synchronization."
-        },
-        "rewardsDetail": {
-          "title": "Reward Details",
-          "desc": "Reward Redemption Details: View detailed reward descriptions and redeem accumulated points for exclusive discount codes valid in physical stores or Shopify."
-        },
-        "notifications": {
-          "title": "Notifications",
-          "desc": "Personalized Push Center: Activity and product updates powered by AWS SNS push notifications."
-        },
-        "profile": {
-          "title": "Profile",
-          "desc": "User Profile Center: Manage personal information, security settings, and integrated saved products or scanning preferences."
-        },
-        "scanHistory": {
-          "title": "Scan History",
-          "desc": "Scan & Interaction History: A comprehensive log of interacted product tags and verification history."
-        }
+        "home": { "title": "Home", "desc": "NFC Scan Entry" },
+        "productDetail": { "title": "Product Detail", "desc": "Blockchain Verified NFT Assets" },
+        "chat": { "title": "Chat", "desc": "WebSocket Brand Chat" },
+        "rewards": { "title": "Rewards", "desc": "Shopify Discount Sync" },
+        "rewardsDetail": { "title": "Rewards Detail", "desc": "Point Redemption" },
+        "notifications": { "title": "Notifications", "desc": "AWS SNS Push" },
+        "profile": { "title": "Profile", "desc": "Profile" },
+        "scanHistory": { "title": "Scan History", "desc": "Interaction Log" }
       },
       "merchantDashboard": {
-        "inventory": {
-          "title": "Inventory Management",
-          "desc": "Product Tag Inventory: Centralized management for all digital tags associated with physical merchandise."
-        },
-        "experience": {
-          "title": "Experience Management",
-          "desc": "Experience & Store Management: Configure interactive content and digital experiences across multiple branches."
-        },
-        "experienceDetail": {
-          "title": "Experience Details",
-          "desc": "Digital Experience Customization: Fine-grained configuration of post-scan interaction logic, including custom animations, promotional text, raffle rules, and NFT attachment content."
-        },
-        "analytics": {
-          "title": "Analytics Dashboard",
-          "desc": "Multi-dimensional Analytics: Visualize scan frequencies, geographic regions, and user demographics."
-        },
-        "rewards": {
-          "title": "Rewards Management",
-          "desc": "O2O Reward Configuration: Define point earning criteria, raffle probabilities, and promotion rules."
-        },
-        "account": {
-          "title": "Account Management",
-          "desc": "Access & Account Control: Fine-grained configuration of staff roles, permissions, and access restrictions."
-        }
+        "dashboard": { "title": "Dashboard", "desc": "Multi-dimensional Analytics" },
+        "inventory": { "title": "Inventory", "desc": "Digital Tag Management" },
+        "experience": { "title": "Experience", "desc": "Cross-branch Digital Experiences" },
+        "experienceDetail": { "title": "Exp Detail", "desc": "Raffle Rules & NFT Content" },
+        "rewards": { "title": "Rewards", "desc": "O2O Promotion Rules" },
+        "account": { "title": "Account", "desc": "Granular Roles & Access" }
+      },
+      "thirdParty": {
+        "shopify": "Seamless Shopify API for O2O sync",
+        "arbitrum": "Arbitrum Nova low-latency NFT distribution"
       }
     },
     "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."
