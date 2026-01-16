@@ -7,8 +7,8 @@
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "Senior Full-Stack Developer · Deep Engineering",
-      "description": "Verified pattern of full-stack feature ownership: from Database Schema design, through Secure API Gateway, to final Mobile UI delivery.",
+      "tagline": "Distributed O2O Ecosystem · 9 Independent Microservices",
+      "description": "Web3 smart retail ecosystem integrating NFC verification, NFT minting, and Shopify e-commerce. Verified pattern of full-stack feature ownership.",
       "statusBadge": "Currently in Production"
     },
     "context": {
@@ -26,6 +26,15 @@
       "projectType": "Commercial Product",
       "mainTechs": ["React Native", "Next.js", "Node.js", "Prisma", "Shopify API", "Arbitrum Nova"],
       "platforms": ["iOS", "Android", "Web"]
+    },
+    "ecosystemMetrics": {
+      "title": "🌐 Distributed Ecosystem Scale",
+      "items": [
+        { "value": "9", "label": "Microservices", "desc": "Complete O2O Ecosystem" },
+        { "value": "114+", "label": "DB Migrations", "desc": "Schema Evolution History" },
+        { "value": "50+", "label": "Core Tables", "desc": "Complex Business Logic" },
+        { "value": "1,026+", "label": "App Commits", "desc": "Mobile-Led Development" }
+      ]
     },
     "metrics": {
       "title": "📊 Engineering Contribution Metrics",
@@ -51,6 +60,62 @@
           "desc": "Centralized Error Handling & Component Reusability (MenuButton Pattern)"
         }
       ]
+    },
+    "architectureFlow": {
+      "title": "🏗️ System Architecture Flow",
+      "steps": [
+        { "step": "1", "title": "App (NFC Scan)", "desc": "React Native Mobile", "metric": "1,026+ Commits" },
+        { "step": "2", "title": "App-Backend", "desc": "Web3 API Gateway", "metric": "Core Logic Layer" },
+        { "step": "3", "title": "Berify-Queue", "desc": "Async Task Processing", "metric": "Stability" },
+        { "step": "4", "title": "AWS SNS", "desc": "Real-time Push Service", "metric": "Integration Owner" }
+      ]
+    },
+    "idvDeepDive": {
+      "title": "🔐 Berify Tools Access Control (IDV)",
+      "overview": {
+        "title": "Module Definition",
+        "description": "\"Berify Tools\" allows modifying NFT tag ownership. Only verified Associate staff can access it. The system enforces re-verification every 7 days. If the staff's name (OCR) doesn't match the database, access is blocked to prevent identity fraud.",
+        "items": [
+          "Integrated third-party **Incode SDK** for real-time facial recognition",
+          "Enforced **7-day re-verification cycle** ensuring continuous identity consistency",
+          "Server-side **4-Way Name Matching**: OCR ID vs App User vs Web User",
+          "Mismatch triggers **Inviter-Led Resolution** - staff cannot self-approve changes"
+        ]
+      },
+      "workflow": {
+        "title": "Verification Flow",
+        "steps": [
+          {
+            "step": "1",
+            "title": "Face Login Orchestration",
+            "desc": "Client integrates Incode SDK + Backend OCR + Verify API"
+          },
+          { "step": "2", "title": "4-Way Integrity Check", "desc": "Server compares OCR Name / App User / Web User" },
+          { "step": "3", "title": "Inviter-Led Resolution", "desc": "Mismatch emails Manager (not staff)" },
+          { "step": "4", "title": "Data Correction", "desc": "Manager clicks secure link to auto-correct profile" }
+        ]
+      },
+      "risks": {
+        "title": "Risk Mitigation",
+        "items": [
+          {
+            "icon": "🎭",
+            "name": "Identity Fraud",
+            "desc": "Prevent former or unauthorized staff from accessing sensitive assets"
+          },
+          { "icon": "📝", "name": "Data Drift", "desc": "Ensure DB records stay in sync with legal ID documents" },
+          {
+            "icon": "🔒",
+            "name": "Self-Approval",
+            "desc": "Staff cannot tamper with their own data; requires Manager arbitration"
+          }
+        ]
+      },
+      "codeSnippet": {
+        "title": "Face Login Orchestration",
+        "language": "typescript",
+        "code": "const startFaceLogin = async () => {\n  // 1. Start SDK Face Login (Skip tutorials)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. Securely fetch OCR data via Backend API\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. Call verify-idv API for Server-Side 4-Way Matching\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. Success: Log time and grant access\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. Mismatch: System emails the Inviter (Manager) for resolution\n    Alert.alert('Notice', response.error);\n  }\n};"
+      }
     },
     "challenges": [
       {
@@ -86,32 +151,22 @@
         }
       },
       {
-        "title": "End-to-End Feature Delivery (IDV Flow)",
-        "badge": "E2E Ownership",
-        "achievement": "Architected a complete Identity Verification (IDV) status system",
+        "title": "B2B Staff Access & Identity Consistency",
+        "badge": "Biometric Security",
+        "achievement": "Architected complete B2B staff identity verification and arbitration system",
         "details": [
-          "Evolved **Prisma Schemas** (idvStatus enum)",
-          "Built **Secure Next.js API Gateways** with IDOR prevention",
-          "Delivered final Mobile UI status tracking"
+          "Enforced **7-day re-verification cycle** using Incode SDK Face Login",
+          "Server-side **4-Way Name Matching**: OCR ID vs App/Web User database",
+          "Designed **Inviter-Led Resolution**: Mismatches email Manager only, staff cannot self-approve"
         ],
         "icon": "🔗",
         "codeSnippet": {
-          "title": "Secure API Upsert",
+          "title": "Face Login Orchestration",
           "language": "typescript",
-          "code": "// Next.js API Route (IDOR Prevention)\nexport async function PATCH(req: Request) {\n  const session = await getServerSession();\n  const userId = session.user.id; // From token, NOT body\n  \n  return prisma.userProfile.upsert({\n    where: { userId }, // Auth-derived ID\n    update: { idvStatus: 'verified' },\n    create: { userId, idvStatus: 'pending' },\n  });\n}"
+          "code": "const startFaceLogin = async () => {\n  // 1. Start SDK Face Login (Skip tutorials)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. Securely fetch OCR data via Backend API\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. Call verify-idv API for Server-Side 4-Way Matching\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. Success: Log time and grant access\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. Mismatch: System emails the Inviter (Manager)\n    Alert.alert('Notice', response.error);\n  }\n};"
         }
       }
     ],
-    "architectureFlow": {
-      "title": "🏗️ Development Footprint",
-      "steps": [
-        { "step": "1", "title": "App (NFC)", "desc": "1000+ Commits", "metric": "Highest Impact" },
-        { "step": "2", "title": "Web3 API", "desc": "200+ Commits", "metric": "Core Logic" },
-        { "step": "3", "title": "Async Queue", "desc": "Task Processing", "metric": "Stability" },
-        { "step": "4", "title": "AWS SNS", "desc": "Integration Owner", "metric": "Infra" },
-        { "step": "5", "title": "Arbitrum", "desc": "Smart Contract", "metric": "Web3" }
-      ]
-    },
     "gallery": {
       "tabs": {
         "consumerApp": "Consumer Experience",

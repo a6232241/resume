@@ -7,8 +7,8 @@
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "Senior Full-Stack Developer · Deep Engineering",
-      "description": "驗證完整的全端功能交付模式：從資料庫 Schema 設計，經由安全 API Gateway，到最終 Mobile UI 呈現。",
+      "tagline": "分散式 O2O 生態系統 · 9 個獨立微服務",
+      "description": "Web3 智慧零售生態系統，透過 NFC 驗證、NFT 鑄造與 Shopify 電商整合，驗證完整的全端功能交付模式。",
       "statusBadge": "正式上線中"
     },
     "overview": {
@@ -17,6 +17,15 @@
       "projectType": "商業產品",
       "mainTechs": ["React Native", "Next.js", "Node.js", "Prisma", "Shopify API", "Arbitrum Nova"],
       "platforms": ["iOS", "Android", "Web"]
+    },
+    "ecosystemMetrics": {
+      "title": "🌐 分散式生態系統規模",
+      "items": [
+        { "value": "9", "label": "獨立微服務", "desc": "完整 O2O 生態系統" },
+        { "value": "114+", "label": "資料庫遷移", "desc": "Schema 演進歷程" },
+        { "value": "50+", "label": "核心資料表", "desc": "複雜業務邏輯" },
+        { "value": "1,026+", "label": "App 提交", "desc": "行動端主導開發" }
+      ]
     },
     "metrics": {
       "title": "📊 工程貢獻指標",
@@ -34,6 +43,50 @@
         { "icon": "🔒", "label": "Security", "desc": "Zero-IDOR API 設計，嚴格授權守衛" },
         { "icon": "🔄", "label": "Maintainability", "desc": "集中式錯誤處理與元件可重用模式 (MenuButton Pattern)" }
       ]
+    },
+    "architectureFlow": {
+      "title": "🏗️ 系統架構鏈路",
+      "steps": [
+        { "step": "1", "title": "App (NFC 掃描)", "desc": "React Native 行動端", "metric": "1,026+ Commits" },
+        { "step": "2", "title": "App-Backend", "desc": "Web3 API Gateway", "metric": "核心邏輯層" },
+        { "step": "3", "title": "Berify-Queue", "desc": "異步任務處理", "metric": "穩定性保障" },
+        { "step": "4", "title": "AWS SNS", "desc": "即時推播服務", "metric": "整合負責人" }
+      ]
+    },
+    "idvDeepDive": {
+      "title": "🔐 Berify Tools 權限控制 (IDV)",
+      "overview": {
+        "title": "模組定位",
+        "description": "「Berify Tools」允許修改 NFT 標籤所有權，僅限經驗證的 Associate 員工存取。系統強制每 7 天重新驗證，若員工姓名（OCR）與資料庫不符，則阻止存取以防止身分詐欺。",
+        "items": [
+          "整合第三方 **Incode SDK** 進行即時人臉辨識",
+          "強制 **7 天重驗機制**，確保持續的身分一致性",
+          "後端執行「**姓名四向比對**」：OCR 證件 vs App User vs Web User",
+          "資料衝突時觸發「**邀請者仲裁**」機制，員工無法自行修正"
+        ]
+      },
+      "workflow": {
+        "title": "驗證流程",
+        "steps": [
+          { "step": "1", "title": "Face Login 編排", "desc": "Client 端整合 Incode SDK + Backend OCR + Verify API" },
+          { "step": "2", "title": "四向一致性檢核", "desc": "Server 端比對 OCR Name / App User / Web User" },
+          { "step": "3", "title": "邀請者仲裁", "desc": "姓名不符時，系統發信給 Manager（非員工）" },
+          { "step": "4", "title": "資料修正", "desc": "Manager 點擊安全連結自動更正員工資料" }
+        ]
+      },
+      "risks": {
+        "title": "防範風險",
+        "items": [
+          { "icon": "🎭", "name": "身分詐欺", "desc": "防止離職或未授權員工冒用帳號操作高敏感資產" },
+          { "icon": "📝", "name": "資料漂移", "desc": "確保 DB 記錄與法定證件保持同步" },
+          { "icon": "🔒", "name": "自我核准", "desc": "員工無法自行竄改個人資料，需 Manager 仲裁" }
+        ]
+      },
+      "codeSnippet": {
+        "title": "Face Login 核心實作 (Orchestration)",
+        "language": "typescript",
+        "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識 (無教學模式)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 安全取得 OCR 資料 (非前端直接解析)\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行後端四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者 (Manager)，前端僅提示\n    Alert.alert('Notice', response.error);\n  }\n};"
+      }
     },
     "challenges": [
       {
@@ -65,32 +118,22 @@
         }
       },
       {
-        "title": "端到端功能交付 (IDV Flow)",
-        "badge": "E2E Ownership",
-        "achievement": "架構完整的身份驗證 (IDV) 狀態系統",
+        "title": "B2B 員工權限與身分一致性檢核",
+        "badge": "Biometric Security",
+        "achievement": "架構完整的 B2B 員工身分驗證與仲裁系統",
         "details": [
-          "演進 **Prisma Schema** 設計 (idvStatus enum)",
-          "建構**安全 Next.js API Gateway**，防止 IDOR 攻擊",
-          "交付最終 Mobile UI 狀態追蹤介面"
+          "實作 **7 天強制重驗機制**，透過 Incode SDK 進行 Face Login",
+          "後端執行「**姓名四向比對**」：OCR 證件 vs App/Web User 資料庫",
+          "設計「**邀請者仲裁**」流程：資料衝突僅發信給 Manager，員工無法自行竄改"
         ],
         "icon": "🔗",
         "codeSnippet": {
-          "title": "Secure API Upsert",
+          "title": "Face Login Orchestration",
           "language": "typescript",
-          "code": "// Next.js API Route (IDOR Prevention)\nexport async function PATCH(req: Request) {\n  const session = await getServerSession();\n  const userId = session.user.id; // From token, NOT body\n  \n  return prisma.userProfile.upsert({\n    where: { userId }, // Auth-derived ID\n    update: { idvStatus: 'verified' },\n    create: { userId, idvStatus: 'pending' },\n  });\n}"
+          "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識 (無教學模式)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 安全取得 OCR 資料 (非前端直接解析)\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行後端四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者 (Manager)\n    Alert.alert('Notice', response.error);\n  }\n};"
         }
       }
     ],
-    "architectureFlow": {
-      "title": "🏗️ 系統開發足跡",
-      "steps": [
-        { "step": "1", "title": "App (NFC)", "desc": "1000+ Commits", "metric": "Highest Impact" },
-        { "step": "2", "title": "Web3 API", "desc": "200+ Commits", "metric": "Core Logic" },
-        { "step": "3", "title": "Async Queue", "desc": "Task Processing", "metric": "Stability" },
-        { "step": "4", "title": "AWS SNS", "desc": "Integration Owner", "metric": "Infra" },
-        { "step": "5", "title": "Arbitrum", "desc": "Smart Contract", "metric": "Web3" }
-      ]
-    },
     "gallery": {
       "tabs": {
         "consumerApp": "消費者體驗",
