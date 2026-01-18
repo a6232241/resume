@@ -205,6 +205,37 @@
           "code": "// Dual-Pointer Schema (prisma)\nmodel Comment {\n  id                 Int  @id @default(autoincrement())\n  replyCommentId     Int? // Direct Parent\n  rootReplyCommentId Int? // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// Efficient Read Logic: Fetch entire thread in one go\nconst comments = await db.comment.findMany({\n  where: { rootReplyCommentId: rootId, isDeleted: false }\n});"
         },
         "icon": "💬"
+      },
+      {
+        "id": 4,
+        "title": "Multi-Quality Media Probing & Large-Scale Lazy Load Architecture",
+        "badge": "Performance Engineering",
+        "symptom": "High-quality video loaded slowly and was susceptible to network fluctuations, while monolithic bundles caused TTI delays.",
+        "rootCause": "Monolithic bundle sizes caused slow parsing, and the lack of robust fallback for adaptive streaming led to playback failures.",
+        "solution": {
+          "approach": "Adaptive Quality Probing Strategy + Route-based Code-Splitting",
+          "details": [
+            "Media Optimization: Implemented videoToAutoQuality engine to proactively probe high-quality MP4 resources via HEAD requests, seamlessly falling back to standard quality on failure to balance quality and playback stability.",
+            "Startup Acceleration: Led dynamic loading design for 61 page components, reducing initial bundle size by 40-60%, significantly shortening JS parsing and TTI.",
+            "CLS Elimination: Designed SuspenseControl with pre-loaded layouts, using full-screen backgrounds and Safe Area spacers to achieve zero layout shifts during loading.",
+            "Defensive Development: Fallback mechanism ensures users always access valid video sources regardless of network status or resource integrity, eliminating black screen risks."
+          ],
+          "result": "Successfully built a high-perceived-performance media app, maintaining smooth interaction and rapid startup even in complex network environments."
+        },
+        "comparisonTable": {
+          "title": "Auto-Quality Probing Logic",
+          "headers": ["Scenario", "Primary (HQ MP4)", "Fallback (Standard)", "Outcome"],
+          "rows": [
+            ["Normal Network", "200 OK", "Ignored", "✅ High-Res Playback"],
+            ["Missing Resource / Error", "404 / 500", "Active", "✅ Backup Playback (No Black Screen)"],
+            ["Weak Signal", "Timeout", "Active", "✅ Standard Quality Load"]
+          ]
+        },
+        "codeSnippet": {
+          "title": "Auto-Quality Probe Implementation",
+          "language": "typescript",
+          "code": "export const videoToAutoQuality = async (videoSrc: string) => {\n  const hqUrl = videoSrc.replace(/\\.[^/.]+$/, \"_hq.mp4\");\n  // Probe via HEAD request; any non-success status or error falls back to original file\n  return fetch(hqUrl, { method: 'HEAD' })\n    .then(res => res.status === 200 ? hqUrl : videoSrc)\n    .catch(() => videoSrc);\n};"
+        }
       }
     ],
     "collectionSystem": {

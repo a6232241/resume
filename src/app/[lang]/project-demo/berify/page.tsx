@@ -131,6 +131,11 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       details: string[];
       result: string;
     };
+    comparisonTable?: {
+      title: string;
+      headers: string[];
+      rows: string[][];
+    };
     icon?: string; // Optional because new format might not strictly require it if we use a default, though plan said add it.
     codeSnippet?: {
       title: string;
@@ -610,6 +615,43 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
                       Result: {challenge.solution.result}
                     </div>
                   </div>
+
+                  {/* Comparison Table */}
+                  {challenge.comparisonTable && (
+                    <div className="mt-4 overflow-hidden rounded-lg border border-gray-200 shadow-sm dark:border-gray-700">
+                      <div className="bg-gray-50 px-4 py-2 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                        {challenge.comparisonTable.title}
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-sm">
+                          <thead>
+                            <tr className="border-b border-gray-200 bg-gray-50/50 dark:border-gray-700 dark:bg-gray-800/50">
+                              {challenge.comparisonTable.headers.map((header, hIndex) => (
+                                <th key={hIndex} className="px-4 py-2 font-medium text-gray-600 dark:text-gray-300">
+                                  {header}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-100 text-gray-700 dark:divide-gray-700 dark:text-gray-300">
+                            {challenge.comparisonTable.rows.map((row, rIndex) => (
+                              <tr
+                                key={rIndex}
+                                className={
+                                  rIndex % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50/30 dark:bg-gray-800/30"
+                                }>
+                                {row.map((cell, cIndex) => (
+                                  <td key={cIndex} className="px-4 py-2 whitespace-nowrap">
+                                    {renderBoldText(cell)}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 // --- Legacy Simple Format ---

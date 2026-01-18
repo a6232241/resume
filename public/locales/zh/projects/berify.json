@@ -172,6 +172,37 @@
           "code": "// 雙指標 Schema (prisma)\nmodel Comment {\n  id                 Int  @id @default(autoincrement())\n  replyCommentId     Int? // 指向直接父層\n  rootReplyCommentId Int? // 指向對話根層 (讀取優化關鍵)\n  isDeleted          Boolean @default(false)\n}\n\n// 高效讀取邏輯：利用索引一次性撈取整串留言\nconst comments = await db.comment.findMany({\n  where: { rootReplyCommentId: rootId, isDeleted: false }\n});"
         },
         "icon": "💬"
+      },
+      {
+        "id": 4,
+        "title": "多品質媒體探測與大規模延遲載入架構",
+        "badge": "Performance Engineering",
+        "symptom": "高畫質影片加載緩慢且易受網路波動影響，同時單體 Bundle 過大導致首屏加載延遲。",
+        "rootCause": "單體 Bundle 過大導致解析緩慢，且缺乏自適應品質串流的錯誤處理機制。",
+        "solution": {
+          "approach": "自適應畫質探測策略 + 路由級 Code-Splitting",
+          "details": [
+            "媒體優化：實作 videoToAutoQuality 引擎，透過 HEAD 請求主動探測高畫質 MP4 資源，並在失效時無縫 Fallback 至標準畫質，兼顧畫質與撥放穩定性。",
+            "啟動加速：主導 61 個頁面組件的動態載入設計，大幅減少 40-60% 的初始 Bundle 體積，顯著縮短 JS 解析與 TTI 時間。",
+            "消除抖動：設計 SuspenseControl 配合預載佈局，透過填充全螢幕背景與 Safe Area 空間，實現載入過程中的零佈局偏移 (Layout Shift)。",
+            "防禦性開發：無論網路狀態或資源完整性如何，Fallback 機制確保用戶始終能獲取有效的影片 Source，杜絕黑屏風險。"
+          ],
+          "result": "成功打造高感知效能的媒體應用，即便在複雜的網路環境下也能維持流暢的互動體驗與極速的首屏加載。"
+        },
+        "comparisonTable": {
+          "title": "畫質自動探測與降級邏輯",
+          "headers": ["情境", "Primary (HQ MP4)", "Fallback (Standard)", "結果"],
+          "rows": [
+            ["正常網路", "200 OK", "Ignored", "✅ 高畫質播放"],
+            ["資源遺失 / CDN 錯誤", "404 / 500", "Active", "✅ 備用檔播放 (無黑屏)"],
+            ["弱網環境", "Timeout", "Active", "✅ 標準畫質載入"]
+          ]
+        },
+        "codeSnippet": {
+          "title": "Auto-Quality Probe 實作",
+          "language": "typescript",
+          "code": "export const videoToAutoQuality = async (videoSrc: string) => {\n  const hqUrl = videoSrc.replace(/\\.[^/.]+$/, \"_hq.mp4\");\n  // 透過 HEAD 請求預檢，不成功的狀態碼或網路錯誤皆 Fallback 至原檔 \n  return fetch(hqUrl, { method: 'HEAD' })\n    .then(res => res.status === 200 ? hqUrl : videoSrc)\n    .catch(() => videoSrc);\n};"
+        }
       }
     ],
     "collectionSystem": {
