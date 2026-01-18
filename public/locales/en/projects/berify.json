@@ -182,6 +182,29 @@
           "language": "typescript",
           "code": "// 1. Physical Layer Integrity (schema.prisma)\nmodel CollectionItem {\n  id           Int    @id @default(autoincrement())\n  tagTokenId   String @unique @db.VarChar(36) // Ensure tag uniqueness\n  collectionId Int\n  tag          Tag    @relation(fields: [tagTokenId], references: [tokenId])\n}\n\n// 2. Cross-Batch Validation Logic (Helper)\n// Validate via relation ensuring no duplicate batch in same collection\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // Redirect to new collection or reject adding\n}"
         }
+      },
+      {
+        "id": 3,
+        "title": "Flattened Threaded Query & Schema Optimization",
+        "badge": "Query Optimization",
+        "symptom": "Deeply nested comments caused inefficient recursive queries, leading to high API latency in active threads.",
+        "rootCause": "Traditional tree structures require multiple recursive queries or complex CTEs, degrading performance as depth increases.",
+        "impact": "Slow load times for popular threads affecting UX, and potential data complications during deletion.",
+        "solution": {
+          "approach": "Dual-Pointer Flattening + Single-Pass Index Scan",
+          "details": [
+            "Schema Optimization: Implemented rootReplyCommentId to turn O(n) recursive queries into O(1) constant-time scans.",
+            "Soft Delete Strategy: Used isDeleted flags for data integrity and implemented root-state filtering for UI logical consistency.",
+            "Read Performance: Eliminated N+1 query issues in batch-details by fetching entire threads in a single structured query."
+          ],
+          "result": "Significantly reduced DB load, ensuring instant response times regardless of comment nesting depth."
+        },
+        "codeSnippet": {
+          "title": "Thread Logic & Schema Definition",
+          "language": "typescript",
+          "code": "// Dual-Pointer Schema (prisma)\nmodel Comment {\n  id                 Int  @id @default(autoincrement())\n  replyCommentId     Int? // Direct Parent\n  rootReplyCommentId Int? // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// Efficient Read Logic: Fetch entire thread in one go\nconst comments = await db.comment.findMany({\n  where: { rootReplyCommentId: rootId, isDeleted: false }\n});"
+        },
+        "icon": "💬"
       }
     ],
     "collectionSystem": {
@@ -227,6 +250,39 @@
         "title": "Data Model & Relation-Based Validation",
         "language": "typescript",
         "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Globally unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Must look up batch info via Tag relation\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists in collection, reject or open new one\n   openNewCollection();\n}"
+      }
+    },
+    "commentSystem": {
+      "title": "High-Efficiency Threaded Query Architecture",
+      "overview": {
+        "title": "Module Strategy",
+        "description": "Transformed traditional recursive queries into single-pass index scans using dual-pointer architecture, completely avoiding N+1 problems while ensuring data consistency.",
+        "items": [
+          "**Dual Pointer Design**: Using rootReplyCommentId to flatten recursive queries into O(1) scans.",
+          "**Query Optimization**: Implemented single query structure to avoid N+1 issues in batch details.",
+          "**Logical Consistency**: Real-time thread hiding via root node status linkage."
+        ]
+      },
+      "workflow": {
+        "title": "Single-pass Thread Fetching",
+        "steps": [
+          { "step": "1", "title": "Structured Fetch", "desc": "Fast lookup via rootReplyCommentId" },
+          { "step": "2", "title": "Atomic Soft Delete", "desc": "isDeleted flag for traceability" },
+          { "step": "3", "title": "UI Linkage", "desc": "Filter deleted roots in query" }
+        ]
+      },
+      "highlights": {
+        "title": "Core Architecture Analysis",
+        "items": [
+          { "icon": "⚡", "title": "Query Speed", "desc": "Optimized from O(n) to O(1) scan" },
+          { "icon": "�", "title": "Schema Design", "desc": "Dual-pointer optimization" },
+          { "icon": "�️", "title": "Data Integrity", "desc": "Soft delete & UI linkage" }
+        ]
+      },
+      "codeSnippet": {
+        "title": "Dual-Pointer Schema & Efficient Query Logic",
+        "language": "typescript",
+        "code": "// 1. Dual-Pointer Schema Design: Optimizing Recursive Bottlenecks\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Direct Parent\n  rootReplyCommentId Int?    // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation (Query Logic)\n// Avoid recursion, fetch entire thread in single query structure\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* Nested Relations */ }\n});"
       }
     },
     "gallery": {

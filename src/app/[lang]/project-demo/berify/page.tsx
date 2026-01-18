@@ -92,13 +92,46 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     };
   };
 
+  // --- Comment System Data ---
+  const commentSystemData = t.raw("commentSystem") as {
+    title: string;
+    overview: {
+      title: string;
+      description: string;
+      items: string[];
+    };
+    workflow: {
+      title: string;
+      steps: Array<{ step: string; title: string; desc: string }>;
+    };
+    highlights: {
+      title: string;
+      items: Array<{ title: string; desc: string; icon: string }>;
+    };
+    codeSnippet?: {
+      title: string;
+      language: string;
+      code: string;
+    };
+  };
+
   // --- Challenges Data (with code snippets) ---
   const challengesData = t.raw("challenges") as Array<{
     title: string;
     badge: string;
-    achievement: string;
-    details: string[];
-    icon: string;
+    // Legacy simple format
+    achievement?: string;
+    details?: string[];
+    // New detailed format
+    symptom?: string;
+    rootCause?: string;
+    impact?: string;
+    solution?: {
+      approach: string;
+      details: string[];
+      result: string;
+    };
+    icon?: string; // Optional because new format might not strictly require it if we use a default, though plan said add it.
     codeSnippet?: {
       title: string;
       language: string;
@@ -429,6 +462,87 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
         )}
       </section>
 
+      {/* Comment System Deep Dive Section */}
+      <section className="rounded-2xl border-2 border-blue-200/50 bg-gradient-to-br from-blue-50 via-cyan-50 to-white p-8 dark:border-blue-700/30 dark:from-blue-900/20 dark:via-cyan-900/20 dark:to-gray-800/50">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{commentSystemData.title}</h2>
+
+        {/* Overview */}
+        <div className="mb-8 rounded-xl border border-blue-200/50 bg-white/70 p-6 dark:border-blue-700/50 dark:bg-gray-800/70">
+          <h3 className="mb-3 text-lg font-semibold text-blue-800 dark:text-blue-300">
+            {commentSystemData.overview.title}
+          </h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">{commentSystemData.overview.description}</p>
+          <ul className="space-y-2">
+            {commentSystemData.overview.items.map((item, index) => (
+              <li key={index} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                {renderBoldText(item)}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Workflow Visualization */}
+        <div className="mb-8">
+          <h3 className="mb-4 text-lg font-semibold text-blue-800 dark:text-blue-300">
+            {commentSystemData.workflow.title}
+          </h3>
+          <div className="grid gap-4 md:grid-cols-5">
+            {commentSystemData.workflow.steps.map((step, index) => (
+              <div
+                key={index}
+                className="relative rounded-xl border border-blue-200/50 bg-white/70 p-4 dark:border-blue-700/50 dark:bg-gray-800/70">
+                <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-800 dark:bg-blue-900/50 dark:text-blue-200">
+                  {step.step}
+                </div>
+                <div className="font-semibold text-gray-900 dark:text-white">{step.title}</div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">{step.desc}</div>
+                {index < commentSystemData.workflow.steps.length - 1 && (
+                  <div className="absolute top-1/2 right-0 hidden h-0.5 w-4 translate-x-full -translate-y-1/2 transform bg-blue-200 md:block dark:bg-blue-700" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Analysis/HighLights Grid */}
+        <div className="mb-8">
+          <h3 className="mb-4 text-lg font-semibold text-blue-800 dark:text-blue-300">
+            {commentSystemData.highlights.title}
+          </h3>
+          <div className="grid gap-4 md:grid-cols-3">
+            {commentSystemData.highlights.items.map((item, index) => (
+              <div
+                key={index}
+                className="rounded-xl border border-blue-200/50 bg-blue-50/50 p-4 dark:border-blue-700/30 dark:bg-blue-900/10">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-2xl">{item.icon}</span>
+                  <span className="font-semibold text-blue-800 dark:text-blue-300">{item.title}</span>
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{renderBoldText(item.desc)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Code Snippet */}
+        {commentSystemData.codeSnippet && (
+          <div className="overflow-hidden rounded-lg border border-gray-300/50 dark:border-gray-600/50">
+            <div className="flex items-center justify-between bg-gray-100 px-4 py-2 dark:bg-gray-700">
+              <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                📄 {commentSystemData.codeSnippet.title}
+              </span>
+              <span className="rounded bg-gray-200 px-2 py-0.5 text-xs text-gray-500 dark:bg-gray-600 dark:text-gray-400">
+                {commentSystemData.codeSnippet.language}
+              </span>
+            </div>
+            <pre className="overflow-x-auto bg-gray-900 p-4 text-xs text-gray-100">
+              <code>{commentSystemData.codeSnippet.code}</code>
+            </pre>
+          </div>
+        )}
+      </section>
+
       {/* Engineering Contribution Metrics */}
       <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-purple-50 to-white p-8 dark:border-purple-700/30 dark:from-purple-900/20 dark:to-gray-800/50">
         <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{metricsData.title}</h2>
@@ -452,23 +566,65 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
               key={index}
               className="rounded-xl border border-gray-200/50 bg-white/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/10 dark:border-gray-700/50 dark:bg-gray-800/50">
               <div className="mb-4 flex flex-wrap items-center gap-3">
-                <span className="text-2xl">{challenge.icon}</span>
+                <span className="text-2xl">{challenge.icon || "💬"}</span>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">{challenge.title}</h3>
                 <span className="rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-800 dark:bg-purple-900/50 dark:text-purple-200">
                   {challenge.badge}
                 </span>
               </div>
 
-              <p className="mb-4 text-gray-700 dark:text-gray-300">{renderBoldText(challenge.achievement)}</p>
+              {/* Conditional Rendering based on Challenge Type */}
+              {challenge.solution ? (
+                // --- New Detailed Format ---
+                <div className="space-y-4">
+                  {/* Problem Context Grid */}
+                  <div className="grid gap-3 rounded-lg border border-red-100 bg-red-50/50 p-4 text-sm dark:border-red-900/30 dark:bg-red-900/10">
+                    <div className="grid grid-cols-[80px_1fr] gap-2">
+                      <span className="font-bold text-red-700 dark:text-red-400">Symptom:</span>
+                      <span className="text-gray-700 dark:text-gray-300">{challenge.symptom}</span>
+                    </div>
+                    <div className="grid grid-cols-[80px_1fr] gap-2">
+                      <span className="font-bold text-red-700 dark:text-red-400">Root Cause:</span>
+                      <span className="text-gray-700 dark:text-gray-300">{challenge.rootCause}</span>
+                    </div>
+                    <div className="grid grid-cols-[80px_1fr] gap-2">
+                      <span className="font-bold text-red-700 dark:text-red-400">Impact:</span>
+                      <span className="text-gray-700 dark:text-gray-300">{challenge.impact}</span>
+                    </div>
+                  </div>
 
-              <ul className="mb-4 grid gap-2 md:grid-cols-2">
-                {challenge.details.map((detail, detailIndex) => (
-                  <li key={detailIndex} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-500" />
-                    {renderBoldText(detail)}
-                  </li>
-                ))}
-              </ul>
+                  {/* Solution Approach */}
+                  <div className="rounded-lg border border-purple-100 bg-purple-50/50 p-4 dark:border-purple-900/30 dark:bg-purple-900/10">
+                    <h4 className="mb-2 font-bold text-purple-800 dark:text-purple-300">
+                      💡 {challenge.solution.approach}
+                    </h4>
+                    <ul className="mb-3 space-y-1">
+                      {challenge.solution.details.map((detail, dIndex) => (
+                        <li key={dIndex} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                          <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-500" />
+                          {renderBoldText(detail)}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-2 text-sm font-semibold text-purple-700 dark:text-purple-400">
+                      Result: {challenge.solution.result}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                // --- Legacy Simple Format ---
+                <>
+                  <p className="mb-4 text-gray-700 dark:text-gray-300">{renderBoldText(challenge.achievement || "")}</p>
+                  <ul className="mb-4 grid gap-2 md:grid-cols-2">
+                    {challenge.details?.map((detail, detailIndex) => (
+                      <li key={detailIndex} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-purple-500" />
+                        {renderBoldText(detail)}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
 
               {/* Code Snippet - Proof of Engineering */}
               {challenge.codeSnippet && (

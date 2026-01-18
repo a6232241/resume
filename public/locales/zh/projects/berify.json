@@ -149,6 +149,29 @@
           "language": "typescript",
           "code": "// 1. 物理層級防重複 (schema.prisma)\nmodel CollectionItem {\n  id           Int    @id @default(autoincrement())\n  tagTokenId   String @unique @db.VarChar(36) // 確保標籤唯一性\n  collectionId Int\n  tag          Tag    @relation(fields: [tagTokenId], references: [tokenId])\n}\n\n// 2. 跨批次校驗邏輯 (Helper)\n// 透過關聯查詢，確保同一進度內已收藏的批次不重複\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // 導向新的進度或拒絕添加\n}"
         }
+      },
+      {
+        "id": 3,
+        "title": "扁平化討論串查詢與 Schema 優化",
+        "badge": "Query Optimization",
+        "symptom": "深層巢狀留言導致遞迴查詢效率低下，在高流量討論區引發 API 響應延遲。",
+        "rootCause": "傳統樹狀結構需多次遞迴查詢或複雜 CTE，隨嵌套深度增加而效能驟降。",
+        "impact": "高互動討論串載入延遲，影響用戶體驗；刪除操作可能導致關聯通知殘留。",
+        "solution": {
+          "approach": "雙指標扁平化設計 + 單次索引掃描",
+          "details": [
+            "Schema 優化：設計 rootReplyCommentId 欄位，將 O(n) 的遞迴查詢轉化為 O(1) 的常數時間掃描，單次 Query 獲取完整對話。",
+            "軟刪除策略：實作 isDeleted 標記確保數據完整性，並透過讀取層過濾根節點狀態實現 UI 的邏輯連動。",
+            "讀取效能：在 batch-details 查詢中，徹底解決 N+1 查詢問題，提升大型討論串的加載速度。"
+          ],
+          "result": "顯著降低資料庫負載，確保無論討論嵌套多深，均能維持秒開等級的響應速度。"
+        },
+        "codeSnippet": {
+          "title": "討論串讀取與 Schema 定義",
+          "language": "typescript",
+          "code": "// 雙指標 Schema (prisma)\nmodel Comment {\n  id                 Int  @id @default(autoincrement())\n  replyCommentId     Int? // 指向直接父層\n  rootReplyCommentId Int? // 指向對話根層 (讀取優化關鍵)\n  isDeleted          Boolean @default(false)\n}\n\n// 高效讀取邏輯：利用索引一次性撈取整串留言\nconst comments = await db.comment.findMany({\n  where: { rootReplyCommentId: rootId, isDeleted: false }\n});"
+        },
+        "icon": "💬"
       }
     ],
     "collectionSystem": {
@@ -194,6 +217,39 @@
         "title": "資料模型與關聯校驗實作",
         "language": "typescript",
         "code": "// 1. 物理層級防重複 (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // 全表唯一\n  tag        Tag    @relation(...) // 透過關聯存取 Batch 資訊\n}\n\n// 2. 跨批次校驗 (Business Logic)\n// 需透過關聯 (Tag -> Batch) 獲取批次資訊進行比對\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // 若已包含此批次，則不允許加入當前進度\n   openNewCollection();\n}"
+      }
+    },
+    "commentSystem": {
+      "title": "扁平化討論串查詢架構",
+      "overview": {
+        "title": "模組策略",
+        "description": "利用 rootReplyCommentId 雙指標架構，將傳統遞迴查詢轉化為單次索引掃描，徹底解決 N+1 問題並確保資料一致性。",
+        "items": [
+          "**雙指標設計**：利用 rootReplyCommentId 將傳統遞迴查詢 (Recursive Query) 轉化為單次索引掃描。",
+          "**查詢效能優化**：在 pages/app/batch-details 實作單一查詢結構，徹底避免 N+1 查詢問題。",
+          "**邏輯一致性**：透過根節點狀態連動，在 UI 層級實現討論串的即時隱藏。"
+        ]
+      },
+      "workflow": {
+        "title": "單次獲取討論串 (Single-pass Thread Fetching)",
+        "steps": [
+          { "step": "1", "title": "結構化撈取", "desc": "rootReplyCommentId 快速定位掛載留言" },
+          { "step": "2", "title": "原子化軟刪除", "desc": "實作 isDeleted 標記確保可追溯性" },
+          { "step": "3", "title": "UI 連動隱藏", "desc": "讀取查詢過濾根節點狀態" }
+        ]
+      },
+      "highlights": {
+        "title": "核心架構分析",
+        "items": [
+          { "icon": "⚡", "title": "查詢效能", "desc": "從 O(n) 優化為 O(1) 索引掃描" },
+          { "icon": "📝", "title": "Schema 設計", "desc": "雙指標架構優化" },
+          { "icon": "🛡️", "title": "邏輯一致性", "desc": "軟刪除與 UI 狀態連動" }
+        ]
+      },
+      "codeSnippet": {
+        "title": "雙指標 Schema 與高效查詢邏輯",
+        "language": "typescript",
+        "code": "// 1. 雙指標 Schema 設計：優化遞迴讀取瓶頸\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // 直接父層\n  rootReplyCommentId Int?    // 討論串根節點 (讀取優化核心)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. 高效查詢實作 (Query Logic)\n// 避開遞迴，單一 Query 結構一次性獲取完整討論串\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* 嵌套關聯 */ }\n});"
       }
     },
     "gallery": {
