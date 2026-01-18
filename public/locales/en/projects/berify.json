@@ -344,6 +344,35 @@
         "arbitrum": "Arbitrum Nova low-latency NFT distribution"
       }
     },
+    "nativeInfrastructure": {
+      "title": "Native Infrastructure & Troubleshooting",
+      "description": "Leading the maintenance of the Berify ecosystem's native build environment, resolving complex compatibility challenges in cross-platform SDK integration.",
+      "items": [
+        {
+          "id": "ios-xcode-fix",
+          "title": "Xcode Toolchain Upgrade & Swift Module Compatibility Optimization",
+          "badge": "iOS Engineering",
+          "icon": "🛠️",
+          "symptom": "After upgrading to Xcode 14.3, stricter interface verification mechanisms caused Cybavo Wallet (Binary SDK) compilation failures.",
+          "action": "Automated the injection of the -no-verify-emitted-module-interface flag via Podfile post_install script to bypass binary framework verification, and forced all Pods to a unified deployment target (12.4) to eliminate version ambiguity.",
+          "result": "Successfully resolved build deadlock in Xcode 14.3+ environments, significantly improving team build success rates across different development devices.",
+          "codeSnippet": {
+            "title": "Podfile post_install Hack",
+            "language": "ruby",
+            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
+          }
+        },
+        {
+          "id": "android-incode-crash",
+          "title": "Android Native SDK Crash Troubleshooting & Official Package Migration",
+          "badge": "Android Stability",
+          "icon": "⚙️",
+          "symptom": "Specific versions of Incode SDK (2.6.3) caused camera module crashes on Android devices during face recognition.",
+          "action": "Diagnosed native Core library bugs and precisely downgraded to a stable version (2.6.1), while leading the migration from legacy S3 Tarball references to the official @incode-sdks NPM scoped package (v6.1.0) to standardize dependency management.",
+          "result": "Completely resolved runtime crashes and improved future maintenance flexibility of the IDV module through standardized migration."
+        }
+      ]
+    },
     "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."
   }
 }

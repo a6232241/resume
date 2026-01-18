@@ -115,6 +115,26 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     };
   };
 
+  // --- Native Infrastructure Data ---
+  const nativeInfrastructureData = t.raw("nativeInfrastructure") as {
+    title: string;
+    description: string;
+    items: Array<{
+      id: string;
+      title: string;
+      badge: string;
+      icon: string;
+      symptom: string;
+      action: string;
+      result: string;
+      codeSnippet?: {
+        title: string;
+        language: string;
+        code: string;
+      };
+    }>;
+  };
+
   // --- Challenges Data (with code snippets) ---
   const challengesData = t.raw("challenges") as Array<{
     title: string;
@@ -684,6 +704,64 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
                   </pre>
                 </div>
               )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Native Infrastructure & Troubleshooting Section */}
+      <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-slate-50 to-white p-8 dark:border-slate-700/50 dark:from-slate-900/50 dark:to-slate-800/50">
+        <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">{nativeInfrastructureData.title}</h2>
+        <p className="mb-8 text-gray-600 dark:text-gray-400">{nativeInfrastructureData.description}</p>
+
+        <div className="space-y-6">
+          {nativeInfrastructureData.items.map((item, index) => (
+            <div
+              key={index}
+              className="rounded-xl border border-gray-200/50 bg-white/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-500/30 hover:shadow-lg hover:shadow-slate-500/10 dark:border-gray-700/50 dark:bg-gray-800/50">
+              <div className="mb-4 flex flex-wrap items-center gap-3">
+                <span className="text-2xl">{item.icon}</span>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{item.title}</h3>
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-800 dark:bg-slate-800 dark:text-slate-200">
+                  {item.badge}
+                </span>
+              </div>
+
+              <div className="space-y-4">
+                {/* Problem Context Grid */}
+                <div className="grid gap-3 rounded-lg border border-red-100 bg-red-50/50 p-4 text-sm dark:border-red-900/30 dark:bg-red-900/10">
+                  <div className="grid grid-cols-[80px_1fr] gap-2">
+                    <span className="font-bold text-red-700 dark:text-red-400">Symptom:</span>
+                    <span className="text-gray-700 dark:text-gray-300">{item.symptom}</span>
+                  </div>
+                </div>
+
+                {/* Solution Action */}
+                <div className="rounded-lg border border-slate-100 bg-slate-50/50 p-4 dark:border-slate-700/30 dark:bg-slate-800/20">
+                  <h4 className="mb-2 font-bold text-slate-800 dark:text-slate-300">💡 Solution</h4>
+                  <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">{renderBoldText(item.action)}</p>
+                  <div className="mt-2 text-sm font-semibold text-slate-700 dark:text-slate-400">
+                    Result: {item.result}
+                  </div>
+                </div>
+
+                {/* Code Snippet - Infrastructure Config */}
+                {item.codeSnippet && (
+                  <div className="mt-4 overflow-hidden rounded-lg border border-gray-300/50 dark:border-gray-600/50">
+                    <div className="flex items-center justify-between bg-gray-100 px-4 py-2 dark:bg-gray-700">
+                      <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                        📄 {item.codeSnippet.title}
+                      </span>
+                      <span className="rounded bg-gray-200 px-2 py-0.5 text-xs text-gray-500 dark:bg-gray-600 dark:text-gray-400">
+                        {item.codeSnippet.language}
+                      </span>
+                    </div>
+                    <pre className="overflow-x-auto bg-gray-900 p-4 text-xs text-gray-100">
+                      <code>{item.codeSnippet.code}</code>
+                    </pre>
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>

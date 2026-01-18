@@ -311,6 +311,35 @@
         "arbitrum": "Arbitrum Nova 低延遲 NFT 分發"
       }
     },
+    "nativeInfrastructure": {
+      "title": "跨平台原生架構與疑難排解",
+      "description": "主導 Berify 生態系統的原生建置環境維護，解決跨平台 SDK 整合中複雜的環境相容性挑戰。",
+      "items": [
+        {
+          "id": "ios-xcode-fix",
+          "title": "Xcode 工具鏈升級與 Swift 模組相容性優化",
+          "badge": "iOS Engineering",
+          "icon": "🛠️",
+          "symptom": "升級至 Xcode 14.3 後，由於更嚴格的介面驗證機制，導致 Cybavo Wallet (Binary SDK) 編譯失敗。",
+          "action": "透過 Podfile 的 post_install 腳本自動化注入 -no-verify-emitted-module-interface 旗標，跳過二進位框架的驗證步驟，並強制統一所有 Pods 的部署目標 (Deployment Target) 至 12.4 以消除版本歧義。",
+          "result": "成功解決 Xcode 14.3+ 環境下的建置僵局，大幅提升團隊在不同開發設備間的建置成功率。",
+          "codeSnippet": {
+            "title": "Podfile post_install Hack",
+            "language": "ruby",
+            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
+          }
+        },
+        {
+          "id": "android-incode-crash",
+          "title": "Android 原生 SDK 崩潰排查與官方套件遷移",
+          "badge": "Android Stability",
+          "icon": "⚙️",
+          "symptom": "Incode SDK 特定版本 (2.6.3) 導致 Android 裝置在執行人臉辨識時發生相機模組崩潰。",
+          "action": "診斷原生 Core 庫 bug 後精準降版至穩定版本 (2.6.1)，同步將專案從舊有的 S3 Tarball 引用模式遷移至 @incode-sdks 官方 NPM 託管套件 (v6.1.0)，標準化依賴管理流程。",
+          "result": "徹底解決執行期崩潰問題，並透過標準化遷移提升了 IDV 模組的未來維護彈性。"
+        }
+      ]
+    },
     "disclaimer": "本頁面展示的內容為商業專案，相關截圖僅供作品集展示用途。"
   }
 }
