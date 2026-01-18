@@ -311,6 +311,53 @@
         "arbitrum": "Arbitrum Nova 低延遲 NFT 分發"
       }
     },
+    "nfcOrchestration": {
+      "title": "NFC 異步狀態管理與路由架構",
+      "description": "在多人協作的架構下，主導 NFC 驗證模組的核心異步邏輯注入與錯誤處理路由，確保硬體事件與業務流程的精確對接。",
+      "workflow": {
+        "title": "NFC 狀態流轉 (State Orchestration)",
+        "steps": [
+          { "step": "1", "title": "硬體觸發", "desc": "NfcManager 捕捉 NDEF 事件" },
+          { "step": "2", "title": "異步驗證", "desc": "解析 Payload -> 調用 createScan API" },
+          { "step": "3", "title": "狀態決策", "desc": "成功則延遲導航，失敗則錯誤路由" },
+          { "step": "4", "title": "副作用執行", "desc": "Success 頁面掛載觸發 Notification" }
+        ]
+      },
+      "challenges": [
+        {
+          "id": "async-logic-injection",
+          "title": "異步狀態機邏輯注入",
+          "badge": "Shared Architecture",
+          "icon": "⚡",
+          "symptom": "硬體掃描 Hook 需要整合複雜的 API 驗證與 UI 轉場，需在共享結構下維持邏輯清晰。",
+          "solution": "在共享的 useNormalTag 結構中，獨立注入異步狀態機邏輯，將 NDEF 解析與 Promise 驗證鏈高度模組化，確保狀態流轉的穩定性。",
+          "result": "成功將硬體掃描轉化為可預測的業務狀態，支撐了 1,000+ 產品的驗證穩定性。"
+        },
+        {
+          "id": "defensive-routing",
+          "title": "防禦性錯誤路由策略",
+          "badge": "Routing Ownership",
+          "icon": "🛡️",
+          "symptom": "需根據不同類型的硬體/API 錯誤，將用戶精確導航至相對應的引導頁面。",
+          "solution": "全權主導 onRedirectScanResult 實作，利用 Switch-Case 策略過濾 'Inactive' 或 'Mismatch' 等關鍵錯誤，並實作延遲導航以優化視覺連續性。",
+          "result": "確保了在所有異常邊界情況下，用戶都能獲得明確且正確的 UI 指引。"
+        },
+        {
+          "id": "ux-side-effects",
+          "title": "視覺轉場設計與副作用管理",
+          "badge": "UX Orchestration",
+          "icon": "✨",
+          "symptom": "掃描成功後需在動畫轉場與通知發送 (Email/Push) 之間達成精確同步。",
+          "solution": "建立「Logo 到影片」的視覺轉場序列設計，並實作核心通知觸發邏輯 (createNotification)，確保用戶在視覺反饋的同時完成業務層級的動作紀錄。",
+          "result": "實現了高性能的視覺體驗，同時保證了 100% 的行銷通知觸達率。"
+        }
+      ],
+      "codeSnippet": {
+        "title": "精確路由與錯誤處理邏輯",
+        "language": "typescript",
+        "code": "// 精確路由與錯誤處理邏輯 (100% 由 Chester 實作)\\nconst onRedirectScanResult = (error?: string) => {\\n  switch (error) {\\n    case 'Token is not exist.':\\n    case 'tokenId and UID do not match.':\\n      // 處理偽造或錯誤標籤\\n      navigation.navigate(routes.scanResult.verifyError);\\n      break;\\n    case 'This tag is deactivated.':\\n      // 處理已停用標籤\\n      navigation.navigate(routes.scanResult.inactive);\\n      break;\\n    default:\\n      if (!error) {\\n        // 成功路徑：延遲導航以確保視覺體驗連貫\\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\\n      } else {\\n        navigation.navigate(routes.scanResult.timeOut);\\n      }\\n  }\\n};"
+      }
+    },
     "nativeInfrastructure": {
       "title": "跨平台原生架構與疑難排解",
       "description": "主導 Berify 生態系統的原生建置環境維護，解決跨平台 SDK 整合中複雜的環境相容性挑戰。",

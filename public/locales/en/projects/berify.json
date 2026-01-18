@@ -344,6 +344,57 @@
         "arbitrum": "Arbitrum Nova low-latency NFT distribution"
       }
     },
+    "nfcOrchestration": {
+      "title": "NFC Async State Management & Routing Architecture",
+      "description": "Led the core async logic injection and error handling routing for the NFC verification module within a collaborative architecture, ensuring precise alignment between hardware events and business workflows.",
+      "workflow": {
+        "title": "NFC State Orchestration",
+        "steps": [
+          { "step": "1", "title": "Hardware Trigger", "desc": "NfcManager captures NDEF events" },
+          { "step": "2", "title": "Async Verification", "desc": "Parse Payload -> Call createScan API" },
+          {
+            "step": "3",
+            "title": "State Decision",
+            "desc": "Success delays navigation; Failure routes to error screens"
+          },
+          { "step": "4", "title": "Side Effects", "desc": "Trigger Notification on Success page mount" }
+        ]
+      },
+      "challenges": [
+        {
+          "id": "async-logic-injection",
+          "title": "Async State Machine Logic Injection",
+          "badge": "Shared Architecture",
+          "icon": "⚡",
+          "symptom": "Hardware scan Hooks need to integrate complex API verification and UI transitions, requiring clear logic within a shared structure.",
+          "solution": "Independently injected async state machine logic into the shared `useNormalTag` structure, modularizing NDEF parsing and Promise verification chains to ensure stable state flow.",
+          "result": "Successfully transformed hardware scans into predictable business states, supporting verification stability for 1,000+ products."
+        },
+        {
+          "id": "defensive-routing",
+          "title": "Defensive Error Routing Strategy",
+          "badge": "Routing Ownership",
+          "icon": "🛡️",
+          "symptom": "Need to precisely navigate users to corresponding guidance screens based on different hardware/API errors.",
+          "solution": "Fully owned `onRedirectScanResult` implementation, utilizing Switch-Case strategy to filter key errors like 'Inactive' or 'Mismatch', and implementing delayed navigation for visual continuity.",
+          "result": "Ensured users receive clear and correct UI guidance in all boundary error cases."
+        },
+        {
+          "id": "ux-side-effects",
+          "title": "Visual Transition Design & Side Effect Management",
+          "badge": "UX Orchestration",
+          "icon": "✨",
+          "symptom": "Scanning success requires precise synchronization between animation transitions and notification dispatch (Email/Push).",
+          "solution": "Established the 'Logo to Video' visual transition sequence design and implemented core notification trigger logic (`createNotification`), ensuring business-level actions are recorded alongside visual feedback.",
+          "result": "Achieved high-performance visual experience while guaranteeing 100% marketing notification delivery rate."
+        }
+      ],
+      "codeSnippet": {
+        "title": "Precise Routing & Error Handling Logic",
+        "language": "typescript",
+        "code": "// Precise Routing & Error Handling Logic (100% Implemented by Chester)\\nconst onRedirectScanResult = (error?: string) => {\\n  switch (error) {\\n    case 'Token is not exist.':\\n    case 'tokenId and UID do not match.':\\n      // Handle forged or mismatched tags\\n      navigation.navigate(routes.scanResult.verifyError);\\n      break;\\n    case 'This tag is deactivated.':\\n      // Handle deactivated tags\\n      navigation.navigate(routes.scanResult.inactive);\\n      break;\\n    default:\\n      if (!error) {\\n        // Success Path: Delayed navigation ensures visual consistency\\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\\n      } else {\\n        navigation.navigate(routes.scanResult.timeOut);\\n      }\\n  }\\n};"
+      }
+    },
     "nativeInfrastructure": {
       "title": "Native Infrastructure & Troubleshooting",
       "description": "Leading the maintenance of the Berify ecosystem's native build environment, resolving complex compatibility challenges in cross-platform SDK integration.",

@@ -115,6 +115,30 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     };
   };
 
+  // --- NFC Orchestration Data ---
+  const nfcOrchestrationData = t.raw("nfcOrchestration") as {
+    title: string;
+    description: string;
+    workflow: {
+      title: string;
+      steps: Array<{ step: string; title: string; desc: string }>;
+    };
+    challenges: Array<{
+      id: string;
+      title: string;
+      badge: string;
+      icon: string;
+      symptom: string;
+      solution: string;
+      result: string;
+    }>;
+    codeSnippet?: {
+      title: string;
+      language: string;
+      code: string;
+    };
+  };
+
   // --- Native Infrastructure Data ---
   const nativeInfrastructureData = t.raw("nativeInfrastructure") as {
     title: string;
@@ -563,6 +587,92 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
             </div>
             <pre className="overflow-x-auto bg-gray-900 p-4 text-xs text-gray-100">
               <code>{commentSystemData.codeSnippet.code}</code>
+            </pre>
+          </div>
+        )}
+      </section>
+
+      {/* NFC Orchestration Section */}
+      <section className="rounded-2xl border-2 border-orange-200/50 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-8 dark:border-orange-700/30 dark:from-orange-900/20 dark:via-amber-900/20 dark:to-gray-800/50">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{nfcOrchestrationData.title}</h2>
+
+        {/* Overview */}
+        <div className="mb-8 rounded-xl border border-orange-200/50 bg-white/70 p-6 dark:border-orange-700/50 dark:bg-gray-800/70">
+          <p className="mb-4 text-gray-700 dark:text-gray-300">{nfcOrchestrationData.description}</p>
+        </div>
+
+        {/* Workflow Visualization */}
+        <div className="mb-8">
+          <h3 className="mb-4 text-lg font-semibold text-orange-800 dark:text-orange-300">
+            {nfcOrchestrationData.workflow.title}
+          </h3>
+          <div className="grid gap-4 md:grid-cols-4">
+            {nfcOrchestrationData.workflow.steps.map((step, index) => (
+              <div
+                key={index}
+                className="relative rounded-xl border border-orange-200/50 bg-white/70 p-4 dark:border-orange-700/50 dark:bg-gray-800/70">
+                <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-sm font-bold text-orange-800 dark:bg-orange-900/50 dark:text-orange-200">
+                  {step.step}
+                </div>
+                <div className="font-semibold text-gray-900 dark:text-white">{step.title}</div>
+                <div className="text-xs text-gray-600 dark:text-gray-400">{step.desc}</div>
+                {index < nfcOrchestrationData.workflow.steps.length - 1 && (
+                  <div className="absolute top-1/2 right-0 hidden h-0.5 w-4 translate-x-full -translate-y-1/2 transform bg-orange-200 md:block dark:bg-orange-700" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Challenges & Solutions */}
+        <div className="mb-8 space-y-4">
+          {nfcOrchestrationData.challenges.map((item, index) => (
+            <div
+              key={index}
+              className="rounded-xl border border-orange-200/50 bg-white/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-orange-500/30 hover:shadow-lg hover:shadow-orange-500/10 dark:border-orange-700/50 dark:bg-gray-800/50">
+              <div className="mb-4 flex flex-wrap items-center gap-3">
+                <span className="text-2xl">{item.icon}</span>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{item.title}</h3>
+                <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-semibold text-orange-800 dark:bg-orange-900/50 dark:text-orange-200">
+                  {item.badge}
+                </span>
+              </div>
+
+              <div className="space-y-4">
+                {/* Symptom */}
+                <div className="grid gap-3 rounded-lg border border-red-100 bg-red-50/50 p-4 text-sm dark:border-red-900/30 dark:bg-red-900/10">
+                  <div className="grid grid-cols-[80px_1fr] gap-2">
+                    <span className="font-bold text-red-700 dark:text-red-400">Symptom:</span>
+                    <span className="text-gray-700 dark:text-gray-300">{item.symptom}</span>
+                  </div>
+                </div>
+
+                {/* Solution */}
+                <div className="rounded-lg border border-orange-100 bg-orange-50/50 p-4 dark:border-orange-700/30 dark:bg-orange-800/20">
+                  <h4 className="mb-2 font-bold text-orange-800 dark:text-orange-300">💡 Solution</h4>
+                  <p className="mb-3 text-sm text-gray-600 dark:text-gray-400">{renderBoldText(item.solution)}</p>
+                  <div className="mt-2 text-sm font-semibold text-orange-700 dark:text-orange-400">
+                    Result: {item.result}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Code Snippet */}
+        {nfcOrchestrationData.codeSnippet && (
+          <div className="overflow-hidden rounded-lg border border-gray-300/50 dark:border-gray-600/50">
+            <div className="flex items-center justify-between bg-gray-100 px-4 py-2 dark:bg-gray-700">
+              <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                📄 {nfcOrchestrationData.codeSnippet.title}
+              </span>
+              <span className="rounded bg-gray-200 px-2 py-0.5 text-xs text-gray-500 dark:bg-gray-600 dark:text-gray-400">
+                {nfcOrchestrationData.codeSnippet.language}
+              </span>
+            </div>
+            <pre className="overflow-x-auto bg-gray-900 p-4 text-xs text-gray-100">
+              <code>{nfcOrchestrationData.codeSnippet.code}</code>
             </pre>
           </div>
         )}
