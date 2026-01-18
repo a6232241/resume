@@ -69,6 +69,29 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     };
   };
 
+  // --- Collection System Data ---
+  const collectionSystemData = t.raw("collectionSystem") as {
+    title: string;
+    overview: {
+      title: string;
+      description: string;
+      items: string[];
+    };
+    architecture: {
+      title: string;
+      layers: Array<{ name: string; desc: string; role: string }>;
+    };
+    features: {
+      title: string;
+      items: Array<{ icon: string; title: string; desc: string }>;
+    };
+    codeSnippet?: {
+      title: string;
+      language: string;
+      code: string;
+    };
+  };
+
   // --- Challenges Data (with code snippets) ---
   const challengesData = t.raw("challenges") as Array<{
     title: string;
@@ -321,6 +344,89 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
             </div>
           ))}
         </div>
+      </section>
+
+      {/* Collection System Section */}
+      <section className="rounded-2xl border-2 border-emerald-200/50 bg-gradient-to-br from-emerald-50 via-teal-50 to-white p-8 dark:border-emerald-700/30 dark:from-emerald-900/20 dark:via-teal-900/20 dark:to-gray-800/50">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{collectionSystemData.title}</h2>
+
+        {/* Overview */}
+        <div className="mb-8 rounded-xl border border-emerald-200/50 bg-white/70 p-6 dark:border-emerald-700/50 dark:bg-gray-800/70">
+          <h3 className="mb-3 text-lg font-semibold text-emerald-800 dark:text-emerald-300">
+            {collectionSystemData.overview.title}
+          </h3>
+          <p className="mb-4 text-gray-700 dark:text-gray-300">{collectionSystemData.overview.description}</p>
+          <ul className="space-y-2">
+            {collectionSystemData.overview.items.map((item, index) => (
+              <li key={index} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-500" />
+                {renderBoldText(item)}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Three-Layer Architecture Diagram */}
+        <div className="mb-8">
+          <h3 className="mb-4 text-lg font-semibold text-emerald-800 dark:text-emerald-300">
+            {collectionSystemData.architecture.title}
+          </h3>
+          <div className="flex flex-col gap-4 md:flex-row md:items-stretch">
+            {collectionSystemData.architecture.layers.map((layer, index) => (
+              <div key={index} className="flex flex-1 flex-col items-center">
+                <div className="z-10 w-full rounded-xl border border-emerald-200 bg-white p-4 text-center shadow-sm dark:border-emerald-700 dark:bg-gray-800">
+                  <div className="mb-1 text-xs font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
+                    {layer.role}
+                  </div>
+                  <div className="mb-1 text-lg font-bold text-gray-900 dark:text-white">{layer.name}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{layer.desc}</div>
+                </div>
+                {index < collectionSystemData.architecture.layers.length - 1 && (
+                  <div className="my-2 text-2xl text-emerald-300 md:mx-2 md:my-auto md:rotate-[-90deg] dark:text-emerald-700">
+                    ↓
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Core Features Grid */}
+        <div className="mb-8">
+          <h3 className="mb-4 text-lg font-semibold text-emerald-800 dark:text-emerald-300">
+            {collectionSystemData.features.title}
+          </h3>
+          <div className="grid gap-4 md:grid-cols-3">
+            {collectionSystemData.features.items.map((feature, index) => (
+              <div
+                key={index}
+                className="rounded-xl border border-emerald-200/50 bg-emerald-50/50 p-4 dark:border-emerald-700/30 dark:bg-emerald-900/10">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-2xl">{feature.icon}</span>
+                  <span className="font-semibold text-emerald-800 dark:text-emerald-300">{feature.title}</span>
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{renderBoldText(feature.desc)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Code Snippet */}
+        {collectionSystemData.codeSnippet && (
+          <div className="overflow-hidden rounded-lg border border-gray-300/50 dark:border-gray-600/50">
+            <div className="flex items-center justify-between bg-gray-100 px-4 py-2 dark:bg-gray-700">
+              <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                📄 {collectionSystemData.codeSnippet.title}
+              </span>
+              <span className="rounded bg-gray-200 px-2 py-0.5 text-xs text-gray-500 dark:bg-gray-600 dark:text-gray-400">
+                {collectionSystemData.codeSnippet.language}
+              </span>
+            </div>
+            <pre className="overflow-x-auto bg-gray-900 p-4 text-xs text-gray-100">
+              <code>{collectionSystemData.codeSnippet.code}</code>
+            </pre>
+          </div>
+        )}
       </section>
 
       {/* Engineering Contribution Metrics */}

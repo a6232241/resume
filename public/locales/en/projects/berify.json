@@ -165,8 +165,70 @@
           "language": "typescript",
           "code": "const startFaceLogin = async () => {\n  // 1. Start SDK Face Login (Skip tutorials)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. Securely fetch OCR data via Backend API\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. Call verify-idv API for Server-Side 4-Way Matching\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. Success: Log time and grant access\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. Mismatch: System emails the Inviter (Manager)\n    Alert.alert('Notice', response.error);\n  }\n};"
         }
+      },
+      {
+        "title": "Multi-tier O2O Collection & Rewards Engine",
+        "badge": "Shopify Integration",
+        "icon": "🎁",
+        "achievement": "Built Three-Layer Modeling + Cross-Batch Validation, supporting 10+ brands with 0 duplicate claim incidents",
+        "details": [
+          "Architecture: **Rule → Collection → Item** separation supports 'Collect different batches to win' business complexity",
+          "Physical Integrity: Implemented `@unique` constraint on `tagTokenId` at Schema level, keeping physical assets globally unique",
+          "Cross-Batch Validation: Checked via **Tag relation** to ensure single collection contains items from 'different batches' only",
+          "E-commerce Automation: Integrated Shopify API to create **Draft Orders** with 100% discount for automated reward redemption"
+        ],
+        "codeSnippet": {
+          "title": "Data Model & Relation-Based Validation",
+          "language": "typescript",
+          "code": "// 1. Physical Layer Integrity (schema.prisma)\nmodel CollectionItem {\n  id           Int    @id @default(autoincrement())\n  tagTokenId   String @unique @db.VarChar(36) // Ensure tag uniqueness\n  collectionId Int\n  tag          Tag    @relation(fields: [tagTokenId], references: [tokenId])\n}\n\n// 2. Cross-Batch Validation Logic (Helper)\n// Validate via relation ensuring no duplicate batch in same collection\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // Redirect to new collection or reject adding\n}"
+        }
       }
     ],
+    "collectionSystem": {
+      "title": "Multi-tier O2O Collection & Rewards Engine",
+      "overview": {
+        "title": "Module & Architecture",
+        "description": "The Collection System employs a 'Rule → Collection → Item' three-layer architecture. It leverages relational lookups for cross-batch validation and enforces database-level uniqueness to physically prevent duplicate claims.",
+        "items": [
+          "**Rule Layer**: Defines campaign rules, links product batches, sets Shopify reward variants.",
+          "**Collection Layer**: User progress container, supporting multiple active collections under one rule.",
+          "**Item Layer**: Physical NFC tag record, **globally unique** (`@unique`) to prevent double scanning."
+        ]
+      },
+      "architecture": {
+        "title": "Three-Layer Architecture",
+        "layers": [
+          { "name": "Rule (Brand)", "desc": "Campaign Definition", "role": "Configuration" },
+          { "name": "Collection (User)", "desc": "Progress Container", "role": "Progress State" },
+          { "name": "Item (Tag)", "desc": "Physical Binding", "role": "Unique Asset" }
+        ]
+      },
+      "features": {
+        "title": "Core Anti-Fraud & Logic",
+        "items": [
+          {
+            "icon": "🛡️",
+            "title": "Physical Integrity",
+            "desc": "`@unique` on `CollectionItem` ensures one tag can only be claimed once globally."
+          },
+          {
+            "icon": "🔄",
+            "title": "Cross-Batch Check",
+            "desc": "Validates via `item.tag.batch.id` relation to ensure users collect 'different' batches."
+          },
+          {
+            "icon": "🛍️",
+            "title": "Shopify Automation",
+            "desc": "Auto-creates `DraftOrder` with 100% discount upon completion, closing the O2O loop."
+          }
+        ]
+      },
+      "codeSnippet": {
+        "title": "Data Model & Relation-Based Validation",
+        "language": "typescript",
+        "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Globally unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Must look up batch info via Tag relation\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists in collection, reject or open new one\n   openNewCollection();\n}"
+      }
+    },
     "gallery": {
       "tabs": {
         "consumerApp": "Consumer Experience",

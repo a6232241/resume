@@ -132,8 +132,70 @@
           "language": "typescript",
           "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識 (無教學模式)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 安全取得 OCR 資料 (非前端直接解析)\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行後端四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者 (Manager)\n    Alert.alert('Notice', response.error);\n  }\n};"
         }
+      },
+      {
+        "title": "多層次 O2O 收藏與獎勵引擎",
+        "badge": "Shopify Integration",
+        "icon": "🎁",
+        "achievement": "設計三層式模型 + 關聯式跨批次校驗，支撐 10+ 品牌同時運行各類收藏活動",
+        "details": [
+          "架構設計：**Rule → Collection → Item** 三層分離，支撐「集滿不同批次領獎」的業務複雜度",
+          "物理層防弊：在 Prisma Schema 對 `tagTokenId` 實作 `@unique` 約束，確保物理資產在全系統僅能收藏一次",
+          "跨批次校驗：透過 Tag 關聯查詢 `Batch ID`，確保單一收藏進度內僅能包含來自「不同批次」的標籤",
+          "電商自動化：整合 Shopify API 建立 **Draft Order**，實現 100% 折扣的自動化獎勵兌換流程"
+        ],
+        "codeSnippet": {
+          "title": "資料模型與關聯校驗實作",
+          "language": "typescript",
+          "code": "// 1. 物理層級防重複 (schema.prisma)\nmodel CollectionItem {\n  id           Int    @id @default(autoincrement())\n  tagTokenId   String @unique @db.VarChar(36) // 確保標籤唯一性\n  collectionId Int\n  tag          Tag    @relation(fields: [tagTokenId], references: [tokenId])\n}\n\n// 2. 跨批次校驗邏輯 (Helper)\n// 透過關聯查詢，確保同一進度內已收藏的批次不重複\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // 導向新的進度或拒絕添加\n}"
+        }
       }
     ],
+    "collectionSystem": {
+      "title": "多層次 O2O 收藏與獎勵引擎",
+      "overview": {
+        "title": "模組與架構定位",
+        "description": "收藏系統透過「Rule (規則) → Collection (進度) → Item (標籤)」的三層分離架構，實現高度靈活的 O2O 行銷活動。系統利用關聯查詢進行跨批次校驗，並透過資料庫層級的唯一性約束，從物理層面杜絕重複領獎。",
+        "items": [
+          "**Rule 層**：定義活動規則、關聯產品批次、設定 Shopify 獎勵變體",
+          "**Collection 層**：用戶的收藏進度容器，支援同一規則下開啟多個進度 (重複參加)",
+          "**Item 層**：實體 NFC 標籤記錄，透過 `@unique tagTokenId` 保證全系統唯一"
+        ]
+      },
+      "architecture": {
+        "title": "三層架構模型",
+        "layers": [
+          { "name": "Rule (品牌)", "desc": "活動定義與批次關聯", "role": "Configuration" },
+          { "name": "Collection (用戶)", "desc": "個人進度容器", "role": "Progress state" },
+          { "name": "Item (標籤)", "desc": "物理關聯綁定", "role": "Unique Asset" }
+        ]
+      },
+      "features": {
+        "title": "核心防弊與業務邏輯",
+        "items": [
+          {
+            "icon": "🛡️",
+            "title": "物理層級防重複",
+            "desc": "在 `CollectionItem` 實作 `@unique` 約束，確保單一 NFC 標籤不可被重複收藏。"
+          },
+          {
+            "icon": "🔄",
+            "title": "跨批次關聯校驗",
+            "desc": "透過 `item.tag.batch.id` 關聯檢查，確保用戶收集的是「不同批次」的商品。"
+          },
+          {
+            "icon": "🛍️",
+            "title": "Shopify 自動化",
+            "desc": "集滿自動觸發 `DraftOrder` 建立，生成 100% 折扣連結，完成 O2O 閉環。"
+          }
+        ]
+      },
+      "codeSnippet": {
+        "title": "資料模型與關聯校驗實作",
+        "language": "typescript",
+        "code": "// 1. 物理層級防重複 (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // 全表唯一\n  tag        Tag    @relation(...) // 透過關聯存取 Batch 資訊\n}\n\n// 2. 跨批次校驗 (Business Logic)\n// 需透過關聯 (Tag -> Batch) 獲取批次資訊進行比對\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // 若已包含此批次，則不允許加入當前進度\n   openNewCollection();\n}"
+      }
+    },
     "gallery": {
       "tabs": {
         "consumerApp": "消費者體驗",
