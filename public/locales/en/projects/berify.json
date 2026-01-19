@@ -11,15 +11,6 @@
       "description": "Web3 smart retail ecosystem integrating NFC verification, NFT minting, and Shopify e-commerce. Verified pattern of full-stack feature ownership.",
       "statusBadge": "Currently in Production"
     },
-    "context": {
-      "title": "🌐 Professional Engineering Assessment",
-      "description": "**Verified Pattern**: Full-stack feature ownership from Database Schema to Mobile UI delivery.",
-      "architecture": [
-        { "name": "Type Safety", "tech": "TypeScript", "desc": "Strict Generic Return Types" },
-        { "name": "Security", "tech": "IDOR Prevention", "desc": "Zero-IDOR API Design" },
-        { "name": "Maintainability", "tech": "Pattern", "desc": "Centralized Error Handling" }
-      ]
-    },
     "overview": {
       "duration": "My Tenure: 1.5 Years (2023 - 2024)",
       "team": "Senior Developer (Full Lifecycle)",
@@ -70,96 +61,50 @@
         { "step": "4", "title": "AWS SNS", "desc": "Real-time Push Service", "metric": "Integration Owner" }
       ]
     },
-    "idvDeepDive": {
-      "title": "🔐 Berify Tools Access Control (IDV)",
-      "overview": {
-        "title": "Module Definition",
-        "description": "\"Berify Tools\" allows modifying NFT tag ownership. Only verified Associate staff can access it. The system enforces re-verification every 7 days. If the staff's name (OCR) doesn't match the database, access is blocked to prevent identity fraud.",
-        "items": [
-          "Integrated third-party **Incode SDK** for real-time facial recognition",
-          "Enforced **7-day re-verification cycle** ensuring continuous identity consistency",
-          "Server-side **4-Way Name Matching**: OCR ID vs App User vs Web User",
-          "Mismatch triggers **Inviter-Led Resolution** - staff cannot self-approve changes"
-        ]
-      },
-      "workflow": {
-        "title": "Verification Flow",
-        "steps": [
+    "technicalSpotlight": [
+      {
+        "id": "idv",
+        "title": "Staff Access (IDV)",
+        "role": "Lead Logic Integrator",
+        "icon": "shield",
+        "summary": "Biometric security & Inviter-led resolution.",
+        "blocks": [
           {
-            "step": "1",
-            "title": "Face Login Orchestration",
-            "desc": "Client integrates Incode SDK + Backend OCR + Verify API"
+            "type": "workflow",
+            "title": "Verification Flow",
+            "steps": [
+              {
+                "step": "1",
+                "title": "Face Login Orchestration",
+                "desc": "Client integrates Incode SDK + Backend OCR + Verify API"
+              },
+              {
+                "step": "2",
+                "title": "4-Way Integrity Check",
+                "desc": "Server compares OCR Name / App User / Web User"
+              },
+              { "step": "3", "title": "Inviter-Led Resolution", "desc": "Mismatch emails Manager (not staff)" },
+              { "step": "4", "title": "Data Correction", "desc": "Manager clicks secure link to auto-correct profile" }
+            ]
           },
-          { "step": "2", "title": "4-Way Integrity Check", "desc": "Server compares OCR Name / App User / Web User" },
-          { "step": "3", "title": "Inviter-Led Resolution", "desc": "Mismatch emails Manager (not staff)" },
-          { "step": "4", "title": "Data Correction", "desc": "Manager clicks secure link to auto-correct profile" }
-        ]
-      },
-      "risks": {
-        "title": "Risk Mitigation",
-        "items": [
           {
-            "icon": "🎭",
-            "name": "Identity Fraud",
-            "desc": "Prevent former or unauthorized staff from accessing sensitive assets"
-          },
-          { "icon": "📝", "name": "Data Drift", "desc": "Ensure DB records stay in sync with legal ID documents" },
-          {
-            "icon": "🔒",
-            "name": "Self-Approval",
-            "desc": "Staff cannot tamper with their own data; requires Manager arbitration"
+            "type": "grid",
+            "title": "Risk Mitigation",
+            "items": [
+              {
+                "icon": "🎭",
+                "title": "Identity Fraud",
+                "desc": "Prevent former or unauthorized staff from accessing sensitive assets"
+              },
+              { "icon": "📝", "title": "Data Drift", "desc": "Ensure DB records stay in sync with legal ID documents" },
+              {
+                "icon": "🔒",
+                "title": "Self-Approval",
+                "desc": "Staff cannot tamper with their own data; requires Manager arbitration"
+              }
+            ]
           }
-        ]
-      },
-      "codeSnippet": {
-        "title": "Face Login Orchestration",
-        "language": "typescript",
-        "code": "const startFaceLogin = async () => {\n  // 1. Start SDK Face Login (Skip tutorials)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. Securely fetch OCR data via Backend API\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. Call verify-idv API for Server-Side 4-Way Matching\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. Success: Log time and grant access\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. Mismatch: System emails the Inviter (Manager) for resolution\n    Alert.alert('Notice', response.error);\n  }\n};"
-      }
-    },
-    "challenges": [
-      {
-        "title": "Defensive Programming & Robustness",
-        "badge": "Robustness",
-        "achievement": "Implemented robust error boundaries for hardware interactions (NFC)",
-        "details": [
-          "Non-crashing error propagation via Navigation State",
-          "Ensures UI consistency during network failures",
-          "`try-finally` for atomic scan state reset"
         ],
-        "icon": "🛡️",
-        "codeSnippet": {
-          "title": "NFC Exception Handling",
-          "language": "typescript",
-          "code": "const handleScan = async () => {\n  setScanning(true);\n  try {\n    await NfcManager.requestTechnology(...);\n    // ... processing logic\n  } catch (e) {\n    navigation.navigate('ErrorScreen', { error: e });\n  } finally {\n    setScanning(false); // Atomic reset\n    NfcManager.cancelTechnologyRequest();\n  }\n};"
-        }
-      },
-      {
-        "title": "UX for High-Latency Operations (Blockchain)",
-        "badge": "Optimistic UI",
-        "achievement": "Engineered Optimistic UI patterns for blockchain asset transfers",
-        "details": [
-          "Implemented atomic UI locking mechanism",
-          "State recovery in `try-finally` blocks",
-          "Mitigates perceived latency and prevents race conditions"
-        ],
-        "icon": "⚡",
-        "codeSnippet": {
-          "title": "Optimistic UI Lock",
-          "language": "typescript",
-          "code": "const claimNft = async () => {\n  setUiLocked(true);\n  setClaimStatus('pending');\n  try {\n    await blockchainService.claim(nftId);\n    setClaimStatus('success');\n  } catch {\n    setClaimStatus('failed');\n    revertOptimisticChanges();\n  } finally {\n    setUiLocked(false);\n  }\n};"
-        }
-      },
-      {
-        "title": "B2B Staff Access & Identity Consistency",
-        "badge": "Biometric Security",
-        "achievement": "Architected complete B2B staff identity verification and arbitration system",
-        "details": [
-          "Enforced **7-day re-verification cycle** using Incode SDK Face Login",
-          "Server-side **4-Way Name Matching**: OCR ID vs App/Web User database",
-          "Designed **Inviter-Led Resolution**: Mismatches email Manager only, staff cannot self-approve"
-        ],
-        "icon": "🔗",
         "codeSnippet": {
           "title": "Face Login Orchestration",
           "language": "typescript",
@@ -167,154 +112,196 @@
         }
       },
       {
-        "title": "Multi-tier O2O Collection & Rewards Engine",
-        "badge": "Shopify Integration",
-        "icon": "🎁",
-        "achievement": "Built Three-Layer Modeling + Cross-Batch Validation, supporting 10+ brands with 0 duplicate claim incidents",
-        "details": [
-          "Architecture: **Rule → Collection → Item** separation supports 'Collect different batches to win' business complexity",
-          "Physical Integrity: Implemented `@unique` constraint on `tagTokenId` at Schema level, keeping physical assets globally unique",
-          "Cross-Batch Validation: Checked via **Tag relation** to ensure single collection contains items from 'different batches' only",
-          "E-commerce Automation: Integrated Shopify API to create **Draft Orders** with 100% discount for automated reward redemption"
+        "id": "reward",
+        "title": "Reward Engine",
+        "role": "System Architect",
+        "icon": "zap",
+        "summary": "3-layer architecture & Shopify O2O automation.",
+        "blocks": [
+          {
+            "type": "architecture",
+            "title": "Three-Layer Architecture",
+            "layers": [
+              { "name": "Rule (Brand)", "desc": "Campaign Definition", "role": "Configuration" },
+              { "name": "Collection (User)", "desc": "Progress Container", "role": "Progress State" },
+              { "name": "Item (Tag)", "desc": "Physical Binding", "role": "Unique Asset" }
+            ]
+          },
+          {
+            "type": "grid",
+            "title": "Core Features",
+            "items": [
+              {
+                "icon": "🛡️",
+                "title": "Physical Integrity",
+                "desc": "`@unique` on `CollectionItem` ensures one tag can only be claimed once globally."
+              },
+              {
+                "icon": "🔄",
+                "title": "Cross-Batch Check",
+                "desc": "Validates via `item.tag.batch.id` relation to ensure users collect 'different' batches."
+              },
+              {
+                "icon": "🛍️",
+                "title": "Shopify Automation",
+                "desc": "Auto-creates `DraftOrder` with 100% discount upon completion, closing the O2O loop."
+              }
+            ]
+          }
         ],
         "codeSnippet": {
           "title": "Data Model & Relation-Based Validation",
           "language": "typescript",
-          "code": "// 1. Physical Layer Integrity (schema.prisma)\nmodel CollectionItem {\n  id           Int    @id @default(autoincrement())\n  tagTokenId   String @unique @db.VarChar(36) // Ensure tag uniqueness\n  collectionId Int\n  tag          Tag    @relation(fields: [tagTokenId], references: [tokenId])\n}\n\n// 2. Cross-Batch Validation Logic (Helper)\n// Validate via relation ensuring no duplicate batch in same collection\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // Redirect to new collection or reject adding\n}"
+          "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Globally unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Must look up batch info via Tag relation\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists in collection, reject or open new one\n   openNewCollection();\n}"
         }
       },
       {
-        "id": 3,
-        "title": "Flattened Threaded Query & Schema Optimization",
-        "badge": "Query Optimization",
-        "symptom": "Deeply nested comments caused inefficient recursive queries, leading to high API latency in active threads.",
-        "rootCause": "Traditional tree structures require multiple recursive queries or complex CTEs, degrading performance as depth increases.",
-        "impact": "Slow load times for popular threads affecting UX, and potential data complications during deletion.",
-        "solution": {
-          "approach": "Dual-Pointer Flattening + Single-Pass Index Scan",
-          "details": [
-            "Schema Optimization: Implemented rootReplyCommentId to turn O(n) recursive queries into O(1) constant-time scans.",
-            "Soft Delete Strategy: Used isDeleted flags for data integrity and implemented root-state filtering for UI logical consistency.",
-            "Read Performance: Eliminated N+1 query issues in batch-details by fetching entire threads in a single structured query."
-          ],
-          "result": "Significantly reduced DB load, ensuring instant response times regardless of comment nesting depth."
-        },
+        "id": "query",
+        "title": "Query Optimization",
+        "role": "Architect of Dual-Pointer Schema",
+        "icon": "database",
+        "summary": "Dual-pointer schema & O(1) comment fetching.",
+        "blocks": [
+          {
+            "type": "workflow",
+            "title": "Single-pass Thread Fetching",
+            "steps": [
+              { "step": "1", "title": "Structured Fetch", "desc": "Fast lookup via rootReplyCommentId" },
+              { "step": "2", "title": "Atomic Soft Delete", "desc": "isDeleted flag for traceability" },
+              { "step": "3", "title": "UI Linkage", "desc": "Filter deleted roots in query" }
+            ]
+          },
+          {
+            "type": "grid",
+            "title": "Highlights",
+            "items": [
+              { "icon": "⚡", "title": "Query Speed", "desc": "Optimized from O(n) to O(1) scan" },
+              { "icon": "", "title": "Schema Design", "desc": "Dual-pointer optimization" },
+              { "icon": "️", "title": "Data Integrity", "desc": "Soft delete & UI linkage" }
+            ]
+          }
+        ],
         "codeSnippet": {
-          "title": "Thread Logic & Schema Definition",
+          "title": "Dual-Pointer Schema & Efficient Query Logic",
           "language": "typescript",
-          "code": "// Dual-Pointer Schema (prisma)\nmodel Comment {\n  id                 Int  @id @default(autoincrement())\n  replyCommentId     Int? // Direct Parent\n  rootReplyCommentId Int? // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// Efficient Read Logic: Fetch entire thread in one go\nconst comments = await db.comment.findMany({\n  where: { rootReplyCommentId: rootId, isDeleted: false }\n});"
-        },
-        "icon": "💬"
+          "code": "// 1. Dual-Pointer Schema Design: Optimizing Recursive Bottlenecks\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Direct Parent\n  rootReplyCommentId Int?    // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation (Query Logic)\n// Avoid recursion, fetch entire thread in single query structure\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* Nested Relations */ }\n});"
+        }
       },
       {
-        "id": 4,
-        "title": "Multi-Quality Media Probing & Large-Scale Lazy Load Architecture",
-        "badge": "Performance Engineering",
-        "symptom": "High-quality video loaded slowly and was susceptible to network fluctuations, while monolithic bundles caused TTI delays.",
-        "rootCause": "Monolithic bundle sizes caused slow parsing, and the lack of robust fallback for adaptive streaming led to playback failures.",
-        "solution": {
-          "approach": "Adaptive Quality Probing Strategy + Route-based Code-Splitting",
-          "details": [
-            "Media Optimization: Implemented videoToAutoQuality engine to proactively probe high-quality MP4 resources via HEAD requests, seamlessly falling back to standard quality on failure to balance quality and playback stability.",
-            "Startup Acceleration: Led dynamic loading design for 61 page components, reducing initial bundle size by 40-60%, significantly shortening JS parsing and TTI.",
-            "CLS Elimination: Designed SuspenseControl with pre-loaded layouts, using full-screen backgrounds and Safe Area spacers to achieve zero layout shifts during loading.",
-            "Defensive Development: Fallback mechanism ensures users always access valid video sources regardless of network status or resource integrity, eliminating black screen risks."
-          ],
-          "result": "Successfully built a high-perceived-performance media app, maintaining smooth interaction and rapid startup even in complex network environments."
-        },
-        "comparisonTable": {
-          "title": "Auto-Quality Probing Logic",
-          "headers": ["Scenario", "Primary (HQ MP4)", "Fallback (Standard)", "Outcome"],
-          "rows": [
-            ["Normal Network", "200 OK", "Ignored", "✅ High-Res Playback"],
-            ["Missing Resource / Error", "404 / 500", "Active", "✅ Backup Playback (No Black Screen)"],
-            ["Weak Signal", "Timeout", "Active", "✅ Standard Quality Load"]
-          ]
-        },
+        "id": "performance",
+        "title": "Performance",
+        "role": "Designer of Media Architecture",
+        "icon": "smartphone",
+        "summary": "MP4 auto-probing & 61-component lazy loading.",
+        "blocks": [
+          {
+            "type": "comparison",
+            "title": "Auto-Quality Probing Logic",
+            "headers": ["Scenario", "Primary (HQ MP4)", "Fallback (Standard)", "Outcome"],
+            "rows": [
+              ["Normal Network", "200 OK", "Ignored", "✅ High-Res Playback"],
+              ["Missing Resource / Error", "404 / 500", "Active", "✅ Backup Playback (No Black Screen)"],
+              ["Weak Signal", "Timeout", "Active", "✅ Standard Quality Load"]
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Solution Details",
+            "items": [
+              "**Media Optimization**: Implemented videoToAutoQuality engine to proactively probe high-quality MP4 resources via HEAD requests, seamlessly falling back to standard quality on failure to balance quality and playback stability.",
+              "**Startup Acceleration**: Led dynamic loading design for 61 page components, reducing initial bundle size by 40-60%, significantly shortening JS parsing and TTI.",
+              "**CLS Elimination**: Designed SuspenseControl with pre-loaded layouts, using full-screen backgrounds and Safe Area spacers to achieve zero layout shifts during loading.",
+              "**Defensive Development**: Fallback mechanism ensures users always access valid video sources regardless of network status or resource integrity, eliminating black screen risks."
+            ]
+          }
+        ],
         "codeSnippet": {
           "title": "Auto-Quality Probe Implementation",
           "language": "typescript",
           "code": "export const videoToAutoQuality = async (videoSrc: string) => {\n  const hqUrl = videoSrc.replace(/\\.[^/.]+$/, \"_hq.mp4\");\n  // Probe via HEAD request; any non-success status or error falls back to original file\n  return fetch(hqUrl, { method: 'HEAD' })\n    .then(res => res.status === 200 ? hqUrl : videoSrc)\n    .catch(() => videoSrc);\n};"
         }
+      },
+      {
+        "id": "nfc",
+        "title": "NFC Orchestration",
+        "role": "Owner of Async State Machine",
+        "icon": "layout",
+        "summary": "Async state machine & defensive routing.",
+        "blocks": [
+          {
+            "type": "workflow",
+            "title": "NFC State Orchestration",
+            "steps": [
+              { "step": "1", "title": "Hardware Trigger", "desc": "NfcManager captures NDEF events" },
+              { "step": "2", "title": "Async Verification", "desc": "Parse Payload -> Call createScan API" },
+              {
+                "step": "3",
+                "title": "State Decision",
+                "desc": "Success delays navigation; Failure routes to error screens"
+              },
+              { "step": "4", "title": "Side Effects", "desc": "Trigger Notification on Success page mount" }
+            ]
+          },
+          {
+            "type": "challenges",
+            "title": "Challenges & Solutions",
+            "items": [
+              {
+                "title": "Async State Machine Logic Injection",
+                "symptom": "Hardware scan Hooks need to integrate complex API verification and UI transitions, requiring clear logic within a shared structure.",
+                "solution": "Independently injected async state machine logic into the shared `useNormalTag` structure, modularizing NDEF parsing and Promise verification chains.",
+                "result": "Successfully transformed hardware scans into predictable business states, supporting verification stability for 1,000+ products."
+              },
+              {
+                "title": "Defensive Error Routing Strategy",
+                "symptom": "Need to precisely navigate users to corresponding guidance screens based on different hardware/API errors.",
+                "solution": "Fully owned `onRedirectScanResult` implementation, utilizing Switch-Case strategy to filter key errors like 'Inactive' or 'Mismatch', and implementing delayed navigation for visual continuity.",
+                "result": "Ensured users receive clear and correct UI guidance in all boundary error cases."
+              },
+              {
+                "title": "Visual Transition Design & Side Effect Management",
+                "symptom": "Scanning success requires precise synchronization between animation transitions and notification dispatch (Email/Push).",
+                "solution": "Established the 'Logo to Video' visual transition sequence design and implemented core notification trigger logic (`createNotification`), ensuring business-level actions are recorded alongside visual feedback.",
+                "result": "Achieved high-performance visual experience while guaranteeing 100% marketing notification delivery rate."
+              }
+            ]
+          }
+        ],
+        "codeSnippet": {
+          "title": "Precise Routing & Error Handling Logic",
+          "language": "typescript",
+          "code": "// Precise Routing & Error Handling Logic (100% Implemented by Chester)\\nconst onRedirectScanResult = (error?: string) => {\\n  switch (error) {\\n    case 'Token is not exist.':\\n    case 'tokenId and UID do not match.':\\n      // Handle forged or mismatched tags\\n      navigation.navigate(routes.scanResult.verifyError);\\n      break;\\n    case 'This tag is deactivated.':\\n      // Handle deactivated tags\\n      navigation.navigate(routes.scanResult.inactive);\\n      break;\\n    default:\\n      if (!error) {\\n        // Success Path: Delayed navigation ensures visual consistency\\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\\n      } else {\\n        navigation.navigate(routes.scanResult.timeOut);\\n      }\\n  }\\n};"
+        }
       }
     ],
-    "collectionSystem": {
-      "title": "Multi-tier O2O Collection & Rewards Engine",
-      "overview": {
-        "title": "Module & Architecture",
-        "description": "The Collection System employs a 'Rule → Collection → Item' three-layer architecture. It leverages relational lookups for cross-batch validation and enforces database-level uniqueness to physically prevent duplicate claims.",
-        "items": [
-          "**Rule Layer**: Defines campaign rules, links product batches, sets Shopify reward variants.",
-          "**Collection Layer**: User progress container, supporting multiple active collections under one rule.",
-          "**Item Layer**: Physical NFC tag record, **globally unique** (`@unique`) to prevent double scanning."
-        ]
-      },
-      "architecture": {
-        "title": "Three-Layer Architecture",
-        "layers": [
-          { "name": "Rule (Brand)", "desc": "Campaign Definition", "role": "Configuration" },
-          { "name": "Collection (User)", "desc": "Progress Container", "role": "Progress State" },
-          { "name": "Item (Tag)", "desc": "Physical Binding", "role": "Unique Asset" }
-        ]
-      },
-      "features": {
-        "title": "Core Anti-Fraud & Logic",
-        "items": [
-          {
-            "icon": "🛡️",
-            "title": "Physical Integrity",
-            "desc": "`@unique` on `CollectionItem` ensures one tag can only be claimed once globally."
-          },
-          {
-            "icon": "🔄",
-            "title": "Cross-Batch Check",
-            "desc": "Validates via `item.tag.batch.id` relation to ensure users collect 'different' batches."
-          },
-          {
-            "icon": "🛍️",
-            "title": "Shopify Automation",
-            "desc": "Auto-creates `DraftOrder` with 100% discount upon completion, closing the O2O loop."
+    "engineeringRigor": {
+      "title": "Engineering Rigor",
+      "description": "Leading the maintenance of the Berify ecosystem's native build environment, resolving complex compatibility challenges in cross-platform SDK integration.",
+      "items": [
+        {
+          "id": "ios-xcode-fix",
+          "title": "Xcode Toolchain Upgrade & Swift Module Compatibility Optimization",
+          "badge": "iOS Engineering",
+          "icon": "🛠️",
+          "symptom": "After upgrading to Xcode 14.3, stricter interface verification mechanisms caused Cybavo Wallet (Binary SDK) compilation failures.",
+          "action": "Automated the injection of the -no-verify-emitted-module-interface flag via Podfile post_install script to bypass binary framework verification, and forced all Pods to a unified deployment target (12.4) to eliminate version ambiguity.",
+          "result": "Successfully resolved build deadlock in Xcode 14.3+ environments, significantly improving team build success rates across different development devices.",
+          "codeSnippet": {
+            "title": "Podfile post_install Hack",
+            "language": "ruby",
+            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
           }
-        ]
-      },
-      "codeSnippet": {
-        "title": "Data Model & Relation-Based Validation",
-        "language": "typescript",
-        "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Globally unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Must look up batch info via Tag relation\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists in collection, reject or open new one\n   openNewCollection();\n}"
-      }
-    },
-    "commentSystem": {
-      "title": "High-Efficiency Threaded Query Architecture",
-      "overview": {
-        "title": "Module Strategy",
-        "description": "Transformed traditional recursive queries into single-pass index scans using dual-pointer architecture, completely avoiding N+1 problems while ensuring data consistency.",
-        "items": [
-          "**Dual Pointer Design**: Using rootReplyCommentId to flatten recursive queries into O(1) scans.",
-          "**Query Optimization**: Implemented single query structure to avoid N+1 issues in batch details.",
-          "**Logical Consistency**: Real-time thread hiding via root node status linkage."
-        ]
-      },
-      "workflow": {
-        "title": "Single-pass Thread Fetching",
-        "steps": [
-          { "step": "1", "title": "Structured Fetch", "desc": "Fast lookup via rootReplyCommentId" },
-          { "step": "2", "title": "Atomic Soft Delete", "desc": "isDeleted flag for traceability" },
-          { "step": "3", "title": "UI Linkage", "desc": "Filter deleted roots in query" }
-        ]
-      },
-      "highlights": {
-        "title": "Core Architecture Analysis",
-        "items": [
-          { "icon": "⚡", "title": "Query Speed", "desc": "Optimized from O(n) to O(1) scan" },
-          { "icon": "�", "title": "Schema Design", "desc": "Dual-pointer optimization" },
-          { "icon": "�️", "title": "Data Integrity", "desc": "Soft delete & UI linkage" }
-        ]
-      },
-      "codeSnippet": {
-        "title": "Dual-Pointer Schema & Efficient Query Logic",
-        "language": "typescript",
-        "code": "// 1. Dual-Pointer Schema Design: Optimizing Recursive Bottlenecks\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Direct Parent\n  rootReplyCommentId Int?    // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation (Query Logic)\n// Avoid recursion, fetch entire thread in single query structure\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* Nested Relations */ }\n});"
-      }
+        },
+        {
+          "id": "android-incode-crash",
+          "title": "Android Native SDK Crash Troubleshooting & Official Package Migration",
+          "badge": "Android Stability",
+          "icon": "⚙️",
+          "symptom": "Specific versions of Incode SDK (2.6.3) caused camera module crashes on Android devices during face recognition.",
+          "action": "Diagnosed native Core library bugs and precisely downgraded to a stable version (2.6.1), while leading the migration from legacy S3 Tarball references to the official @incode-sdks NPM scoped package (v6.1.0) to standardize dependency management.",
+          "result": "Completely resolved runtime crashes and improved future maintenance flexibility of the IDV module through standardized migration."
+        }
+      ]
     },
     "gallery": {
       "tabs": {
@@ -343,86 +330,6 @@
         "shopify": "Seamless Shopify API for O2O sync",
         "arbitrum": "Arbitrum Nova low-latency NFT distribution"
       }
-    },
-    "nfcOrchestration": {
-      "title": "NFC Async State Management & Routing Architecture",
-      "description": "Led the core async logic injection and error handling routing for the NFC verification module within a collaborative architecture, ensuring precise alignment between hardware events and business workflows.",
-      "workflow": {
-        "title": "NFC State Orchestration",
-        "steps": [
-          { "step": "1", "title": "Hardware Trigger", "desc": "NfcManager captures NDEF events" },
-          { "step": "2", "title": "Async Verification", "desc": "Parse Payload -> Call createScan API" },
-          {
-            "step": "3",
-            "title": "State Decision",
-            "desc": "Success delays navigation; Failure routes to error screens"
-          },
-          { "step": "4", "title": "Side Effects", "desc": "Trigger Notification on Success page mount" }
-        ]
-      },
-      "challenges": [
-        {
-          "id": "async-logic-injection",
-          "title": "Async State Machine Logic Injection",
-          "badge": "Shared Architecture",
-          "icon": "⚡",
-          "symptom": "Hardware scan Hooks need to integrate complex API verification and UI transitions, requiring clear logic within a shared structure.",
-          "solution": "Independently injected async state machine logic into the shared `useNormalTag` structure, modularizing NDEF parsing and Promise verification chains to ensure stable state flow.",
-          "result": "Successfully transformed hardware scans into predictable business states, supporting verification stability for 1,000+ products."
-        },
-        {
-          "id": "defensive-routing",
-          "title": "Defensive Error Routing Strategy",
-          "badge": "Routing Ownership",
-          "icon": "🛡️",
-          "symptom": "Need to precisely navigate users to corresponding guidance screens based on different hardware/API errors.",
-          "solution": "Fully owned `onRedirectScanResult` implementation, utilizing Switch-Case strategy to filter key errors like 'Inactive' or 'Mismatch', and implementing delayed navigation for visual continuity.",
-          "result": "Ensured users receive clear and correct UI guidance in all boundary error cases."
-        },
-        {
-          "id": "ux-side-effects",
-          "title": "Visual Transition Design & Side Effect Management",
-          "badge": "UX Orchestration",
-          "icon": "✨",
-          "symptom": "Scanning success requires precise synchronization between animation transitions and notification dispatch (Email/Push).",
-          "solution": "Established the 'Logo to Video' visual transition sequence design and implemented core notification trigger logic (`createNotification`), ensuring business-level actions are recorded alongside visual feedback.",
-          "result": "Achieved high-performance visual experience while guaranteeing 100% marketing notification delivery rate."
-        }
-      ],
-      "codeSnippet": {
-        "title": "Precise Routing & Error Handling Logic",
-        "language": "typescript",
-        "code": "// Precise Routing & Error Handling Logic (100% Implemented by Chester)\\nconst onRedirectScanResult = (error?: string) => {\\n  switch (error) {\\n    case 'Token is not exist.':\\n    case 'tokenId and UID do not match.':\\n      // Handle forged or mismatched tags\\n      navigation.navigate(routes.scanResult.verifyError);\\n      break;\\n    case 'This tag is deactivated.':\\n      // Handle deactivated tags\\n      navigation.navigate(routes.scanResult.inactive);\\n      break;\\n    default:\\n      if (!error) {\\n        // Success Path: Delayed navigation ensures visual consistency\\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\\n      } else {\\n        navigation.navigate(routes.scanResult.timeOut);\\n      }\\n  }\\n};"
-      }
-    },
-    "nativeInfrastructure": {
-      "title": "Native Infrastructure & Troubleshooting",
-      "description": "Leading the maintenance of the Berify ecosystem's native build environment, resolving complex compatibility challenges in cross-platform SDK integration.",
-      "items": [
-        {
-          "id": "ios-xcode-fix",
-          "title": "Xcode Toolchain Upgrade & Swift Module Compatibility Optimization",
-          "badge": "iOS Engineering",
-          "icon": "🛠️",
-          "symptom": "After upgrading to Xcode 14.3, stricter interface verification mechanisms caused Cybavo Wallet (Binary SDK) compilation failures.",
-          "action": "Automated the injection of the -no-verify-emitted-module-interface flag via Podfile post_install script to bypass binary framework verification, and forced all Pods to a unified deployment target (12.4) to eliminate version ambiguity.",
-          "result": "Successfully resolved build deadlock in Xcode 14.3+ environments, significantly improving team build success rates across different development devices.",
-          "codeSnippet": {
-            "title": "Podfile post_install Hack",
-            "language": "ruby",
-            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
-          }
-        },
-        {
-          "id": "android-incode-crash",
-          "title": "Android Native SDK Crash Troubleshooting & Official Package Migration",
-          "badge": "Android Stability",
-          "icon": "⚙️",
-          "symptom": "Specific versions of Incode SDK (2.6.3) caused camera module crashes on Android devices during face recognition.",
-          "action": "Diagnosed native Core library bugs and precisely downgraded to a stable version (2.6.1), while leading the migration from legacy S3 Tarball references to the official @incode-sdks NPM scoped package (v6.1.0) to standardize dependency management.",
-          "result": "Completely resolved runtime crashes and improved future maintenance flexibility of the IDV module through standardized migration."
-        }
-      ]
     },
     "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."
   }

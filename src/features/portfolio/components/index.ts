@@ -16,3 +16,4 @@ export { default as SourceCodeLink } from "./SourceCodeLink";
 export { TechnicalChallengeCard } from "./TechnicalChallengeCard";
 export { TechnicalImplementation } from "./TechnicalImplementation";
 export { TechnicalInsights } from "./TechnicalInsights";
+export { TechnicalSpotlight, type ContentBlock, type SpotlightItem } from "./TechnicalSpotlight";
