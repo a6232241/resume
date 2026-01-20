@@ -1,90 +1,98 @@
 {
-  "shortDesc": "Help merchants manage products and members, providing verifiable digital assets and marketing tools through Web3.",
+  "shortDesc": "Empowering merchants to manage products and members through Web3-verified digital assets and marketing tools.",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
   "role": "Senior Full-Stack Developer",
   "achievements": [],
-  "fullDesc": "Complete Web3 smart retail ecosystem. Merchants manage products, customers scan tags to unlock NFTs and rewards with wallet integration.",
+  "fullDesc": "A comprehensive Web3 smart retail ecosystem. Merchants manage and analyze products via a backend dashboard, while consumers scan product tags to unlock verified info, special promos, NFTs, and giveaways, integrated with third-party wallets.",
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "Distributed O2O Ecosystem · 9 Independent Microservices",
-      "description": "Web3 smart retail ecosystem integrating NFC verification, NFT minting, and Shopify e-commerce. Verified pattern of full-stack feature ownership.",
+      "tagline": "Distributed O2O Ecosystem",
+      "description": "A Web3 smart retail ecosystem integrating NFC verification, NFT minting, and Shopify e-commerce. Verified pattern of full-stack feature ownership across the entire delivery lifecycle.",
       "statusBadge": "Currently in Production"
     },
     "overview": {
-      "duration": "My Tenure: 1.5 Years (2023 - 2024)",
-      "team": "Senior Developer (Full Lifecycle)",
+      "duration": "Tenure: 1.5 Years (2023 - 2024)",
+      "team": "8-Person Collaborative Team",
       "projectType": "Commercial Product",
-      "mainTechs": ["React Native", "Next.js", "Node.js", "Prisma", "Shopify API", "Arbitrum Nova"],
+      "mainTechs": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
       "platforms": ["iOS", "Android", "Web"]
     },
-    "ecosystemMetrics": {
-      "title": "🌐 Distributed Ecosystem Scale",
-      "items": [
-        { "value": "9", "label": "Microservices", "desc": "Complete O2O Ecosystem" },
-        { "value": "114+", "label": "DB Migrations", "desc": "Schema Evolution History" },
-        { "value": "50+", "label": "Core Tables", "desc": "Complex Business Logic" },
-        { "value": "1,026+", "label": "App Commits", "desc": "Mobile-Led Development" }
-      ]
-    },
-    "metrics": {
-      "title": "📊 Engineering Contribution Metrics",
-      "items": [
-        { "value": "1,026+", "label": "App Commits", "desc": "Core Mobile Logic" },
-        { "value": "213+", "label": "API Commits", "desc": "Web3 Backend & Services" },
-        { "value": "76k+", "label": "Lines of Code", "desc": "High-Quality Delivery" },
-        { "value": "100%", "label": "Lifecycle", "desc": "Schema → API → UI" }
-      ]
-    },
-    "qualityMetrics": {
-      "title": "🛡️ Quantified Technical Quality",
-      "items": [
+    "architectureFlow": {
+      "title": "System Architecture Chain",
+      "steps": [
+        { "step": "1", "title": "App (NFC Scan)", "desc": "React Native Client", "metric": "Trigger Interaction" },
+        { "step": "2", "title": "App-Backend", "desc": "Web3 & API Gateway", "metric": "Business Logic" },
         {
-          "icon": "📝",
-          "label": "Type Safety",
-          "desc": "Strict TypeScript Generic Return Types (Contract Compliance)"
+          "step": "3",
+          "title": "Berify-DB & Queue",
+          "desc": "SMA State Machine & Task Queue",
+          "metric": "Async Processing"
         },
-        { "icon": "🔒", "label": "Security", "desc": "Zero-IDOR API Design via Strict Authorization Guards" },
         {
-          "icon": "🔄",
-          "label": "Maintainability",
-          "desc": "Centralized Error Handling & Component Reusability (MenuButton Pattern)"
+          "step": "4",
+          "title": "WebSocket & SNS",
+          "desc": "Instant Notifications & Push",
+          "metric": "Dual-way Feedback"
         }
       ]
     },
-    "architectureFlow": {
-      "title": "🏗️ System Architecture Flow",
-      "steps": [
-        { "step": "1", "title": "App (NFC Scan)", "desc": "React Native Mobile", "metric": "1,026+ Commits" },
-        { "step": "2", "title": "App-Backend", "desc": "Web3 API Gateway", "metric": "Core Logic Layer" },
-        { "step": "3", "title": "Berify-Queue", "desc": "Async Task Processing", "metric": "Stability" },
-        { "step": "4", "title": "AWS SNS", "desc": "Real-time Push Service", "metric": "Integration Owner" }
+    "ecosystemMetrics": {
+      "title": "🌐 System Architecture & Distributed Scale",
+      "items": [
+        { "value": "9", "label": "Independent Sub-projects", "desc": "3 Apps + 2 Libs + 4 Microservices" },
+        { "value": "114+", "label": "DB Migrations", "desc": "Architectural Evolution History" },
+        { "value": "83", "label": "Core Data Models", "desc": "Foundation for Complex Multi-tenant Logic" }
+      ]
+    },
+    "metrics": {
+      "title": "🚀 Core Engineering Impact Metrics",
+      "items": [
+        { "value": "2,288+", "label": "Total Commits", "desc": "Proof of High-Intensity Continuous Delivery" },
+        { "value": "97k+", "label": "Lines of Code", "desc": "Exclude Auto-gen / Pure Feature Implementation" },
+        { "value": "60% / 34%", "label": "Mobile / Backend", "desc": "Full-Lifecycle Ownership: Schema → API → UI" }
+      ]
+    },
+    "qualityMetrics": {
+      "title": "Engineering Standards",
+      "items": [
+        { "icon": "📝", "label": "Type Safety", "desc": "Strict TypeScript Generic Return Types" },
+        { "icon": "🔒", "label": "Security", "desc": "Zero-IDOR API Design via Strict Guards" },
+        { "icon": "🔄", "label": "Maintainability", "desc": "Centralized Error Handling & Reusable Patterns" }
       ]
     },
     "technicalSpotlight": [
       {
         "id": "idv",
-        "title": "Staff Access (IDV)",
+        "title": "Staff Access Control (IDV)",
         "role": "Lead Logic Integrator",
         "icon": "shield",
-        "summary": "Biometric security & Inviter-led resolution.",
+        "summary": "End-to-End Identity Architecture",
         "blocks": [
           {
             "type": "workflow",
-            "title": "Verification Flow",
+            "title": "Verification Workflow",
             "steps": [
               {
                 "step": "1",
                 "title": "Face Login Orchestration",
-                "desc": "Client integrates Incode SDK + Backend OCR + Verify API"
+                "desc": "Defined CompanyRolePrivilege model for granular permissions"
               },
               {
                 "step": "2",
                 "title": "4-Way Integrity Check",
-                "desc": "Server compares OCR Name / App User / Web User"
+                "desc": "Implemented Server-Side Incode Webhook handling"
               },
-              { "step": "3", "title": "Inviter-Led Resolution", "desc": "Mismatch emails Manager (not staff)" },
-              { "step": "4", "title": "Data Correction", "desc": "Manager clicks secure link to auto-correct profile" }
+              {
+                "step": "3",
+                "title": "Inviter-Led Arbitration",
+                "desc": "Integrated initializeIncode SDK flow in Mobile"
+              },
+              {
+                "step": "4",
+                "title": "Data Correction",
+                "desc": "Managers click secure links to auto-correct staff data"
+              }
             ]
           },
           {
@@ -108,7 +116,7 @@
         "codeSnippet": {
           "title": "Face Login Orchestration",
           "language": "typescript",
-          "code": "const startFaceLogin = async () => {\n  // 1. Start SDK Face Login (Skip tutorials)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. Securely fetch OCR data via Backend API\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. Call verify-idv API for Server-Side 4-Way Matching\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. Success: Log time and grant access\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. Mismatch: System emails the Inviter (Manager)\n    Alert.alert('Notice', response.error);\n  }\n};"
+          "code": "const startFaceLogin = async () => {\n  // 1. Start SDK Face Login (Skip tutorials)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. Securely fetch OCR data via Backend API (No frontend extraction)\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. Call verify-idv API for Server-Side 4-way check\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. Success: Log time and grant access\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. Mismatch: System automatically emails the Inviter (Manager)\n    Alert.alert('Notice', response.error);\n  }\n};"
         }
       },
       {
@@ -116,35 +124,35 @@
         "title": "Reward Engine",
         "role": "System Architect",
         "icon": "zap",
-        "summary": "3-layer architecture & Shopify O2O automation.",
+        "summary": "Gamification & E-commerce Integration",
         "blocks": [
           {
             "type": "architecture",
-            "title": "Three-Layer Architecture",
+            "title": "Three-Layer Model",
             "layers": [
-              { "name": "Rule (Brand)", "desc": "Campaign Definition", "role": "Configuration" },
-              { "name": "Collection (User)", "desc": "Progress Container", "role": "Progress State" },
-              { "name": "Item (Tag)", "desc": "Physical Binding", "role": "Unique Asset" }
+              { "name": "Rule (Brand)", "desc": "Designed RewardRule schema", "role": "Configuration" },
+              { "name": "Collection (User)", "desc": "Implemented Backend API Lazy Loading", "role": "Progress State" },
+              { "name": "Item (Tag)", "desc": "Integrated Shopify Logic", "role": "Unique Asset" }
             ]
           },
           {
             "type": "grid",
-            "title": "Core Features",
+            "title": "Core Anti-Fraud",
             "items": [
               {
                 "icon": "🛡️",
                 "title": "Physical Integrity",
-                "desc": "`@unique` on `CollectionItem` ensures one tag can only be claimed once globally."
+                "desc": "Implemented `@unique` on `CollectionItem` to prevent duplicate tag claims."
               },
               {
                 "icon": "🔄",
-                "title": "Cross-Batch Check",
-                "desc": "Validates via `item.tag.batch.id` relation to ensure users collect 'different' batches."
+                "title": "Cross-Batch Validation",
+                "desc": "Check `item.tag.batch.id` relation to ensure users collect 'different' batches."
               },
               {
                 "icon": "🛍️",
                 "title": "Shopify Automation",
-                "desc": "Auto-creates `DraftOrder` with 100% discount upon completion, closing the O2O loop."
+                "desc": "Auto-creates `DraftOrder` with 100% discount links upon completion."
               }
             ]
           }
@@ -152,73 +160,73 @@
         "codeSnippet": {
           "title": "Data Model & Relation-Based Validation",
           "language": "typescript",
-          "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Globally unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Must look up batch info via Tag relation\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists in collection, reject or open new one\n   openNewCollection();\n}"
+          "code": "// 1. Physical Layer Anti-Fraud (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Globally unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Look up batch info via Tag relation for comparison\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // Reject or open new progress if batch already exists\n   openNewCollection();\n}"
         }
       },
       {
-        "id": "query",
-        "title": "Query Optimization",
+        "id": "social",
+        "title": "Social Engine",
         "role": "Architect of Dual-Pointer Schema",
-        "icon": "database",
-        "summary": "Dual-pointer schema & O(1) comment fetching.",
+        "icon": "message-circle",
+        "summary": "Interaction System Optimization",
         "blocks": [
           {
             "type": "workflow",
-            "title": "Single-pass Thread Fetching",
+            "title": "Nested Comments API",
             "steps": [
-              { "step": "1", "title": "Structured Fetch", "desc": "Fast lookup via rootReplyCommentId" },
-              { "step": "2", "title": "Atomic Soft Delete", "desc": "isDeleted flag for traceability" },
-              { "step": "3", "title": "UI Linkage", "desc": "Filter deleted roots in query" }
+              { "step": "1", "title": "Structured Fetch", "desc": "Developed Nested Comments API" },
+              { "step": "2", "title": "Pagination", "desc": "Support for high-volume thread loading" },
+              { "step": "3", "title": "UI Interaction", "desc": "Complex CommunityModal UI orchestration" }
             ]
           },
           {
             "type": "grid",
-            "title": "Highlights",
+            "title": "Structural Analysis",
             "items": [
-              { "icon": "⚡", "title": "Query Speed", "desc": "Optimized from O(n) to O(1) scan" },
-              { "icon": "", "title": "Schema Design", "desc": "Dual-pointer optimization" },
-              { "icon": "️", "title": "Data Integrity", "desc": "Soft delete & UI linkage" }
+              { "icon": "⚡", "title": "Query Performance", "desc": "Optimized from O(n) to O(1) index scanning" },
+              { "icon": "📝", "title": "Schema Design", "desc": "Dual-pointer architecture for flattened threads" },
+              { "icon": "🛡️", "title": "Logical Consistency", "desc": "Soft delete & UI state linkage" }
             ]
           }
         ],
         "codeSnippet": {
           "title": "Dual-Pointer Schema & Efficient Query Logic",
           "language": "typescript",
-          "code": "// 1. Dual-Pointer Schema Design: Optimizing Recursive Bottlenecks\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Direct Parent\n  rootReplyCommentId Int?    // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation (Query Logic)\n// Avoid recursion, fetch entire thread in single query structure\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* Nested Relations */ }\n});"
+          "code": "// 1. Dual-Pointer Schema: Optimizing Recursive Read Bottlenecks\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Direct Parent\n  rootReplyCommentId Int?    // Thread Root (Fetch Optimization)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation\n// Avoid recursion, fetch entire thread in single query structure\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* Nested Relations */ }\n});"
         }
       },
       {
         "id": "performance",
-        "title": "Performance",
+        "title": "Performance Optimization",
         "role": "Designer of Media Architecture",
         "icon": "smartphone",
-        "summary": "MP4 auto-probing & 61-component lazy loading.",
+        "summary": "Full-Stack Efficiency",
         "blocks": [
           {
             "type": "comparison",
-            "title": "Auto-Quality Probing Logic",
-            "headers": ["Scenario", "Primary (HQ MP4)", "Fallback (Standard)", "Outcome"],
+            "title": "Backend vs. Frontend Optimization",
+            "headers": ["Domain", "Strategy", "Implementation", "Outcome"],
             "rows": [
-              ["Normal Network", "200 OK", "Ignored", "✅ High-Res Playback"],
-              ["Missing Resource / Error", "404 / 500", "Active", "✅ Backup Playback (No Black Screen)"],
-              ["Weak Signal", "Timeout", "Active", "✅ Standard Quality Load"]
+              ["Backend", "DB Load", "Pagination & Lazy Loading APIs", "✅ Significant reduction"],
+              ["Frontend", "Media Cache", "Integrated @georstat/react-native-image-cache", "✅ Seamless UX"],
+              ["Frontend", "Video", "Video Preload Implementation", "✅ Instant Playback"]
             ]
           },
           {
             "type": "list",
             "title": "Solution Details",
             "items": [
-              "**Media Optimization**: Implemented videoToAutoQuality engine to proactively probe high-quality MP4 resources via HEAD requests, seamlessly falling back to standard quality on failure to balance quality and playback stability.",
-              "**Startup Acceleration**: Led dynamic loading design for 61 page components, reducing initial bundle size by 40-60%, significantly shortening JS parsing and TTI.",
-              "**CLS Elimination**: Designed SuspenseControl with pre-loaded layouts, using full-screen backgrounds and Safe Area spacers to achieve zero layout shifts during loading.",
-              "**Defensive Development**: Fallback mechanism ensures users always access valid video sources regardless of network status or resource integrity, eliminating black screen risks."
+              "**Backend Optimization**: Implemented Pagination and Lazy Loading for high-traffic Reward APIs.",
+              "**Frontend Assets**: Integrated `@georstat/react-native-image-cache` and Video Preload mechanisms.",
+              "**Layout Stability**: Designed `SuspenseControl` with pre-loaded Safe Area spacers to achieve zero Layout Shift (CLS).",
+              "**Defensive Playback**: Multi-quality MP4 auto-probing fallback ensures 100% video source validity."
             ]
           }
         ],
         "codeSnippet": {
           "title": "Auto-Quality Probe Implementation",
           "language": "typescript",
-          "code": "export const videoToAutoQuality = async (videoSrc: string) => {\n  const hqUrl = videoSrc.replace(/\\.[^/.]+$/, \"_hq.mp4\");\n  // Probe via HEAD request; any non-success status or error falls back to original file\n  return fetch(hqUrl, { method: 'HEAD' })\n    .then(res => res.status === 200 ? hqUrl : videoSrc)\n    .catch(() => videoSrc);\n};"
+          "code": "export const videoToAutoQuality = async (videoSrc: string) => {\n  const hqUrl = videoSrc.replace(/\\.[^/.]+$/, \"_hq.mp4\");\n  // Probing HQ resource via HEAD request; fallback to original on failure\n  return fetch(hqUrl, { method: 'HEAD' })\n    .then(res => res.status === 200 ? hqUrl : videoSrc)\n    .catch(() => videoSrc);\n};"
         }
       },
       {
@@ -226,20 +234,16 @@
         "title": "NFC Orchestration",
         "role": "Owner of Async State Machine",
         "icon": "layout",
-        "summary": "Async state machine & defensive routing.",
+        "summary": "Physical-Digital Bridge",
         "blocks": [
           {
             "type": "workflow",
             "title": "NFC State Orchestration",
             "steps": [
-              { "step": "1", "title": "Hardware Trigger", "desc": "NfcManager captures NDEF events" },
-              { "step": "2", "title": "Async Verification", "desc": "Parse Payload -> Call createScan API" },
-              {
-                "step": "3",
-                "title": "State Decision",
-                "desc": "Success delays navigation; Failure routes to error screens"
-              },
-              { "step": "4", "title": "Side Effects", "desc": "Trigger Notification on Success page mount" }
+              { "step": "1", "title": "Hardware Trigger", "desc": "Bridged Backend Batch Management" },
+              { "step": "2", "title": "Async Verification", "desc": "Frontend useScan hook interaction logic" },
+              { "step": "3", "title": "State Decision", "desc": "ScanButton component interaction orchestration" },
+              { "step": "4", "title": "Side Effects", "desc": "Trigger Automated Notifications on success" }
             ]
           },
           {
@@ -248,44 +252,44 @@
             "items": [
               {
                 "title": "Async State Machine Logic Injection",
-                "symptom": "Hardware scan Hooks need to integrate complex API verification and UI transitions, requiring clear logic within a shared structure.",
+                "symptom": "Hardware scan Hooks need to integrate complex API verification and UI transitions within a shared structure.",
                 "solution": "Independently injected async state machine logic into the shared `useNormalTag` structure, modularizing NDEF parsing and Promise verification chains.",
-                "result": "Successfully transformed hardware scans into predictable business states, supporting verification stability for 1,000+ products."
+                "result": "Successfully transformed hardware scans into predictable business states for 1,000+ products."
               },
               {
                 "title": "Defensive Error Routing Strategy",
-                "symptom": "Need to precisely navigate users to corresponding guidance screens based on different hardware/API errors.",
-                "solution": "Fully owned `onRedirectScanResult` implementation, utilizing Switch-Case strategy to filter key errors like 'Inactive' or 'Mismatch', and implementing delayed navigation for visual continuity.",
-                "result": "Ensured users receive clear and correct UI guidance in all boundary error cases."
+                "symptom": "Need to navigate users to specific guidance screens based on varied hardware/API errors.",
+                "solution": "Owned the `onRedirectScanResult` implementation, using Switch-Case strategy for 'Inactive' or 'Mismatch' errors with delayed navigation.",
+                "result": "Ensured clear and correct UI guidance in all boundary error cases."
               },
               {
-                "title": "Visual Transition Design & Side Effect Management",
-                "symptom": "Scanning success requires precise synchronization between animation transitions and notification dispatch (Email/Push).",
-                "solution": "Established the 'Logo to Video' visual transition sequence design and implemented core notification trigger logic (`createNotification`), ensuring business-level actions are recorded alongside visual feedback.",
-                "result": "Achieved high-performance visual experience while guaranteeing 100% marketing notification delivery rate."
+                "title": "UX Sequence & Side Effect Management",
+                "symptom": "Synchronization required between animation transitions and notification dispatch (Email/Push).",
+                "solution": "Established 'Logo to Video' transition sequences and core `createNotification` trigger logic to record business-level actions.",
+                "result": "Achieved high-performance visual feedback while guaranteeing 100% notification delivery."
               }
             ]
           }
         ],
         "codeSnippet": {
-          "title": "Precise Routing & Error Handling Logic",
+          "title": "Precise Routing & Error Handling",
           "language": "typescript",
-          "code": "// Precise Routing & Error Handling Logic (100% Implemented by Chester)\\nconst onRedirectScanResult = (error?: string) => {\\n  switch (error) {\\n    case 'Token is not exist.':\\n    case 'tokenId and UID do not match.':\\n      // Handle forged or mismatched tags\\n      navigation.navigate(routes.scanResult.verifyError);\\n      break;\\n    case 'This tag is deactivated.':\\n      // Handle deactivated tags\\n      navigation.navigate(routes.scanResult.inactive);\\n      break;\\n    default:\\n      if (!error) {\\n        // Success Path: Delayed navigation ensures visual consistency\\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\\n      } else {\\n        navigation.navigate(routes.scanResult.timeOut);\\n      }\\n  }\\n};"
+          "code": "// 100% Implemented by Chester: Error-code driven routing\nconst onRedirectScanResult = (error?: string) => {\n  switch (error) {\n    case 'Token is not exist.':\n    case 'tokenId and UID do not match.':\n      navigation.navigate(routes.scanResult.verifyError);\n      break;\n    case 'This tag is deactivated.':\n      navigation.navigate(routes.scanResult.inactive);\n      break;\n    default:\n      if (!error) {\n        // Success Path: Delayed navigation for visual continuity\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\n      } else {\n        navigation.navigate(routes.scanResult.timeOut);\n      }\n  }\n};"
         }
       }
     ],
     "engineeringRigor": {
       "title": "Engineering Rigor",
-      "description": "Leading the maintenance of the Berify ecosystem's native build environment, resolving complex compatibility challenges in cross-platform SDK integration.",
+      "description": "Leading the maintenance of the Berify ecosystem's native build environment and resolving cross-platform SDK integration challenges.",
       "items": [
         {
           "id": "ios-xcode-fix",
-          "title": "Xcode Toolchain Upgrade & Swift Module Compatibility Optimization",
+          "title": "Xcode Toolchain & Swift Module Compatibility",
           "badge": "iOS Engineering",
           "icon": "🛠️",
-          "symptom": "After upgrading to Xcode 14.3, stricter interface verification mechanisms caused Cybavo Wallet (Binary SDK) compilation failures.",
-          "action": "Automated the injection of the -no-verify-emitted-module-interface flag via Podfile post_install script to bypass binary framework verification, and forced all Pods to a unified deployment target (12.4) to eliminate version ambiguity.",
-          "result": "Successfully resolved build deadlock in Xcode 14.3+ environments, significantly improving team build success rates across different development devices.",
+          "symptom": "Stricter Swift Interface verification in Xcode 14.3/15 caused Cybavo Wallet (Binary SDK) build failures.",
+          "action": "Automated `-no-verify-emitted-module-interface` flag injection via Podfile `post_install` and forced a unified Deployment Target (12.4).",
+          "result": "Resolved build deadlocks in high-version Xcode environments, ensuring team-wide build stability.",
           "codeSnippet": {
             "title": "Podfile post_install Hack",
             "language": "ruby",
@@ -294,12 +298,12 @@
         },
         {
           "id": "android-incode-crash",
-          "title": "Android Native SDK Crash Troubleshooting & Official Package Migration",
+          "title": "Android SDK Troubleshooting & Migration",
           "badge": "Android Stability",
           "icon": "⚙️",
-          "symptom": "Specific versions of Incode SDK (2.6.3) caused camera module crashes on Android devices during face recognition.",
-          "action": "Diagnosed native Core library bugs and precisely downgraded to a stable version (2.6.1), while leading the migration from legacy S3 Tarball references to the official @incode-sdks NPM scoped package (v6.1.0) to standardize dependency management.",
-          "result": "Completely resolved runtime crashes and improved future maintenance flexibility of the IDV module through standardized migration."
+          "symptom": "Specific Incode SDK versions (2.6.3) caused camera module crashes on Android devices.",
+          "action": "Diagnosed native Core library bugs, downgraded to stable 2.6.1, and led migration to official @incode-sdks scoped packages.",
+          "result": "Eliminated runtime crashes and improved the maintainability of the IDV module."
         }
       ]
     },
@@ -309,26 +313,26 @@
         "merchantDashboard": "Merchant Dashboard"
       },
       "consumerApp": {
-        "home": { "title": "Home", "desc": "NFC Scan Entry" },
-        "productDetail": { "title": "Product Detail", "desc": "Blockchain Verified NFT Assets" },
-        "chat": { "title": "Chat", "desc": "WebSocket Brand Chat" },
-        "rewards": { "title": "Rewards", "desc": "Shopify Discount Sync" },
-        "rewardsDetail": { "title": "Rewards Detail", "desc": "Point Redemption" },
-        "notifications": { "title": "Notifications", "desc": "AWS SNS Push" },
-        "profile": { "title": "Profile", "desc": "Profile" },
-        "scanHistory": { "title": "Scan History", "desc": "Interaction Log" }
+        "home": { "title": "Home", "desc": "NFC Product Entry" },
+        "productDetail": { "title": "Product Detail", "desc": "Blockchain Verification & NFT Assets" },
+        "chat": { "title": "Live Chat", "desc": "WebSocket Brand Community" },
+        "rewards": { "title": "Rewards Center", "desc": "Shopify Discount Sync" },
+        "rewardsDetail": { "title": "Rewards Detail", "desc": "Redeem Points for Discounts" },
+        "notifications": { "title": "Inbox", "desc": "AWS SNS Push History" },
+        "profile": { "title": "Profile", "desc": "User Management" },
+        "scanHistory": { "title": "History", "desc": "Interaction Records" }
       },
       "merchantDashboard": {
-        "dashboard": { "title": "Dashboard", "desc": "Multi-dimensional Analytics" },
+        "dashboard": { "title": "Analytics", "desc": "Multi-dimensional Dashboard" },
         "inventory": { "title": "Inventory", "desc": "Digital Tag Management" },
-        "experience": { "title": "Experience", "desc": "Cross-branch Digital Experiences" },
-        "experienceDetail": { "title": "Exp Detail", "desc": "Raffle Rules & NFT Content" },
-        "rewards": { "title": "Rewards", "desc": "O2O Promotion Rules" },
-        "account": { "title": "Account", "desc": "Granular Roles & Access" }
+        "experience": { "title": "Experience", "desc": "O2O Digital Experiences" },
+        "experienceDetail": { "title": "Exp Detail", "desc": "Raffle & NFT Config" },
+        "rewards": { "title": "Rewards", "desc": "O2O Promotion Strategies" },
+        "account": { "title": "Access", "desc": "Granular B2B Permissions" }
       },
       "thirdParty": {
-        "shopify": "Seamless Shopify API for O2O sync",
-        "arbitrum": "Arbitrum Nova low-latency NFT distribution"
+        "shopify": "Integrated Shopify API for O2O Sync",
+        "arbitrum": "Arbitrum Nova NFT Distribution"
       }
     },
     "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."

@@ -1,56 +1,54 @@
 {
   "shortDesc": "協助商家管理商品與會員，透過 Web3 提供可驗證的數位資產與行銷工具。",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
-  "role": "Senior Full-Stack Developer",
+  "role": "Full-Stack Developer",
   "achievements": [],
   "fullDesc": "Web3 智慧零售完整生態系統。商家透過後台管理與分析商品，消費者掃描產品標籤以解鎖商品資訊、特別促銷、NFT 和贈品功能，並整合第三方錢包查看資產。",
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "分散式 O2O 生態系統 · 9 個獨立微服務",
+      "tagline": "分散式 O2O 生態系統 · 9 個獨立專案",
       "description": "Web3 智慧零售生態系統，透過 NFC 驗證、NFT 鑄造與 Shopify 電商整合，驗證完整的全端功能交付模式。",
       "statusBadge": "正式上線中"
     },
     "overview": {
       "duration": "任職時間：1.5 年（2023 - 2024）",
-      "team": "Senior Developer (Full Lifecycle)",
+      "team": "8 人團隊合作",
       "projectType": "商業產品",
-      "mainTechs": ["React Native", "Next.js", "Node.js", "Prisma", "Shopify API", "Arbitrum Nova"],
+      "mainTechs": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
       "platforms": ["iOS", "Android", "Web"]
     },
+    "architectureFlow": {
+      "title": "系統架構鏈路",
+      "steps": [
+        { "step": "1", "title": "App (NFC 掃描)", "desc": "React Native Client", "metric": "觸發交互" },
+        { "step": "2", "title": "App-Backend", "desc": "Web3 & API Gateway", "metric": "業務邏輯" },
+        { "step": "3", "title": "Berify-DB & Queue", "desc": "SMA 狀態機 & 任務佇列", "metric": "異步處理" },
+        { "step": "4", "title": "WebSocket & SNS", "desc": "即時通知與雲端推播", "metric": "雙向回饋" }
+      ]
+    },
     "ecosystemMetrics": {
-      "title": "🌐 分散式生態系統規模",
+      "title": "🌐 系統架構與分散式規模",
       "items": [
-        { "value": "9", "label": "獨立微服務", "desc": "完整 O2O 生態系統" },
-        { "value": "114+", "label": "資料庫遷移", "desc": "Schema 演進歷程" },
-        { "value": "50+", "label": "核心資料表", "desc": "複雜業務邏輯" },
-        { "value": "1,026+", "label": "App 提交", "desc": "行動端主導開發" }
+        { "value": "9", "label": "獨立子專案", "desc": "3 個應用程式 + 1 個工具庫 + 1 個資料庫 + 4 個微服務" },
+        { "value": "114+", "label": "資料庫遷移", "desc": "架構迭代演進歷程" },
+        { "value": "83", "label": "核心資料模型", "desc": "複雜業務邏輯" }
       ]
     },
     "metrics": {
-      "title": "📊 工程貢獻指標",
+      "title": "核心工程產出指標",
       "items": [
-        { "value": "1,026+", "label": "App Commits", "desc": "行動端核心代碼" },
-        { "value": "213+", "label": "API Commits", "desc": "Web3 後端與微服務" },
-        { "value": "76k+", "label": "Lines of Code", "desc": "高質量功能交付" },
-        { "value": "100%", "label": "Lifecycle", "desc": "Schema → API → UI" }
+        { "value": "2,288+", "label": "累計提交", "desc": "高強度持續交付實證" },
+        { "value": "97k+", "label": "行程式碼", "desc": "全系統核心代碼實作" },
+        { "value": "60% / 34%", "label": "行動前端 / 後端", "desc": "全鏈路功能所有權" }
       ]
     },
     "qualityMetrics": {
-      "title": "🛡️ 量化工程品質",
+      "title": "工程標準 (Engineering Standards)",
       "items": [
-        { "icon": "📝", "label": "Type Safety", "desc": "嚴格 TypeScript 泛型回傳型別 (Contract Compliance)" },
-        { "icon": "🔒", "label": "Security", "desc": "Zero-IDOR API 設計，嚴格授權守衛" },
-        { "icon": "🔄", "label": "Maintainability", "desc": "集中式錯誤處理與元件可重用模式 (MenuButton Pattern)" }
-      ]
-    },
-    "architectureFlow": {
-      "title": "🏗️ 系統架構鏈路",
-      "steps": [
-        { "step": "1", "title": "App (NFC 掃描)", "desc": "React Native 行動端", "metric": "1,026+ Commits" },
-        { "step": "2", "title": "App-Backend", "desc": "Web3 API Gateway", "metric": "核心邏輯層" },
-        { "step": "3", "title": "Berify-Queue", "desc": "異步任務處理", "metric": "穩定性保障" },
-        { "step": "4", "title": "AWS SNS", "desc": "即時推播服務", "metric": "整合負責人" }
+        { "icon": "📝", "label": "Type Safety", "desc": "嚴格 TypeScript 泛型回傳型別" },
+        { "icon": "🔒", "label": "Security", "desc": "Zero-IDOR API 設計" },
+        { "icon": "🔄", "label": "Maintainability", "desc": "集中式錯誤處理模式" }
       ]
     },
     "technicalSpotlight": [
@@ -71,8 +69,8 @@
                 "desc": "Client 端整合 Incode SDK + Backend OCR + Verify API"
               },
               { "step": "2", "title": "四向一致性檢核", "desc": "Server 端比對 OCR Name / App User / Web User" },
-              { "step": "3", "title": "邀請者仲裁", "desc": "姓名不符時，系統發信給 Manager（非員工）" },
-              { "step": "4", "title": "資料修正", "desc": "Manager 點擊安全連結自動更正員工資料" }
+              { "step": "3", "title": "邀請者仲裁", "desc": "姓名不符時，系統發信通知邀請者" },
+              { "step": "4", "title": "資料修正", "desc": "邀請者點擊安全連結自動更正員工資料" }
             ]
           },
           {
@@ -81,14 +79,14 @@
             "items": [
               { "icon": "🎭", "title": "身分詐欺", "desc": "防止離職或未授權員工冒用帳號操作高敏感資產" },
               { "icon": "📝", "title": "資料漂移", "desc": "確保 DB 記錄與法定證件保持同步" },
-              { "icon": "🔒", "title": "自我核准", "desc": "員工無法自行竄改個人資料，需 Manager 仲裁" }
+              { "icon": "🔒", "title": "自我核准", "desc": "員工無法自行竄改個人資料，需邀請者仲裁" }
             ]
           }
         ],
         "codeSnippet": {
           "title": "Face Login 核心實作 (Orchestration)",
           "language": "typescript",
-          "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識 (無教學模式)\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 安全取得 OCR 資料 (非前端直接解析)\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行後端四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者 (Manager)，前端僅提示\n    Alert.alert('Notice', response.error);\n  }\n};"
+          "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 安全取得 OCR 資料\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行後端四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者，前端僅提示\n    Alert.alert('Notice', response.error);\n  }\n};"
         }
       },
       {
@@ -96,15 +94,15 @@
         "title": "獎勵引擎 (Reward Engine)",
         "role": "System Architect",
         "icon": "zap",
-        "summary": "三層式架構與 Shopify O2O 自動化",
+        "summary": "遊戲化與電商整合 (Gamification & Commerce Integration)",
         "blocks": [
           {
             "type": "architecture",
             "title": "三層架構模型",
             "layers": [
-              { "name": "Rule (品牌)", "desc": "活動定義與批次關聯", "role": "Configuration" },
+              { "name": "Rule (品牌)", "desc": "設計 RewardRule schema", "role": "Configuration" },
               { "name": "Collection (用戶)", "desc": "個人進度容器", "role": "Progress State" },
-              { "name": "Item (標籤)", "desc": "物理關聯綁定", "role": "Unique Asset" }
+              { "name": "Item (標籤)", "desc": "整合 Shopify 邏輯", "role": "Unique Asset" }
             ]
           },
           {
@@ -136,15 +134,15 @@
         }
       },
       {
-        "id": "query",
-        "title": "查詢優化 (Query Optimization)",
+        "id": "social",
+        "title": "社群引擎 (Social Engine)",
         "role": "Architect of Dual-Pointer Schema",
-        "icon": "database",
-        "summary": "雙指標 Schema 與 O(1) 討論串讀取",
+        "icon": "message-circle",
+        "summary": "互動系統 (Interaction System)",
         "blocks": [
           {
             "type": "workflow",
-            "title": "單次獲取討論串 (Single-pass Thread Fetching)",
+            "title": "Nested Comments API",
             "steps": [
               { "step": "1", "title": "結構化撈取", "desc": "rootReplyCommentId 快速定位掛載留言" },
               { "step": "2", "title": "原子化軟刪除", "desc": "實作 isDeleted 標記確保可追溯性" },
@@ -169,7 +167,7 @@
       },
       {
         "id": "performance",
-        "title": "性能優化 (Performance)",
+        "title": "效能優化 (Performance Optimization)",
         "role": "Designer of Media Architecture",
         "icon": "smartphone",
         "summary": "MP4 自動探測與大規模延遲載入架構",
@@ -206,7 +204,7 @@
         "title": "NFC Orchestration",
         "role": "Owner of Async State Machine",
         "icon": "layout",
-        "summary": "異步狀態機與防禦性路由策略",
+        "summary": "虛實整合橋樑 (Physical-Digital Bridge)",
         "blocks": [
           {
             "type": "workflow",

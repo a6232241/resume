@@ -41,7 +41,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     items: Array<{ value: string; label: string; desc: string }>;
   };
 
-  // --- Quality Metrics Data ---
+  // --- Quality Metrics Data (Engineering Standards) ---
   const qualityMetricsData = t.raw("qualityMetrics") as {
     title: string;
     items: Array<{ icon: string; label: string; desc: string }>;
@@ -140,24 +140,50 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       {/* Overview Section */}
       <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="purple" />
 
-      {/* Metrics Grid (Consolidated & Compact) */}
+      {/* Metrics Grid (Split System & Personal) */}
       <section className="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900/50">
-        <div className="mb-8 flex items-center justify-between border-b border-gray-100 pb-4 dark:border-gray-800">
+        {/* Header with Badges */}
+        <div className="mb-8 flex flex-col gap-4 border-b border-gray-100 pb-4 md:flex-row md:items-center md:justify-between dark:border-gray-800">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">{ecosystemMetricsData.title}</h2>
-          <div className="flex gap-4 text-sm text-gray-500">
+          <div className="flex flex-wrap gap-2">
             {qualityMetricsData.items.map((m, i) => (
-              <div key={i} className="flex items-center gap-1.5">
+              <div
+                key={i}
+                className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300">
                 <span>{m.icon}</span>
                 <span>{m.label}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4 gap-y-8 md:grid-cols-4 md:gap-8">
-          {/* Combine Ecosystem & Contrib metrics */}
-          {[...ecosystemMetricsData.items, ...metricsData.items]
-            .filter((item, index, self) => index === self.findIndex((t) => t.label === item.label))
-            .map((item, index) => (
+
+        <div className="space-y-8">
+          {/* Ecosystem Scale */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+            {ecosystemMetricsData.items.map((item, index) => (
+              <div key={index} className="flex flex-col items-center justify-center text-center">
+                <div className="mb-1 text-3xl font-bold tracking-tight text-blue-600 dark:text-blue-400">
+                  {item.value}
+                </div>
+                <div className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">{item.label}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Divider with Label */}
+          <div className="relative flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-dashed border-gray-200 dark:border-gray-700"></div>
+            </div>
+            <div className="relative bg-white px-4 text-sm font-medium text-gray-500 dark:bg-gray-900">
+              {metricsData.title}
+            </div>
+          </div>
+
+          {/* Personal Impact */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+            {metricsData.items.map((item, index) => (
               <div key={index} className="flex flex-col items-center justify-center text-center">
                 <div className="mb-1 text-3xl font-bold tracking-tight text-purple-600 dark:text-purple-400">
                   {item.value}
@@ -166,6 +192,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
                 <div className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</div>
               </div>
             ))}
+          </div>
         </div>
       </section>
 
