@@ -43,19 +43,11 @@
         { "value": "60% / 34%", "label": "行動前端 / 後端", "desc": "全鏈路功能所有權" }
       ]
     },
-    "qualityMetrics": {
-      "title": "工程標準 (Engineering Standards)",
-      "items": [
-        { "icon": "📝", "label": "Type Safety", "desc": "嚴格 TypeScript 泛型回傳型別" },
-        { "icon": "🔒", "label": "Security", "desc": "Zero-IDOR API 設計" },
-        { "icon": "🔄", "label": "Maintainability", "desc": "集中式錯誤處理模式" }
-      ]
-    },
     "technicalSpotlight": [
       {
         "id": "idv",
         "title": "員工權限 (IDV)",
-        "role": "Lead Logic Integrator",
+        "role": "架構整合",
         "icon": "shield",
         "summary": "生物辨識安全與邀請者仲裁機制",
         "blocks": [
@@ -68,9 +60,9 @@
                 "title": "Face Login 編排",
                 "desc": "Client 端整合 Incode SDK + Backend OCR + Verify API"
               },
-              { "step": "2", "title": "四向一致性檢核", "desc": "Server 端比對 OCR Name / App User / Web User" },
+              { "step": "2", "title": "四向一致性檢核", "desc": "後端比對 OCR Name / App User / Web User" },
               { "step": "3", "title": "邀請者仲裁", "desc": "姓名不符時，系統發信通知邀請者" },
-              { "step": "4", "title": "資料修正", "desc": "邀請者點擊安全連結自動更正員工資料" }
+              { "step": "4", "title": "資料修正", "desc": "邀請者點擊安全連結，自動更正員工資料" }
             ]
           },
           {
@@ -86,23 +78,35 @@
         "codeSnippet": {
           "title": "Face Login 核心實作 (Orchestration)",
           "language": "typescript",
-          "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 安全取得 OCR 資料\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行後端四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者，前端僅提示\n    Alert.alert('Notice', response.error);\n  }\n};"
+          "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 取得 OCR 資料\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者，前端僅提示\n    Alert.alert('Notice', response.error);\n  }\n};"
         }
       },
       {
-        "id": "reward",
-        "title": "獎勵引擎 (Reward Engine)",
-        "role": "System Architect",
+        "id": "collection & reward",
+        "title": "蒐藏與獎勵模組",
+        "role": "架構設計",
         "icon": "zap",
-        "summary": "遊戲化與電商整合 (Gamification & Commerce Integration)",
+        "summary": "遊戲化與電商整合",
         "blocks": [
           {
             "type": "architecture",
             "title": "三層架構模型",
             "layers": [
-              { "name": "Rule (品牌)", "desc": "設計 RewardRule schema", "role": "Configuration" },
-              { "name": "Collection (用戶)", "desc": "個人進度容器", "role": "Progress State" },
-              { "name": "Item (標籤)", "desc": "整合 Shopify 邏輯", "role": "Unique Asset" }
+              {
+                "name": "Rule (品牌規則)",
+                "desc": "定義行銷活動範疇、產品批次關聯與 Shopify 獎勵品項",
+                "role": "配置"
+              },
+              {
+                "name": "Collection (參與進度)",
+                "desc": "管理用戶收集進度，並自動化觸發 Shopify Draft Order 兌換流程",
+                "role": "進度狀態"
+              },
+              {
+                "name": "Item (實體標籤)",
+                "desc": "利用資料庫 @unique 約束，確保單一 NFC 標籤在全系統的物理唯一性",
+                "role": "唯一資產"
+              }
             ]
           },
           {
@@ -135,14 +139,14 @@
       },
       {
         "id": "social",
-        "title": "社群引擎 (Social Engine)",
-        "role": "Architect of Dual-Pointer Schema",
-        "icon": "message-circle",
-        "summary": "互動系統 (Interaction System)",
+        "title": "留言模組",
+        "role": "架構設計",
+        "icon": "database",
+        "summary": "互動系統",
         "blocks": [
           {
             "type": "workflow",
-            "title": "Nested Comments API",
+            "title": "雙指標架構",
             "steps": [
               { "step": "1", "title": "結構化撈取", "desc": "rootReplyCommentId 快速定位掛載留言" },
               { "step": "2", "title": "原子化軟刪除", "desc": "實作 isDeleted 標記確保可追溯性" },
@@ -162,53 +166,19 @@
         "codeSnippet": {
           "title": "雙指標 Schema 與高效查詢邏輯",
           "language": "typescript",
-          "code": "// 1. 雙指標 Schema 設計：優化遞迴讀取瓶頸\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // 直接父層\n  rootReplyCommentId Int?    // 討論串根節點 (讀取優化核心)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. 高效查詢實作 (Query Logic)\n// 避開遞迴，單一 Query 結構一次性獲取完整討論串\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* 嵌套關聯 */ }\n});"
-        }
-      },
-      {
-        "id": "performance",
-        "title": "效能優化 (Performance Optimization)",
-        "role": "Designer of Media Architecture",
-        "icon": "smartphone",
-        "summary": "MP4 自動探測與大規模延遲載入架構",
-        "blocks": [
-          {
-            "type": "comparison",
-            "title": "畫質自動探測與降級邏輯",
-            "headers": ["情境", "Primary (HQ MP4)", "Fallback (Standard)", "結果"],
-            "rows": [
-              ["正常網路", "200 OK", "Ignored", "✅ 高畫質播放"],
-              ["資源遺失 / CDN 錯誤", "404 / 500", "Active", "✅ 備用檔播放 (無黑屏)"],
-              ["弱網環境", "Timeout", "Active", "✅ 標準畫質載入"]
-            ]
-          },
-          {
-            "type": "list",
-            "title": "解決方案細節",
-            "items": [
-              "**媒體優化**：實作 videoToAutoQuality 引擎，透過 HEAD 請求主動探測高畫質 MP4 資源，並在失效時無縫 Fallback 至標準畫質，兼顧畫質與撥放穩定性。",
-              "**啟動加速**：主導 61 個頁面組件的動態載入設計，大幅減少 40-60% 的初始 Bundle 體積，顯著縮短 JS 解析與 TTI 時間。",
-              "**消除抖動**：設計 SuspenseControl 配合預載佈局，透過填充全螢幕背景與 Safe Area 空間，實現載入過程中的零佈局偏移 (Layout Shift)。",
-              "**防禦性開發**：無論網路狀態或資源完整性如何，Fallback 機制確保用戶始終能獲取有效的影片 Source，杜絕黑屏風險。"
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Auto-Quality Probe 實作",
-          "language": "typescript",
-          "code": "export const videoToAutoQuality = async (videoSrc: string) => {\n  const hqUrl = videoSrc.replace(/\\.[^/.]+$/, \"_hq.mp4\");\n  // 透過 HEAD 請求預檢，不成功的狀態碼或網路錯誤皆 Fallback 至原檔 \n  return fetch(hqUrl, { method: 'HEAD' })\n    .then(res => res.status === 200 ? hqUrl : videoSrc)\n    .catch(() => videoSrc);\n};"
+          "code": "// 1. 優化遞迴讀取瓶頸\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // 父層節點\n  rootReplyCommentId Int?    // 根節點\n  isDeleted          Boolean @default(false)\n}\n\n// 2. 高效查詢實作\n// 避開遞迴，單一 Query 結構一次性獲取完整討論串\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* 嵌套關聯 */ }\n});"
         }
       },
       {
         "id": "nfc",
         "title": "NFC Orchestration",
-        "role": "Owner of Async State Machine",
+        "role": "狀態設計與優化",
         "icon": "layout",
-        "summary": "虛實整合橋樑 (Physical-Digital Bridge)",
+        "summary": "虛實整合橋樑",
         "blocks": [
           {
             "type": "workflow",
-            "title": "NFC 狀態流轉 (State Orchestration)",
+            "title": "NFC 狀態流轉",
             "steps": [
               { "step": "1", "title": "硬體觸發", "desc": "NfcManager 捕捉 NDEF 事件" },
               { "step": "2", "title": "異步驗證", "desc": "解析 Payload -> 調用 createScan API" },
@@ -221,62 +191,67 @@
             "title": "挑戰與解決方案",
             "items": [
               {
-                "title": "異步狀態機邏輯注入",
-                "symptom": "硬體掃描 Hook 需要整合複雜的 API 驗證與 UI 轉場，需在共享結構下維持邏輯清晰。",
-                "solution": "在共享的 `useNormalTag` 結構中，獨立注入異步狀態機邏輯，將 NDEF 解析與 Promise 驗證鏈高度模組化，確保狀態流轉的穩定性。",
-                "result": "成功將硬體掃描轉化為可預測的業務狀態，支撐了 1,000+ 產品的驗證穩定性。"
+                "title": "異步狀態邏輯對接",
+                "symptom": "NFC 掃描涉及硬體與網絡請求，若缺乏管理容易導致 UI 狀態不一致。",
+                "solution": "於共享 `useNormalTag` Hook 增加異步狀態邏輯，將 NDEF 解析與 Promise 驗證鏈高度封裝，確保硬體觸發到業務生效的流程。",
+                "result": "將不可測的硬體行為轉化為標準業務狀態，提升標籤驗證的運行穩定性。"
               },
               {
-                "title": "防禦性錯誤路由策略",
-                "symptom": "需根據不同類型的硬體/API 錯誤，將用戶精確導航至相對應的引導頁面。",
-                "solution": "全權主導 `onRedirectScanResult` 實作，利用 Switch-Case 策略過濾 'Inactive' 或 'Mismatch' 等關鍵錯誤，並實作延遲導航以優化視覺連續性。",
-                "result": "確保了在所有異常邊界情況下，用戶都能獲得明確且正確的 UI 指引。"
-              },
-              {
-                "title": "視覺轉場設計與副作用管理",
-                "symptom": "掃描成功後需在動畫轉場與通知發送 (Email/Push) 之間達成精確同步。",
-                "solution": "建立「Logo 到影片」的視覺轉場序列設計，並實作核心通知觸發邏輯 (`createNotification`)，確保用戶在視覺反饋的同時完成業務層級的動作紀錄。",
-                "result": "實現了高性能的視覺體驗，同時保證了 100% 的行銷通知觸達率。"
+                "title": "錯誤診斷與路由決策",
+                "symptom": "硬體與後端回傳錯誤類型繁雜（如仿冒、停用、超時），需導引至正確的修復路徑。",
+                "solution": "獨立實作 `onRedirectScanResult` 防禦性路由，利用 Switch-Case 對接多種 API 異常碼。",
+                "result": "確保 100% 的異常場景皆有對應的 UI 指引，提升產品防偽驗證的引導效率。"
               }
             ]
           }
         ],
         "codeSnippet": {
-          "title": "精確路由與錯誤處理邏輯",
+          "title": "路由與錯誤處理邏輯",
           "language": "typescript",
-          "code": "// 精確路由與錯誤處理邏輯 (100% 由 Chester 實作)\\nconst onRedirectScanResult = (error?: string) => {\\n  switch (error) {\\n    case 'Token is not exist.':\\n    case 'tokenId and UID do not match.':\\n      // 處理偽造或錯誤標籤\\n      navigation.navigate(routes.scanResult.verifyError);\\n      break;\\n    case 'This tag is deactivated.':\\n      // 處理已停用標籤\\n      navigation.navigate(routes.scanResult.inactive);\\n      break;\\n    default:\\n      if (!error) {\\n        // 成功路徑：延遲導航以確保視覺體驗連貫\\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\\n      } else {\\n        navigation.navigate(routes.scanResult.timeOut);\\n      }\\n  }\\n};"
+          "code": "const onRedirectScanResult = (error?: string) => {\n  switch (error) {\n    case 'Token is not exist.':\n    case 'tokenId and UID do not match.':\n      // 處理偽造或錯誤標籤\n      navigation.navigate(routes.scanResult.verifyError);\n      break;\n    case 'This tag is deactivated.':\n      // 處理已停用標籤\n      navigation.navigate(routes.scanResult.inactive);\n      break;\n    default:\n      if (!error) {\n        // 成功路徑：延遲導航以確保視覺體驗連貫\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\n      } else {\n        navigation.navigate(routes.scanResult.timeOut);\n      }\n  }\n};"
+        }
+      },
+      {
+        "id": "infrastructure",
+        "title": "跨平台建置環境與依賴規範化",
+        "role": "Infrastructure Engineering",
+        "icon": "settings",
+        "summary": "透過自動化補丁與依賴遷移，確保分散式系統在工具鏈升級時的持續交付能力。",
+        "blocks": [
+          {
+            "type": "list",
+            "title": "iOS 工具鏈適配",
+            "items": [
+              "**Symptom**: Xcode 14.3+ Swift Interface 驗證失敗。",
+              "**Action**: 透過 Podfile `post_install` 設定 `-no-verify-emitted-module-interface` 並統一 Deployment Target (12.4)。",
+              "**Result**: 解決團隊 Binary Framework 建置僵局。"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Android SDK 與依賴生命週期",
+            "items": [
+              "**Symptom**: Android Incode SDK v2.6.3 相機模組崩潰。",
+              "**Action**: 診斷 Native Core 錯誤，回退至穩定版 2.6.1 並主導遷移私有 S3 Tarball 至官方 @incode-sdks Scoped Package。",
+              "**Result**: 確保 IDV 流程正常執行。"
+            ]
+          },
+          {
+            "type": "grid",
+            "title": "工程標準",
+            "items": [
+              { "icon": "🛡️", "title": "Build Stability", "desc": "解決多設備建置不一致問題" },
+              { "icon": "🔄", "title": "SDK Lifecycle", "desc": "主導官方 Scoped Package 遷移與版本回退策略" }
+            ]
+          }
+        ],
+        "codeSnippet": {
+          "title": "Podfile post_install Hack",
+          "language": "ruby",
+          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
         }
       }
     ],
-    "engineeringRigor": {
-      "title": "工程嚴謹性 (Engineering Rigor)",
-      "description": "主導 Berify 生態系統的原生建置環境維護，解決跨平台 SDK 整合中複雜的環境相容性挑戰。",
-      "items": [
-        {
-          "id": "ios-xcode-fix",
-          "title": "Xcode 工具鏈升級與 Swift 模組相容性優化",
-          "badge": "iOS Engineering",
-          "icon": "🛠️",
-          "symptom": "升級至 Xcode 14.3 後，由於更嚴格的介面驗證機制，導致 Cybavo Wallet (Binary SDK) 編譯失敗。",
-          "action": "透過 Podfile 的 post_install 腳本自動化注入 -no-verify-emitted-module-interface 旗標，跳過二進位框架的驗證步驟，並強制統一所有 Pods 的部署目標 (Deployment Target) 至 12.4 以消除版本歧義。",
-          "result": "成功解決 Xcode 14.3+ 環境下的建置僵局，大幅提升團隊在不同開發設備間的建置成功率。",
-          "codeSnippet": {
-            "title": "Podfile post_install Hack",
-            "language": "ruby",
-            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
-          }
-        },
-        {
-          "id": "android-incode-crash",
-          "title": "Android 原生 SDK 崩潰排查與官方套件遷移",
-          "badge": "Android Stability",
-          "icon": "⚙️",
-          "symptom": "Incode SDK 特定版本 (2.6.3) 導致 Android 裝置在執行人臉辨識時發生相機模組崩潰。",
-          "action": "診斷原生 Core 庫 bug 後精準降版至穩定版本 (2.6.1)，同步將專案從舊有的 S3 Tarball 引用模式遷移至 @incode-sdks 官方 NPM 託管套件 (v6.1.0)，標準化依賴管理流程。",
-          "result": "徹底解決執行期崩潰問題，並透過標準化遷移提升了 IDV 模組的未來維護彈性。"
-        }
-      ]
-    },
     "gallery": {
       "tabs": {
         "consumerApp": "消費者體驗",

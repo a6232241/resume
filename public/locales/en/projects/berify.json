@@ -274,39 +274,58 @@
         "codeSnippet": {
           "title": "Precise Routing & Error Handling",
           "language": "typescript",
-          "code": "// 100% Implemented by Chester: Error-code driven routing\nconst onRedirectScanResult = (error?: string) => {\n  switch (error) {\n    case 'Token is not exist.':\n    case 'tokenId and UID do not match.':\n      navigation.navigate(routes.scanResult.verifyError);\n      break;\n    case 'This tag is deactivated.':\n      navigation.navigate(routes.scanResult.inactive);\n      break;\n    default:\n      if (!error) {\n        // Success Path: Delayed navigation for visual continuity\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\n      } else {\n        navigation.navigate(routes.scanResult.timeOut);\n      }\n  }\n};"
+          "code": "const onRedirectScanResult = (error?: string) => {\n  switch (error) {\n    case 'Token is not exist.':\n    case 'tokenId and UID do not match.':\n      navigation.navigate(routes.scanResult.verifyError);\n      break;\n    case 'This tag is deactivated.':\n      navigation.navigate(routes.scanResult.inactive);\n      break;\n    default:\n      if (!error) {\n        // Success Path: Delayed navigation for visual continuity\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\n      } else {\n        navigation.navigate(routes.scanResult.timeOut);\n      }\n  }\n};"
+        }
+      },
+      {
+        "id": "infrastructure",
+        "title": "Native Infrastructure & Standardization",
+        "role": "Infrastructure Engineering",
+        "icon": "settings",
+        "summary": "Ensuring continuous delivery capabilities of distributed systems during toolchain upgrades through automated patches and dependency migration.",
+        "blocks": [
+          {
+            "type": "list",
+            "title": "iOS Toolchain Adaptation",
+            "items": [
+              "**Symptom**: Swift Module Interface validation failures in Xcode 14.3+.",
+              "**Action**: Automated `-no-verify-emitted-module-interface` flag injection via Podfile `post_install` hook and unified Deployment Target (12.4).",
+              "**Result**: Resolved team-wide build deadlocks for binary frameworks."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Android SDK & Dependency Lifecycle",
+            "items": [
+              "**Symptom**: Runtime camera crashes with Incode SDK v2.6.3 on Android.",
+              "**Action**: Diagnosed native core bugs, implemented version rollback to stable 2.6.1, and led migration from private S3 tarballs to official Scoped NPM Packages (@incode-sdks).",
+              "**Result**: Ensured IDV stability on Android."
+            ]
+          },
+          {
+            "type": "grid",
+            "title": "Engineering Standards",
+            "items": [
+              {
+                "icon": "🛡️",
+                "title": "Build Stability",
+                "desc": "Resolved multi-device build inconsistencies"
+              },
+              {
+                "icon": "🔄",
+                "title": "SDK Lifecycle",
+                "desc": "Led official Scoped Package migration & rollback strategy"
+              }
+            ]
+          }
+        ],
+        "codeSnippet": {
+          "title": "Podfile post_install Hack",
+          "language": "ruby",
+          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
         }
       }
     ],
-    "engineeringRigor": {
-      "title": "Engineering Rigor",
-      "description": "Leading the maintenance of the Berify ecosystem's native build environment and resolving cross-platform SDK integration challenges.",
-      "items": [
-        {
-          "id": "ios-xcode-fix",
-          "title": "Xcode Toolchain & Swift Module Compatibility",
-          "badge": "iOS Engineering",
-          "icon": "🛠️",
-          "symptom": "Stricter Swift Interface verification in Xcode 14.3/15 caused Cybavo Wallet (Binary SDK) build failures.",
-          "action": "Automated `-no-verify-emitted-module-interface` flag injection via Podfile `post_install` and forced a unified Deployment Target (12.4).",
-          "result": "Resolved build deadlocks in high-version Xcode environments, ensuring team-wide build stability.",
-          "codeSnippet": {
-            "title": "Podfile post_install Hack",
-            "language": "ruby",
-            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
-          }
-        },
-        {
-          "id": "android-incode-crash",
-          "title": "Android SDK Troubleshooting & Migration",
-          "badge": "Android Stability",
-          "icon": "⚙️",
-          "symptom": "Specific Incode SDK versions (2.6.3) caused camera module crashes on Android devices.",
-          "action": "Diagnosed native Core library bugs, downgraded to stable 2.6.1, and led migration to official @incode-sdks scoped packages.",
-          "result": "Eliminated runtime crashes and improved the maintainability of the IDV module."
-        }
-      ]
-    },
     "gallery": {
       "tabs": {
         "consumerApp": "Consumer Experience",

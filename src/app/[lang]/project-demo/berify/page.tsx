@@ -1,7 +1,6 @@
 import { TabbedGallery } from "@components/shared/TabbedGallery";
 import { ProjectHero, ProjectOverview, TechnicalSpotlight, type SpotlightItem } from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
-import { Terminal } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 export default async function BerifyPage({ params }: { params: Promise<{ lang: string }> }) {
@@ -41,12 +40,6 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     items: Array<{ value: string; label: string; desc: string }>;
   };
 
-  // --- Quality Metrics Data (Engineering Standards) ---
-  const qualityMetricsData = t.raw("qualityMetrics") as {
-    title: string;
-    items: Array<{ icon: string; label: string; desc: string }>;
-  };
-
   // --- Architecture Flow Data ---
   const architectureFlowData = t.raw("architectureFlow") as {
     title: string;
@@ -57,24 +50,6 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
   const technicalSpotlightData = t.raw("technicalSpotlight") as SpotlightItem[];
 
   // --- Engineering Rigor Data ---
-  const engineeringRigorData = t.raw("engineeringRigor") as {
-    title: string;
-    description: string;
-    items: Array<{
-      id: string;
-      title: string;
-      badge: string;
-      icon: string;
-      symptom: string;
-      action: string;
-      result: string;
-      codeSnippet?: {
-        title: string;
-        language: string;
-        code: string;
-      };
-    }>;
-  };
 
   // --- Gallery Data (Tabbed) ---
   const galleryRaw = t.raw("gallery") as {
@@ -143,18 +118,8 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       {/* Metrics Grid (Split System & Personal) */}
       <section className="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900/50">
         {/* Header with Badges */}
-        <div className="mb-8 flex flex-col gap-4 border-b border-gray-100 pb-4 md:flex-row md:items-center md:justify-between dark:border-gray-800">
+        <div className="mb-8 border-b border-gray-100 pb-4 dark:border-gray-800">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">{ecosystemMetricsData.title}</h2>
-          <div className="flex flex-wrap gap-2">
-            {qualityMetricsData.items.map((m, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-                <span>{m.icon}</span>
-                <span>{m.label}</span>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div className="space-y-8">
@@ -231,60 +196,6 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
 
       {/* Technical Spotlight (Consolidated Tabs) */}
       <TechnicalSpotlight title="Technical Spotlight" items={technicalSpotlightData} />
-
-      {/* Engineering Rigor (Smaller Card) */}
-      <section className="rounded-2xl border border-gray-200 bg-gray-50 p-8 dark:border-gray-800 dark:bg-gray-900/30">
-        <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-900 text-white dark:bg-white dark:text-gray-900">
-            <Terminal className="h-5 w-5" />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white">{engineeringRigorData.title}</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{engineeringRigorData.description}</p>
-          </div>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {engineeringRigorData.items.map((item, idx) => (
-            <div
-              key={idx}
-              className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="flex items-center gap-2 font-bold text-gray-900 dark:text-white">
-                  <span className="text-xl">{item.icon}</span> {item.title}
-                </h3>
-                <span className="rounded bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                  {item.badge}
-                </span>
-              </div>
-
-              <div className="space-y-3 text-sm">
-                <div className="rounded bg-red-50 p-3 text-red-900 dark:bg-red-900/20 dark:text-red-300">
-                  <span className="font-bold">⚠️ Symptom:</span> {item.symptom}
-                </div>
-                <div className="rounded bg-blue-50 p-3 text-blue-900 dark:bg-blue-900/20 dark:text-blue-300">
-                  <span className="font-bold">🛠️ Action:</span> {item.action}
-                </div>
-                <div className="px-3 text-green-700 dark:text-green-400">
-                  <span className="font-bold">✅ Result:</span> {item.result}
-                </div>
-              </div>
-
-              {item.codeSnippet && (
-                <div className="mt-4 rounded bg-gray-900 p-3">
-                  <div className="mb-2 flex items-center justify-between text-xs text-gray-400">
-                    <span>{item.codeSnippet.title}</span>
-                    <span className="uppercase">{item.codeSnippet.language}</span>
-                  </div>
-                  <pre className="overflow-x-auto font-mono text-xs text-gray-300">
-                    <code>{item.codeSnippet.code}</code>
-                  </pre>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* Gallery Section */}
       <section className="space-y-8">
