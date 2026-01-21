@@ -199,7 +199,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
 
       {/* Gallery Section */}
       <section className="space-y-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{commonT("gallery")}</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{commonT("projectShowcase")}</h2>
         <TabbedGallery tabs={galleryTabs} />
       </section>
 

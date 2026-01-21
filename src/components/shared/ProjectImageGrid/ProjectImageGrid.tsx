@@ -5,11 +5,18 @@ import { useState } from "react";
 import { ProjectImageItem } from "../ProjectImageItem";
 
 export interface ProjectImageGridItem {
+  /** 媒體類型 */
   type: "image" | "video";
+  /** 媒體來源 URL */
   src: string;
+  /** 替代文字 */
   alt: string;
+  /** 標題 */
   title?: string;
+  /** 描述 */
   description?: string;
+  /** 狀態標籤 - 用於技術優化比對 (before/after) */
+  status?: "before" | "after";
 }
 
 export interface ProjectImageGridProps {
@@ -51,6 +58,7 @@ export function ProjectImageGrid({
               description={item.description}
               aspectRatio={itemAspectRatio}
               accentColor={accentColor}
+              status={item.status}
               onClick={() => setSelectedIndex(index)}
             />
           ))}

@@ -4,13 +4,23 @@ import { getVideoMimeType } from "@src/util";
 import Image from "next/image";
 
 export interface ProjectImageItemProps {
+  /** 媒體類型：圖片或影片 */
   type: "image" | "video";
+  /** 媒體來源 URL */
   src: string;
+  /** 替代文字 */
   alt: string;
+  /** 標題 */
   title?: string;
+  /** 描述 */
   description?: string;
+  /** 長寬比，預設 aspect-video */
   aspectRatio?: string;
+  /** 強調色 */
   accentColor?: "purple" | "orange" | "blue";
+  /** 狀態標籤 - 用於技術優化比對 (before/after) */
+  status?: "before" | "after";
+  /** 點擊事件處理 */
   onClick?: () => void;
 }
 
@@ -29,6 +39,20 @@ const accentColorMap = {
   },
 };
 
+/** 狀態標籤樣式映射 */
+const statusStyleMap = {
+  before: {
+    container: "border-red-200 dark:border-red-700",
+    badge: "bg-red-600/90",
+    label: "Before",
+  },
+  after: {
+    container: "border-green-200 dark:border-green-700",
+    badge: "bg-green-600/90",
+    label: "After",
+  },
+};
+
 export function ProjectImageItem({
   type,
   src,
@@ -37,14 +61,23 @@ export function ProjectImageItem({
   description,
   aspectRatio = "aspect-video",
   accentColor = "purple",
+  status,
   onClick,
 }: ProjectImageItemProps) {
   const colorStyles = accentColorMap[accentColor];
+  const statusStyles = status ? statusStyleMap[status] : null;
 
   return (
     <div
-      className={`group relative cursor-pointer overflow-hidden rounded-xl border border-gray-200 bg-gray-50 transition-all hover:scale-[1.02] hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 ${colorStyles.border}`}
+      className={`group relative cursor-pointer overflow-hidden rounded-xl border bg-gray-50 transition-all hover:scale-[1.02] hover:shadow-lg dark:bg-gray-800 ${colorStyles.border} ${statusStyles ? `border-2 ${statusStyles.container}` : "border border-gray-200 dark:border-gray-700"}`}
       onClick={onClick}>
+      {/* Status Badge (Before/After) */}
+      {statusStyles && (
+        <div
+          className={`absolute top-3 left-3 z-20 rounded-lg px-4 py-2 shadow-lg backdrop-blur-sm ${statusStyles.badge}`}>
+          <span className="text-sm font-bold text-white">{statusStyles.label}</span>
+        </div>
+      )}
       <div className={`relative ${aspectRatio} w-full overflow-hidden bg-gray-100 dark:bg-gray-900`}>
         {type === "video" ? (
           <>
