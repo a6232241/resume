@@ -38,6 +38,7 @@ trigger: always_on
 # Conventional Commits
 - **Format**: Use `feat:`, `fix:`, `refactor:`, `style:`, etc.
 - **Scope**: Keep subjects under 50 chars. Use platform prefixes: `fix(android): ...` or `feat(ios): ...`.
+- **Language**: Responses must be in **Traditional Chinese (Taiwan)**.
 
 # Communication Style
 - **Language**: Responses must be in **Traditional Chinese (Taiwan)**.

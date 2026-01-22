@@ -1,7 +1,7 @@
 {
-  "shortDesc": "協助商家管理商品與會員，透過 Web3 提供可驗證的數位資產與行銷工具。",
+  "shortDesc": "主導 9 個微服務組成的 Web3 O2O 生態系統開發。負責從資料庫 Schema 設計、後端 API 邏輯到 React Native 應用的全鏈路交付，並成功整合 NFC 驗證與 Shopify 電商自動化流程。",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
-  "role": "Full-Stack Developer",
+  "role": "軟體開發者",
   "achievements": [],
   "fullDesc": "Web3 智慧零售完整生態系統。商家透過後台管理與分析商品，消費者掃描產品標籤以解鎖商品資訊、特別促銷、NFT 和贈品功能，並整合第三方錢包查看資產。",
   "detail": {
@@ -12,7 +12,7 @@
       "statusBadge": "正式上線中"
     },
     "overview": {
-      "duration": "任職時間：1.5 年（2023 - 2024）",
+      "duration": "任職時間：1 年 5 個月（2023 - 2024）",
       "team": "8 人團隊合作",
       "projectType": "商業產品",
       "mainTechs": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
@@ -213,35 +213,37 @@
       },
       {
         "id": "infrastructure",
-        "title": "跨平台建置環境與依賴規範化",
+        "title": "跨平台建置架構",
         "role": "Infrastructure Engineering",
         "icon": "settings",
-        "summary": "透過自動化補丁與依賴遷移，確保分散式系統在工具鏈升級時的持續交付能力。",
+        "summary": "透過自動化補丁確保 Xcode 升級穩定性，並透過依賴版本管理解決問題根源。",
         "blocks": [
           {
-            "type": "list",
-            "title": "iOS 工具鏈適配",
-            "items": [
-              "**Symptom**: Xcode 14.3+ Swift Interface 驗證失敗。",
-              "**Action**: 透過 Podfile `post_install` 設定 `-no-verify-emitted-module-interface` 並統一 Deployment Target (12.4)。",
-              "**Result**: 解決團隊 Binary Framework 建置僵局。"
+            "type": "workflow",
+            "title": "跨平台建置流程",
+            "steps": [
+              { "step": "1", "title": "環境診斷", "desc": "環境診斷與構建錯誤分析" },
+              { "step": "2", "title": "補丁實作", "desc": "注入編譯旗標修復相容性" },
+              { "step": "3", "title": "依賴遷移", "desc": "遷移至官方 Scoped Package" },
+              { "step": "4", "title": "穩定性驗證", "desc": "驗證 Binary SDK 編譯死鎖解決" }
             ]
           },
           {
-            "type": "list",
-            "title": "Android SDK 與依賴生命週期",
+            "type": "challenges",
+            "title": "挑戰與解決方案",
             "items": [
-              "**Symptom**: Android Incode SDK v2.6.3 相機模組崩潰。",
-              "**Action**: 診斷 Native Core 錯誤，回退至穩定版 2.6.1 並主導遷移私有 S3 Tarball 至官方 @incode-sdks Scoped Package。",
-              "**Result**: 確保 IDV 流程正常執行。"
-            ]
-          },
-          {
-            "type": "grid",
-            "title": "工程標準",
-            "items": [
-              { "icon": "🛡️", "title": "Build Stability", "desc": "解決多設備建置不一致問題" },
-              { "icon": "🔄", "title": "SDK Lifecycle", "desc": "主導官方 Scoped Package 遷移與版本回退策略" }
+              {
+                "title": "Xcode 升級適配",
+                "symptom": "Xcode 14.3+ Swift Interface 驗證失敗。",
+                "solution": "透過 Podfile `post_install` 設定 `-no-verify-emitted-module-interface` 並統一 Deployment Target (12.4)。",
+                "result": "解決團隊 Binary Framework 建置失敗的問題。"
+              },
+              {
+                "title": "Android SDK 與依賴生命週期",
+                "symptom": "Android Incode SDK v2.6.3 相機模組崩潰。",
+                "solution": "診斷 Native Core 錯誤，回退至穩定版 2.6.1 並主導遷移私有 S3 Tarball 至官方 @incode-sdks Scoped Package。",
+                "result": "消除執行期崩潰，確保 IDV 驗證流程穩定。"
+              }
             ]
           }
         ],
@@ -249,6 +251,52 @@
           "title": "Podfile post_install Hack",
           "language": "ruby",
           "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
+        }
+      },
+      {
+        "id": "app-clip",
+        "title": "App Clip 輕量化架構",
+        "role": "Native iOS Lead",
+        "icon": "smartphone",
+        "summary": "針對輕量化 NFC 體驗進行生命週期管理優化，並實作硬體協議擴展。",
+        "blocks": [
+          {
+            "type": "workflow",
+            "title": "輕量化掃描流程",
+            "steps": [
+              { "step": "1", "title": "狀態診斷", "desc": "偵測當前 UI 堆疊" },
+              { "step": "2", "title": "視圖清理", "desc": "自動 Dismiss 殘留視窗" },
+              { "step": "3", "title": "NDEF 解析", "desc": "解析 Tail Tag 協議" },
+              { "step": "4", "title": "業務導航", "desc": "觸發 App Clip 專屬 API" }
+            ]
+          },
+          {
+            "type": "challenges",
+            "title": "挑戰與解決方案",
+            "items": [
+              {
+                "title": "原生生命週期與 UI 重置",
+                "badge": "Lifecycle Control",
+                "icon": "🔄",
+                "symptom": "掃描新標籤時，若舊有結果頁面未關閉導致 UI 衝突。",
+                "solution": "實作 useLandingController 機制遞迴清理視圖控制器。",
+                "result": "確保每次掃描均能從初始狀態觸發，提升導航可靠性。"
+              },
+              {
+                "title": "硬體協議擴展與相容性",
+                "badge": "Protocol Ext",
+                "icon": "🏷️",
+                "symptom": "需要支援非標準的「Tail Tag」硬體規範。",
+                "solution": "撰寫 NDEF 原始封包解析邏輯，動態識別特定 URL 參數（如 ?data=00c）。",
+                "result": "成功擴展硬體支援度，相容特殊規格標籤。"
+              }
+            ]
+          }
+        ],
+        "codeSnippet": {
+          "title": "原生 UI 堆疊清理邏輯",
+          "language": "swift",
+          "code": "// 透過遞迴 dismiss 確保 App Clip 掃描流程的原子性\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // 自動清理殘留的掃描結果或錯誤頁面\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    topController.dismiss(animated: false)\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}"
         }
       }
     ],

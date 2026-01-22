@@ -43,7 +43,7 @@ const workProjects = [
     role: "projects.berify.role",
     imageUrl: getMediaUrl("/berify/preview.png"),
     link: "berify",
-    period: "2023/05 - 2025/09",
+    period: "2023/05 - 2024/09",
   },
 ];
 
