@@ -2,6 +2,7 @@
 
 import { Collapsible } from "@components/ui/Collapsible";
 import { Database, Layout, Shield, Smartphone, Zap } from "lucide-react";
+import { useTranslations } from "next-intl";
 import React from "react";
 
 // --- Types ---
@@ -59,6 +60,8 @@ interface TechnicalSpotlightProps {
 }
 
 export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
+  const t = useTranslations("projects");
+
   return (
     <section className="flex flex-col gap-8">
       <div className="flex items-center gap-3">
@@ -82,14 +85,17 @@ export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
               ))}
 
               {item.codeSnippet && (
-                <div className="rounded-lg bg-gray-900 p-4 dark:bg-black/50">
-                  <div className="mb-2 flex items-center justify-between text-xs text-gray-400">
-                    <span className="font-semibold">{item.codeSnippet.title}</span>
-                    <span className="uppercase">{item.codeSnippet.language}</span>
+                <div>
+                  <h4 className="mb-4 text-sm font-bold tracking-wider text-gray-500 uppercase">{t("codeSnippet")}</h4>
+                  <div className="rounded-lg bg-gray-900 p-4 dark:bg-black/50">
+                    <div className="mb-2 flex items-center justify-between text-xs text-gray-400">
+                      <span className="font-semibold">{item.codeSnippet.title}</span>
+                      <span className="uppercase">{item.codeSnippet.language}</span>
+                    </div>
+                    <pre className="overflow-x-auto font-mono text-xs leading-relaxed text-gray-300">
+                      <code>{item.codeSnippet.code}</code>
+                    </pre>
                   </div>
-                  <pre className="overflow-x-auto font-mono text-xs leading-relaxed text-gray-300">
-                    <code>{item.codeSnippet.code}</code>
-                  </pre>
                 </div>
               )}
             </div>

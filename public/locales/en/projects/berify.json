@@ -62,45 +62,56 @@
         "summary": "Biometric Security & Inviter-Led Arbitration",
         "blocks": [
           {
-            "type": "workflow",
-            "title": "Verification Workflow",
-            "steps": [
-              {
-                "step": "1",
-                "title": "Face Login Orchestration",
-                "desc": "Client integrates Incode SDK + Backend OCR + Verify API"
-              },
-              {
-                "step": "2",
-                "title": "4-Way Integrity Check",
-                "desc": "Server compares OCR Name / App User / Web User"
-              },
-              {
-                "step": "3",
-                "title": "Inviter Arbitration",
-                "desc": "System notifies inviter via email if names mismatch"
-              },
-              {
-                "step": "4",
-                "title": "Data Correction",
-                "desc": "Inviter clicks secure link to auto-correct staff profile"
-              }
+            "type": "list",
+            "title": "Goal",
+            "items": [
+              "Prevent unauthorized personnel from tampering with tag information or accessing highly sensitive assets via the mobile app."
             ]
           },
           {
             "type": "grid",
-            "title": "Risk Mitigation",
+            "title": "Core Features",
             "items": [
               {
                 "icon": "🎭",
-                "title": "Identity Fraud",
-                "desc": "Prevent unauthorized or former staff from accessing sensitive assets"
+                "title": "Prevent Identity Fraud",
+                "desc": "Prevent resigned or unauthorized employees from impersonating accounts to operate the system."
               },
-              { "icon": "📝", "title": "Data Drift", "desc": "Ensure DB records stay in sync with legal ID documents" },
+              {
+                "icon": "📝",
+                "title": "Identity Consistency",
+                "desc": "Ensure DB records are completely synchronized with government-issued legal ID documents."
+              },
               {
                 "icon": "🔒",
-                "title": "Self-Approval",
-                "desc": "Staff cannot tamper with their own data; requires Manager arbitration"
+                "title": "Admin (Inviter) Arbitration",
+                "desc": "Implement 'Admin Arbitration' mechanism; employees cannot modify key identity data themselves."
+              }
+            ]
+          },
+          {
+            "type": "workflow",
+            "title": "Architecture Design",
+            "steps": [
+              {
+                "step": "1",
+                "title": "Biometrics & Data Sync",
+                "desc": "Integrate Incode SDK for face recognition, retrieve OCR data, and then execute backend verification logic."
+              },
+              {
+                "step": "2",
+                "title": "Multi-dim Consistency Check",
+                "desc": "Implement backend '4-Way Matching' algorithm to automatically compare OCR raw data, App User info, and Web permission records."
+              },
+              {
+                "step": "3",
+                "title": "Async Conflict Arbitration",
+                "desc": "When verification fails, the system sends an email notification to the inviter via SMTP/Email Service."
+              },
+              {
+                "step": "4",
+                "title": "Auto Data Repair",
+                "desc": "Using a time-sensitive secure link, the inviter can approve and update the identity status with one click."
               }
             ]
           }
@@ -280,7 +291,7 @@
             "items": [
               {
                 "title": "iOS Toolchain Adaptation",
-                                "symptom": "Swift Interface verification failures in Xcode 14.3+.",
+                "symptom": "Swift Interface verification failures in Xcode 14.3+.",
                 "action": "Injected `-no-verify-emitted-module-interface` flag via Podfile `post_install` and unified Deployment Target (12.4).",
                 "result": "Resolved build deadlocks for team-wide Binary Framework compilation."
               },
