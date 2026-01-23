@@ -125,29 +125,15 @@
       {
         "id": "collection & reward",
         "title": "Collection & Reward Engine",
-        "role": "System Architect",
+        "role": "Architecture Design",
         "icon": "zap",
         "summary": "Gamification & E-commerce Integration",
         "blocks": [
           {
-            "type": "architecture",
-            "title": "Three-Layer Architecture Model",
-            "layers": [
-              {
-                "name": "Rule (Brand)",
-                "desc": "Defines campaign scope, batch associations, and Shopify reward variants",
-                "role": "Configuration"
-              },
-              {
-                "name": "Collection (Progress)",
-                "desc": "Tracks user participation and automates Shopify Draft Order fulfillment",
-                "role": "State Management"
-              },
-              {
-                "name": "Item (Tag)",
-                "desc": "Ensures global uniqueness of physical NFC tags via DB constraints",
-                "role": "Unique Asset"
-              }
+            "type": "list",
+            "title": "Goal",
+            "items": [
+              "Increase App usage and user activity, and boost repurchase rates and conversion rates for partner brands through gamification mechanisms."
             ]
           },
           {
@@ -155,19 +141,45 @@
             "title": "Core Features",
             "items": [
               {
-                "icon": "🛡️",
-                "title": "Physical Integrity",
-                "desc": "Implemented `@unique` on `CollectionItem` to prevent duplicate tag claims globally."
+                "icon": "🧩",
+                "title": "Multi-dimensional Campaign Config (Rule)",
+                "desc": "Brands can bind collection rules and Shopify reward incentives to specific product batches, achieving precision marketing."
               },
               {
                 "icon": "🔄",
-                "title": "Cross-Batch Validation",
-                "desc": "Check `item.tag.batch.id` relation to ensure users collect 'different' product batches."
+                "title": "User Loyalty Loop Management (Collection)",
+                "desc": "Create exclusive collection containers for users to track progress and redeem rewards, improving user retention."
               },
               {
-                "icon": "🛍️",
-                "title": "Shopify Automation",
-                "desc": "Auto-creates `DraftOrder` with 100% discount links upon completion, closing the O2O loop."
+                "icon": "🏷️",
+                "title": "Physical Asset Digital Verification (Item)",
+                "desc": "Transform physical NFC tags into unique digital assets, ensuring fair distribution of marketing resources via database-level anti-fraud mechanisms."
+              }
+            ]
+          },
+          {
+            "type": "workflow",
+            "title": "Architecture Design",
+            "steps": [
+              {
+                "step": "1",
+                "title": "Physical Asset Digital Binding",
+                "desc": "Implement CollectionItem logic, binding NFC tags via Prisma's @unique constraint to ensure physical assets cannot be registered repeatedly."
+              },
+              {
+                "step": "2",
+                "title": "Relational Cross-Batch Validation",
+                "desc": "Perform deep relation checks via item.tag.batch.id to ensure a single progress only contains tags from 'different batches'."
+              },
+              {
+                "step": "3",
+                "title": "Automated E-commerce Settlement",
+                "desc": "Integrate Shopify DraftOrder API to automatically create reward orders (Draft Orders) with 100% discount and sync inventory, generating independent redemption links."
+              },
+              {
+                "step": "4",
+                "title": "O2O Conversion Data Loop",
+                "desc": "Connect physical tag collection progress with Shopify orders, bridging the data gap between offline interaction and online transaction to realize visualized tracking of marketing effects."
               }
             ]
           }
@@ -175,99 +187,69 @@
         "codeSnippet": {
           "title": "Data Model & Relation-Based Validation",
           "language": "typescript",
-          "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Table-wide unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Look up batch info via Tag relation for comparison\nconst batchIds = collection.items.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists, reject or open new progress\n   openNewCollection();\n}"
+          "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Table-wide unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Look up batch info via Tag relation for comparison\n// Implementation: Check user's current progress; if batch already exists, look for next or open new progress\nconst batchIds = collection.collectionItems.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists, reject or open new progress logic\n   openNewCollection();\n}"
         }
       },
       {
         "id": "social",
         "title": "Social Module",
-        "role": "Architect of Dual-Pointer Schema",
+        "role": "Architecture Design",
         "icon": "database",
         "summary": "Interaction Systems",
         "blocks": [
           {
-            "type": "workflow",
-            "title": "Dual-Pointer Architecture",
-            "steps": [
-              { "step": "1", "title": "Structured Fetching", "desc": "rootReplyCommentId for fast thread mounting" },
-              {
-                "step": "2",
-                "title": "Atomic Soft Delete",
-                "desc": "isDeleted flag for traceability and data integrity"
-              },
-              {
-                "step": "3",
-                "title": "UI Linkage",
-                "desc": "Filter root nodes in queries to hide deleted threads instantly"
-              }
+            "type": "list",
+            "title": "Goal",
+            "items": [
+              "Establish a real-time discussion area for customers on the product page, fostering community interaction through P2P communication, and assisting brands in accurately obtaining authentic customer feedback and product requirements."
             ]
           },
           {
             "type": "grid",
-            "title": "Architectural Analysis",
+            "title": "Core Features",
             "items": [
               {
-                "icon": "⚡",
-                "title": "Query Performance",
-                "desc": "Optimized from O(n) recursive calls to O(1) index scanning"
+                "icon": "🤝",
+                "title": "Verifiable P2P Co-creation Community",
+                "desc": "Enter exclusive discussion spaces via product scans, connecting real users to share experiences (P2P), forming high-quality community support that directly drives product iteration."
               },
-              { "icon": "📝", "title": "Schema Design", "desc": "Dual-pointer optimization for flattened threads" },
-              { "icon": "🛡️", "title": "Logical Consistency", "desc": "Real-time thread hiding via soft-delete status" }
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Dual-Pointer Schema & Efficient Query Logic",
-          "language": "typescript",
-          "code": "// 1. Optimizing Recursive Bottlenecks\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Direct Parent\n  rootReplyCommentId Int?    // Thread Root (Optimization Core)\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation\n// Avoid recursion; fetch entire thread in a single query\nconst thread = await db.comment.findMany({\n  where: { \n    rootReplyCommentId: rootId,\n    isDeleted: false \n  },\n  include: { /* Nested Relations */ }\n});"
-        }
-      },
-      {
-        "id": "nfc",
-        "title": "NFC Orchestration",
-        "role": "State Design & Optimization",
-        "icon": "layout",
-        "summary": "Physical-Digital Bridge",
-        "blocks": [
-          {
-            "type": "workflow",
-            "title": "NFC State Lifecycle",
-            "steps": [
-              { "step": "1", "title": "Hardware Trigger", "desc": "NfcManager captures NDEF events" },
-              { "step": "2", "title": "Async Verification", "desc": "Parse Payload -> Call createScan API" },
               {
-                "step": "3",
-                "title": "State Decision",
-                "desc": "Success triggers delayed navigation; Failures route to error screens"
-              },
-              { "step": "4", "title": "Side Effects", "desc": "Trigger Automated Notifications on success page mount" }
+                "icon": "📊",
+                "title": "Structured VoC Management",
+                "desc": "Transform scattered comments into structured data, enabling brands to centrally review user feedback by product batch (Batch), effectively tracing and managing reviews across different production lines."
+              }
             ]
           },
           {
-            "type": "challenges",
-            "title": "Challenges & Solutions",
-            "items": [
+            "type": "workflow",
+            "title": "Architecture Design",
+            "steps": [
               {
-                "title": "Async State Logic Injection",
-                "symptom": "Hardware scanning involves both hardware interrupts and network requests, leading to UI inconsistency.",
-                "solution": "Injected async state machine logic into the shared `useNormalTag` Hook, encapsulating NDEF parsing and Promise verification chains.",
-                "result": "Transformed unpredictable hardware behavior into predictable business states, ensuring tag verification stability."
+                "step": "1",
+                "title": "Non-Recursive Flattened Design",
+                "desc": "Use `rootReplyCommentId` to create single-layer associations, optimizing deep nested comments from O(n) recursive queries to O(1) query count, thoroughly resolving N+1 bottlenecks."
               },
               {
-                "title": "Error Diagnosis & Routing",
-                "symptom": "Complex error types (forgery, deactivation, timeouts) require distinct user guidance.",
-                "solution": "Independently implemented `onRedirectScanResult` defensive routing, using a Switch-Case strategy to handle diverse API error codes.",
-                "result": "Ensured 100% of exception scenarios have corresponding UI guidance, improving anti-counterfeit verification UX."
+                "step": "2",
+                "title": "Logical Soft Delete & Dynamic Filtering",
+                "desc": "Adopt `isDeleted` status flag instead of physical deletion to preserve data traceability; dynamically hide entire thread chains via root node filtering at the read layer to ensure frontend visual consistency."
+              },
+              {
+                "step": "3",
+                "title": "Optimized Pagination & Interaction Encapsulation",
+                "desc": "Adopt optimistic UI update strategies paired with backend pagination to achieve zero-latency comment feedback and a highly efficient browsing experience."
               }
             ]
           }
         ],
         "codeSnippet": {
-          "title": "Routing & Error Handling Logic",
+          "title": "Core Code Implementation",
           "language": "typescript",
-          "code": "const onRedirectScanResult = (error?: string) => {\n  switch (error) {\n    case 'Token is not exist.':\n    case 'tokenId and UID do not match.':\n      // Handle forged or incorrect tags\n      navigation.navigate(routes.scanResult.verifyError);\n      break;\n    case 'This tag is deactivated.':\n      // Handle deactivated tags\n      navigation.navigate(routes.scanResult.inactive);\n      break;\n    default:\n      if (!error) {\n        // Success path: Delay navigation for visual continuity\n        setTimeout(() => navigation.navigate(routes.scanResult.success), DELAY_MS);\n      } else {\n        navigation.navigate(routes.scanResult.timeOut);\n      }\n  }\n};"
+          "code": "// 1. Optimize Recursive Bottleneck\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Parent Node\n  rootReplyCommentId Int?    // Root Node\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation\n// Fetch all related sub-comments via include to avoid N+1\nconst comments = await db.comment.findMany({\n  where: { \n    batchId: currentBatchId, // Target Batch\n    rootReplyCommentId: null // Query 'Thread Starter' only\n    isDeleted: false         // Filter deleted main comments\n  },\n  include: {\n    // Key Optimization: Fetch entire thread in single Join (O(1))\n    rootReplycomments: true\n    where: { isDeleted: false }\n  }\n});"
         }
-      },
+      }
+    ],
+    "technicalChallenges": [
       {
         "id": "infrastructure",
         "title": "Cross-Platform Build Architecture",
@@ -292,7 +274,7 @@
               {
                 "title": "iOS Toolchain Adaptation",
                 "symptom": "Swift Interface verification failures in Xcode 14.3+.",
-                "action": "Injected `-no-verify-emitted-module-interface` flag via Podfile `post_install` and unified Deployment Target (12.4).",
+                "solution": "Injected `-no-verify-emitted-module-interface` flag via Podfile `post_install` and unified Deployment Target (12.4).",
                 "result": "Resolved build deadlocks for team-wide Binary Framework compilation."
               },
               {

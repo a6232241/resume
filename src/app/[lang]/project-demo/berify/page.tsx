@@ -49,7 +49,8 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
   // --- Technical Spotlight Data ---
   const technicalSpotlightData = t.raw("technicalSpotlight") as SpotlightItem[];
 
-  // --- Engineering Rigor Data ---
+  // --- Technical Challenges Data ---
+  const technicalChallengesData = t.raw("technicalChallenges") as SpotlightItem[];
 
   // --- Gallery Data (Tabbed) ---
   const galleryRaw = t.raw("gallery") as {
@@ -195,7 +196,10 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       </section>
 
       {/* Technical Spotlight (Consolidated Tabs) */}
-      <TechnicalSpotlight title="Technical Spotlight" items={technicalSpotlightData} />
+      <TechnicalSpotlight title={commonT("technicalSpotlight")} items={technicalSpotlightData} />
+
+      {/* Technical Challenges */}
+      <TechnicalSpotlight title={commonT("technicalChallenges")} items={technicalChallengesData} />
 
       {/* Gallery Section */}
       <section className="space-y-8">
