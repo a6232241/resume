@@ -251,45 +251,98 @@
     ],
     "technicalChallenges": [
       {
-        "id": "infrastructure",
-        "title": "Cross-Platform Build Architecture",
-        "role": "Infrastructure Engineering",
+        "id": "xcode-toolchain",
+        "title": "Xcode Toolchain Adaptation",
+        "role": "Infrastructure Lead",
         "icon": "settings",
-        "summary": "Ensuring Xcode upgrade stability via automated patches, and resolving root causes through dependency version management.",
+        "summary": "Resolved App compilation failures caused by Xcode upgrades, and fixed Binary SDK environment compatibility issues through automated patches and parameter injection.",
+        "blocks": [
+          {
+            "type": "list",
+            "title": "Problem Cause",
+            "items": [
+              "After upgrading the Xcode development tool, the project failed to compile, preventing build and packaging processes."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Analysis & Tools",
+            "items": [
+              "Diagnosed compilation errors via deep analysis of Xcode Build Logs, pinpointing the root cause to compatibility conflicts between the Cybavo Binary SDK and the new toolchain."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Solution",
+            "items": [
+              "Vendor Collaboration: Proactively contacted the SDK vendor to confirm that injecting the -no-verify-emitted-module-interface flag instructs the Swift compiler to skip strict interface hash verification for legacy Binary SDKs, resolving build blocking issues after upgrading to Xcode 14.3+.",
+              "Environment Standardization: Implemented a Podfile automated patch to enforce a unified Deployment Target of 12.4 for all third-party Pods, meeting the minimum deployment version requirements of the new Xcode."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Result",
+            "items": [
+              "Successfully resolved compilation obstacles, restored the App release flow, and validated the stability of the native build environment after toolchain upgrades."
+            ]
+          }
+        ],
+        "codeSnippet": {
+          "title": "Podfile post_install Script",
+          "language": "ruby",
+          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
+        }
+      },
+      {
+        "id": "android-stability",
+        "title": "Android Native SDK Stability Management",
+        "role": "Infrastructure Lead",
+        "icon": "smartphone",
+        "summary": "Eliminated runtime crash risks of native modules through SDK lifecycle management and dependency standardization migration.",
         "blocks": [
           {
             "type": "workflow",
-            "title": "Cross-Platform Build Process",
+            "title": "Architecture Design",
             "steps": [
-              { "step": "1", "title": "Environment Diagnosis", "desc": "Diagnosis and build error analysis" },
-              { "step": "2", "title": "Patch Implementation", "desc": "Inject build flags to fix compatibility" },
-              { "step": "3", "title": "Dependency Migration", "desc": "Migrate to official Scoped Package" },
-              { "step": "4", "title": "Stability Verification", "desc": "Verify resolution of Binary SDK deadlocks" }
+              {
+                "step": "1",
+                "title": "Crash Log Tracking",
+                "desc": "Pinpointed Runtime Crash of Android camera module during face recognition."
+              },
+              {
+                "step": "2",
+                "title": "Core Lib Bug Diagnosis",
+                "desc": "Identified underlying compatibility issues in specific Incode SDK version (2.6.3)."
+              },
+              {
+                "step": "3",
+                "title": "Official Package Migration",
+                "desc": "Led migration from private S3 reference mode to official @incode-sdks NPM hosting."
+              },
+              {
+                "step": "4",
+                "title": "Dependency Standardization",
+                "desc": "Executed precise version rollback and established version update SOP."
+              }
             ]
           },
           {
             "type": "challenges",
-            "title": "Challenges & Solutions",
+            "title": "Technical Challenges",
             "items": [
               {
-                "title": "iOS Toolchain Adaptation",
-                "symptom": "Swift Interface verification failures in Xcode 14.3+.",
-                "solution": "Injected `-no-verify-emitted-module-interface` flag via Podfile `post_install` and unified Deployment Target (12.4).",
-                "result": "Resolved build deadlocks for team-wide Binary Framework compilation."
-              },
-              {
-                "title": "Android SDK & Dependency Lifecycle",
-                "symptom": "Camera module crashes with Incode SDK v2.6.3 on Android.",
-                "solution": "Diagnosed Native Core errors, rolled back to stable 2.6.1, and led the migration from private S3 Tarballs to official @incode-sdks Scoped Packages.",
-                "result": "Eliminated runtime crashes, ensuring stable IDV verification flow."
+                "title": "Runtime Camera Module Crash",
+                "symptom": "Specific Incode SDK version caused unannounced crashes on Android devices during verification flow.",
+                "solution": "Migrated to official Scoped Package to improve version control transparency and precisely rolled back to a stable version.",
+                "result": "Eliminated all known runtime crashes and standardized the dependency maintenance path for the IDV module."
               }
             ]
           }
         ],
         "codeSnippet": {
-          "title": "Podfile post_install Hack",
-          "language": "ruby",
-          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
+          "title": "build.gradle Dependency Management",
+          "language": "groovy",
+          "code": "// Before: Unstable S3 Reference\n// implementation 'com.incode.sdk:core:2.6.3@aar'\n\n// After: Official Standardized Dependency & Version Locking\nimplementation \"com.incode.sdk:core:2.6.1\" // Rollback to stable\nimplementation \"com.incode.sdk:networking:2.6.1\"\n\n// Ensure Transitive Dependency Consistency\nconfigurations.all {\n    resolutionStrategy.force 'com.incode.sdk:core:2.6.1'\n}"
         }
       },
       {

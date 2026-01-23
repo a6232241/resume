@@ -233,45 +233,90 @@
     ],
     "technicalChallenges": [
       {
-        "id": "infrastructure",
-        "title": "跨平台建置架構",
-        "role": "Infrastructure Engineering",
+        "id": "xcode-toolchain",
+        "title": "Xcode 工具鏈適配",
+        "role": "Infrastructure Lead",
         "icon": "settings",
-        "summary": "透過自動化補丁確保 Xcode 升級穩定性，並透過依賴版本管理解決問題根源。",
+        "summary": "解決升級 Xcode 後導致的 App 編譯失敗，並透過自動化補丁與參數注入，修正 Binary SDK 的環境相容性問題。",
+        "blocks": [
+          {
+            "type": "list",
+            "title": "問題主因",
+            "items": ["升級開發工具 Xcode 後，導致專案編譯失敗，無法進行建置與打包。"]
+          },
+          {
+            "type": "list",
+            "title": "分析與工具",
+            "items": [
+              "透過深入分析 Xcode Build Log 診斷編譯錯誤，定位問題根源於 Cybavo 二進位套件（Binary SDK）與新版工具鏈的相容性衝突。"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "解決方案",
+            "items": [
+              "廠商技術對接：主動聯絡 SDK 廠商，確認可透過注入 -no-verify-emitted-module-interface 編譯旗標，告知 Swift 編譯器在處理傳統 Binary SDK 時跳過嚴格的介面雜湊驗證，解決升級 Xcode 14.3+ 後的建置阻斷問題。",
+              "環境標準化：實作 Podfile 自動化補丁，強制將所有第三方 Pods 的 Deployment Target 統一設定為 12.4，滿足新版 Xcode 最低部署版本要求。"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "結果",
+            "items": ["成功排除編譯障礙，恢復 App 打包發布流程，並確保了原生建置環境在工具鏈升級後的穩定性。"]
+          }
+        ],
+        "codeSnippet": {
+          "title": "Podfile post_install 腳本",
+          "language": "ruby",
+          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
+        }
+      },
+      {
+        "id": "android-stability",
+        "title": "Android 原生 SDK 穩定性管理",
+        "role": "Infrastructure Lead",
+        "icon": "smartphone",
+        "summary": "透過 SDK 生命週期管理與依賴標準化遷移，徹底消除原生模組在執行期的崩潰風險。",
         "blocks": [
           {
             "type": "workflow",
-            "title": "跨平台建置流程",
+            "title": "架構設計",
             "steps": [
-              { "step": "1", "title": "環境診斷", "desc": "環境診斷與構建錯誤分析" },
-              { "step": "2", "title": "補丁實作", "desc": "注入編譯旗標修復相容性" },
-              { "step": "3", "title": "依賴遷移", "desc": "遷移至官方 Scoped Package" },
-              { "step": "4", "title": "穩定性驗證", "desc": "驗證 Binary SDK 編譯死鎖解決" }
+              {
+                "step": "1",
+                "title": "崩潰日誌追蹤",
+                "desc": "定位 Android 相機模組在執行人臉辨識時的 Runtime Crash。"
+              },
+              {
+                "step": "2",
+                "title": "核心庫 Bug 診斷",
+                "desc": "鎖定 Incode SDK 特定版本 (2.6.3) 的底層相容性問題。"
+              },
+              {
+                "step": "3",
+                "title": "官方套件遷移",
+                "desc": "主導將私有 S3 引用模式遷移至 @incode-sdks 官方 NPM 託管。"
+              },
+              { "step": "4", "title": "依賴標準化定案", "desc": "執行精準版本回退並建立版本更新 SOP。" }
             ]
           },
           {
             "type": "challenges",
-            "title": "挑戰與解決方案",
+            "title": "技術挑戰",
             "items": [
               {
-                "title": "Xcode 工具鏈適配",
-                "symptom": "Xcode 14.3+ 更嚴格的 Swift 介面驗證導致 Binary SDK (Cybavo) 編譯失敗。",
-                "solution": "實作 Podfile post_install 腳本，自動化注入 -no-verify-emitted-module-interface 旗標並統一開發環境。",
-                "result": "解決團隊 Binary Framework 建置失敗的問題。"
-              },
-              {
-                "title": "Android 原生 SDK 穩定性管理",
-                "symptom": "特定 Incode SDK 版本導致 Android 執行期相機模組崩潰。",
-                "solution": "執行精準版本回退，並主導從 S3 Tarball 遷移至官方 Scoped Package (@incode-sdks) 進行依賴規範化管理。",
-                "result": "消除執行期崩潰，確保 IDV 驗證流程穩定。"
+                "title": "執行期相機模組崩潰",
+                "symptom": "Incode SDK 特定版本導致 Android 裝置在驗證流程中發生無預警崩潰。",
+                "solution": "遷移至官方 Scoped Package 提升版本控管透明度，並精準回退至穩定版。",
+                "result": "消除所有已知執行期崩潰，並標準化了 IDV 模組的依賴維護路徑。"
               }
             ]
           }
         ],
         "codeSnippet": {
-          "title": "Podfile post_install Hack",
-          "language": "ruby",
-          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
+          "title": "build.gradle 依賴管理",
+          "language": "groovy",
+          "code": "// 遷移前：不穩定的 S3 引用\n// implementation 'com.incode.sdk:core:2.6.3@aar'\n\n// 遷移後：官方標準化依賴與版本鎖定\nimplementation \"com.incode.sdk:core:2.6.1\" // Rollback to stable\nimplementation \"com.incode.sdk:networking:2.6.1\"\n\n// 確保傳遞性依賴一致性\nconfigurations.all {\n    resolutionStrategy.force 'com.incode.sdk:core:2.6.1'\n}"
         }
       },
       {
