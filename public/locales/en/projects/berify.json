@@ -301,41 +301,32 @@
         "summary": "Eliminated runtime crash risks of native modules through SDK lifecycle management and dependency standardization migration.",
         "blocks": [
           {
-            "type": "workflow",
-            "title": "Architecture Design",
-            "steps": [
-              {
-                "step": "1",
-                "title": "Crash Log Tracking",
-                "desc": "Pinpointed Runtime Crash of Android camera module during face recognition."
-              },
-              {
-                "step": "2",
-                "title": "Core Lib Bug Diagnosis",
-                "desc": "Identified underlying compatibility issues in specific Incode SDK version (2.6.3)."
-              },
-              {
-                "step": "3",
-                "title": "Official Package Migration",
-                "desc": "Led migration from private S3 reference mode to official @incode-sdks NPM hosting."
-              },
-              {
-                "step": "4",
-                "title": "Dependency Standardization",
-                "desc": "Executed precise version rollback and established version update SOP."
-              }
+            "type": "list",
+            "title": "Problem Cause",
+            "items": [
+              "During Identity Verification (IDV) testing, Android devices experienced unannounced app crashes immediately upon requesting camera permissions, interrupting the verification process."
             ]
           },
           {
-            "type": "challenges",
-            "title": "Technical Challenges",
+            "type": "list",
+            "title": "Analysis & Tools",
             "items": [
-              {
-                "title": "Runtime Camera Module Crash",
-                "symptom": "Specific Incode SDK version caused unannounced crashes on Android devices during verification flow.",
-                "solution": "Migrated to official Scoped Package to improve version control transparency and precisely rolled back to a stable version.",
-                "result": "Eliminated all known runtime crashes and standardized the dependency maintenance path for the IDV module."
-              }
+              "Traced Android Logcat and analyzed native Source Code to pinpoint the root cause to memory issues or permission conflicts within the Incode Face Recognition SDK on specific system versions."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Solution",
+            "items": [
+              "Cross-Team Collaboration: Proactively coordinated with the Incode integration lead to align on crash logs and environment parameters.",
+              "Standardized Package Migration: Led the migration from legacy S3 references to the official @incode-sdks Scoped Package based on the latest official migration guide, securing critical Bug Fixes for camera module crashes."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Result",
+            "items": [
+              "Completely resolved the underlying camera crash issue, restored IDV flow stability, and established a reliable maintenance path for third-party SDK updates."
             ]
           }
         ],
@@ -347,48 +338,44 @@
       },
       {
         "id": "app-clip",
-        "title": "App Clip Lightweight Architecture",
+        "title": "App Clip Lifecycle & State Management",
         "role": "Native iOS Lead",
         "icon": "smartphone",
-        "summary": "Optimizing lifecycle management for lightweight NFC experiences, and implementing hardware protocol extensions.",
+        "summary": "Resolved view retention issues during continuous operations by optimizing App Clip lifecycle management to ensure the independence of each scan.",
         "blocks": [
           {
-            "type": "workflow",
-            "title": "Lightweight Scan Workflow",
-            "steps": [
-              { "step": "1", "title": "State Diagnosis", "desc": "Detect current UI stack" },
-              { "step": "2", "title": "View Cleanup", "desc": "Automatically dismiss residual windows" },
-              { "step": "3", "title": "NDEF Parsing", "desc": "Parse Tail Tag protocol" },
-              { "step": "4", "title": "Business Navigation", "desc": "Trigger App Clip exclusive API" }
+            "type": "list",
+            "title": "Symptom",
+            "items": [
+              "When using App Clip for continuous scanning, if the previous scan's result page or error screen is not properly cleaned up, it leads to UI stack conflicts when a new scan is triggered, causing navigation failure."
             ]
           },
           {
-            "type": "challenges",
-            "title": "Challenges & Solutions",
+            "type": "list",
+            "title": "Analysis & Tools",
             "items": [
-              {
-                "title": "Native Lifecycle & UI Reset",
-                "badge": "Lifecycle Control",
-                "icon": "🔄",
-                "symptom": "Old result page not closing leads to UI conflict when scanning a new tag.",
-                "solution": "Implement useLandingController recursive cleanup mechanism for view controllers.",
-                "result": "Ensure every scan triggers from a clean initial state, improving navigation reliability by 100%."
-              },
-              {
-                "title": "Hardware Protocol Extension & Compatibility",
-                "badge": "Protocol Ext",
-                "icon": "🏷️",
-                "symptom": "Need to support non-standard \"Tail Tag\" hardware specs.",
-                "solution": "Write NDEF raw packet parsing logic to dynamically identify specific URL parameters (e.g., ?data=00c).",
-                "result": "Successfully extended hardware support, compatible with special spec tags."
-              }
+              "Examined SceneDelegate and root view controller logic; confirmed the issue stems from the iOS modal presentation mechanism, where new views fail to present correctly on top of existing UI states."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Solution",
+            "items": [
+              "Developed and implemented the useLandingController recursive cleanup mechanism, efficiently dismissing all residual windows by traversing the View Controller stack to ensure every NFC trigger starts from the initial Landing state."
+            ]
+          },
+          {
+            "type": "list",
+            "title": "Result",
+            "items": [
+              "Ensured that all scanning behaviors start from a clean initial state, completely resolving UI conflict issues and significantly improving navigation reliability and user experience."
             ]
           }
         ],
         "codeSnippet": {
           "title": "Native UI Stack Cleanup Logic",
           "language": "swift",
-          "code": "// Ensure atomicity of App Clip scan flow via recursive dismiss\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // Auto-cleanup residual scan results or error pages\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    topController.dismiss(animated: false)\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}"
+          "code": "// Ensure atomicity of App Clip scan flow via recursive dismiss\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // Find the topmost View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // Safe cleanup: Dismiss only scan-related pages\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}"
         }
       }
     ],

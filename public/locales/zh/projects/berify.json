@@ -234,14 +234,14 @@
     "technicalChallenges": [
       {
         "id": "xcode-toolchain",
-        "title": "Xcode 工具鏈適配",
+        "title": "Xcode 工具鏈升級與自動化標準化",
         "role": "Infrastructure Lead",
         "icon": "settings",
         "summary": "解決升級 Xcode 後導致的 App 編譯失敗，並透過自動化補丁與參數注入，修正 Binary SDK 的環境相容性問題。",
         "blocks": [
           {
             "type": "list",
-            "title": "問題主因",
+            "title": "問題現象",
             "items": ["升級開發工具 Xcode 後，導致專案編譯失敗，無法進行建置與打包。"]
           },
           {
@@ -273,96 +273,87 @@
       },
       {
         "id": "android-stability",
-        "title": "Android 原生 SDK 穩定性管理",
+        "title": "Android 原生模組崩潰修復與依賴標準化",
         "role": "Infrastructure Lead",
         "icon": "smartphone",
-        "summary": "透過 SDK 生命週期管理與依賴標準化遷移，徹底消除原生模組在執行期的崩潰風險。",
+        "summary": "透過原生依賴版本控制與依賴標準化遷移，解決特定版本的不穩定問題，消除原生模組在執行期的崩潰風險。",
         "blocks": [
           {
-            "type": "workflow",
-            "title": "架構設計",
-            "steps": [
-              {
-                "step": "1",
-                "title": "崩潰日誌追蹤",
-                "desc": "定位 Android 相機模組在執行人臉辨識時的 Runtime Crash。"
-              },
-              {
-                "step": "2",
-                "title": "核心庫 Bug 診斷",
-                "desc": "鎖定 Incode SDK 特定版本 (2.6.3) 的底層相容性問題。"
-              },
-              {
-                "step": "3",
-                "title": "官方套件遷移",
-                "desc": "主導將私有 S3 引用模式遷移至 @incode-sdks 官方 NPM 託管。"
-              },
-              { "step": "4", "title": "依賴標準化定案", "desc": "執行精準版本回退並建立版本更新 SOP。" }
+            "type": "list",
+            "title": "問題現象",
+            "items": [
+              "在進行身分驗證（IDV）流程測試時，Android 裝置在啟動人臉辨識相機模組時，發生執行期崩潰，導致驗證流程中斷。"
             ]
           },
           {
-            "type": "challenges",
-            "title": "技術挑戰",
+            "type": "list",
+            "title": "分析與工具",
             "items": [
-              {
-                "title": "執行期相機模組崩潰",
-                "symptom": "Incode SDK 特定版本導致 Android 裝置在驗證流程中發生無預警崩潰。",
-                "solution": "遷移至官方 Scoped Package 提升版本控管透明度，並精準回退至穩定版。",
-                "result": "消除所有已知執行期崩潰，並標準化了 IDV 模組的依賴維護路徑。"
-              }
+              "透過分析 Android Logcat 原生錯誤堆疊，定位問題根源於 Incode 人臉辨識 SDK 特定版本（v2.6.3）的內部相機模組異常。"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "解決方案",
+            "items": [
+              "跨團隊溝通：主動與負責串接 Incode 的負責人進行技術對接，同步崩潰日誌與環境參數。",
+              "套件規範化遷移：主導將舊有的 S3 引用模式遷移至 @incode-sdks 官方 Scoped Package，並鎖定穩定版本，從根本解決非標準引用導致的版本不一致與崩潰問題。"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "結果",
+            "items": [
+              "徹底解決開啟相機導致崩潰的底層問題，恢復 IDV 流程的穩定運行，並建立了更可靠的第三方 SDK 更新維護路徑。"
             ]
           }
         ],
         "codeSnippet": {
-          "title": "build.gradle 依賴管理",
+          "title": "build.gradle 依賴版本鎖定",
           "language": "groovy",
-          "code": "// 遷移前：不穩定的 S3 引用\n// implementation 'com.incode.sdk:core:2.6.3@aar'\n\n// 遷移後：官方標準化依賴與版本鎖定\nimplementation \"com.incode.sdk:core:2.6.1\" // Rollback to stable\nimplementation \"com.incode.sdk:networking:2.6.1\"\n\n// 確保傳遞性依賴一致性\nconfigurations.all {\n    resolutionStrategy.force 'com.incode.sdk:core:2.6.1'\n}"
+          "code": "// 鎖定原生核心庫至穩定版本，解決 2.6.3 相機崩潰問題\nimplementation 'com.incode.sdk:core-light:2.6.1'"
         }
       },
       {
         "id": "app-clip",
-        "title": "App Clip 輕量化架構",
+        "title": "App Clip 生命週期與狀態管理",
         "role": "Native iOS Lead",
         "icon": "smartphone",
-        "summary": "針對輕量化 NFC 體驗進行生命週期管理優化，並實作硬體協議擴展。",
+        "summary": "解決連續操作時的視圖殘留問題，優化 App Clip 生命週期管理以確保每次掃描的獨立性。",
         "blocks": [
           {
-            "type": "workflow",
-            "title": "輕量化掃描流程",
-            "steps": [
-              { "step": "1", "title": "狀態診斷", "desc": "偵測當前 UI 堆疊" },
-              { "step": "2", "title": "視圖清理", "desc": "自動 Dismiss 殘留視窗" },
-              { "step": "3", "title": "NDEF 解析", "desc": "解析 Tail Tag 協議" },
-              { "step": "4", "title": "業務導航", "desc": "觸發 App Clip 專屬 API" }
+            "type": "list",
+            "title": "問題現象",
+            "items": [
+              "在使用 App Clip 進行連續掃描時，若前次掃描的結果頁面或錯誤畫面未正確清理，會導致新掃描觸發時產生 UI 堆疊衝突，進而引發導航失敗。"
             ]
           },
           {
-            "type": "challenges",
-            "title": "挑戰與解決方案",
+            "type": "list",
+            "title": "分析與工具",
             "items": [
-              {
-                "title": "原生生命週期與 UI 重置",
-                "badge": "Lifecycle Control",
-                "icon": "🔄",
-                "symptom": "掃描新標籤時，若舊有結果或錯誤頁面未清理，會導致 UI 衝突或導航失敗。",
-                "solution": "實作 useLandingController 遞迴清理機制，確保每次觸發均從初始 Landing 狀態啟動。",
-                "result": "確保每次掃描均能從初始狀態觸發，提升導航可靠性。"
-              },
-              {
-                "title": "硬體協議擴展與相容性",
-                "badge": "Protocol Ext",
-                "icon": "🏷️",
-                "symptom": "業務需求需支援非標準的「Tail Tag」特殊硬體規範。",
-                "solution": "撰寫 NDEF 原始封包解析邏輯，動態識別特定 URL 參數（如 ?data=00c）並映射至對應 API。",
-                "result": "成功擴展硬體支援度，相容特殊規格標籤。"
-              }
+              "查閱 SceneDelegate 與根視圖控制器的邏輯，確認問題源於 iOS 模態視窗的呈現機制，導致新視圖無法在已存在的 UI 狀態上正確彈出"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "解決方案",
+            "items": [
+              "開發並實作 useLandingController 遞迴清理機制，透過遍歷 View Controller 堆疊，強制 Dismiss 所有殘留視窗，確保每次 NFC 觸發均能由初始的 Landing 狀態啟動。"
+            ]
+          },
+          {
+            "type": "list",
+            "title": "結果",
+            "items": [
+              "確保了所有掃描行為都能從乾淨的初始狀態啟動，徹底解決 UI 衝突問題，顯著提升了導航的可靠性與使用者體驗。"
             ]
           }
         ],
         "codeSnippet": {
           "title": "原生 UI 堆疊清理邏輯",
           "language": "swift",
-          "code": "// 透過遞迴 dismiss 確保 App Clip 掃描流程的原子性\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // 自動清理殘留的掃描結果或錯誤頁面\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    topController.dismiss(animated: false)\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}"
+          "code": "// 透過遞迴 dismiss 確保 App Clip 掃描流程的原子性\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // 找出最上層的 View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // 安全清理：僅針對掃描相關頁面進行 Dismiss\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}"
         }
       }
     ],
