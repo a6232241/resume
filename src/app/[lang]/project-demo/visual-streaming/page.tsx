@@ -1,4 +1,4 @@
-import { ProjectImageGrid } from "@components/shared/ProjectImageGrid";
+import { TabbedGallery } from "@components/shared/TabbedGallery/TabbedGallery";
 import { LegalDisclaimer, ProjectHero, ProjectOverview, TechnicalChallengeCard } from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
@@ -86,41 +86,38 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
     }>;
   };
 
-  // --- Evidence Data ---
-  const evidenceRaw = t.raw("evidence") as {
-    videos: Record<string, { title: string; desc: string }>;
+  // --- Gallery Data ---
+  const galleryRaw = t.raw("gallery") as {
+    tabs: { demo: string; screenshots: string };
+    demo: Record<string, { title: string; desc: string }>;
     screenshots: Record<string, { title: string; desc: string }>;
   };
 
-  const demoMediaItems = [
-    {
-      type: "image" as const,
-      src: getMediaUrl("/visual-streaming/demo_00.png"),
-      alt: evidenceRaw.screenshots.s1.title,
-      title: evidenceRaw.screenshots.s1.title,
-      description: evidenceRaw.screenshots.s1.desc,
-    },
-    {
-      type: "image" as const,
-      src: getMediaUrl("/visual-streaming/demo_01.png"),
-      alt: evidenceRaw.screenshots.s2.title,
-      title: evidenceRaw.screenshots.s2.title,
-      description: evidenceRaw.screenshots.s2.desc,
-    },
-    {
-      type: "video" as const,
-      src: getMediaUrl("/visual-streaming/demo_android_00.mp4"),
-      alt: evidenceRaw.videos.v1.title,
-      title: evidenceRaw.videos.v1.title,
-      description: evidenceRaw.videos.v1.desc,
-    },
-    {
-      type: "video" as const,
-      src: getMediaUrl("/visual-streaming/demo_ios_00.mp4"),
-      alt: evidenceRaw.videos.v2.title,
-      title: evidenceRaw.videos.v2.title,
-      description: evidenceRaw.videos.v2.desc,
-    },
+  const demoItems = [
+    { key: "v1", file: "demo_android_00.mp4" },
+    { key: "v2", file: "demo_ios_00.mp4" },
+  ].map((item) => ({
+    type: "video" as const,
+    src: getMediaUrl(`/visual-streaming/${item.file}`),
+    alt: galleryRaw.demo[item.key]?.title || item.key,
+    title: galleryRaw.demo[item.key]?.title,
+    description: galleryRaw.demo[item.key]?.desc,
+  }));
+
+  const screenshotItems = [
+    { key: "s1", file: "demo_00.png" },
+    { key: "s2", file: "demo_01.png" },
+  ].map((item) => ({
+    type: "image" as const,
+    src: getMediaUrl(`/visual-streaming/${item.file}`),
+    alt: galleryRaw.screenshots[item.key]?.title || item.key,
+    title: galleryRaw.screenshots[item.key]?.title,
+    description: galleryRaw.screenshots[item.key]?.desc,
+  }));
+
+  const galleryTabs = [
+    { label: galleryRaw.tabs.demo, items: demoItems },
+    { label: galleryRaw.tabs.screenshots, items: screenshotItems },
   ];
 
   // --- Disclaimer ---
@@ -167,10 +164,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
       </section>
 
       {/* Demo Gallery */}
-      <section className="rounded-2xl border border-gray-200/50 bg-gradient-to-br from-gray-50 to-white p-8 backdrop-blur-sm dark:border-gray-700/50 dark:from-gray-900/50 dark:to-gray-800/50">
-        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">{commonT("projectDemo")}</h2>
-        <ProjectImageGrid items={demoMediaItems} accentColor="blue" itemAspectRatio="aspect-video" />
-      </section>
+      <TabbedGallery title={commonT("projectShowcase")} tabs={galleryTabs} accentColor="blue" />
 
       {/* Disclaimer */}
       <LegalDisclaimer text={disclaimerText} />

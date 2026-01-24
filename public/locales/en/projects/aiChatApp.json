@@ -132,8 +132,12 @@
         }
       ]
     },
-    "evidence": {
-      "videos": {
+    "gallery": {
+      "tabs": {
+        "demo": "Demo",
+        "screenshots": "App Screenshots"
+      },
+      "demo": {
         "v1": {
           "title": "Send Message",
           "desc": "Demonstrates real-time message sending with AI response"

@@ -379,10 +379,6 @@
         "experienceDetail": { "title": "體驗詳情", "desc": "抽獎規則與 NFT 內容" },
         "rewards": { "title": "獎勵策略", "desc": "O2O 促銷規則" },
         "account": { "title": "權限管理", "desc": "細粒度角色與存取" }
-      },
-      "thirdParty": {
-        "shopify": "整合 Shopify API 實現 O2O 同步",
-        "arbitrum": "Arbitrum Nova 低延遲 NFT 分發"
       }
     },
     "disclaimer": "本頁面展示的內容為商業專案，相關截圖僅供作品集展示用途。"

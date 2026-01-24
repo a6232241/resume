@@ -112,8 +112,12 @@
         }
       }
     ],
-    "evidence": {
-      "videos": {
+    "gallery": {
+      "tabs": {
+        "demo": "功能演示",
+        "screenshots": "App 截圖"
+      },
+      "demo": {
         "v1": {
           "title": "音樂篩選功能",
           "desc": "展示多條件過濾音樂列表，同時保持音樂播放不中斷"

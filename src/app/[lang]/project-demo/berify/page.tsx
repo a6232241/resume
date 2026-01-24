@@ -57,7 +57,6 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     tabs: { consumerApp: string; merchantDashboard: string };
     consumerApp: Record<string, { title: string; desc: string }>;
     merchantDashboard: Record<string, { title: string; desc: string }>;
-    thirdParty: { shopify: string; arbitrum: string };
   };
 
   const consumerAppItems = [
@@ -202,10 +201,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       <TechnicalSpotlight title={commonT("technicalChallenges")} items={technicalChallengesData} />
 
       {/* Gallery Section */}
-      <section className="space-y-8">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{commonT("projectShowcase")}</h2>
-        <TabbedGallery tabs={galleryTabs} />
-      </section>
+      <TabbedGallery tabs={galleryTabs} title={commonT("projectShowcase")} />
 
       {/* Disclaimer */}
       <div className="rounded-lg bg-gray-50 p-4 text-center text-sm text-gray-500 dark:bg-gray-900 dark:text-gray-400">

@@ -1,9 +1,9 @@
+import { TabbedGallery } from "@components/shared/TabbedGallery/TabbedGallery";
 import {
   ArchitecturalDecisions,
   CoreImplementation,
   FutureRoadmap,
   LegalDisclaimer,
-  MusicPlayerEvidence,
   ProjectHero,
   ProjectOverview,
   SourceCodeLink,
@@ -14,7 +14,10 @@ import { getTranslations } from "next-intl/server";
 
 export default async function AIChatAppPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const t = await getTranslations({ locale: lang, namespace: "projects.aiChatApp.detail" });
+  const [t, commonT] = await Promise.all([
+    getTranslations({ locale: lang, namespace: "projects.aiChatApp.detail" }),
+    getTranslations({ locale: lang, namespace: "projects" }),
+  ]);
 
   // --- Hero Data ---
   const heroData = {
@@ -92,61 +95,43 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
     }>,
   };
 
-  // --- Evidence Data ---
-  const evidenceData = {
-    videos: [
-      {
-        id: 1,
-        title: t("evidence.videos.v1.title"),
-        desc: t("evidence.videos.v1.desc"),
-        fileUrl: getMediaUrl("/ai-chat-app/send_message-dark_theme.mp4"),
-      },
-      {
-        id: 2,
-        title: t("evidence.videos.v2.title"),
-        desc: t("evidence.videos.v2.desc"),
-        fileUrl: getMediaUrl("/ai-chat-app/resend_message-dark_theme.mp4"),
-      },
-      {
-        id: 3,
-        title: t("evidence.videos.v3.title"),
-        desc: t("evidence.videos.v3.desc"),
-        fileUrl: getMediaUrl("/ai-chat-app/delete_message-dark_theme.mp4"),
-      },
-      {
-        id: 4,
-        title: t("evidence.videos.v4.title"),
-        desc: t("evidence.videos.v4.desc"),
-        fileUrl: getMediaUrl("/ai-chat-app/pre-network-persistence-dark_theme.mp4"),
-      },
-    ],
-    screenshots: [
-      {
-        id: 1,
-        title: t("evidence.screenshots.s1.title"),
-        desc: t("evidence.screenshots.s1.desc"),
-        imageUrl: getMediaUrl("/ai-chat-app/launch_screen-dark_theme.png"),
-      },
-      {
-        id: 2,
-        title: t("evidence.screenshots.s2.title"),
-        desc: t("evidence.screenshots.s2.desc"),
-        imageUrl: getMediaUrl("/ai-chat-app/launch_screen-light_theme.png"),
-      },
-      {
-        id: 3,
-        title: t("evidence.screenshots.s3.title"),
-        desc: t("evidence.screenshots.s3.desc"),
-        imageUrl: getMediaUrl("/ai-chat-app/either_chat_screen-dark_theme.png"),
-      },
-      {
-        id: 4,
-        title: t("evidence.screenshots.s4.title"),
-        desc: t("evidence.screenshots.s4.desc"),
-        imageUrl: getMediaUrl("/ai-chat-app/either_chat_screen-light_theme.png"),
-      },
-    ],
+  // --- Gallery Data ---
+  const galleryRaw = t.raw("gallery") as {
+    tabs: { demo: string; screenshots: string };
+    demo: Record<string, { title: string; desc: string }>;
+    screenshots: Record<string, { title: string; desc: string }>;
   };
+
+  const demoItems = [
+    { key: "v1", file: "send_message-dark_theme.mp4" },
+    { key: "v2", file: "resend_message-dark_theme.mp4" },
+    { key: "v3", file: "delete_message-dark_theme.mp4" },
+    { key: "v4", file: "pre-network-persistence-dark_theme.mp4" },
+  ].map((item) => ({
+    type: "video" as const,
+    src: getMediaUrl(`/ai-chat-app/${item.file}`),
+    alt: galleryRaw.demo[item.key]?.title || item.key,
+    title: galleryRaw.demo[item.key]?.title,
+    description: galleryRaw.demo[item.key]?.desc,
+  }));
+
+  const screenshotItems = [
+    { key: "s1", file: "launch_screen-dark_theme.png" },
+    { key: "s2", file: "launch_screen-light_theme.png" },
+    { key: "s3", file: "either_chat_screen-dark_theme.png" },
+    { key: "s4", file: "either_chat_screen-light_theme.png" },
+  ].map((item) => ({
+    type: "image" as const,
+    src: getMediaUrl(`/ai-chat-app/${item.file}`),
+    alt: galleryRaw.screenshots[item.key]?.title || item.key,
+    title: galleryRaw.screenshots[item.key]?.title,
+    description: galleryRaw.screenshots[item.key]?.desc,
+  }));
+
+  const galleryTabs = [
+    { label: galleryRaw.tabs.demo, items: demoItems },
+    { label: galleryRaw.tabs.screenshots, items: screenshotItems },
+  ];
 
   // --- Core Implementation Data ---
   const coreImplementationRaw = t.raw("coreImplementation") as
@@ -186,7 +171,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
       <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
       <TechnicalChallengeCard challenges={challengesRaw} />
       <ArchitecturalDecisions {...decisionsData} />
-      <MusicPlayerEvidence {...evidenceData} />
+      <TabbedGallery title={commonT("projectShowcase")} tabs={galleryTabs} accentColor="blue" />
       {coreImplementationRaw && (
         <CoreImplementation
           title={coreImplementationRaw.title}

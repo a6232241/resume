@@ -120,8 +120,12 @@
         }
       ]
     },
-    "evidence": {
-      "videos": {
+    "gallery": {
+      "tabs": {
+        "demo": "功能演示",
+        "screenshots": "App 截圖"
+      },
+      "demo": {
         "v1": {
           "title": "發送訊息",
           "desc": "展示即時訊息發送與 AI 回應"

@@ -401,10 +401,6 @@
         "experienceDetail": { "title": "Experience Detail", "desc": "Raffle Rules & NFT Configuration" },
         "rewards": { "title": "Reward Strategies", "desc": "O2O Promotion Rules" },
         "account": { "title": "Access Management", "desc": "Granular Roles & Permissions" }
-      },
-      "thirdParty": {
-        "shopify": "Integrated Shopify API for O2O Synchronization",
-        "arbitrum": "Arbitrum Nova for Low-Latency NFT Distribution"
       }
     },
     "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."

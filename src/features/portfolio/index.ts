@@ -4,7 +4,6 @@ export {
   Experience,
   FutureRoadmap,
   LegalDisclaimer,
-  MusicPlayerEvidence,
   PerformanceMetric,
   ProjectCard,
   ProjectHero,

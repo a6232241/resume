@@ -64,10 +64,7 @@ export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
 
   return (
     <section className="flex flex-col gap-8">
-      <div className="flex items-center gap-3">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
-        <div className="h-px flex-1 bg-gray-200 dark:bg-gray-800" />
-      </div>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
 
       <div className="flex flex-col gap-6">
         {items.map((item) => (

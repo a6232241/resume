@@ -1,7 +1,7 @@
+import { TabbedGallery } from "@components/shared/TabbedGallery/TabbedGallery";
 import {
   FutureRoadmap,
   LegalDisclaimer,
-  MusicPlayerEvidence,
   ProjectHero,
   ProjectOverview,
   SourceCodeLink,
@@ -12,7 +12,10 @@ import { getTranslations } from "next-intl/server";
 
 export default async function MusicPlayerPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
-  const t = await getTranslations({ locale: lang, namespace: "projects.musicPlayer.detail" });
+  const [t, commonT] = await Promise.all([
+    getTranslations({ locale: lang, namespace: "projects.musicPlayer.detail" }),
+    getTranslations({ locale: lang, namespace: "projects" }),
+  ]);
 
   // --- Hero Data ---
   const heroData = {
@@ -55,7 +58,6 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
   };
 
   // --- Challenges Data ---
-  // Get raw challenges data from i18n
   const challengesRaw = t.raw("challenges") as Array<{
     id: number;
     title: string;
@@ -79,58 +81,45 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
     };
   }>;
 
-  // --- Evidence Data ---
-  const evidenceRaw = t.raw("evidence") as {
-    videos: Record<string, { title: string; desc: string }>;
+  // --- Gallery Data ---
+  const galleryRaw = t.raw("gallery") as {
+    tabs: { demo: string; screenshots: string };
+    demo: Record<string, { title: string; desc: string }>;
     screenshots: Record<string, { title: string; desc: string }>;
   };
 
-  const evidenceData = {
-    videos: [
-      {
-        ...evidenceRaw.videos.v1,
-        fileUrl: getMediaUrl("/music-player/filter_music.mp4"),
-      },
-      {
-        ...evidenceRaw.videos.v2,
-        fileUrl: getMediaUrl("/music-player/show_music_detail_modal.mp4"),
-      },
-      {
-        ...evidenceRaw.videos.v3,
-        fileUrl: getMediaUrl("/music-player/download_all_audios.mp4"),
-      },
-      {
-        ...evidenceRaw.videos.v4,
-        fileUrl: getMediaUrl("/music-player/upload_audio.mp4"),
-      },
-    ],
-    screenshots: [
-      {
-        ...evidenceRaw.screenshots.s1,
-        imageUrl: getMediaUrl("/music-player/launch_screen-light_theme.png"),
-      },
-      {
-        ...evidenceRaw.screenshots.s2,
-        imageUrl: getMediaUrl("/music-player/launch_screen-dark_theme.png"),
-      },
-      {
-        ...evidenceRaw.screenshots.s3,
-        imageUrl: getMediaUrl("/music-player/home_screen-light_theme.png"),
-      },
-      {
-        ...evidenceRaw.screenshots.s4,
-        imageUrl: getMediaUrl("/music-player/home_screen-dark_theme.png"),
-      },
-      {
-        ...evidenceRaw.screenshots.s5,
-        imageUrl: getMediaUrl("/music-player/profile_screen-light_theme.png"),
-      },
-      {
-        ...evidenceRaw.screenshots.s6,
-        imageUrl: getMediaUrl("/music-player/profile_screen-dark_theme.png"),
-      },
-    ],
-  };
+  const demoItems = [
+    { key: "v1", file: "filter_music.mp4" },
+    { key: "v2", file: "show_music_detail_modal.mp4" },
+    { key: "v3", file: "download_all_audios.mp4" },
+    { key: "v4", file: "upload_audio.mp4" },
+  ].map((item) => ({
+    type: "video" as const,
+    src: getMediaUrl(`/music-player/${item.file}`),
+    alt: galleryRaw.demo[item.key]?.title || item.key,
+    title: galleryRaw.demo[item.key]?.title,
+    description: galleryRaw.demo[item.key]?.desc,
+  }));
+
+  const screenshotItems = [
+    { key: "s1", file: "launch_screen-light_theme.png" },
+    { key: "s2", file: "launch_screen-dark_theme.png" },
+    { key: "s3", file: "home_screen-light_theme.png" },
+    { key: "s4", file: "home_screen-dark_theme.png" },
+    { key: "s5", file: "profile_screen-light_theme.png" },
+    { key: "s6", file: "profile_screen-dark_theme.png" },
+  ].map((item) => ({
+    type: "image" as const,
+    src: getMediaUrl(`/music-player/${item.file}`),
+    alt: galleryRaw.screenshots[item.key]?.title || item.key,
+    title: galleryRaw.screenshots[item.key]?.title,
+    description: galleryRaw.screenshots[item.key]?.desc,
+  }));
+
+  const galleryTabs = [
+    { label: galleryRaw.tabs.demo, items: demoItems },
+    { label: galleryRaw.tabs.screenshots, items: screenshotItems },
+  ];
 
   // --- Roadmap Data ---
   const roadmapData = {
@@ -154,7 +143,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
       />
       <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
       <TechnicalChallengeCard challenges={challengesRaw} />
-      <MusicPlayerEvidence {...evidenceData} />
+      <TabbedGallery title={commonT("projectShowcase")} tabs={galleryTabs} accentColor="orange" />
       <FutureRoadmap {...roadmapData} />
       <SourceCodeLink href="https://github.com/a6232241/music-player" />
       <LegalDisclaimer text={disclaimerText} />

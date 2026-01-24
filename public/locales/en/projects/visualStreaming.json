@@ -171,8 +171,12 @@
         }
       ]
     },
-    "evidence": {
-      "videos": {
+    "gallery": {
+      "tabs": {
+        "demo": "Demo",
+        "screenshots": "Development Screenshots"
+      },
+      "demo": {
         "v1": {
           "title": "Android Demo",
           "desc": "Real-time face swap effect on Android"

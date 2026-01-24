@@ -163,8 +163,12 @@
         }
       ]
     },
-    "evidence": {
-      "videos": {
+    "gallery": {
+      "tabs": {
+        "demo": "功能演示",
+        "screenshots": "開發階段截圖"
+      },
+      "demo": {
         "v1": {
           "title": "Android Demo",
           "desc": "Android 平台實時人臉交換效果展示"
