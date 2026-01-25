@@ -19,7 +19,7 @@
       "platforms": ["iOS", "Android", "Web"]
     },
     "architectureFlow": {
-      "title": "System Architecture Chain",
+      "title": "System Architecture & Engineering Ownership",
       "steps": [
         { "step": "1", "title": "App (NFC Scan)", "desc": "React Native Client", "metric": "Trigger Interaction" },
         { "step": "2", "title": "App-Backend", "desc": "Web3 & API Gateway", "metric": "Business Logic" },
@@ -35,23 +35,39 @@
           "desc": "Instant Notifications & Cloud Push",
           "metric": "Dual-way Feedback"
         }
-      ]
+      ],
+      "metricsDivider": "Core Engineering Metrics"
     },
-    "ecosystemMetrics": {
-      "title": "🌐 System Architecture & Distributed Scale",
-      "items": [
-        { "value": "9", "label": "Independent Sub-projects", "desc": "3 Apps + 1 Tool Lib + 1 DB + 4 Microservices" },
-        { "value": "114+", "label": "DB Migrations", "desc": "Architectural Evolution History" },
-        { "value": "83", "label": "Core Data Models", "desc": "Foundation for Complex Business Logic" }
-      ]
-    },
-    "metrics": {
-      "title": "🚀 Core Engineering Impact Metrics",
-      "items": [
-        { "value": "2,288+", "label": "Total Commits", "desc": "Proof of High-Intensity Continuous Delivery" },
-        { "value": "97k+", "label": "Lines of Code", "desc": "Core System Implementation" },
-        { "value": "60% / 34%", "label": "Mobile / Backend", "desc": "Full-Lifecycle Ownership: Schema → API → UI" }
-      ]
+    "architectureMetrics": {
+      "groupA": {
+        "title": "System Scale",
+        "items": [
+          { "value": "9", "label": "Decoupled Modules", "desc": "3 Apps + 1 Tool Lib + 1 DB + 4 Microservices" },
+          { "value": "114+", "label": "DB Migrations", "desc": "1.5 Years of Architectural Evolution" },
+          { "value": "83", "label": "Core Domain Models", "desc": "Supporting Web3 Rewards, IDV & Social Logic" }
+        ]
+      },
+      "groupB": {
+        "title": "Engineering Ownership",
+        "items": [
+          {
+            "title": "Full-stack Feature Delivery & Ownership",
+            "desc": "Independently led the complete development path from DB Schema design and Prisma relations to Mobile UI. Successfully delivered core business modules including Biometric IDV Security, Shopify Automated Rewards, and Social Comment Systems."
+          },
+          {
+            "title": "High-Performance Architecture & Scale Management",
+            "desc": "Managed 114+ DB migrations and 83 core domain models. Optimized nested comment query complexity from O(n) to O(1) via 'Non-Recursive Flattened Design', and implemented @unique physical constraints and cross-batch validation to ensure consistency and performance at scale."
+          },
+          {
+            "title": "Native Infrastructure Stability & Automation",
+            "desc": "Resolved hardcore issues like Xcode 14.3+ compilation locks and Android camera runtime crashes. Transformed unpredictable native environment behaviors into standardized build pipelines by implementing automated Podfile patches and App Clip view stack recursive cleanup mechanisms."
+          }
+        ]
+      },
+      "technicalBreakthrough": {
+        "label": "Tech Breakthrough",
+        "desc": "Resolved Cross-Platform Native Bridge Crashes, Significantly Improving Release Build Stability."
+      }
     },
     "technicalSpotlight": [
       {

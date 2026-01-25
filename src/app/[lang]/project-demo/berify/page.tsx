@@ -7,6 +7,7 @@ import {
   type SpotlightItem,
 } from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
+import { Circle, Database, Network, Server, Smartphone, Zap } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 const storeLink = {
@@ -42,22 +43,27 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     }),
   };
 
-  // --- Ecosystem Metrics Data ---
-  const ecosystemMetricsData = t.raw("ecosystemMetrics") as {
-    title: string;
-    items: Array<{ value: string; label: string; desc: string }>;
-  };
-
-  // --- Metrics Data ---
-  const metricsData = t.raw("metrics") as {
-    title: string;
-    items: Array<{ value: string; label: string; desc: string }>;
+  // --- Architecture Metrics Data (New Structure) ---
+  const architectureMetrics = t.raw("architectureMetrics") as {
+    groupA: {
+      title: string;
+      items: Array<{ value: string; label: string; desc: string }>;
+    };
+    groupB: {
+      title: string;
+      items: Array<{ title: string; desc: string }>;
+    };
+    technicalBreakthrough: {
+      label: string;
+      desc: string;
+    };
   };
 
   // --- Architecture Flow Data ---
   const architectureFlowData = t.raw("architectureFlow") as {
     title: string;
     steps: Array<{ step: string; title: string; desc: string; metric?: string }>;
+    metricsDivider?: string;
   };
 
   // --- Technical Spotlight Data ---
@@ -129,83 +135,121 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       {/* Overview Section */}
       <ProjectOverview {...overviewData} techBadgeColor="purple" />
 
-      {/* Metrics Grid (Split System & Personal) */}
-      <section className="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900/50">
-        {/* Header with Badges */}
-        <div className="mb-8 border-b border-gray-100 pb-4 dark:border-gray-800">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">{ecosystemMetricsData.title}</h2>
+      {/* Unified System Architecture & Metrics Section */}
+      <section className="rounded-2xl border border-slate-800 bg-white p-8 dark:bg-gray-900/50">
+        {/* Header */}
+        <div className="mb-8 flex items-center gap-3 border-b border-gray-100 pb-4 dark:border-gray-800">
+          <div className="rounded-lg bg-blue-100 p-2 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+            <Network className="h-6 w-6" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">{architectureFlowData.title}</h2>
         </div>
 
-        <div className="space-y-8">
-          {/* Ecosystem Scale */}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-            {ecosystemMetricsData.items.map((item, index) => (
-              <div key={index} className="flex flex-col items-center justify-center text-center">
-                <div className="mb-1 text-3xl font-bold tracking-tight text-blue-600 dark:text-blue-400">
-                  {item.value}
-                </div>
-                <div className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">{item.label}</div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</div>
-              </div>
-            ))}
-          </div>
+        {/* Process Flow */}
+        <div className="mb-8">
+          <div className="relative flex flex-col gap-4 md:flex-row md:items-start md:gap-0">
+            {architectureFlowData.steps.map((step, index) => {
+              // Icon mapping based on step index
+              const icons = [Smartphone, Server, Database, Zap];
+              const StepIcon = icons[index] || Circle;
 
-          {/* Divider with Label */}
-          <div className="relative flex items-center justify-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-dashed border-gray-200 dark:border-gray-700"></div>
-            </div>
-            <div className="relative bg-white px-4 text-sm font-medium text-gray-500 dark:bg-gray-900">
-              {metricsData.title}
-            </div>
-          </div>
-
-          {/* Personal Impact */}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-            {metricsData.items.map((item, index) => (
-              <div key={index} className="flex flex-col items-center justify-center text-center">
-                <div className="mb-1 text-3xl font-bold tracking-tight text-purple-600 dark:text-purple-400">
-                  {item.value}
-                </div>
-                <div className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">{item.label}</div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* System Flow (Horizontal) */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-900 via-indigo-900 to-blue-900 p-8 text-white">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
-        <h2 className="relative z-10 mb-8 text-xl font-bold">{architectureFlowData.title}</h2>
-        <div className="relative z-10 flex flex-col gap-4 md:flex-row md:items-start md:gap-0">
-          {architectureFlowData.steps.map((step, index) => (
-            <div key={index} className="group relative flex flex-1 flex-col items-center text-center">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 font-bold ring-1 ring-white/20 backdrop-blur-md transition-all group-hover:bg-white group-hover:text-purple-600">
-                {step.step}
-              </div>
-
-              <div className="px-2">
-                <div className="mb-1 font-semibold">{step.title}</div>
-                <div className="text-xs text-purple-200">{step.desc}</div>
-                {step.metric && (
-                  <div className="mt-2 inline-block rounded bg-purple-500/30 px-2 py-0.5 text-[10px] font-medium tracking-wide">
-                    {step.metric}
+              return (
+                <div key={index} className="group relative flex flex-1 flex-col items-center text-center">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-gray-50 text-gray-400 ring-1 ring-gray-200 transition-all group-hover:bg-blue-50 group-hover:text-blue-600 group-hover:ring-blue-200 dark:bg-gray-800 dark:text-gray-500 dark:ring-gray-700 dark:group-hover:bg-blue-900/20 dark:group-hover:text-blue-400 dark:group-hover:ring-blue-800">
+                    <StepIcon className="h-6 w-6" />
                   </div>
-                )}
-              </div>
 
-              {/* Connector Line */}
-              {index < architectureFlowData.steps.length - 1 && (
-                <div
-                  className="absolute top-5 left-1/2 hidden h-px w-full -translate-y-1/2 bg-gradient-to-r from-white/10 via-white/30 to-white/10 md:block"
-                  style={{ left: "50%", width: "100%" }}
-                />
-              )}
-            </div>
-          ))}
+                  <div className="px-2">
+                    <div className="mb-1 font-bold text-gray-900 dark:text-white">{step.title}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">{step.desc}</div>
+                    {step.metric && (
+                      <div className="mt-2 inline-block rounded bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                        {step.metric}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Connector Line */}
+                  {index < architectureFlowData.steps.length - 1 && (
+                    <div className="absolute top-6 left-1/2 -z-10 hidden w-full -translate-y-1/2 px-12 md:block">
+                      <div className="h-px w-full border-t border-dashed border-gray-300 dark:border-gray-700"></div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
+
+        {/* Divider with Text */}
+        <div className="relative mb-8 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-dashed border-gray-200 dark:border-gray-700"></div>
+          </div>
+          <div className="relative bg-white px-6 text-sm font-medium text-gray-500 dark:bg-gray-900">
+            {architectureFlowData.metricsDivider || "Core Engineering Metrics"}
+          </div>
+        </div>
+
+        {/* Metrics Container - Two Groups */}
+        <div className="flex flex-col gap-8 md:flex-row">
+          {/* Group A: System Scale */}
+          <div className="flex-1">
+            <h3 className="mb-4 text-center text-sm font-bold tracking-wider text-gray-500 uppercase dark:text-gray-400">
+              {architectureMetrics.groupA.title}
+            </h3>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {architectureMetrics.groupA.items.map((item, index) => (
+                <div
+                  key={`groupA-${index}`}
+                  className="flex flex-col items-center justify-center rounded-lg bg-gray-50 p-3 text-center dark:bg-gray-800/50">
+                  <div className="mb-1 text-2xl font-bold tracking-tight text-blue-600 dark:text-blue-400">
+                    {item.value}
+                  </div>
+                  <div className="mb-1 text-xs font-bold text-gray-900 dark:text-white">{item.label}</div>
+                  <div className="text-[10px] leading-tight text-gray-500 dark:text-gray-400">{item.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden w-px bg-gray-200 md:block dark:bg-gray-700"></div>
+
+          {/* Group B: Engineering Ownership (Highlighted - Text Blocks) */}
+          <div className="relative flex-[1.5]">
+            <div className="pointer-events-none absolute -inset-2 rounded-xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 blur-sm"></div>
+            <div className="relative flex h-full flex-col justify-center rounded-xl border border-purple-100 bg-purple-50/50 p-6 dark:border-purple-900/30 dark:bg-purple-900/10">
+              <h3 className="mb-6 text-center text-sm font-bold tracking-wider text-purple-700 uppercase dark:text-purple-300">
+                {architectureMetrics.groupB.title}
+              </h3>
+              <div className="flex flex-col gap-6">
+                {architectureMetrics.groupB.items.map((item, index) => (
+                  <div key={`groupB-${index}`} className="flex flex-col text-left">
+                    <div className="mb-1 flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white">
+                      <span className="h-1.5 w-1.5 rounded-full bg-purple-500"></span>
+                      {item.title}
+                    </div>
+                    <div className="xs:text-sm pl-3.5 text-xs leading-relaxed text-gray-600 dark:text-gray-300">
+                      {item.desc}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Technical Breakthrough Label */}
+        {architectureMetrics.technicalBreakthrough && (
+          <div className="mt-8 flex justify-center">
+            <div className="inline-flex items-center gap-3 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 pr-6 text-sm text-orange-800 shadow-sm dark:border-orange-900/30 dark:bg-orange-900/20 dark:text-orange-200">
+              <span className="flex h-6 items-center justify-center rounded-full bg-orange-500 px-2 text-[10px] font-bold tracking-wider text-white uppercase">
+                {architectureMetrics.technicalBreakthrough.label}
+              </span>
+              <span className="text-xs font-medium sm:text-sm">{architectureMetrics.technicalBreakthrough.desc}</span>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Technical Spotlight (Consolidated Tabs) */}
