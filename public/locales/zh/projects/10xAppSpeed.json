@@ -138,73 +138,109 @@
         }
       }
     },
-    "evidence": {
-      "videos": {
-        "v1": {
+    "gallery": {
+      "title": "演示影片 & 分析與代碼截圖",
+      "tabs": {
+        "login": "登入流程",
+        "navigation": "多頁導航",
+        "sync": "狀態同步"
+      },
+      "login": {
+        "videoBefore": {
           "title": "登入流程優化 (前)",
           "desc": "登入流程優化前的實機畫面",
-          "watch": "注意時間 00:23 處，登入後頁面載入的白屏時間"
+          "comment": "👁️ 注意時間 00:23 處，登入後頁面載入的白屏時間"
         },
-        "v2": {
+        "videoAfter": {
           "title": "登入流程優化 (後)",
           "desc": "登入流程優化後的實機畫面",
-          "watch": "注意時間 00:15 處，登入後頁面載入的白屏時間"
+          "comment": "👁️ 注意時間 00:15 處，登入後頁面載入的白屏時間"
         },
-        "v5": {
+        "codeLogic": {
+          "title": "定位重複 API 重置邏輯",
+          "desc": "通過分析發現 handleLogin 與 Token 更新時，重複調用 resetApiState，加重重複渲染問題"
+        },
+        "flamegraphBefore": {
+          "title": "登入流程火焰圖 (前)",
+          "desc": "登入流程優化前的渲染火焰圖"
+        },
+        "flamegraphAfter": {
+          "title": "登入流程火焰圖 (後)",
+          "desc": "登入流程優化後的渲染火焰圖"
+        },
+        "flipperBefore": {
+          "title": "登入流程 Flipper 狀態監控 (前)",
+          "desc": "登入流程優化前的 Flipper 狀態變化"
+        },
+        "flipperAfter": {
+          "title": "登入流程 Flipper 狀態監控 (後)",
+          "desc": "登入流程優化後的 Flipper 狀態變化"
+        }
+      },
+      "navigation": {
+        "selectorVideoBefore": {
           "title": "多頁面導航 createSelector 優化 (前)",
           "desc": "添加 createSelector 前的實機畫面",
-          "watch": "注意導航切換後，頁面載入的白屏時間"
+          "comment": "👁️ 注意導航切換後，頁面載入的白屏時間"
         },
-        "v6": {
+        "selectorVideoAfter": {
           "title": "多頁面導航 createSelector 優化 (後)",
           "desc": "添加 createSelector 後的實機畫面",
-          "watch": "注意導航切換後，頁面載入的白屏時間"
+          "comment": "👁️ 注意導航切換後，頁面載入的白屏時間"
         },
-        "v7": {
+        "rtkVideoBefore": {
           "title": "多頁面導航 Redux Toolkit 升級 (前)",
           "desc": "Redux Toolkit 升級前的直播列表頁面導航",
-          "watch": "注意每次導航切換後，頁面載入的白屏時間"
+          "comment": "👁️ 注意每次導航切換後，頁面載入的白屏時間"
         },
-        "v8": {
+        "rtkVideoAfter": {
           "title": "多頁面導航 Redux Toolkit 升級 (後)",
           "desc": "Redux Toolkit 升級後的直播列表頁面導航",
-          "watch": "注意每次導航切換後，頁面載入的白屏時間"
+          "comment": "👁️ 注意每次導航切換後，頁面載入的白屏時間"
         },
-        "v9": { "title": "聊天室訂閱同步問題修復 (前)", "desc": "數據丟失問題" },
-        "v10": { "title": "聊天室訂閱同步問題修復 (後)", "desc": "數據完整性確保", "result": "數據完整 ✅" }
-      },
-      "screenshots": {
-        "s1": {
-          "title": "定位重複 API 重置邏輯",
-          "shows": "通過分析發現 handleLogin 與 Token 更新時，重複調用 resetApiState，加重重複渲染問題"
+        "selectorCode": {
+          "title": "🔧 createSelector 記憶化重構",
+          "desc": "將 selectFromResult 使用 createSelector 重構，確保僅在相關數據變更時才觸發組件重新渲染"
         },
-        "s2": {
-          "title": "createSelector 記憶化重構",
-          "shows": "將 selectFromResult 使用 createSelector 重構，確保僅在相關數據變更時才觸發組件重新渲染"
-        },
-        "s3": {
-          "title": "狀態同步時序修正",
-          "shows": "修正導航與數據清理的執行順序，解決在高頻更新場景下的數據丟失問題"
-        },
-        "s4": { "title": "登入流程火焰圖 (前)", "shows": "登入流程優化前的渲染火焰圖" },
-        "s5": { "title": "登入流程火焰圖 (後)", "shows": "登入流程優化後的渲染火焰圖" },
-        "s10": { "title": "登入流程 Flipper 狀態監控 (前)", "shows": "登入流程優化前的 Flipper 狀態變化" },
-        "s11": { "title": "登入流程 Flipper 狀態監控 (後)", "shows": "登入流程優化後的 Flipper 狀態變化" },
-        "s6": {
+        "selectorRankedBefore": {
           "title": "多頁面導航 createSelector 優化 (前）",
-          "shows": "添加 createSelector 前的多頁面導航火焰圖"
+          "desc": "添加 createSelector 前的多頁面導航渲染排名"
         },
-        "s7": {
+        "selectorRankedAfter": {
           "title": "多頁面導航 createSelector 優化 (後）",
-          "shows": "添加 createSelector 後的多頁面導航火焰圖"
+          "desc": "添加 createSelector 後的多頁面導航渲染排名"
         },
-        "s8": { "title": "多頁面導航 Redux Toolkit 升級 (前）", "shows": "Redux Toolkit 升級前的多頁面導航火焰圖" },
-        "s9": { "title": "多頁面導航 Redux Toolkit 升級 (後）", "shows": "Redux Toolkit 升級後的多頁面導航火焰圖" }
+        "rtkFlamegraphBefore": {
+          "title": "多頁面導航 Redux Toolkit 升級 (前）",
+          "desc": "Redux Toolkit 升級前的多頁面導航火焰圖"
+        },
+        "rtkFlamegraphAfter": {
+          "title": "多頁面導航 Redux Toolkit 升級 (後）",
+          "desc": "Redux Toolkit 升級後的多頁面導航火焰圖"
+        }
       },
-      "references": {
-        "r1": { "desc": "selectFromResult 過度重新渲染社區討論" }
+      "sync": {
+        "videoIssue": {
+          "title": "聊天室訂閱同步問題修復 (前)",
+          "desc": "數據丟失問題"
+        },
+        "videoFixed": {
+          "title": "聊天室訂閱同步問題修復 (後)",
+          "desc": "數據完整性確保"
+        },
+        "codeLogic": {
+          "title": "⏱️ 狀態同步時序修正",
+          "desc": "修正導航與數據清理的執行順序，解決在高頻更新場景下的數據丟失問題"
+        }
       }
     },
+    "references": [
+      {
+        "title": "GitHub Issue #4028",
+        "desc": "selectFromResult 過度重新渲染社區討論",
+        "url": "https://github.com/reduxjs/redux-toolkit/issues/4028"
+      }
+    ],
     "insights": {
       "i1": {
         "title": "Redux 全局更新的級聯效應",

@@ -15,8 +15,10 @@ export interface ProjectImageGridItem {
   title?: string;
   /** 描述 */
   description?: string;
-  /** 狀態標籤 - 用於技術優化比對 (before/after) */
-  status?: "before" | "after";
+  /** 狀態標籤 - 用於技術優化比對 (如: "Before (10s+)", "After (~1s)") */
+  status?: string;
+  /** 補充說明/註解 */
+  comment?: string;
 }
 
 export interface ProjectImageGridProps {
@@ -24,7 +26,7 @@ export interface ProjectImageGridProps {
   items: ProjectImageGridItem[];
   className?: string;
   itemAspectRatio?: string;
-  accentColor?: "purple" | "orange" | "blue";
+  accentColor?: "purple" | "orange" | "blue" | "red" | "green";
 }
 
 export function ProjectImageGrid({
@@ -59,6 +61,7 @@ export function ProjectImageGrid({
               aspectRatio={itemAspectRatio}
               accentColor={accentColor}
               status={item.status}
+              comment={item.comment}
               onClick={() => setSelectedIndex(index)}
             />
           ))}

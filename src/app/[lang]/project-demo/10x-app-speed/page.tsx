@@ -1,15 +1,21 @@
 import {
   DiagnosticProcess,
-  EvidenceGallery,
   PerformanceMetric,
   ProjectHero,
   ProjectOverview,
   SolutionEvaluation,
+  TabbedGallery,
   TechnicalImplementation,
   TechnicalInsights,
 } from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
+
+interface ReferenceItem {
+  title: string;
+  desc: string;
+  url: string;
+}
 
 export default async function tenXAppSpeedPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -218,176 +224,167 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
     ],
   };
 
-  // --- Evidence Data ---
-  const evidenceData = {
-    videos: [
-      {
-        id: 1,
-        title: t("evidence.videos.v1.title"),
-        duration: "30秒",
-        description: t("evidence.videos.v1.desc"),
-        performance: "10s+ 載入",
-        fileUrl: getMediaUrl("/10x-app-speed/reset_state_api_before.mp4"),
-        icon: "🎬",
-        watchPoint: t("evidence.videos.v1.watch"),
-      },
-      {
-        id: 2,
-        title: t("evidence.videos.v2.title"),
-        duration: "30秒",
-        description: t("evidence.videos.v2.desc"),
-        performance: "< 1s 載入",
-        fileUrl: getMediaUrl("/10x-app-speed/reset_state_api_after.mp4"),
-        icon: "🎬",
-        watchPoint: t("evidence.videos.v2.watch"),
-      },
-      {
-        id: 5,
-        title: t("evidence.videos.v5.title"),
-        description: t("evidence.videos.v5.desc"),
-        fileUrl: getMediaUrl("/10x-app-speed/add_createSelector_before.mp4"),
-        icon: "⚡",
-        watchPoint: t("evidence.videos.v5.watch"),
-      },
-      {
-        id: 6,
-        title: t("evidence.videos.v6.title"),
-        description: t("evidence.videos.v6.desc"),
-        fileUrl: getMediaUrl("/10x-app-speed/add_createSelector_after.mp4"),
-        icon: "⚡",
-        watchPoint: t("evidence.videos.v6.watch"),
-      },
-      {
-        id: 7,
-        title: t("evidence.videos.v7.title"),
-        description: t("evidence.videos.v7.desc"),
-        fileUrl: getMediaUrl("/10x-app-speed/update_reduxToolkit_before.MP4"),
-        icon: "🔴",
-        watchPoint: t("evidence.videos.v7.watch"),
-      },
-      {
-        id: 8,
-        title: t("evidence.videos.v8.title"),
-        description: t("evidence.videos.v8.desc"),
-        fileUrl: getMediaUrl("/10x-app-speed/update_reduxToolkit_after.MP4"),
-        icon: "🟢",
-        watchPoint: t("evidence.videos.v8.watch"),
-      },
-      {
-        id: 9,
-        title: t("evidence.videos.v9.title"),
-        description: t("evidence.videos.v9.desc"),
-        fileUrl: getMediaUrl("/10x-app-speed/state_sync_fix_before.mp4"),
-        icon: "🎬",
-      },
-      {
-        id: 10,
-        title: t("evidence.videos.v10.title"),
-        description: t("evidence.videos.v10.desc"),
-        result: t("evidence.videos.v10.result"),
-        fileUrl: getMediaUrl("/10x-app-speed/state_sync_fix_after.mp4"),
-        icon: "🎬",
-      },
-    ],
-    screenshots: [
-      {
-        id: 1,
-        title: t("evidence.screenshots.s1.title"),
-        type: "code",
-        shows: t("evidence.screenshots.s1.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/reset_state_api_annotated.png"),
-        icon: "🎯",
-      },
-      {
-        id: 2,
-        title: t("evidence.screenshots.s2.title"),
-        type: "code",
-        shows: t("evidence.screenshots.s2.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/add_createSelector_annotated.png"),
-        icon: "🔧",
-      },
-      {
-        id: 3,
-        title: t("evidence.screenshots.s3.title"),
-        type: "code",
-        shows: t("evidence.screenshots.s3.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/state_sync_fix_annotated.png"),
-        icon: "⏱️",
-      },
-      {
-        id: 4,
-        title: t("evidence.screenshots.s4.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s4.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/reset_state_api_by_devtool_home_flamegraph_before.png"),
-        icon: "🔥",
-      },
-      {
-        id: 5,
-        title: t("evidence.screenshots.s5.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s5.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/reset_state_api_by_devtool_home_flamegraph_after.png"),
-        icon: "🔥",
-      },
-      {
-        id: 10,
-        title: t("evidence.screenshots.s10.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s10.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/reset_state_api_by_flipper_before.png"),
-        icon: "",
-      },
-      {
-        id: 11,
-        title: t("evidence.screenshots.s11.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s11.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/reset_state_api_by_flipper_after.png"),
-        icon: "",
-      },
-      {
-        id: 6,
-        title: t("evidence.screenshots.s6.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s6.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/add_createSelector_by_devtool_home_ranked_before.png"),
-        icon: "🔥",
-      },
-      {
-        id: 7,
-        title: t("evidence.screenshots.s7.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s7.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/add_createSelector_by_devtool_home_ranked_after.png"),
-        icon: "🔥",
-      },
-      {
-        id: 8,
-        title: t("evidence.screenshots.s8.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s8.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/update_reduxToolkit_by_devtool_liveList_flamegraph_before.png"),
-        icon: "🔥",
-      },
-      {
-        id: 9,
-        title: t("evidence.screenshots.s9.title"),
-        type: "profiling",
-        shows: t("evidence.screenshots.s9.shows"),
-        imageUrl: getMediaUrl("/10x-app-speed/update_reduxToolkit_by_devtool_liveList_flamegraph_after.png"),
-        icon: "🔥",
-      },
-    ],
-    references: [
-      {
-        title: "GitHub Issue #4028",
-        description: t("evidence.references.r1.desc"),
-        url: "https://github.com/reduxjs/redux-toolkit/issues/4028",
-        icon: "",
-      },
-    ],
+  // --- Gallery Data (Tabbed) ---
+  const galleryRaw = t.raw("gallery") as {
+    title: string;
+    tabs: { login: string; navigation: string; sync: string };
+    login: Record<string, { title: string; desc: string; comment?: string }>;
+    navigation: Record<string, { title: string; desc: string; comment?: string }>;
+    sync: Record<string, { title: string; desc: string; comment?: string }>;
   };
+
+  const loginItems = [
+    {
+      key: "videoBefore",
+      file: "reset_state_api_before.mp4",
+      type: "video" as const,
+      status: "Before (10s+)",
+    },
+    {
+      key: "videoAfter",
+      file: "reset_state_api_after.mp4",
+      type: "video" as const,
+      status: "After (~1s)",
+    },
+    {
+      key: "flamegraphBefore",
+      file: "reset_state_api_by_devtool_home_flamegraph_before.png",
+      type: "image" as const,
+      status: "Before",
+    },
+    {
+      key: "flamegraphAfter",
+      file: "reset_state_api_by_devtool_home_flamegraph_after.png",
+      type: "image" as const,
+      status: "After",
+    },
+    {
+      key: "flipperBefore",
+      file: "reset_state_api_by_flipper_before.png",
+      type: "image" as const,
+      status: "Before",
+    },
+    {
+      key: "flipperAfter",
+      file: "reset_state_api_by_flipper_after.png",
+      type: "image" as const,
+      status: "After",
+    },
+    {
+      key: "codeLogic",
+      file: "reset_state_api_annotated.png",
+      type: "image" as const,
+    },
+  ].map((item) => ({
+    type: item.type,
+    src: getMediaUrl(`/10x-app-speed/${item.file}`),
+    alt: galleryRaw.login[item.key]?.title || item.key,
+    title: galleryRaw.login[item.key]?.title,
+    description: galleryRaw.login[item.key]?.desc,
+    status: item.status,
+    comment: galleryRaw.login[item.key]?.comment,
+  }));
+
+  const navigationItems = [
+    {
+      key: "selectorVideoBefore",
+      file: "add_createSelector_before.mp4",
+      type: "video" as const,
+      status: "Before (Laggy)",
+    },
+    {
+      key: "selectorVideoAfter",
+      file: "add_createSelector_after.mp4",
+      type: "video" as const,
+      status: "After (Smooth)",
+    },
+    {
+      key: "rtkVideoBefore",
+      file: "update_reduxToolkit_before.MP4",
+      type: "video" as const,
+      status: "Before (1.9.7)",
+    },
+    {
+      key: "rtkVideoAfter",
+      file: "update_reduxToolkit_after.MP4",
+      type: "video" as const,
+      status: "After (2.5.1)",
+    },
+    {
+      key: "selectorRankedBefore",
+      file: "add_createSelector_by_devtool_home_ranked_before.png",
+      type: "image" as const,
+      status: "Before",
+    },
+    {
+      key: "selectorRankedAfter",
+      file: "add_createSelector_by_devtool_home_ranked_after.png",
+      type: "image" as const,
+      status: "After",
+    },
+    {
+      key: "rtkFlamegraphBefore",
+      file: "update_reduxToolkit_by_devtool_liveList_flamegraph_before.png",
+      type: "image" as const,
+      status: "Before",
+    },
+    {
+      key: "rtkFlamegraphAfter",
+      file: "update_reduxToolkit_by_devtool_liveList_flamegraph_after.png",
+      type: "image" as const,
+      status: "After",
+    },
+    {
+      key: "selectorCode",
+      file: "add_createSelector_annotated.png",
+      type: "image" as const,
+    },
+  ].map((item) => ({
+    type: item.type,
+    src: getMediaUrl(`/10x-app-speed/${item.file}`),
+    alt: galleryRaw.navigation[item.key]?.title || item.key,
+    title: galleryRaw.navigation[item.key]?.title,
+    description: galleryRaw.navigation[item.key]?.desc,
+    status: item.status,
+    comment: galleryRaw.navigation[item.key]?.comment,
+  }));
+
+  const syncItems = [
+    {
+      key: "videoIssue",
+      file: "state_sync_fix_before.mp4",
+      type: "video" as const,
+      status: "Before",
+    },
+    {
+      key: "videoFixed",
+      file: "state_sync_fix_after.mp4",
+      type: "video" as const,
+      status: "After",
+    },
+    {
+      key: "codeLogic",
+      file: "state_sync_fix_annotated.png",
+      type: "image" as const,
+    },
+  ].map((item) => ({
+    type: item.type,
+    src: getMediaUrl(`/10x-app-speed/${item.file}`),
+    alt: galleryRaw.sync[item.key]?.title || item.key,
+    title: galleryRaw.sync[item.key]?.title,
+    description: galleryRaw.sync[item.key]?.desc,
+    status: item.status,
+    comment: galleryRaw.sync[item.key]?.comment,
+  }));
+
+  const galleryTabs = [
+    { label: galleryRaw.tabs.login, items: loginItems },
+    { label: galleryRaw.tabs.navigation, items: navigationItems },
+    { label: galleryRaw.tabs.sync, items: syncItems },
+  ];
+
+  // --- References Data ---
+  const references = t.raw("references") as ReferenceItem[];
 
   // --- Insights Data ---
   const insightsData = {
@@ -467,7 +464,27 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
       <DiagnosticProcess {...diagnosisData} />
       <SolutionEvaluation {...solutionsData} />
       <TechnicalImplementation {...implementationData} />
-      <EvidenceGallery {...evidenceData} />
+      <TabbedGallery tabs={galleryTabs} title={galleryRaw.title} />
+
+      {/* 相關資源 */}
+      <section className="rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 shadow-lg backdrop-blur-sm dark:from-blue-900/20 dark:to-indigo-900/20">
+        <h3 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">🔗 相關資源</h3>
+        <div className="flex flex-wrap gap-4">
+          {references.map((ref: ReferenceItem) => (
+            <a
+              key={ref.url}
+              href={ref.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-lg bg-white px-4 py-3 text-gray-700 shadow transition-shadow hover:shadow-md dark:bg-gray-800 dark:text-gray-300">
+              <div>
+                <p className="font-medium">{ref.title}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{ref.desc}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
       <TechnicalInsights {...insightsData} />
     </main>
   );

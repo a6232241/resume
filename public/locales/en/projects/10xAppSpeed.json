@@ -151,100 +151,109 @@
         }
       }
     },
-    "evidence": {
-      "videos": {
-        "v1": {
+    "gallery": {
+      "title": "Demo Videos & Analysis Screenshots",
+      "tabs": {
+        "login": "Login Flow",
+        "navigation": "Multi-page Nav",
+        "sync": "State Sync"
+      },
+      "login": {
+        "videoBefore": {
           "title": "Login Flow Optimization (Before)",
           "desc": "Real device footage before optimization",
-          "watch": "Watch point: Note the white screen duration at 00:23 after login"
+          "comment": "👁️ Watch point: Note the white screen duration at 00:23 after login"
         },
-        "v2": {
+        "videoAfter": {
           "title": "Login Flow Optimization (After)",
           "desc": "Real device footage after optimization",
-          "watch": "Watch point: Note the white screen duration at 00:15 after login"
+          "comment": "👁️ Watch point: Note the white screen duration at 00:15 after login"
         },
-        "v5": {
+        "codeLogic": {
+          "title": "Locate Redundant API Reset Logic",
+          "desc": "Analysis revealed duplicate resetApiState calls during handleLogin and Token updates, compounding re-renders"
+        },
+        "flamegraphBefore": {
+          "title": "Login Flow Flamegraph (Before)",
+          "desc": "Rendering flamegraph before login flow optimization"
+        },
+        "flamegraphAfter": {
+          "title": "Login Flow Flamegraph (After)",
+          "desc": "Rendering flamegraph after login flow optimization"
+        },
+        "flipperBefore": {
+          "title": "Login Flow Flipper State Monitor (Before)",
+          "desc": "Flipper state changes before optimization"
+        },
+        "flipperAfter": {
+          "title": "Login Flow Flipper State Monitor (After)",
+          "desc": "Flipper state changes after optimization"
+        }
+      },
+      "navigation": {
+        "selectorVideoBefore": {
           "title": "Multi-page Nav: createSelector (Before)",
           "desc": "Real device footage before adding createSelector",
-          "watch": "Watch point: White screen duration after navigation switch"
+          "comment": "👁️ Watch point: White screen duration after navigation switch"
         },
-        "v6": {
+        "selectorVideoAfter": {
           "title": "Multi-page Nav: createSelector (After)",
           "desc": "Real device footage after adding createSelector",
-          "watch": "Watch point: White screen duration after navigation switch"
+          "comment": "👁️ Watch point: White screen duration after navigation switch"
         },
-        "v7": {
+        "rtkVideoBefore": {
           "title": "Multi-page Nav: RTK Upgrade (Before)",
           "desc": "Live list navigation before Redux Toolkit upgrade",
-          "watch": "Watch point: White screen duration after navigation switch"
+          "comment": "👁️ Watch point: White screen duration after navigation switch"
         },
-        "v8": {
+        "rtkVideoAfter": {
           "title": "Multi-page Nav: RTK Upgrade (After)",
           "desc": "Live list navigation after Redux Toolkit upgrade",
-          "watch": "Watch point: White screen duration after navigation switch"
+          "comment": "👁️ Watch point: White screen duration after navigation switch"
         },
-        "v9": {
+        "selectorCode": {
+          "title": "🔧 createSelector Memoization Refactor",
+          "desc": "Refactored selectFromResult with createSelector to ensure re-renders only trigger on relevant data changes"
+        },
+        "selectorRankedBefore": {
+          "title": "Multi-page Nav: createSelector (Before)",
+          "desc": "Render ranking before adding createSelector"
+        },
+        "selectorRankedAfter": {
+          "title": "Multi-page Nav: createSelector (After)",
+          "desc": "Render ranking after adding createSelector"
+        },
+        "rtkFlamegraphBefore": {
+          "title": "Multi-page Nav: RTK Upgrade (Before)",
+          "desc": "Flamegraph before Redux Toolkit upgrade"
+        },
+        "rtkFlamegraphAfter": {
+          "title": "Multi-page Nav: RTK Upgrade (After)",
+          "desc": "Flamegraph after Redux Toolkit upgrade"
+        }
+      },
+      "sync": {
+        "videoIssue": {
           "title": "Chatroom Subscription Sync Fix (Before)",
           "desc": "Data loss issue"
         },
-        "v10": {
+        "videoFixed": {
           "title": "Chatroom Subscription Sync Fix (After)",
-          "desc": "Data integrity ensured",
-          "result": "Data Integrity ✅"
-        }
-      },
-      "screenshots": {
-        "s1": {
-          "title": "Locate Redundant API Reset Logic",
-          "shows": "Analysis revealed duplicate resetApiState calls during handleLogin and Token updates, compounding re-renders"
+          "desc": "Data integrity ensured"
         },
-        "s2": {
-          "title": "createSelector Memoization Refactor",
-          "shows": "Refactored selectFromResult with createSelector to ensure re-renders only trigger on relevant data changes"
-        },
-        "s3": {
-          "title": "State Sync Timing Correction",
-          "shows": "Corrected execution order of navigation and data cleanup to resolve data loss in high-frequency update scenarios"
-        },
-        "s4": {
-          "title": "Login Flow Flamegraph (Before)",
-          "shows": "Rendering flamegraph before login flow optimization"
-        },
-        "s5": {
-          "title": "Login Flow Flamegraph (After)",
-          "shows": "Rendering flamegraph after login flow optimization"
-        },
-        "s10": {
-          "title": "Login Flow Flipper State Monitor (Before)",
-          "shows": "Flipper state changes before optimization"
-        },
-        "s11": {
-          "title": "Login Flow Flipper State Monitor (After)",
-          "shows": "Flipper state changes after optimization"
-        },
-        "s6": {
-          "title": "Multi-page Nav: createSelector (Before)",
-          "shows": "Flamegraph before adding createSelector"
-        },
-        "s7": {
-          "title": "Multi-page Nav: createSelector (After)",
-          "shows": "Flamegraph after adding createSelector"
-        },
-        "s8": {
-          "title": "Multi-page Nav: RTK Upgrade (Before)",
-          "shows": "Flamegraph before Redux Toolkit upgrade"
-        },
-        "s9": {
-          "title": "Multi-page Nav: RTK Upgrade (After)",
-          "shows": "Flamegraph after Redux Toolkit upgrade"
-        }
-      },
-      "references": {
-        "r1": {
-          "desc": "selectFromResult over-rendering community discussion"
+        "codeLogic": {
+          "title": "⏱️ State Sync Timing Correction",
+          "desc": "Corrected execution order of navigation and data cleanup to resolve data loss in high-frequency update scenarios"
         }
       }
     },
+    "references": [
+      {
+        "title": "GitHub Issue #4028",
+        "desc": "selectFromResult over-rendering community discussion",
+        "url": "https://github.com/reduxjs/redux-toolkit/issues/4028"
+      }
+    ],
     "insights": {
       "i1": {
         "title": "Redux Global Update Cascade Effect",

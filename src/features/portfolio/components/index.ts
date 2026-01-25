@@ -1,7 +1,7 @@
+export { TabbedGallery } from "@components/shared";
 export { ArchitecturalDecisions } from "./ArchitecturalDecisions";
 export { CoreImplementation } from "./CoreImplementation";
 export { DiagnosticProcess } from "./DiagnosticProcess";
-export { EvidenceGallery } from "./EvidenceGallery";
 export { Experience } from "./Experience";
 export { FutureRoadmap } from "./FutureRoadmap";
 export { LegalDisclaimer } from "./LegalDisclaimer";

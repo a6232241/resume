@@ -17,11 +17,13 @@ export interface ProjectImageItemProps {
   /** 長寬比，預設 aspect-video */
   aspectRatio?: string;
   /** 強調色 */
-  accentColor?: "purple" | "orange" | "blue";
-  /** 狀態標籤 - 用於技術優化比對 (before/after) */
-  status?: "before" | "after";
+  accentColor?: "purple" | "orange" | "blue" | "red" | "green";
+  /** 狀態標籤 - 用於技術優化比對 (如: "Before (10s+)", "After (~1s)") */
+  status?: string;
   /** 點擊事件處理 */
   onClick?: () => void;
+  /** 補充說明/註解 */
+  comment?: string;
 }
 
 const accentColorMap = {
@@ -37,18 +39,26 @@ const accentColorMap = {
     border: "hover:border-blue-500/50",
     badge: "bg-blue-500/80",
   },
+  red: {
+    border: "hover:border-red-500/50",
+    badge: "bg-red-500/80",
+  },
+  green: {
+    border: "hover:border-green-500/50",
+    badge: "bg-green-500/80",
+  },
 };
 
 /** 狀態標籤樣式映射 */
 const statusStyleMap = {
   before: {
     container: "border-red-200 dark:border-red-700",
-    badge: "bg-red-600/90",
+    badge: "bg-red-500/80",
     label: "Before",
   },
   after: {
     container: "border-green-200 dark:border-green-700",
-    badge: "bg-green-600/90",
+    badge: "bg-green-500/80",
     label: "After",
   },
 };
@@ -63,9 +73,19 @@ export function ProjectImageItem({
   accentColor = "purple",
   status,
   onClick,
+  comment,
 }: ProjectImageItemProps) {
-  const colorStyles = accentColorMap[accentColor];
-  const statusStyles = status ? statusStyleMap[status] : null;
+  const getStatusType = (s?: string) => {
+    if (!s) return null;
+    const lower = s.toLowerCase();
+    if (lower.includes("before")) return "before";
+    if (lower.includes("after")) return "after";
+    return null;
+  };
+
+  const statusType = getStatusType(status);
+  const statusStyles = statusType ? statusStyleMap[statusType] : null;
+  const colorStyles = accentColorMap[statusType ? (statusType === "before" ? "red" : "green") : accentColor];
 
   return (
     <div
@@ -75,7 +95,7 @@ export function ProjectImageItem({
       {statusStyles && (
         <div
           className={`absolute top-3 left-3 z-20 rounded-lg px-4 py-2 shadow-lg backdrop-blur-sm ${statusStyles.badge}`}>
-          <span className="text-sm font-bold text-white">{statusStyles.label}</span>
+          <span className="text-sm font-bold text-white">{status}</span>
         </div>
       )}
       <div className={`relative ${aspectRatio} w-full overflow-hidden bg-gray-100 dark:bg-gray-900`}>
@@ -112,10 +132,11 @@ export function ProjectImageItem({
           </>
         )}
       </div>
-      {(title || description) && (
+      {(title || description || comment) && (
         <div className="p-3">
           {title && <h4 className="truncate font-semibold text-gray-900 dark:text-white">{title}</h4>}
           {description && <p className="mt-1 line-clamp-2 text-sm text-gray-600 dark:text-gray-400">{description}</p>}
+          {comment && <p className="mt-2 text-xs text-gray-500 italic dark:text-gray-400">{comment}</p>}
         </div>
       )}
     </div>

@@ -1,6 +1,5 @@
 export {
   DiagnosticProcess,
-  EvidenceGallery,
   Experience,
   FutureRoadmap,
   LegalDisclaimer,
