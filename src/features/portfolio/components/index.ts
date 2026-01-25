@@ -12,6 +12,7 @@ export { default as ProjectOverview } from "./ProjectOverview";
 export { ProjectPageTemplate } from "./ProjectPageTemplate";
 export { SolutionEvaluation } from "./SolutionEvaluation";
 export { default as SourceCodeLink } from "./SourceCodeLink";
+export { StoreSection } from "./StoreSection";
 export { TechnicalChallengeCard } from "./TechnicalChallengeCard";
 export { TechnicalImplementation } from "./TechnicalImplementation";
 export { TechnicalInsights } from "./TechnicalInsights";

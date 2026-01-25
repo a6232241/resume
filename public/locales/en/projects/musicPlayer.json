@@ -7,7 +7,6 @@
     "hero": {
       "title": "Music Player",
       "tagline": "Offline-First × Custom Tags × Data Backup",
-      "description": "A cross-platform music management system designed to solve playback interruptions, complex filtering, and data backup pain points.",
       "summary": {
         "problem": {
           "title": "Challenge",
@@ -24,6 +23,7 @@
       }
     },
     "overview": {
+      "description": "A cross-platform music management system designed to solve playback interruptions, complex filtering, and data backup pain points.",
       "duration": "About 2 Months (Core Dev)",
       "team": "Personal Development",
       "projectType": "Personal Project · Mobile Full-Stack",

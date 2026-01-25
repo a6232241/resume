@@ -7,7 +7,6 @@
     "hero": {
       "title": "Music Player",
       "tagline": "離線優先 × 自定義標籤 × 數據備份",
-      "description": "為解決播放中斷、無法複雜過濾與數據備份痛點，而設計的跨平台音樂管理系統。",
       "summary": {
         "problem": {
           "title": "挑戰",
@@ -24,6 +23,7 @@
       }
     },
     "overview": {
+      "description": "為解決播放中斷、無法複雜過濾與數據備份痛點，而設計的跨平台音樂管理系統。",
       "duration": "約 2 個月 (核心架構開發)",
       "team": "個人開發",
       "projectType": "個人專案 · 行動端全端",

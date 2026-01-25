@@ -1,18 +1,17 @@
 {
-  "shortDesc": "主導 9 個微服務組成的 Web3 O2O 生態系統開發。負責從資料庫 Schema 設計、後端 API 邏輯到 React Native 應用的全鏈路交付，並成功整合 NFC 驗證與 Shopify 電商自動化流程。",
+  "shortDesc": "一個由 9 個模組/微服務組成的 Web3 O2O 生態系統。",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
   "role": "軟體開發者",
   "achievements": [],
-  "fullDesc": "Web3 智慧零售完整生態系統。商家透過後台管理與分析商品，消費者掃描產品標籤以解鎖商品資訊、特別促銷、NFT 和贈品功能，並整合第三方錢包查看資產。",
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "分散式 O2O 生態系統 · 9 個獨立專案",
-      "description": "Web3 智慧零售生態系統，透過 NFC 驗證、NFT 鑄造與 Shopify 電商整合，驗證完整的全端功能交付模式。",
+      "tagline": "分散式 O2O 生態系統 · 微服務架構",
       "statusBadge": "正式上線中"
     },
     "overview": {
-      "duration": "任職時間：1 年 5 個月（2023 - 2024）",
+      "description": "結合<b>自動化建置</b>與<b>非遞迴架構</b>，解決跨平台編譯與效能瓶頸。打通從<b>生物辨識</b>到 <b>Shopify</b> 的 O2O 閉環，為廠商提供<b>精準市場洞察</b>。",
+      "duration": "2023 - 2024 (1 年 5 個月)",
       "team": "8 人團隊合作",
       "projectType": "商業產品",
       "mainTechs": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],

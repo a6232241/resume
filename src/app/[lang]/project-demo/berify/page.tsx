@@ -1,7 +1,19 @@
 import { TabbedGallery } from "@components/shared/TabbedGallery";
-import { ProjectHero, ProjectOverview, TechnicalSpotlight, type SpotlightItem } from "@features/portfolio/components";
+import {
+  ProjectHero,
+  ProjectOverview,
+  StoreSection,
+  TechnicalSpotlight,
+  type SpotlightItem,
+} from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
+
+const storeLink = {
+  appleAppStoreLink: "https://apps.apple.com/us/app/berify/id1526630785",
+  googlePlayStoreLink: "https://play.google.com/store/apps/details?id=com.berify",
+  websiteLink: "https://dashboard.berify.io/auth/sign-in",
+};
 
 export default async function BerifyPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -14,7 +26,6 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
-    description: t("hero.description"),
   };
 
   // --- Overview Data ---
@@ -26,6 +37,9 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       mainTechs: t.raw("overview.mainTechs") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },
+    description: t.rich("overview.description", {
+      b: (chunks) => <span className="font-bold text-purple-600 dark:text-purple-400">{chunks}</span>,
+    }),
   };
 
   // --- Ecosystem Metrics Data ---
@@ -97,7 +111,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
   ];
 
   return (
-    <main className="container mx-auto flex max-w-6xl flex-col gap-16 px-6 py-12">
+    <main className="container mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12">
       {/* Hero Section */}
       <section>
         <div className="mb-4 flex flex-wrap gap-2">
@@ -113,7 +127,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       </section>
 
       {/* Overview Section */}
-      <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="purple" />
+      <ProjectOverview {...overviewData} techBadgeColor="purple" />
 
       {/* Metrics Grid (Split System & Personal) */}
       <section className="rounded-2xl border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900/50">
@@ -202,6 +216,9 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
 
       {/* Gallery Section */}
       <TabbedGallery tabs={galleryTabs} title={commonT("projectShowcase")} />
+
+      {/* Store Section */}
+      <StoreSection {...storeLink} />
 
       {/* Disclaimer */}
       <div className="rounded-lg bg-gray-50 p-4 text-center text-sm text-gray-500 dark:bg-gray-900 dark:text-gray-400">

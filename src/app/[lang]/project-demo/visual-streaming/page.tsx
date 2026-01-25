@@ -14,7 +14,6 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
-    description: t("hero.description"),
     summary: {
       problem: {
         icon: "🎯",
@@ -48,6 +47,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
       mainTechs: t.raw("overview.mainTechs") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },
+    description: t("overview.description"),
   };
 
   // --- Challenges Data ---
@@ -133,7 +133,7 @@ export default async function VisualStreamingPage({ params }: { params: Promise<
       />
 
       {/* Overview Section */}
-      <ProjectOverview {...overviewData} techBadgeColor="blue" focusBadgeColor="purple" />
+      <ProjectOverview {...overviewData} techBadgeColor="blue" />
 
       {/* Technical Challenges */}
       <TechnicalChallengeCard challenges={challengesRaw} />

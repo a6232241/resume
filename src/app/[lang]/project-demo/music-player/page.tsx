@@ -21,7 +21,6 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
-    description: t("hero.description"),
     summary: {
       problem: {
         icon: "🎯",
@@ -55,6 +54,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
       mainTechs: t.raw("overview.mainTechs") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },
+    description: t("overview.description"),
   };
 
   // --- Challenges Data ---
@@ -141,7 +141,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
         gradientClass="from-purple-600 via-pink-600 to-orange-500 dark:from-purple-400 dark:via-pink-400 dark:to-orange-400"
         borderGradientClass="from-purple-600/20 via-pink-600/20 to-orange-500/20"
       />
-      <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
+      <ProjectOverview {...overviewData} techBadgeColor="purple" />
       <TechnicalChallengeCard challenges={challengesRaw} />
       <TabbedGallery title={commonT("projectShowcase")} tabs={galleryTabs} accentColor="orange" />
       <FutureRoadmap {...roadmapData} />

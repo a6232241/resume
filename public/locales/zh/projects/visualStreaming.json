@@ -12,7 +12,6 @@
     "hero": {
       "title": "Visual Streaming",
       "tagline": "實時直播換臉特效 PoC",
-      "description": "透過 JSI 與 Shared C++ Core 實現跨平台高效能實時影像處理。",
       "summary": {
         "problem": {
           "title": "挑戰",
@@ -29,6 +28,7 @@
       }
     },
     "overview": {
+      "description": "透過 JSI 與 Shared C++ Core 實現跨平台高效能實時影像處理。",
       "duration": "4 個月",
       "team": "獨立開發",
       "projectType": "PoC 探索性項目",

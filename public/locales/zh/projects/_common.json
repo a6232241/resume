@@ -6,6 +6,11 @@
   "projectShowcase": "專案展示",
   "codeSnippet": "核心程式碼",
   "technicalSpotlight": "技術亮點",
-  "technicalChallenges": "技術挑戰與解決方案"
+  "technicalChallenges": "技術挑戰與解決方案",
+  "employmentTime": "任職時間",
+  "teamSize": "團隊規模",
+  "projectType": "專案類型",
+  "platforms": "支援平台",
+  "techStack": "技術棧"
 }
 

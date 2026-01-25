@@ -10,6 +10,7 @@ export {
   ProjectPageTemplate,
   SolutionEvaluation,
   SourceCodeLink,
+  StoreSection,
   TechnicalChallengeCard,
   TechnicalImplementation,
   TechnicalInsights,

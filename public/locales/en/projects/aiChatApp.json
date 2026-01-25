@@ -7,7 +7,6 @@
     "hero": {
       "title": "AI Chat App",
       "tagline": "AI-Powered × Offline-First × Native Integration",
-      "description": "A high-performance AI chat application built on Expo Bare Workflow, leveraging GitHub Models for high-performance LLM integration and SQLite for secure data persistence.",
       "summary": {
         "problem": {
           "title": "Challenge",
@@ -24,6 +23,7 @@
       }
     },
     "overview": {
+      "description": "A high-performance AI chat application built on Expo Bare Workflow, leveraging GitHub Models for high-performance LLM integration and SQLite for secure data persistence.",
       "duration": "About 2 Months (Core Development)",
       "team": "Independent Research",
       "projectType": "Personal Project · Mobile Full-Stack",

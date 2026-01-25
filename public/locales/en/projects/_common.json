@@ -6,6 +6,11 @@
   "projectShowcase": "Project Showcase",
   "codeSnippet": "Core Code",
   "technicalSpotlight": "Technical Spotlight",
-  "technicalChallenges": "Technical Challenges & Solutions"
+  "technicalChallenges": "Technical Challenges & Solutions",
+  "employmentTime": "Employment Duration",
+  "teamSize": "Team Size",
+  "projectType": "Project Type",
+  "platforms": "Platforms",
+  "techStack": "Tech Stack"
 }
 

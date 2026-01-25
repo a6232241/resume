@@ -8,10 +8,10 @@
     "hero": {
       "title": "Berify",
       "tagline": "Distributed O2O Ecosystem · 9 Independent Sub-projects",
-      "description": "A Web3 smart retail ecosystem integrating NFC verification, NFT minting, and Shopify e-commerce. Verified pattern of full-stack feature ownership across the entire delivery lifecycle.",
       "statusBadge": "Currently in Production"
     },
     "overview": {
+      "description": "A Web3 smart retail ecosystem integrating NFC verification, NFT minting, and Shopify e-commerce. Verified pattern of full-stack feature ownership across the entire delivery lifecycle.",
       "duration": "Tenure: 1 Year 5 Months (2023 - 2024)",
       "team": "8-Person Collaborative Team",
       "projectType": "Commercial Product",

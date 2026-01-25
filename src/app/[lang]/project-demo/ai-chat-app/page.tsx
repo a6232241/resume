@@ -23,7 +23,6 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
   const heroData = {
     title: t("hero.title"),
     tagline: t("hero.tagline"),
-    description: t("hero.description"),
     summary: {
       problem: {
         icon: "🎯",
@@ -57,6 +56,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
       mainTechs: t.raw("overview.mainTechs") as string[],
       platforms: t.raw("overview.platforms") as string[],
     },
+    description: t("overview.description"),
   };
 
   // --- Challenges Data ---
@@ -168,7 +168,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
         gradientClass="from-cyan-600 via-blue-600 to-purple-500 dark:from-cyan-400 dark:via-blue-400 dark:to-purple-400"
         borderGradientClass="from-cyan-600/20 via-blue-600/20 to-purple-500/20"
       />
-      <ProjectOverview {...overviewData} techBadgeColor="purple" focusBadgeColor="orange" />
+      <ProjectOverview {...overviewData} techBadgeColor="purple" />
       <TechnicalChallengeCard challenges={challengesRaw} />
       <ArchitecturalDecisions {...decisionsData} />
       <TabbedGallery title={commonT("projectShowcase")} tabs={galleryTabs} accentColor="blue" />

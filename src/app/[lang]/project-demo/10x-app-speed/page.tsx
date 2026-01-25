@@ -459,7 +459,7 @@ export default async function tenXAppSpeedPage({ params }: { params: Promise<{ l
         gradientClass="from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400"
         borderGradientClass="from-blue-600/20 via-blue-600/20 to-purple-600/20"
       />
-      <ProjectOverview {...overviewData} techBadgeColor="blue" focusBadgeColor="purple" />
+      <ProjectOverview {...overviewData} techBadgeColor="blue" />
       <PerformanceMetric {...metricsData} />
       <DiagnosticProcess {...diagnosisData} />
       <SolutionEvaluation {...solutionsData} />

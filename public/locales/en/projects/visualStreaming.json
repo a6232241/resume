@@ -12,7 +12,6 @@
     "hero": {
       "title": "Visual Streaming",
       "tagline": "Real-time Live Streaming Face Swap PoC",
-      "description": "Achieving cross-platform high-performance real-time image processing through JSI and Shared C++ Core.",
       "summary": {
         "problem": {
           "title": "Challenge",
@@ -29,6 +28,7 @@
       }
     },
     "overview": {
+      "description": "Achieving cross-platform high-performance real-time image processing through JSI and Shared C++ Core.",
       "duration": "4 Months",
       "team": "Solo Developer",
       "projectType": "Exploratory PoC Project",

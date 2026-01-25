@@ -7,7 +7,6 @@
     "hero": {
       "title": "AI 聊天 App",
       "tagline": "AI 驅動 × 離線優先 × 原生整合",
-      "description": "基於 Expo Bare Workflow 構建的 AI 對話應用，整合 GitHub Models 提供強大的對話能力，並透過 SQLite 實現數據持久化，確保對話紀錄的安全與可存取性。",
       "summary": {
         "problem": {
           "title": "挑戰",
@@ -24,6 +23,7 @@
       }
     },
     "overview": {
+      "description": "基於 Expo Bare Workflow 構建的 AI 對話應用，整合 GitHub Models 提供強大的對話能力，並透過 SQLite 實現數據持久化，確保對話紀錄的安全與可存取性。",
       "duration": "約 2 個月 (高強度開發)",
       "team": "個人開發 / 技術研究",
       "projectType": "個人專案 · 行動端全端",
