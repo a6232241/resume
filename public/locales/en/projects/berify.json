@@ -19,14 +19,19 @@
       "platforms": ["iOS", "Android", "Web"]
     },
     "architectureFlow": {
-      "title": "System Architecture & Engineering Ownership",
+      "title": "System Architecture Flow",
       "steps": [
-        { "step": "1", "title": "App (NFC Scan)", "desc": "React Native Client", "metric": "Trigger Interaction" },
+        {
+          "step": "1",
+          "title": "App (NFC Scan)",
+          "desc": "React Native & Swift App Clip",
+          "metric": "Trigger Interaction"
+        },
         { "step": "2", "title": "App-Backend", "desc": "Web3 & API Gateway", "metric": "Business Logic" },
         {
           "step": "3",
           "title": "Berify-DB & Queue",
-          "desc": "SMA State Machine & Task Queue",
+          "desc": "Scheduler & Task Queue",
           "metric": "Async Processing"
         },
         {
@@ -35,40 +40,35 @@
           "desc": "Instant Notifications & Cloud Push",
           "metric": "Dual-way Feedback"
         }
-      ],
-      "metricsDivider": "Core Engineering Metrics"
+      ]
     },
-    "architectureMetrics": {
-      "groupA": {
-        "title": "System Scale",
-        "items": [
-          { "value": "9", "label": "Decoupled Modules", "desc": "3 Apps + 1 Tool Lib + 1 DB + 4 Microservices" },
-          { "value": "114+", "label": "DB Migrations", "desc": "1.5 Years of Architectural Evolution" },
-          { "value": "83", "label": "Core Domain Models", "desc": "Supporting Web3 Rewards, IDV & Social Logic" }
+    "architectureMetricsTitle": "Core Engineering & Contributions",
+    "architectureMetrics": [
+      {
+        "title": "Modular Scale",
+        "metric": "9 Functional Modules / 100+ Domain Models",
+        "desc": [
+          "Designed and led 3-tier collection system, integrating e-commerce data flow",
+          "Integrated biometric IDV security system"
         ]
       },
-      "groupB": {
-        "title": "Engineering Ownership",
-        "items": [
-          {
-            "title": "Full-stack Feature Delivery & Ownership",
-            "desc": "Independently led the complete development path from DB Schema design and Prisma relations to Mobile UI. Successfully delivered core business modules including Biometric IDV Security, Shopify Automated Rewards, and Social Comment Systems."
-          },
-          {
-            "title": "High-Performance Architecture & Scale Management",
-            "desc": "Managed 114+ DB migrations and 83 core domain models. Optimized nested comment query complexity from O(n) to O(1) via 'Non-Recursive Flattened Design', and implemented @unique physical constraints and cross-batch validation to ensure consistency and performance at scale."
-          },
-          {
-            "title": "Native Infrastructure Stability & Automation",
-            "desc": "Resolved hardcore issues like Xcode 14.3+ compilation locks and Android camera runtime crashes. Transformed unpredictable native environment behaviors into standardized build pipelines by implementing automated Podfile patches and App Clip view stack recursive cleanup mechanisms."
-          }
+      {
+        "title": "Data Evolution",
+        "metric": "114+ DB Schema Evolutions",
+        "desc": [
+          "Designed flattened comment model to avoid N+1 query issues",
+          "Maintained consistency during frequent migrations via Prisma constraints"
         ]
       },
-      "technicalBreakthrough": {
-        "label": "Tech Breakthrough",
-        "desc": "Resolved Cross-Platform Native Bridge Crashes, Significantly Improving Release Build Stability."
+      {
+        "title": "Native Stability",
+        "metric": "Cross-Platform Standardization",
+        "desc": [
+          "Resolved core module compilation conflicts, stabilizing native build environment",
+          "Resolved App Clip view residue anomalies"
+        ]
       }
-    },
+    ],
     "technicalSpotlight": [
       {
         "id": "idv",

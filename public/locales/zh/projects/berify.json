@@ -18,46 +18,32 @@
       "platforms": ["iOS", "Android", "Web"]
     },
     "architectureFlow": {
-      "title": "系統架構與工程實績 (Architecture & Ownership)",
+      "title": "系統架構鏈路",
       "steps": [
-        { "step": "1", "title": "App (NFC 掃描)", "desc": "React Native Client", "metric": "觸發交互" },
+        { "step": "1", "title": "App (NFC 掃描)", "desc": "React Native & Swift App Clip", "metric": "觸發交互" },
         { "step": "2", "title": "App-Backend", "desc": "Web3 & API Gateway", "metric": "業務邏輯" },
-        { "step": "3", "title": "Berify-DB & Queue", "desc": "SMA 狀態機 & 任務佇列", "metric": "異步處理" },
+        { "step": "3", "title": "Berify-DB & Queue", "desc": "排程服務 & 任務佇列", "metric": "異步處理" },
         { "step": "4", "title": "WebSocket & SNS", "desc": "即時通知與雲端推播", "metric": "雙向回饋" }
-      ],
-      "metricsDivider": "核心工程指標"
+      ]
     },
-    "architectureMetrics": {
-      "groupA": {
-        "title": "系統規模 (System Scale)",
-        "items": [
-          { "value": "9", "label": "解耦模組", "desc": "3 個 App + 1 個工具庫 + 1 個資料庫 + 4 個微服務" },
-          { "value": "114+", "label": "資料庫遷移", "desc": "經歷長達 1.5 年的架構迭代演進歷程" },
-          { "value": "83", "label": "核心領域模型", "desc": "支撐 Web3 獎勵、IDV 與社交模組的複雜業務邏輯" }
-        ]
+    "architectureMetricsTitle": "核心工程與貢獻",
+    "architectureMetrics": [
+      {
+        "title": "模組化規模",
+        "metric": "9 組功能模組 / 100+ 領域模型",
+        "desc": ["設計並主導三層式收藏體系，並與電商平台實現數據對接", "整合生物辨識 IDV 安全體系"]
       },
-      "groupB": {
-        "title": "工程所有權 (Engineering Ownership)",
-        "items": [
-          {
-            "title": "全鏈路功能交付與所有權 (Full-stack Ownership)",
-            "desc": "獨立主導從資料庫 Schema 設計、Prisma 關聯建立到行動端 UI 的完整開發路徑。成功交付包含生物辨識 IDV 安全體系、Shopify 電商自動化獎勵與社交留言系統等核心業務模組。"
-          },
-          {
-            "title": "高效能架構與數據規模管理 (Performance & Scale)",
-            "desc": "透過「非遞迴式扁平化設計」將巢狀留言查詢複雜度由 O(n) 優化至 O(1)，並實作 @unique 物理約束與跨批次校驗，確保大規模數據下的一致性與效能。"
-          },
-          {
-            "title": "原生底層穩定性與自動化 (Infrastructure & Stability)",
-            "desc": "解決 Xcode 14.3+ 編譯鎖死與 Android 相機執行期崩潰等硬核問題。透過實作 Podfile 自動化補丁與 App Clip 視圖堆疊遞迴清理機制，將不可預測的原生環境行為轉化為標準化的建置管線。"
-          }
-        ]
+      {
+        "title": "資料演進",
+        "metric": "114+ 次資料庫架構演進歷程",
+        "desc": ["設計扁平化留言模型，避免 N+1 查詢問題", "透過 Prisma 物理約束，維護高頻遷移一致性"]
       },
-      "technicalBreakthrough": {
-        "label": "技術突破 (Tech Breakthrough)",
-        "desc": "成功修復跨平台原生橋接（Bridge）崩潰，顯著提升 Release Build 穩定性。"
+      {
+        "title": "原生層穩定性",
+        "metric": "跨平台環境標準化",
+        "desc": ["排除核心模組編譯衝突，穩定原生建置環境", "解決 App Clip 視圖殘留異常"]
       }
-    },
+    ],
     "technicalSpotlight": [
       {
         "id": "idv",
