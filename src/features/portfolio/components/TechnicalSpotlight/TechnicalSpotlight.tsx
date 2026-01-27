@@ -30,13 +30,11 @@ export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
 
       <div className="flex flex-col gap-6">
         {items.map((item) => (
-          <Collapsible
-            key={item.id}
-            title={item.title}
-            subtitle={item.summary}
-            badge={item.role}
-            icon={ICON_MAP[item.icon]}>
+          <Collapsible key={item.id} title={item.title} badge={item.role} icon={ICON_MAP[item.icon]}>
             <div className="flex flex-col gap-8">
+              {/* Summary moved to expanded state */}
+              <p className="text-base text-gray-600 dark:text-gray-300">{item.summary}</p>
+
               {item.blocks.map((block, idx) => (
                 <BlockRenderer key={idx} block={block} />
               ))}

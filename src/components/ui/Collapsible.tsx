@@ -49,23 +49,24 @@ export function Collapsible({
             </div>
           )}
           <div>
-            <div className="flex items-center gap-3">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
-              {badge && (
-                <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-                  {badge}
-                </span>
-              )}
-            </div>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
             {subtitle && <div className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">{subtitle}</div>}
           </div>
         </div>
-        <motion.div
-          animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-gray-400 dark:text-gray-500">
-          <ChevronDown className="h-5 w-5" />
-        </motion.div>
+
+        <div className="flex items-center gap-4">
+          {badge && (
+            <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+              {badge}
+            </span>
+          )}
+          <motion.div
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+            className="text-gray-400 dark:text-gray-500">
+            <ChevronDown className="h-5 w-5" />
+          </motion.div>
+        </div>
       </button>
 
       <AnimatePresence initial={false}>

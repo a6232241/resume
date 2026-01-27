@@ -26,7 +26,6 @@
         { "step": "4", "title": "WebSocket & SNS", "desc": "即時通知與雲端推播", "metric": "雙向回饋" }
       ]
     },
-    "architectureMetricsTitle": "核心工程與貢獻",
     "architectureMetrics": {
       "title": "核心工程與貢獻",
       "list": [
@@ -50,7 +49,7 @@
     "technicalSpotlight": [
       {
         "id": "idv",
-        "title": "員工權限 (IDV)",
+        "title": "IDV 架構整合：生物辨識與仲裁機制",
         "role": "架構整合",
         "icon": "shield",
         "summary": "生物辨識安全與邀請者仲裁機制",
@@ -112,7 +111,7 @@
       },
       {
         "id": "collection & reward",
-        "title": "蒐藏與獎勵模組",
+        "title": "遊戲化獎勵：Shopify 電商與數位核銷",
         "role": "架構設計",
         "icon": "zap",
         "summary": "遊戲化與電商整合",
@@ -178,7 +177,7 @@
       },
       {
         "id": "social",
-        "title": "留言模組",
+        "title": "互動系統設計：高效能 $O(1)$ 查詢優化",
         "role": "架構設計",
         "icon": "database",
         "summary": "互動系統",
@@ -238,8 +237,8 @@
     "technicalChallenges": [
       {
         "id": "xcode-toolchain",
-        "title": "Xcode 工具鏈升級與自動化標準化",
-        "role": "Infrastructure Lead",
+        "title": "Xcode 工具鏈自動化：排除 SDK 相容性衝突",
+        "role": "基礎設施負責人",
         "icon": "settings",
         "summary": "解決升級 Xcode 後導致的 App 編譯失敗，並透過自動化補丁與參數注入，修正 Binary SDK 的環境相容性問題。",
         "blocks": [
@@ -277,8 +276,8 @@
       },
       {
         "id": "android-stability",
-        "title": "Android 原生模組崩潰修復與依賴標準化",
-        "role": "Infrastructure Lead",
+        "title": "Android 依賴管控：消除原生模組崩潰",
+        "role": "基礎設施負責人",
         "icon": "smartphone",
         "summary": "透過原生依賴版本控制與依賴標準化遷移，解決特定版本的不穩定問題，消除原生模組在執行期的崩潰風險。",
         "blocks": [
@@ -320,8 +319,8 @@
       },
       {
         "id": "app-clip",
-        "title": "App Clip 生命週期與狀態管理",
-        "role": "Native iOS Lead",
+        "title": "App Clip 重構：優化視圖殘留與記憶體",
+        "role": "iOS 原生技術負責人",
         "icon": "smartphone",
         "summary": "解決連續操作時的視圖殘留問題，優化 App Clip 生命週期管理以確保每次掃描的獨立性。",
         "blocks": [

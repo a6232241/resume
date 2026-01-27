@@ -42,7 +42,6 @@
         }
       ]
     },
-    "architectureMetricsTitle": "Core Engineering & Contributions",
     "architectureMetrics": {
       "title": "Core Engineering & Contributions",
       "list": [
@@ -75,7 +74,7 @@
     "technicalSpotlight": [
       {
         "id": "idv",
-        "title": "Staff Access Control (IDV)",
+        "title": "IDV Architecture Integration: Biometrics & Arbitration Mechanism",
         "role": "Lead Logic Integrator",
         "icon": "shield",
         "summary": "Biometric Security & Inviter-Led Arbitration",
@@ -143,7 +142,7 @@
       },
       {
         "id": "collection & reward",
-        "title": "Collection & Reward Engine",
+        "title": "Gamified Rewards: Shopify Integration & Digital Redemption",
         "role": "Architecture Design",
         "icon": "zap",
         "summary": "Gamification & E-commerce Integration",
@@ -211,7 +210,7 @@
       },
       {
         "id": "social",
-        "title": "Social Module",
+        "title": "Interaction System Design: High-Performance O(1) Query Optimization",
         "role": "Architecture Design",
         "icon": "database",
         "summary": "Interaction Systems",
@@ -271,7 +270,7 @@
     "technicalChallenges": [
       {
         "id": "xcode-toolchain",
-        "title": "Xcode Toolchain Adaptation",
+        "title": "Xcode Toolchain Automation: Resolve SDK Compatibility Conflicts",
         "role": "Infrastructure Lead",
         "icon": "settings",
         "summary": "Resolved App compilation failures caused by Xcode upgrades, and fixed Binary SDK environment compatibility issues through automated patches and parameter injection.",
@@ -314,7 +313,7 @@
       },
       {
         "id": "android-stability",
-        "title": "Android Native SDK Stability Management",
+        "title": "Android Dependency Management: Eliminate Native Module Crashes",
         "role": "Infrastructure Lead",
         "icon": "smartphone",
         "summary": "Eliminated runtime crash risks of native modules through SDK lifecycle management and dependency standardization migration.",
@@ -357,7 +356,7 @@
       },
       {
         "id": "app-clip",
-        "title": "App Clip Lifecycle & State Management",
+        "title": "App Clip Refactoring: Optimize View Persistence & Memory",
         "role": "Native iOS Lead",
         "icon": "smartphone",
         "summary": "Resolved view retention issues during continuous operations by optimizing App Clip lifecycle management to ensure the independence of each scan.",
