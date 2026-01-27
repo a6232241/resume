@@ -1,5 +1,6 @@
 export { TabbedGallery } from "@components/shared";
 export { ArchitecturalDecisions } from "./ArchitecturalDecisions";
+export { BerifyEngineeringSection } from "./BerifyEngineeringSection";
 export { CoreImplementation } from "./CoreImplementation";
 export { DiagnosticProcess } from "./DiagnosticProcess";
 export { Experience } from "./Experience";

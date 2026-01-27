@@ -11,7 +11,7 @@
       "statusBadge": "Currently in Production"
     },
     "overview": {
-      "description": "A Web3 smart retail ecosystem integrating NFC verification, NFT minting, and Shopify e-commerce. Verified pattern of full-stack feature ownership across the entire delivery lifecycle.",
+      "description": "Combining <b>automated builds</b> and <b>non-recursive architecture</b> to resolve cross-platform compilation and performance bottlenecks. Bridging the O2O loop from <b>biometrics</b> to <b>Shopify</b>, providing <b>precise market insights</b> for merchants.",
       "duration": "Tenure: 1 Year 5 Months (2023 - 2024)",
       "team": "8-Person Collaborative Team",
       "projectType": "Commercial Product",
@@ -43,32 +43,35 @@
       ]
     },
     "architectureMetricsTitle": "Core Engineering & Contributions",
-    "architectureMetrics": [
-      {
-        "title": "Modular Scale",
-        "metric": "9 Functional Modules / 100+ Domain Models",
-        "desc": [
-          "Designed and led 3-tier collection system, integrating e-commerce data flow",
-          "Integrated biometric IDV security system"
-        ]
-      },
-      {
-        "title": "Data Evolution",
-        "metric": "114+ DB Schema Evolutions",
-        "desc": [
-          "Designed flattened comment model to avoid N+1 query issues",
-          "Maintained consistency during frequent migrations via Prisma constraints"
-        ]
-      },
-      {
-        "title": "Native Stability",
-        "metric": "Cross-Platform Standardization",
-        "desc": [
-          "Resolved core module compilation conflicts, stabilizing native build environment",
-          "Resolved App Clip view residue anomalies"
-        ]
-      }
-    ],
+    "architectureMetrics": {
+      "title": "Core Engineering & Contributions",
+      "list": [
+        {
+          "title": "Modular Scale",
+          "metric": "9 Distributed Service Units / 188+ Domain Models",
+          "desc": [
+            "Designed and led 3-tier collection system, integrating e-commerce data flow",
+            "Integrated biometric IDV security system"
+          ]
+        },
+        {
+          "title": "Data Evolution",
+          "metric": "114+ DB Schema Evolutions",
+          "desc": [
+            "Designed flattened comment model to avoid N+1 query issues",
+            "Maintained consistency during frequent migrations via Prisma constraints"
+          ]
+        },
+        {
+          "title": "Native Stability",
+          "metric": "Cross-Platform Standardization",
+          "desc": [
+            "Resolved core module compilation conflicts, stabilizing native build environment",
+            "Resolved App Clip view residue anomalies"
+          ]
+        }
+      ]
+    },
     "technicalSpotlight": [
       {
         "id": "idv",
