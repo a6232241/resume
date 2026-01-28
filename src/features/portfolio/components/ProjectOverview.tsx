@@ -83,7 +83,7 @@ export default function ProjectOverview({ overview, description, techBadgeColor 
                   <p className="mb-0.5 text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
                     {t("platforms")}
                   </p>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-col items-start gap-1">
                     {overview.platforms.map((p) => (
                       <div
                         key={p}

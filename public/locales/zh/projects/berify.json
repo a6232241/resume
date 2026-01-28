@@ -1,5 +1,5 @@
 {
-  "shortDesc": "一個由 9 個模組/微服務組成的 Web3 O2O 生態系統。",
+  "shortDesc": "整合 NFC 與 MPC 的 Web3 RWA 虛實整合平台",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
   "role": "軟體開發者",
   "achievements": [],
@@ -10,7 +10,7 @@
       "statusBadge": "正式上線中"
     },
     "overview": {
-      "description": "結合<b>自動化建置</b>與<b>非遞迴架構</b>，解決跨平台編譯與效能瓶頸。打通從<b>生物辨識</b>到 <b>Shopify</b> 的 O2O 閉環，為廠商提供<b>精準市場洞察</b>。",
+      "description": "專注於 React Native 基礎設施，並協作整合 Web 端流程，負責原生層的穩定性維護與版本升級，並主導 Rewards 獎勵模組的完整重構與解耦，並協作維護 IDV 身分驗證模組。",
       "duration": "2023 - 2024 (1 年 5 個月)",
       "team": "8 人團隊合作",
       "projectType": "商業產品",
