@@ -34,6 +34,8 @@ export interface SpotlightItem {
     title: string;
     language: string;
     code: string;
+    highlights?: number[];
+    tooltips?: Array<{ line: number; content: string }>;
   };
 }
 

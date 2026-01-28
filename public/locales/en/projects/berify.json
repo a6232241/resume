@@ -393,7 +393,13 @@
         "codeSnippet": {
           "title": "Native UI Stack Cleanup Logic",
           "language": "swift",
-          "code": "// Ensure atomicity of App Clip scan flow via recursive dismiss\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // Find the topmost View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // Safe cleanup: Dismiss only scan-related pages\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}"
+          "code": "// Ensure atomicity of App Clip scan flow via recursive dismiss\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // Find the topmost View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // Safe cleanup: Dismiss only scan-related pages\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
+          "highlights": [6, 10, 11],
+          "tooltips": [
+            { "line": 6, "content": "Recursively find topmost Presented VC" },
+            { "line": 10, "content": "Clean up only specific view types" },
+            { "line": 11, "content": "Force remove residual windows (animated: false)" }
+          ]
         }
       }
     ],

@@ -356,7 +356,13 @@
         "codeSnippet": {
           "title": "原生 UI 堆疊清理邏輯",
           "language": "swift",
-          "code": "// 透過遞迴 dismiss 確保 App Clip 掃描流程的原子性\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // 找出最上層的 View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // 安全清理：僅針對掃描相關頁面進行 Dismiss\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}"
+          "code": "// 透過遞迴 dismiss 確保 App Clip 掃描流程的原子性\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // 找出最上層的 View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // 安全清理：僅針對掃描相關頁面進行 Dismiss\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
+          "highlights": [6, 10, 11],
+          "tooltips": [
+            { "line": 6, "content": "遞迴查找最上層 Presented VC" },
+            { "line": 10, "content": "僅針對特定視圖類型執行清理" },
+            { "line": 11, "content": "強制移除殘留視窗 (animated: false)" }
+          ]
         }
       }
     ],
