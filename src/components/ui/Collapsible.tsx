@@ -3,7 +3,6 @@
 import { cn } from "@src/util";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
 
 interface CollapsibleProps {
   title: string;
@@ -13,19 +12,11 @@ interface CollapsibleProps {
   subtitle?: string;
   badge?: string;
   className?: string;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-export function Collapsible({
-  title,
-  defaultOpen = false,
-  children,
-  icon,
-  subtitle,
-  badge,
-  className,
-}: CollapsibleProps) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-
+export function Collapsible({ title, children, icon, subtitle, badge, className, isOpen, onToggle }: CollapsibleProps) {
   return (
     <div
       className={cn(
@@ -34,7 +25,7 @@ export function Collapsible({
         className,
       )}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="flex w-full items-center justify-between gap-4 p-5 text-left focus:outline-none">
         <div className="flex items-center gap-4">
           {icon && (
