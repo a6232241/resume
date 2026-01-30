@@ -4,8 +4,6 @@ import { Collapsible } from "@components/ui/Collapsible";
 import { Database, Layout, Shield, Smartphone, Zap } from "lucide-react";
 import React, { useState } from "react";
 import { AppClipFeature } from "./AppClipFeature";
-import { BlockRenderer } from "./BlockRenderer";
-import { CodeBlock } from "./CodeBlock";
 import { SpotlightIconType, SpotlightItem } from "./types";
 
 // --- Icons Map ---
@@ -42,20 +40,7 @@ export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
             icon={ICON_MAP[item.icon]}
             isOpen={isOpenId !== null ? isOpenId === item.id : false}
             onToggle={() => handleToggle(item.id)}>
-            {item.id === "app-clip" ? (
-              <AppClipFeature item={item} />
-            ) : (
-              <div className="flex flex-col gap-8">
-                {/* Summary moved to expanded state */}
-                <p className="text-base text-gray-600 dark:text-gray-300">{item.summary}</p>
-
-                {item.blocks.map((block, idx) => (
-                  <BlockRenderer key={idx} block={block} />
-                ))}
-
-                {item.codeSnippet && <CodeBlock snippet={item.codeSnippet} />}
-              </div>
-            )}
+            {item.id === "app-clip" && <AppClipFeature item={item} />}
           </Collapsible>
         ))}
       </div>

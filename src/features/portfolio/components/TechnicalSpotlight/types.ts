@@ -34,8 +34,11 @@ export interface SpotlightItem {
   role: string;
   icon: SpotlightIconType;
   summary: string;
-  tags?: string[];
-  blocks: ContentBlock[];
+  tags: string[];
+  challenge: ListBlock;
+  analysis: ListBlock;
+  decision: DecisionBlock;
+  result: ResultBlock;
   codeSnippet?: {
     title: string;
     language: string;
@@ -43,5 +46,25 @@ export interface SpotlightItem {
     highlights?: number[];
     tooltips?: Array<{ line: number; content: string }>;
   };
+}
+
+export interface ListBlock {
+  title: string;
+  items: string[];
+}
+
+export interface DecisionBlock {
+  title: string;
+  items: Array<{
+    title?: string;
+    desc?: string;
+    highlight?: boolean;
+    badge?: string;
+  }>;
+}
+
+export interface ResultBlock {
+  title: string;
+  items: string[];
 }
 

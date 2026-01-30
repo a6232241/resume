@@ -1,9 +1,9 @@
 import { cn } from "@src/util/cn";
 import { CheckCircle2 } from "lucide-react";
-import { ContentBlock } from "./types";
+import { ContentBlock, DecisionBlock as DecisionBlockType } from "./types";
 
 interface DecisionBlockProps {
-  block: ContentBlock;
+  block: ContentBlock | DecisionBlockType;
 }
 
 export function DecisionBlock({ block }: DecisionBlockProps) {

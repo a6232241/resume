@@ -73,323 +73,48 @@
     },
     "technicalSpotlight": [
       {
-        "id": "idv",
-        "title": "IDV Architecture Integration: Biometrics & Arbitration Mechanism",
-        "role": "Lead Logic Integrator",
-        "icon": "shield",
-        "summary": "Biometric Security & Inviter-Led Arbitration",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "Goal",
-            "items": [
-              "Prevent unauthorized personnel from tampering with tag information or accessing highly sensitive assets via the mobile app."
-            ]
-          },
-          {
-            "type": "grid",
-            "title": "Core Features",
-            "items": [
-              {
-                "icon": "🎭",
-                "title": "Prevent Identity Fraud",
-                "desc": "Prevent resigned or unauthorized employees from impersonating accounts to operate the system."
-              },
-              {
-                "icon": "📝",
-                "title": "Identity Consistency",
-                "desc": "Ensure DB records are completely synchronized with government-issued legal ID documents."
-              },
-              {
-                "icon": "🔒",
-                "title": "Admin (Inviter) Arbitration",
-                "desc": "Implement 'Admin Arbitration' mechanism; employees cannot modify key identity data themselves."
-              }
-            ]
-          },
-          {
-            "type": "workflow",
-            "title": "Architecture Design",
-            "steps": [
-              {
-                "step": "1",
-                "title": "Biometrics & Data Sync",
-                "desc": "Integrate Incode SDK for face recognition, retrieve OCR data, and then execute backend verification logic."
-              },
-              {
-                "step": "2",
-                "title": "Multi-dim Consistency Check",
-                "desc": "Implement backend '4-Way Matching' algorithm to automatically compare OCR raw data, App User info, and Web permission records."
-              },
-              {
-                "step": "3",
-                "title": "Async Conflict Arbitration",
-                "desc": "When verification fails, the system sends an email notification to the inviter via SMTP/Email Service."
-              },
-              {
-                "step": "4",
-                "title": "Auto Data Repair",
-                "desc": "Using a time-sensitive secure link, the inviter can approve and update the identity status with one click."
-              }
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Face Login Orchestration",
-          "language": "typescript",
-          "code": "const startFaceLogin = async () => {\n  // 1. Initialize SDK Face Login\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. Fetch OCR data via Backend API\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. Call verify-idv API for 4-way matching\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. Verification success: Log time and grant access\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. Name mismatch: System emails inviter; Frontend shows notice\n    Alert.alert('Notice', response.error);\n  }\n};"
-        }
-      },
-      {
-        "id": "collection & reward",
-        "title": "Gamified Rewards: Shopify Integration & Digital Redemption",
-        "role": "Architecture Design",
-        "icon": "zap",
-        "summary": "Gamification & E-commerce Integration",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "Goal",
-            "items": [
-              "Increase App usage and user activity, and boost repurchase rates and conversion rates for partner brands through gamification mechanisms."
-            ]
-          },
-          {
-            "type": "grid",
-            "title": "Core Features",
-            "items": [
-              {
-                "icon": "🧩",
-                "title": "Multi-dimensional Campaign Config (Rule)",
-                "desc": "Brands can bind collection rules and Shopify reward incentives to specific product batches, achieving precision marketing."
-              },
-              {
-                "icon": "🔄",
-                "title": "User Loyalty Loop Management (Collection)",
-                "desc": "Create exclusive collection containers for users to track progress and redeem rewards, improving user retention."
-              },
-              {
-                "icon": "🏷️",
-                "title": "Physical Asset Digital Verification (Item)",
-                "desc": "Transform physical NFC tags into unique digital assets, ensuring fair distribution of marketing resources via database-level anti-fraud mechanisms."
-              }
-            ]
-          },
-          {
-            "type": "workflow",
-            "title": "Architecture Design",
-            "steps": [
-              {
-                "step": "1",
-                "title": "Physical Asset Digital Binding",
-                "desc": "Implement CollectionItem logic, binding NFC tags via Prisma's @unique constraint to ensure physical assets cannot be registered repeatedly."
-              },
-              {
-                "step": "2",
-                "title": "Relational Cross-Batch Validation",
-                "desc": "Perform deep relation checks via item.tag.batch.id to ensure a single progress only contains tags from 'different batches'."
-              },
-              {
-                "step": "3",
-                "title": "Automated E-commerce Settlement",
-                "desc": "Integrate Shopify DraftOrder API to automatically create reward orders (Draft Orders) with 100% discount and sync inventory, generating independent redemption links."
-              },
-              {
-                "step": "4",
-                "title": "O2O Conversion Data Loop",
-                "desc": "Connect physical tag collection progress with Shopify orders, bridging the data gap between offline interaction and online transaction to realize visualized tracking of marketing effects."
-              }
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Data Model & Relation-Based Validation",
-          "language": "typescript",
-          "code": "// 1. Physical Layer Integrity (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // Table-wide unique\n  tag        Tag    @relation(...) // Access Batch info via relation\n}\n\n// 2. Cross-Batch Validation (Business Logic)\n// Look up batch info via Tag relation for comparison\n// Implementation: Check user's current progress; if batch already exists, look for next or open new progress\nconst batchIds = collection.collectionItems.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // If batch already exists, reject or open new progress logic\n   openNewCollection();\n}"
-        }
-      },
-      {
-        "id": "social",
-        "title": "Interaction System Design: High-Performance O(1) Query Optimization",
-        "role": "Architecture Design",
-        "icon": "database",
-        "summary": "Interaction Systems",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "Goal",
-            "items": [
-              "Establish a real-time discussion area for customers on the product page, fostering community interaction through P2P communication, and assisting brands in accurately obtaining authentic customer feedback and product requirements."
-            ]
-          },
-          {
-            "type": "grid",
-            "title": "Core Features",
-            "items": [
-              {
-                "icon": "🤝",
-                "title": "Verifiable P2P Co-creation Community",
-                "desc": "Enter exclusive discussion spaces via product scans, connecting real users to share experiences (P2P), forming high-quality community support that directly drives product iteration."
-              },
-              {
-                "icon": "📊",
-                "title": "Structured VoC Management",
-                "desc": "Transform scattered comments into structured data, enabling brands to centrally review user feedback by product batch (Batch), effectively tracing and managing reviews across different production lines."
-              }
-            ]
-          },
-          {
-            "type": "workflow",
-            "title": "Architecture Design",
-            "steps": [
-              {
-                "step": "1",
-                "title": "Non-Recursive Flattened Design",
-                "desc": "Use `rootReplyCommentId` to create single-layer associations, optimizing deep nested comments from O(n) recursive queries to O(1) query count, thoroughly resolving N+1 bottlenecks."
-              },
-              {
-                "step": "2",
-                "title": "Logical Soft Delete & Dynamic Filtering",
-                "desc": "Adopt `isDeleted` status flag instead of physical deletion to preserve data traceability; dynamically hide entire thread chains via root node filtering at the read layer to ensure frontend visual consistency."
-              },
-              {
-                "step": "3",
-                "title": "Optimized Pagination & Interaction Encapsulation",
-                "desc": "Adopt optimistic UI update strategies paired with backend pagination to achieve zero-latency comment feedback and a highly efficient browsing experience."
-              }
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Core Code Implementation",
-          "language": "typescript",
-          "code": "// 1. Optimize Recursive Bottleneck\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // Parent Node\n  rootReplyCommentId Int?    // Root Node\n  isDeleted          Boolean @default(false)\n}\n\n// 2. Efficient Query Implementation\n// Fetch all related sub-comments via include to avoid N+1\nconst comments = await db.comment.findMany({\n  where: { \n    batchId: currentBatchId, // Target Batch\n    rootReplyCommentId: null // Query 'Thread Starter' only\n    isDeleted: false         // Filter deleted main comments\n  },\n  include: {\n    // Key Optimization: Fetch entire thread in single Join (O(1))\n    rootReplycomments: true\n    where: { isDeleted: false }\n  }\n});"
-        }
-      }
-    ],
-    "technicalChallenges": [
-      {
-        "id": "xcode-toolchain",
-        "title": "Xcode Toolchain Automation: Resolve SDK Compatibility Conflicts",
-        "role": "Infrastructure Lead",
-        "icon": "settings",
-        "summary": "Resolved App compilation failures caused by Xcode upgrades, and fixed Binary SDK environment compatibility issues through automated patches and parameter injection.",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "Problem Cause",
-            "items": [
-              "After upgrading the Xcode development tool, the project failed to compile, preventing build and packaging processes."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Analysis & Tools",
-            "items": [
-              "Diagnosed compilation errors via deep analysis of Xcode Build Logs, pinpointing the root cause to compatibility conflicts between the Cybavo Binary SDK and the new toolchain."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Solution",
-            "items": [
-              "Vendor Collaboration: Proactively contacted the SDK vendor to confirm that injecting the -no-verify-emitted-module-interface flag instructs the Swift compiler to skip strict interface hash verification for legacy Binary SDKs, resolving build blocking issues after upgrading to Xcode 14.3+.",
-              "Environment Standardization: Implemented a Podfile automated patch to enforce a unified Deployment Target of 12.4 for all third-party Pods, meeting the minimum deployment version requirements of the new Xcode."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Result",
-            "items": [
-              "Successfully resolved compilation obstacles, restored the App release flow, and validated the stability of the native build environment after toolchain upgrades."
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Podfile post_install Script",
-          "language": "ruby",
-          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
-        }
-      },
-      {
-        "id": "android-stability",
-        "title": "Android Dependency Management: Eliminate Native Module Crashes",
-        "role": "Infrastructure Lead",
-        "icon": "smartphone",
-        "summary": "Eliminated runtime crash risks of native modules through SDK lifecycle management and dependency standardization migration.",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "Problem Cause",
-            "items": [
-              "During Identity Verification (IDV) testing, Android devices experienced unannounced app crashes immediately upon requesting camera permissions, interrupting the verification process."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Analysis & Tools",
-            "items": [
-              "Traced Android Logcat and analyzed native Source Code to pinpoint the root cause to memory issues or permission conflicts within the Incode Face Recognition SDK on specific system versions."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Solution",
-            "items": [
-              "Cross-Team Collaboration: Proactively coordinated with the Incode integration lead to align on crash logs and environment parameters.",
-              "Standardized Package Migration: Led the migration from legacy S3 references to the official @incode-sdks Scoped Package based on the latest official migration guide, securing critical Bug Fixes for camera module crashes."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Result",
-            "items": [
-              "Completely resolved the underlying camera crash issue, restored IDV flow stability, and established a reliable maintenance path for third-party SDK updates."
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "build.gradle Dependency Management",
-          "language": "groovy",
-          "code": "// Before: Unstable S3 Reference\n// implementation 'com.incode.sdk:core:2.6.3@aar'\n\n// After: Official Standardized Dependency & Version Locking\nimplementation \"com.incode.sdk:core:2.6.1\" // Rollback to stable\nimplementation \"com.incode.sdk:networking:2.6.1\"\n\n// Ensure Transitive Dependency Consistency\nconfigurations.all {\n    resolutionStrategy.force 'com.incode.sdk:core:2.6.1'\n}"
-        }
-      },
-      {
         "id": "app-clip",
-        "title": "App Clip Refactoring: Optimize View Persistence & Memory",
+        "title": "App Clip Navigation Fix: Resolving View Retention & State Management",
         "role": "Native iOS Lead",
         "icon": "smartphone",
-        "summary": "Resolved view retention issues during continuous operations by optimizing App Clip lifecycle management to ensure the independence of each scan.",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "Symptom",
-            "items": [
-              "When using App Clip for continuous scanning, if the previous scan's result page or error screen is not properly cleaned up, it leads to UI stack conflicts when a new scan is triggered, causing navigation failure."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Analysis & Tools",
-            "items": [
-              "Examined SceneDelegate and root view controller logic; confirmed the issue stems from the iOS modal presentation mechanism, where new views fail to present correctly on top of existing UI states."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Solution",
-            "items": [
-              "Developed and implemented the useLandingController recursive cleanup mechanism, efficiently dismissing all residual windows by traversing the View Controller stack to ensure every NFC trigger starts from the initial Landing state."
-            ]
-          },
-          {
-            "type": "list",
-            "title": "Result",
-            "items": [
-              "Ensured that all scanning behaviors start from a clean initial state, completely resolving UI conflict issues and significantly improving navigation reliability and user experience."
-            ]
-          }
-        ],
+        "summary": "Resolved navigation deadlock in scanning flows, enhancing user experience.",
+        "tags": ["iOS Native", "State Reset", "NFC Optimization"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "Subsequent NFC triggers in App Clip continued to show the previous scan's result page.",
+            "This interrupted the user flow in physical scenarios, directly impacting scan conversion rates."
+          ]
+        },
+        "analysis": {
+          "title": "Analysis & Tools",
+          "items": [
+            "Investigated SceneDelegate and Root View Controller logic.",
+            "Traced the presented state chain of UIViewControllers, confirming the system failed to auto-reset Modal Presentations."
+          ]
+        },
+        "decision": {
+          "title": "Engineering Decision",
+          "items": [
+            {
+              "title": "Method 1: Update Modal Content",
+              "desc": "Cons: Requires handling multiple states like loading, animation playing, failure, success."
+            },
+            {
+              "title": "Method 2: Recursive Lookup & Force Dismiss",
+              "desc": "Pros: Effectively resets view state, ensuring lifecycle consistency.",
+              "highlight": true,
+              "badge": "Selected Strategy"
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Eliminated navigation blocking caused by UI conflicts.",
+            "Improved fluidity from scanning to viewing product pages."
+          ]
+        },
         "codeSnippet": {
           "title": "Native UI Stack Cleanup Logic",
           "language": "swift",

@@ -1,8 +1,8 @@
 import { CheckCircle2 } from "lucide-react";
-import { ContentBlock } from "./types";
+import { ContentBlock, ResultBlock as ResultBlockType } from "./types";
 
 interface ResultBlockProps {
-  block: ContentBlock;
+  block: ContentBlock | ResultBlockType;
 }
 
 export function ResultBlock({ block }: ResultBlockProps) {

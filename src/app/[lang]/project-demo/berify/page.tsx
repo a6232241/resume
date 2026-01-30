@@ -59,11 +59,8 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     steps: Array<{ step: string; title: string; desc: string; metric?: string }>;
   };
 
-  // --- Technical Spotlight Data ---
-  const technicalSpotlightData = t.raw("technicalSpotlight") as SpotlightItem[];
-
   // --- Technical Challenges Data ---
-  const technicalChallengesData = t.raw("technicalChallenges") as SpotlightItem[];
+  const technicalSpotlightData = t.raw("technicalSpotlight") as SpotlightItem[];
 
   // --- Gallery Data (Tabbed) ---
   const galleryRaw = t.raw("gallery") as {
@@ -131,11 +128,8 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       {/* Unified System Architecture & Metrics Section */}
       <BerifyEngineeringSection architectureFlowData={architectureFlowData} architectureMetrics={architectureMetrics} />
 
-      {/* Technical Spotlight (Consolidated Tabs) */}
-      <TechnicalSpotlight title={commonT("technicalSpotlight")} items={technicalSpotlightData} />
-
       {/* Technical Challenges */}
-      <TechnicalSpotlight title={commonT("technicalChallenges")} items={technicalChallengesData} />
+      <TechnicalSpotlight title={commonT("technicalSpotlight")} items={technicalSpotlightData} />
 
       {/* Gallery Section */}
       <TabbedGallery tabs={galleryTabs} title={commonT("projectShowcase")} />

@@ -3,8 +3,8 @@ import { ChallengesBlock } from "./ChallengesBlock";
 import { ComparisonBlock } from "./ComparisonBlock";
 import { DecisionBlock } from "./DecisionBlock";
 import { GridBlock } from "./GridBlock";
-import { ListBlock } from "./ListBlock";
 import { ResultBlock } from "./ResultBlock";
+import { SimpleListBlock } from "./SimpleListBlock";
 import { ContentBlock } from "./types";
 import { WorkflowBlock } from "./WorkflowBlock";
 
@@ -20,7 +20,7 @@ export function BlockRenderer({ block }: { block: ContentBlock }) {
       return <ComparisonBlock block={block} />;
 
     case "list":
-      return <ListBlock block={block} />;
+      return <SimpleListBlock block={block} />;
 
     case "challenges":
       return <ChallengesBlock block={block} />;

@@ -48,321 +48,45 @@
     },
     "technicalSpotlight": [
       {
-        "id": "idv",
-        "title": "IDV 架構整合：生物辨識與仲裁機制",
-        "role": "架構整合",
-        "icon": "shield",
-        "summary": "生物辨識安全與邀請者仲裁機制",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "目標",
-            "items": ["避免非廠商授權人員透過行動端應用程式（App）竄改標籤資訊或存取高敏感資產。"]
-          },
-          {
-            "type": "grid",
-            "title": "核心功能",
-            "items": [
-              { "icon": "🎭", "title": "防止身分詐欺", "desc": "防止離職或未授權員工冒用帳號操作系統。" },
-              {
-                "icon": "📝",
-                "title": "身分資料一致性",
-                "desc": "確保資料庫（DB）紀錄與政府發放的法定證件資料完全同步。"
-              },
-              {
-                "icon": "🔒",
-                "title": "管理員（邀請者）審核",
-                "desc": "實作「管理員仲裁」機制，員工無權自行修改關鍵身分資料。"
-              }
-            ]
-          },
-          {
-            "type": "workflow",
-            "title": "架構設計",
-            "steps": [
-              {
-                "step": "1",
-                "title": "生物辨識與資料對接",
-                "desc": "整合 Incode SDK 執行人臉辨識，並取得 OCR 資料，接著執行後端驗證邏輯。"
-              },
-              {
-                "step": "2",
-                "title": "多維度一致性校驗",
-                "desc": "實作後端「四向比對」演算法，自動比對 OCR 原始數據、App 用戶資訊與 Web 端權限紀錄。"
-              },
-              {
-                "step": "3",
-                "title": "異步衝突仲裁系統",
-                "desc": "當驗證失敗時，系統透過 SMTP/Email Service 發送信件通知邀請者。"
-              },
-              {
-                "step": "4",
-                "title": "自動化資料修復事務",
-                "desc": "使用具有時效性的安全連結，邀請者可一鍵核可並更新身分狀態。"
-              }
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Face Login 核心實作 (Orchestration)",
-          "language": "typescript",
-          "code": "const startFaceLogin = async () => {\n  // 1. 啟動 SDK 進行人臉辨識\n  const result = await IncodeSdk.startFaceLogin({ showTutorials: false });\n  \n  // 2. 透過後端 API 取得 OCR 資料\n  const { ocrData } = await berifyAppApi.incode.getOcrData({\n    id: result.customerUUID,\n    token: result.token\n  });\n  \n  // 3. 調用 verify-idv API 進行四向比對\n  const response = await berifyAppApi.user.verifyIDV(userId, {\n    firstName: ocrData.name.firstName,\n    lastName: ocrData.name.paternalLastName,\n    email: session.user.email,\n    idvToken: result.token\n  });\n  \n  if (response.success) {\n    // 4. 驗證成功：記錄時間並啟用工具權限\n    await AsyncStorage.setItem('idvVerifyTime', JSON.stringify(new Date()));\n    setIsBerifyToolEnable(true);\n    navigation.navigate('Landing');\n  } else {\n    // 5. 姓名不符：系統自動發送郵件給邀請者，前端僅提示\n    Alert.alert('Notice', response.error);\n  }\n};"
-        }
-      },
-      {
-        "id": "collection & reward",
-        "title": "遊戲化獎勵：Shopify 電商與數位核銷",
-        "role": "架構設計",
-        "icon": "zap",
-        "summary": "遊戲化與電商整合",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "目標",
-            "items": ["提升 App 使用率與用戶活躍度，並透過遊戲化機制提升合作廠商的商品回購率與轉化率。"]
-          },
-          {
-            "type": "grid",
-            "title": "核心功能",
-            "items": [
-              {
-                "icon": "🧩",
-                "title": "多維度行銷活動配置 (Rule)",
-                "desc": "品牌商可根據特定商品批次，綁定收集規則與 Shopify 獎勵誘因，達成精準行銷。"
-              },
-              {
-                "icon": "🔄",
-                "title": "用戶忠誠度循環管理 (Collection)",
-                "desc": "建立用戶專屬的收藏容器，透過進度追蹤與兌換，提高用戶回流率。"
-              },
-              {
-                "icon": "🏷️",
-                "title": "物理資產數位化核銷 (Item)",
-                "desc": "將實體 NFC 標籤轉化為唯一的數位資產，透過資料庫層級的防弊機制，確保行銷資源分配的公正性。"
-              }
-            ]
-          },
-          {
-            "type": "workflow",
-            "title": "架構設計",
-            "steps": [
-              {
-                "step": "1",
-                "title": "物理資產數位綁定",
-                "desc": "實作 CollectionItem 邏輯，透過 Prisma 的 @unique 綁定 NFC 標籤，確保實體資產不可重複登錄。"
-              },
-              {
-                "step": "2",
-                "title": "關聯式跨批次校驗",
-                "desc": "透過 item.tag.batch.id 深度關聯檢查，確保單一進度內僅包含來自「不同批次」的標籤。"
-              },
-              {
-                "step": "3",
-                "title": "自動化電商結算",
-                "desc": "整合 Shopify DraftOrder API，自動建立帶有 100% 折扣的獎勵訂單 (Draft Order) 並同步庫存，直接生成領獎連結。"
-              },
-              {
-                "step": "4",
-                "title": "O2O 轉化數據閉環",
-                "desc": "將實體標籤蒐集進度與 Shopify 訂單對接，打通線下互動至線上交易的數據斷點，實現行銷效果的可視化追蹤"
-              }
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "資料模型與關聯校驗實作",
-          "language": "typescript",
-          "code": "// 1. 物理層級防重複 (Schema)\nmodel CollectionItem {\n  tagTokenId String @unique // 全表唯一\n  tag        Tag    @relation(...) // 透過關聯存取 Batch 資訊\n}\n\n// 2. 跨批次校驗 (Business Logic)\n// 需透過關聯 (Tag -> Batch) 獲取批次資訊進行比對\n// 實作：檢查用戶現有進度，若該進度已包含此批次，則尋找下一個或開啟新進度\nconst batchIds = collection.collectionItems.map(item => item.tag.batch.id);\nif (batchIds.includes(currentBatchId)) {\n   // 若已包含此批次，則不允許加入當前進度，並觸發開啟新進度邏輯\n   openNewCollection();\n}"
-        }
-      },
-      {
-        "id": "social",
-        "title": "互動系統設計：高效能 $O(1)$ 查詢優化",
-        "role": "架構設計",
-        "icon": "database",
-        "summary": "互動系統",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "目標",
-            "items": [
-              "在產品頁面建立客戶間的即時討論區，透過 P2P 交流促進社群互動，並協助廠商精準獲取客戶的真實反饋與產品需求。"
-            ]
-          },
-          {
-            "type": "grid",
-            "title": "核心功能",
-            "items": [
-              {
-                "icon": "🤝",
-                "title": "驗證式 P2P 共創社群",
-                "desc": "透過產品掃描進入專屬討論空間，連結真實用戶分享使用經驗 (P2P)，形成高質量的社群互助，並直接轉化為產品迭代依據。"
-              },
-              {
-                "icon": "📊",
-                "title": "結構化客戶聲音 (VoC) 管理",
-                "desc": "將散亂的留言轉化為結構化數據，讓廠商能依據產品批次 (Batch) 集中檢視用戶反饋，有效追溯並管理不同產線的評價。"
-              }
-            ]
-          },
-          {
-            "type": "workflow",
-            "title": "架構設計",
-            "steps": [
-              {
-                "step": "1",
-                "title": "非遞迴式對話扁平化設計",
-                "desc": "利用 rootReplyCommentId 建立單層深度關聯，將深層巢狀留言從 O(n) 的遞迴查詢優化為 O(1) 次數的查詢，徹底解決 N+1 查詢瓶頸。"
-              },
-              {
-                "step": "2",
-                "title": "邏輯軟刪除與動態過濾",
-                "desc": "採用 isDeleted 狀態標記取代實體刪除，保留數據可追溯性；並透過讀取層的根節點過濾機制，動態隱藏整串討論，確保前端視覺的一致性。"
-              },
-              {
-                "step": "3",
-                "title": "分頁式高效能互動封裝",
-                "desc": "採用樂觀介面更新策略，配合後端分頁機制，實現零延遲的留言反饋與高效的瀏覽體驗。"
-              }
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "核心程式碼",
-          "language": "typescript",
-          "code": "// 1. 優化遞迴讀取瓶頸\nmodel Comment {\n  id                 Int     @id @default(autoincrement())\n  replyCommentId     Int?    // 父層節點\n  rootReplyCommentId Int?    // 根節點\n  isDeleted          Boolean @default(false)\n}\n\n// 2. 高效查詢實作\n// 透過 include 一次帶出所有關聯子留言，避開 N+1\nconst comments = await db.comment.findMany({\n  where: { \n    batchId: currentBatchId, // 鎖定批次\n    rootReplyCommentId: null // 只查「樓主」\n    isDeleted: false         // 過濾已刪除的主留言\n  },\n  include: {\n    // 關鍵優化：利用單次 Join 帶出整串討論 (O(1))\n    rootReplycomments: true\n    where: { isDeleted: false }\n  }\n});"
-        }
-      }
-    ],
-    "technicalChallenges": [
-      {
-        "id": "xcode-toolchain",
-        "title": "Xcode 工具鏈自動化：排除 SDK 相容性衝突",
-        "role": "基礎設施負責人",
-        "icon": "settings",
-        "summary": "解決升級 Xcode 後導致的 App 編譯失敗，並透過自動化補丁與參數注入，修正 Binary SDK 的環境相容性問題。",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "問題現象",
-            "items": ["升級開發工具 Xcode 後，導致專案編譯失敗，無法進行建置與打包。"]
-          },
-          {
-            "type": "list",
-            "title": "分析與工具",
-            "items": [
-              "透過深入分析 Xcode Build Log 診斷編譯錯誤，定位問題根源於 Cybavo 二進位套件（Binary SDK）與新版工具鏈的相容性衝突。"
-            ]
-          },
-          {
-            "type": "list",
-            "title": "解決方案",
-            "items": [
-              "廠商技術對接：主動聯絡 SDK 廠商，確認可透過注入 -no-verify-emitted-module-interface 編譯旗標，告知 Swift 編譯器在處理傳統 Binary SDK 時跳過嚴格的介面雜湊驗證，解決升級 Xcode 14.3+ 後的建置阻斷問題。",
-              "環境標準化：實作 Podfile 自動化補丁，強制將所有第三方 Pods 的 Deployment Target 統一設定為 12.4，滿足新版 Xcode 最低部署版本要求。"
-            ]
-          },
-          {
-            "type": "list",
-            "title": "結果",
-            "items": ["成功排除編譯障礙，恢復 App 打包發布流程，並確保了原生建置環境在工具鏈升級後的穩定性。"]
-          }
-        ],
-        "codeSnippet": {
-          "title": "Podfile post_install 腳本",
-          "language": "ruby",
-          "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||= ['$(inherited)', '-no-verify-emitted-module-interface']\n  end\nend"
-        }
-      },
-      {
-        "id": "android-stability",
-        "title": "Android 依賴管控：消除原生模組崩潰",
-        "role": "基礎設施負責人",
-        "icon": "smartphone",
-        "summary": "透過原生依賴版本控制與依賴標準化遷移，解決特定版本的不穩定問題，消除原生模組在執行期的崩潰風險。",
-        "blocks": [
-          {
-            "type": "list",
-            "title": "問題現象",
-            "items": [
-              "在進行身分驗證（IDV）流程測試時，Android 裝置在啟動人臉辨識相機模組時，發生執行期崩潰，導致驗證流程中斷。"
-            ]
-          },
-          {
-            "type": "list",
-            "title": "分析與工具",
-            "items": [
-              "透過分析 Android Logcat 原生錯誤堆疊，定位問題根源於 Incode 人臉辨識 SDK 特定版本（v2.6.3）的內部相機模組異常。"
-            ]
-          },
-          {
-            "type": "list",
-            "title": "解決方案",
-            "items": [
-              "跨團隊溝通：主動與負責串接 Incode 的負責人進行技術對接，同步崩潰日誌與環境參數。",
-              "套件規範化遷移：主導將舊有的 S3 引用模式遷移至 @incode-sdks 官方 Scoped Package，並鎖定穩定版本，從根本解決非標準引用導致的版本不一致與崩潰問題。"
-            ]
-          },
-          {
-            "type": "list",
-            "title": "結果",
-            "items": [
-              "徹底解決開啟相機導致崩潰的底層問題，恢復 IDV 流程的穩定運行，並建立了更可靠的第三方 SDK 更新維護路徑。"
-            ]
-          }
-        ],
-        "codeSnippet": {
-          "title": "build.gradle 依賴版本鎖定",
-          "language": "groovy",
-          "code": "// 鎖定原生核心庫至穩定版本，解決 2.6.3 相機崩潰問題\nimplementation 'com.incode.sdk:core-light:2.6.1'"
-        }
-      },
-      {
         "id": "app-clip",
         "title": "App Clip 導航修正：解決畫面殘留與狀態管理",
         "role": "iOS 原生技術負責人",
         "icon": "smartphone",
         "summary": "修復掃描流程導航死鎖問題，提升使用者體驗",
         "tags": ["iOS Native", "State Reset", "NFC Optimization"],
-        "blocks": [
-          {
-            "type": "list",
-            "title": "挑戰",
-            "items": [
-              "在使用 App Clip 連續進行 NFC 觸發時，仍然顯示前次掃描的結果頁面",
-              "此現象導致用戶在實體場景操作中斷，直接影響掃描轉換率"
-            ]
-          },
-          {
-            "type": "list",
-            "title": "分析與工具",
-            "items": [
-              "查閱 SceneDelegate 與根視圖控制器的邏輯",
-              "追蹤 UIViewController 的 presented 狀態鏈條，確認系統無法自動重置 Modal Presentation"
-            ]
-          },
-          {
-            "type": "decision",
-            "title": "工程決策",
-            "items": [
-              {
-                "title": "方法一：更新彈窗內容",
-                "desc": "缺點：需要考慮多個狀態，例如：加載中、動畫播放中、失敗、成功等"
-              },
-              {
-                "title": "方法二：透過遞迴尋找最上層控制器，並強制關閉",
-                "desc": "優點：可以重置視圖狀態，確保生命週期一致性",
-                "highlight": true,
-                "badge": "已選策略"
-              }
-            ]
-          },
-          {
-            "type": "result",
-            "title": "結果",
-            "items": ["消除 UI 衝突導致的導航阻斷", "提升使用者掃描到查看商品頁面的流暢度"]
-          }
-        ],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "在使用 App Clip 連續進行 NFC 觸發時，仍然顯示前次掃描的結果頁面",
+            "此現象導致用戶在實體場景操作中斷，直接影響掃描轉換率"
+          ]
+        },
+        "analysis": {
+          "title": "分析與工具",
+          "items": [
+            "查閱 SceneDelegate 與根視圖控制器的邏輯",
+            "追蹤 UIViewController 的 presented 狀態鏈條，確認系統無法自動重置 Modal Presentation"
+          ]
+        },
+        "decision": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "方法一：更新彈窗內容",
+              "desc": "缺點：需要考慮多個狀態，例如：加載中、動畫播放中、失敗、成功等"
+            },
+            {
+              "title": "方法二：透過遞迴尋找最上層控制器，並強制關閉",
+              "desc": "優點：可以重置視圖狀態，確保生命週期一致性",
+              "highlight": true,
+              "badge": "已選策略"
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["消除 UI 衝突導致的導航阻斷", "提升使用者掃描到查看商品頁面的流暢度"]
+        },
         "codeSnippet": {
           "title": "原生 UI 堆疊清理邏輯",
           "language": "swift",
