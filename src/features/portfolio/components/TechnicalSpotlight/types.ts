@@ -1,7 +1,7 @@
 export type SpotlightIconType = "shield" | "zap" | "database" | "smartphone" | "layout";
 
 export interface ContentBlock {
-  type: "workflow" | "grid" | "comparison" | "list" | "challenges" | "architecture";
+  type: "workflow" | "grid" | "comparison" | "list" | "challenges" | "architecture" | "decision" | "result";
   title: string;
   // Workflow Step
   steps?: Array<{ step: string; title: string; desc: string }>;
@@ -9,8 +9,13 @@ export interface ContentBlock {
   items?:
     | Array<{
         icon?: string;
-        title: string;
+        title?: string;
         desc?: string;
+        // Logic Layer
+        type?: string;
+        highlight?: boolean;
+        badge?: string;
+        // Challenges
         symptom?: string;
         solution?: string;
         result?: string;
@@ -29,6 +34,7 @@ export interface SpotlightItem {
   role: string;
   icon: SpotlightIconType;
   summary: string;
+  tags?: string[];
   blocks: ContentBlock[];
   codeSnippet?: {
     title: string;

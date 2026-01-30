@@ -2,10 +2,10 @@
 
 import { Collapsible } from "@components/ui/Collapsible";
 import { Database, Layout, Shield, Smartphone, Zap } from "lucide-react";
-import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { AppClipFeature } from "./AppClipFeature";
 import { BlockRenderer } from "./BlockRenderer";
+import { CodeBlock } from "./CodeBlock";
 import { SpotlightIconType, SpotlightItem } from "./types";
 
 // --- Icons Map ---
@@ -23,7 +23,6 @@ interface TechnicalSpotlightProps {
 }
 
 export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
-  const t = useTranslations("projects");
   const [isOpenId, setIsOpenId] = useState<string | null>(items[0].id);
 
   const handleToggle = (id: string) => {
@@ -54,22 +53,7 @@ export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
                   <BlockRenderer key={idx} block={block} />
                 ))}
 
-                {item.codeSnippet && (
-                  <div>
-                    <h4 className="mb-4 text-sm font-bold tracking-wider text-gray-500 uppercase">
-                      {t("codeSnippet")}
-                    </h4>
-                    <div className="rounded-lg bg-gray-900 p-4 dark:bg-black/50">
-                      <div className="mb-2 flex items-center justify-between text-xs text-gray-400">
-                        <span className="font-semibold">{item.codeSnippet.title}</span>
-                        <span className="uppercase">{item.codeSnippet.language}</span>
-                      </div>
-                      <pre className="overflow-x-auto font-mono text-xs leading-relaxed text-gray-300">
-                        <code>{item.codeSnippet.code}</code>
-                      </pre>
-                    </div>
-                  </div>
-                )}
+                {item.codeSnippet && <CodeBlock snippet={item.codeSnippet} />}
               </div>
             )}
           </Collapsible>

@@ -319,49 +319,59 @@
       },
       {
         "id": "app-clip",
-        "title": "App Clip 重構：優化視圖殘留與記憶體",
+        "title": "App Clip 導航修正：解決畫面殘留與狀態管理",
         "role": "iOS 原生技術負責人",
         "icon": "smartphone",
-        "summary": "解決連續操作時的視圖殘留問題，優化 App Clip 生命週期管理以確保每次掃描的獨立性。",
+        "summary": "修復掃描流程導航死鎖問題，提升使用者體驗",
+        "tags": ["iOS Native", "State Reset", "NFC Optimization"],
         "blocks": [
           {
             "type": "list",
-            "title": "問題現象",
+            "title": "挑戰",
             "items": [
-              "在使用 App Clip 進行連續掃描時，若前次掃描的結果頁面或錯誤畫面未正確清理，會導致新掃描觸發時產生 UI 堆疊衝突，進而引發導航失敗。"
+              "在使用 App Clip 連續進行 NFC 觸發時，仍然顯示前次掃描的結果頁面",
+              "此現象導致用戶在實體場景操作中斷，直接影響掃描轉換率"
             ]
           },
           {
             "type": "list",
             "title": "分析與工具",
             "items": [
-              "查閱 SceneDelegate 與根視圖控制器的邏輯，確認問題源於 iOS 模態視窗的呈現機制，導致新視圖無法在已存在的 UI 狀態上正確彈出"
+              "查閱 SceneDelegate 與根視圖控制器的邏輯",
+              "追蹤 UIViewController 的 presented 狀態鏈條，確認系統無法自動重置 Modal Presentation"
             ]
           },
           {
-            "type": "list",
-            "title": "解決方案",
+            "type": "decision",
+            "title": "工程決策",
             "items": [
-              "開發並實作 useLandingController 遞迴清理機制，透過遍歷 View Controller 堆疊，強制 Dismiss 所有殘留視窗，確保每次 NFC 觸發均能由初始的 Landing 狀態啟動。"
+              {
+                "title": "方法一：更新彈窗內容",
+                "desc": "缺點：需要考慮多個狀態，例如：加載中、動畫播放中、失敗、成功等"
+              },
+              {
+                "title": "方法二：透過遞迴尋找最上層控制器，並強制關閉",
+                "desc": "優點：可以重置視圖狀態，確保生命週期一致性",
+                "highlight": true,
+                "badge": "已選策略"
+              }
             ]
           },
           {
-            "type": "list",
+            "type": "result",
             "title": "結果",
-            "items": [
-              "確保了所有掃描行為都能從乾淨的初始狀態啟動，徹底解決 UI 衝突問題，顯著提升了導航的可靠性與使用者體驗。"
-            ]
+            "items": ["消除 UI 衝突導致的導航阻斷", "提升使用者掃描到查看商品頁面的流暢度"]
           }
         ],
         "codeSnippet": {
           "title": "原生 UI 堆疊清理邏輯",
           "language": "swift",
-          "code": "// 透過遞迴 dismiss 確保 App Clip 掃描流程的原子性\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // 找出最上層的 View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // 安全清理：僅針對掃描相關頁面進行 Dismiss\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
-          "highlights": [6, 10, 11],
+          "code": "// 透過遞迴 dismiss 確保每次掃描都能從初始的 Landing 狀態啟動\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {\n    $0.isKeyWindow\n  }.first\n\n  if var topController = keyWindow?.rootViewController {\n    while let presented = \n      topController.presentedViewController {\n      topController = presented\n    }\n\n    if topController is ScanResultViewController ||\n       topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
+          "highlights": [8, 9, 10, 13, 14, 15],
           "tooltips": [
-            { "line": 6, "content": "遞迴查找最上層 Presented VC" },
-            { "line": 10, "content": "僅針對特定視圖類型執行清理" },
-            { "line": 11, "content": "強制移除殘留視窗 (animated: false)" }
+            { "line": 8, "content": "遞迴查找最上層 Presented VC" },
+            { "line": 13, "content": "僅針對特定視圖類型執行清理" },
+            { "line": 15, "content": "強制移除殘留視窗" }
           ]
         }
       }
