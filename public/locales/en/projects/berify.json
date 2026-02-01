@@ -93,18 +93,22 @@
             "Traced the presented state chain of UIViewControllers, confirming the system failed to auto-reset Modal Presentations."
           ]
         },
-        "decision": {
-          "title": "Engineering Decision",
+        "decisions": {
+          "title": "Engineering Decisions",
           "items": [
             {
-              "title": "Method 1: Update Modal Content",
-              "desc": "Cons: Requires handling multiple states like loading, animation playing, failure, success."
-            },
-            {
-              "title": "Method 2: Recursive Lookup & Force Dismiss",
-              "desc": "Pros: Effectively resets view state, ensuring lifecycle consistency.",
-              "highlight": true,
-              "badge": "Selected Strategy"
+              "title": "Evaluation: How to Reset Navigation State?",
+              "items": [
+                {
+                  "title": "Update Modal Content",
+                  "desc": "Cons: Requires handling multiple states like loading, animation playing, failure, success."
+                },
+                {
+                  "title": "Recursive Lookup & Force Dismiss",
+                  "desc": "Pros: Effectively resets view state, ensuring lifecycle consistency.",
+                  "highlight": true
+                }
+              ]
             }
           ]
         },
@@ -115,17 +119,110 @@
             "Improved fluidity from scanning to viewing product pages."
           ]
         },
-        "codeSnippet": {
-          "title": "Native UI Stack Cleanup Logic",
-          "language": "swift",
-          "code": "// Ensure atomicity of App Clip scan flow via recursive dismiss\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // Find the topmost View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // Safe cleanup: Dismiss only scan-related pages\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
-          "highlights": [6, 10, 11],
-          "tooltips": [
-            { "line": 6, "content": "Recursively find topmost Presented VC" },
-            { "line": 10, "content": "Clean up only specific view types" },
-            { "line": 11, "content": "Force remove residual windows (animated: false)" }
+        "codeSnippetTabs": [
+          {
+            "label": "Main Logic",
+            "title": "Native UI Stack Cleanup Logic",
+            "language": "swift",
+            "code": "// Ensure atomicity of App Clip scan flow via recursive dismiss\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first\n  if var topController = keyWindow?.rootViewController {\n    // Find the topmost View Controller\n    while let presentedViewController = topController.presentedViewController {\n      topController = presentedViewController\n    }\n    // Safe cleanup: Dismiss only scan-related pages\n    if topController is ScanResultViewController || topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
+            "highlights": [6, 10, 11],
+            "tooltips": [
+              { "line": 6, "content": "Recursively find topmost Presented VC" },
+              { "line": 10, "content": "Clean up only specific view types" },
+              { "line": 11, "content": "Force remove residual windows (animated: false)" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "optimize-and-refactor-rewards",
+        "title": "Rewards Refactor: Cross-Module Parallax & State Sync",
+        "role": "Module Architecture Lead",
+        "icon": "smartphone",
+        "summary": "Established standardized animation state flow via Module-Scoped Context and CustomFlatList encapsulation, resolving complex nested scroll conflicts and ensuring precise cross-page UI & data sync.",
+        "tags": ["React Context", "Custom Hook Encapsulation"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "Cross-page data desynchronization caused frequent points display errors and customer complaints.",
+            "Standard components could not support complex parallax blocks, resulting in severe scrolling stutter."
           ]
-        }
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "Decision 1: State Management Strategy - Multi-source Sync",
+              "items": [
+                {
+                  "title": "Module-Level Context State with Auto-Broadcast",
+                  "desc": "Pros: Context resolves local state sharing without adding bundle size; aligns with current architecture.",
+                  "highlight": true
+                },
+                {
+                  "title": "Redux or React Query for Server State",
+                  "desc": "Cons: Current architecture lacks Redux; introducing it adds unnecessary complexity."
+                }
+              ]
+            },
+            {
+              "title": "Decision 2: Parallax Scroll Strategy - Complex Scroll Issues",
+              "items": [
+                {
+                  "title": "CustomFlatList (Custom Encapsulation)",
+                  "desc": "Pros: Combines Content Padding & Native Driver to achieve smooth parallax scrolling.",
+                  "highlight": true
+                },
+                {
+                  "title": "ScrollView",
+                  "desc": "Cons: Full rendering blocks main thread, unable to support long list performance."
+                },
+                {
+                  "title": "FlatList",
+                  "desc": "Cons: Standard Header coupled with scroll flow; cannot achieve parallax scaling and layer separation."
+                },
+                {
+                  "title": "Reanimated + FlatList",
+                  "desc": "Cons: Not aligned with current project architecture."
+                }
+              ]
+            }
+          ]
+        },
+        "showcase": {
+          "alt": "Showcasing CustomFlatList Parallax Effect"
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Unified cross-page state management, resolving customer complaints caused by points display errors.",
+            "Overcame native component limitations, perfectly reproducing high-complexity parallax experience required by designers."
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Logic & Context",
+            "title": "Native Driven Parallax: Context State Flow & Interpolation",
+            "language": "typescript",
+            "code": "// 1. Define Native Animation Interpolation in Context\nconst styles = useMemo(() => ({\n  background: {\n    transform: [\n      {\n        translateY: scrollY.interpolate({\n          inputRange: [0, headerHeight],\n          outputRange: [0, -headerHeight]\n        })\n      },\n      {\n        scale: scrollY.interpolate({\n          inputRange: [-windowHeight, 0],\n          outputRange: [4.2, 1]\n        })\n      }\n    ]\n  }\n}), [scrollY, headerHeight]);\n\nconst onScroll = Animated.event(\n  [{ nativeEvent: { contentOffset: { y: scrollY } } }],\n  { useNativeDriver: true }\n);",
+            "highlights": [6, 7, 8, 12, 13, 14, 23],
+            "tooltips": [
+              { "line": 6, "content": "Calc Parallax Offset: Move background up on scroll for depth" },
+              { "line": 12, "content": "Calc Scale: Zoom background on pull-down, simulating iOS elasticity" },
+              { "line": 23, "content": "Enable useNativeDriver: Offload calc to UI thread for stable FPS" }
+            ]
+          },
+          {
+            "label": "Component View",
+            "title": "Native Driven Parallax: Context State Flow & Interpolation",
+            "language": "typescript",
+            "code": "// 2. Consume Context in UI Layer & Bind Animation\nfunction CustomFlatList({ children, BackgroundComponent }) {\n  const { styles, onScroll } = useCustomFlatListContext();\n  return (\n    <Stack>\n      <Animated.View style={[styles.background]} pointerEvents='box-none'>\n        {BackgroundComponent}\n      </Animated.View>\n      <Animated.FlatList\n        onScroll={onScroll}\n        scrollEventThrottle={16}\n        {...props}\n      />\n    </Stack>\n  );\n}",
+            "highlights": [10],
+            "tooltips": [
+              { "line": 10, "content": "Bind Animated.event: Link ScrollView offset directly to Animated.Value" }
+            ]
+          }
+        ]
       }
     ],
     "gallery": {

@@ -1,19 +1,21 @@
+import { cn } from "@src/util";
 import { CheckCircle2 } from "lucide-react";
 import { ContentBlock, ResultBlock as ResultBlockType } from "./types";
 
 interface ResultBlockProps {
   block: ContentBlock | ResultBlockType;
+  className?: string;
 }
 
-export function ResultBlock({ block }: ResultBlockProps) {
+export function ResultBlock({ block, className }: ResultBlockProps) {
   const items = block.items;
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-emerald-900/30 bg-slate-900 p-6">
+    <div className={cn("relative overflow-hidden rounded-xl border border-emerald-900/30 bg-slate-900 p-6", className)}>
       {/* Inner Gradient */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent to-emerald-900/20" />
+      <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-transparent to-emerald-900/20" />
 
-      <div className="relative z-10">
+      <div className="relative h-full">
         <div className="mb-4">
           <h4 className="text-xl font-bold tracking-tight text-white">{block.title || "Result"}</h4>
         </div>

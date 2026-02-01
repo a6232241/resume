@@ -60,7 +60,19 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
   };
 
   // --- Technical Challenges Data ---
-  const technicalSpotlightData = t.raw("technicalSpotlight") as SpotlightItem[];
+  const technicalSpotlightRaw = t.raw("technicalSpotlight") as SpotlightItem[];
+
+  const technicalSpotlightData = technicalSpotlightRaw.map((item) => ({
+    ...item,
+    showcase:
+      item.id === "optimize-and-refactor-rewards"
+        ? {
+            type: "video" as const,
+            src: getMediaUrl("/berify/technical-spotlight-optimize-and-refactor-rewards.mp4"),
+            alt: "Optimize and Refactor Rewards",
+          }
+        : undefined,
+  }));
 
   // --- Gallery Data (Tabbed) ---
   const galleryRaw = t.raw("gallery") as {

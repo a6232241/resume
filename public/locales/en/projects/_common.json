@@ -10,6 +10,8 @@
   "teamSize": "Team Size",
   "projectType": "Project Type",
   "platforms": "Platforms",
-  "techStack": "Tech Stack"
+  "techStack": "Tech Stack",
+  "selectedDecision": "Selected Strategy",
+  "notSelectedDecision": "Not Selected"
 }
 

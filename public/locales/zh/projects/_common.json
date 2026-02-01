@@ -9,6 +9,9 @@
   "teamSize": "團隊規模",
   "projectType": "專案類型",
   "platforms": "支援平台",
-  "techStack": "技術棧"
+  "techStack": "技術棧",
+  "showcase": "成果展示",
+  "selectedDecision": "已選策略",
+  "notSelectedDecision": "未選策略"
 }
 

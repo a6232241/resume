@@ -1,3 +1,5 @@
+import { ProjectImageItemProps } from "@src/components/shared";
+
 export type SpotlightIconType = "shield" | "zap" | "database" | "smartphone" | "layout";
 
 export interface ContentBlock {
@@ -28,6 +30,14 @@ export interface ContentBlock {
   layers?: Array<{ name: string; desc: string; role: string }>;
 }
 
+export interface CodeSnippet {
+  title: string;
+  language: string;
+  code: string;
+  highlights?: number[];
+  tooltips?: Array<{ line: number; content: string }>;
+}
+
 export interface SpotlightItem {
   id: string;
   title: string;
@@ -36,16 +46,11 @@ export interface SpotlightItem {
   summary: string;
   tags: string[];
   challenge: ListBlock;
-  analysis: ListBlock;
-  decision: DecisionBlock;
+  analysis?: ListBlock;
+  decisions?: DecisionsBlock;
   result: ResultBlock;
-  codeSnippet?: {
-    title: string;
-    language: string;
-    code: string;
-    highlights?: number[];
-    tooltips?: Array<{ line: number; content: string }>;
-  };
+  showcase?: ProjectImageItemProps;
+  codeSnippetTabs?: Array<CodeSnippet & { label: string }>;
 }
 
 export interface ListBlock {
@@ -53,13 +58,15 @@ export interface ListBlock {
   items: string[];
 }
 
-export interface DecisionBlock {
+export interface DecisionsBlock {
   title: string;
   items: Array<{
-    title?: string;
-    desc?: string;
-    highlight?: boolean;
-    badge?: string;
+    title: string;
+    items: Array<{
+      title?: string;
+      desc?: string;
+      highlight?: boolean;
+    }>;
   }>;
 }
 

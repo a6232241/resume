@@ -1,9 +1,9 @@
 import { cn } from "@src/util/cn";
 import { Info } from "lucide-react";
-import { SpotlightItem } from "./types";
+import { CodeSnippet } from "./types";
 
 interface CodeBlockProps {
-  snippet: NonNullable<SpotlightItem["codeSnippet"]>;
+  snippet: CodeSnippet;
   className?: string; // Optional for positioning similar to AppClipFeature usage if needed
 }
 

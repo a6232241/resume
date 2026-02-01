@@ -19,7 +19,7 @@ export interface LightBoxProps {
   onClose: () => void;
   mediaItems: LightBoxMediaItem[];
   currentIndex: number;
-  onNavigate: (index: number) => void;
+  onNavigate?: (index: number) => void;
   loop?: boolean;
   showCaption?: boolean;
 }
@@ -37,17 +37,17 @@ export default function LightBox({
 
   const handlePrevious = useCallback(() => {
     if (loop) {
-      onNavigate(currentIndex === 0 ? mediaItems.length - 1 : currentIndex - 1);
+      onNavigate?.(currentIndex === 0 ? mediaItems.length - 1 : currentIndex - 1);
     } else if (currentIndex > 0) {
-      onNavigate(currentIndex - 1);
+      onNavigate?.(currentIndex - 1);
     }
   }, [currentIndex, onNavigate, loop, mediaItems.length]);
 
   const handleNext = useCallback(() => {
     if (loop) {
-      onNavigate(currentIndex === mediaItems.length - 1 ? 0 : currentIndex + 1);
+      onNavigate?.(currentIndex === mediaItems.length - 1 ? 0 : currentIndex + 1);
     } else if (currentIndex < mediaItems.length - 1) {
-      onNavigate(currentIndex + 1);
+      onNavigate?.(currentIndex + 1);
     }
   }, [currentIndex, mediaItems.length, onNavigate, loop]);
 

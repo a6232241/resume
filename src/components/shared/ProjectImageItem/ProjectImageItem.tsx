@@ -113,7 +113,7 @@ export function ProjectImageItem({
             </div>
             <div
               className={`absolute top-2 right-2 rounded ${colorStyles.badge} px-2 py-1 text-xs font-medium text-white`}>
-              Video
+              Live Demo
             </div>
           </>
         ) : (

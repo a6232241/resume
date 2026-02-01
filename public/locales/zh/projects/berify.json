@@ -68,18 +68,22 @@
             "追蹤 UIViewController 的 presented 狀態鏈條，確認系統無法自動重置 Modal Presentation"
           ]
         },
-        "decision": {
+        "decisions": {
           "title": "工程決策",
           "items": [
             {
-              "title": "方法一：更新彈窗內容",
-              "desc": "缺點：需要考慮多個狀態，例如：加載中、動畫播放中、失敗、成功等"
-            },
-            {
-              "title": "方法二：透過遞迴尋找最上層控制器，並強制關閉",
-              "desc": "優點：可以重置視圖狀態，確保生命週期一致性",
-              "highlight": true,
-              "badge": "已選策略"
+              "title": "方案評估：如何重置導航狀態？",
+              "items": [
+                {
+                  "title": "更新彈窗內容",
+                  "desc": "缺點：需要考慮多個狀態，例如：加載中、動畫播放中、失敗、成功等"
+                },
+                {
+                  "title": "透過遞迴尋找最上層控制器，並強制關閉",
+                  "desc": "優點：可以重置視圖狀態，確保生命週期一致性",
+                  "highlight": true
+                }
+              ]
             }
           ]
         },
@@ -87,17 +91,105 @@
           "title": "結果",
           "items": ["消除 UI 衝突導致的導航阻斷", "提升使用者掃描到查看商品頁面的流暢度"]
         },
-        "codeSnippet": {
-          "title": "原生 UI 堆疊清理邏輯",
-          "language": "swift",
-          "code": "// 透過遞迴 dismiss 確保每次掃描都能從初始的 Landing 狀態啟動\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {\n    $0.isKeyWindow\n  }.first\n\n  if var topController = keyWindow?.rootViewController {\n    while let presented = \n      topController.presentedViewController {\n      topController = presented\n    }\n\n    if topController is ScanResultViewController ||\n       topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
-          "highlights": [8, 9, 10, 13, 14, 15],
-          "tooltips": [
-            { "line": 8, "content": "遞迴查找最上層 Presented VC" },
-            { "line": 13, "content": "僅針對特定視圖類型執行清理" },
-            { "line": 15, "content": "強制移除殘留視窗" }
+        "codeSnippetTabs": [
+          {
+            "label": "Main Logic",
+            "title": "原生 UI 堆疊清理邏輯",
+            "language": "swift",
+            "code": "// 透過遞迴 dismiss 確保每次掃描都能從初始的 Landing 狀態啟動\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {\n    $0.isKeyWindow\n  }.first\n\n  if var topController = keyWindow?.rootViewController {\n    while let presented = \n      topController.presentedViewController {\n      topController = presented\n    }\n\n    if topController is ScanResultViewController ||\n       topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
+            "highlights": [8, 9, 10, 13, 14, 15],
+            "tooltips": [
+              { "line": 8, "content": "遞迴查找最上層 Presented VC" },
+              { "line": 13, "content": "僅針對特定視圖類型執行清理" },
+              { "line": 15, "content": "強制移除殘留視窗" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "optimize-and-refactor-rewards",
+        "title": "獎勵系統重構：實現跨模組視差滾動與狀態同步",
+        "role": "模組架構負責人",
+        "icon": "smartphone",
+        "summary": "結合 Module-Scoped Context 與 CustomFlatList 泛型封裝，建立標準化的動畫狀態流，解決複雜嵌套滾動衝突並確保跨頁面 UI 與數據的精確同步",
+        "tags": ["React Context", "Custom Hook Encapsulation"],
+        "challenge": {
+          "title": "挑戰",
+          "items": ["跨頁面數據未同步，點數顯示錯誤頻發引發客訴", "標準組件無法支撐複雜視差，導致滾動體驗嚴重卡頓"]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "決策一：狀態管理方案選型 - 解決多源數據同步問題",
+              "items": [
+                {
+                  "title": "構建模組級 Context State，自動廣播狀態變更",
+                  "desc": "優點：Context 能在不增加額外 bundle size 的前提下解決局部狀態共享問題，且符合當下的架構",
+                  "highlight": true
+                },
+                {
+                  "title": "引入 Redux 或 React Query 集中管理伺服器狀態",
+                  "desc": "缺點：當前專案架構並沒有設計 Redux，引入會增加額外的架構複雜度"
+                }
+              ]
+            },
+            {
+              "title": "決策二：視差滾動方案選型 - 解決複雜視差滾動問題",
+              "items": [
+                {
+                  "title": "CustomFlatList (自訂封裝)",
+                  "desc": "優點：結合 Content Padding 與 Native Driver，達成流暢的視差滾動",
+                  "highlight": true
+                },
+                {
+                  "title": "ScrollView",
+                  "desc": "缺點：全量渲染導致主線程阻塞，無法支撐長列表效能"
+                },
+                {
+                  "title": "FlatList",
+                  "desc": "缺點：標準 Header 耦合滾動流，無法實現視差縮放與圖層分離"
+                },
+                {
+                  "title": "Reanimated + FlatList",
+                  "desc": "缺點：不符合當前專案架構"
+                }
+              ]
+            }
           ]
-        }
+        },
+        "showcase": {
+          "alt": "展示 CustomFlatList 的視差滾動效果"
+        },
+        "result": {
+          "title": "結果",
+          "items": [
+            "統一跨頁面狀態管理，解決點數顯示錯誤引發的客訴問題",
+            "突破原生組件限制，完美還原設計師要求的高複雜度視差體驗"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Logic & Context",
+            "title": "原生驅動視差滾動：Context 狀態流與插值運算",
+            "language": "typescript",
+            "code": "// 1. 在 Context 中定義原生動畫插值 (Interpolation)\nconst styles = useMemo(() => ({\n  background: {\n    transform: [\n      {\n        translateY: scrollY.interpolate({\n          inputRange: [0, headerHeight],\n          outputRange: [0, -headerHeight]\n        })\n      },\n      {\n        scale: scrollY.interpolate({\n          inputRange: [-windowHeight, 0],\n          outputRange: [4.2, 1]\n        })\n      }\n    ]\n  }\n}), [scrollY, headerHeight]);\n\nconst onScroll = Animated.event(\n  [{ nativeEvent: { contentOffset: { y: scrollY } } }],\n  { useNativeDriver: true }\n);",
+            "highlights": [6, 7, 8, 12, 13, 14, 23],
+            "tooltips": [
+              { "line": 6, "content": "計算 Parallax 位移：隨滾動向上移動背景，創造層次感" },
+              { "line": 12, "content": "計算 Scale 縮放：下拉時放大背景圖，模擬原生 iOS 彈性效果" },
+              { "line": 23, "content": "啟用 useNativeDriver：將計算卸載至 UI 線程，確保幀率穩定" }
+            ]
+          },
+          {
+            "label": "Component View",
+            "title": "原生驅動視差滾動：Context 狀態流與插值運算",
+            "language": "typescript",
+            "code": "// 2. 在 UI 層消費 Context 並綁定動畫\nfunction CustomFlatList({ children, BackgroundComponent }) {\n  const { styles, onScroll } = useCustomFlatListContext();\n  return (\n    <Stack>\n      <Animated.View style={[styles.background]} pointerEvents='box-none'>\n        {BackgroundComponent}\n      </Animated.View>\n      <Animated.FlatList\n        onScroll={onScroll}\n        scrollEventThrottle={16}\n        {...props}\n      />\n    </Stack>\n  );\n}",
+            "highlights": [10],
+            "tooltips": [{ "line": 10, "content": "綁定 Animated.event：直接連結 ScrollView 偏移量與 Animated.Value" }]
+          }
+        ]
       }
     ],
     "gallery": {
