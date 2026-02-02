@@ -3,20 +3,20 @@ import { CodeBlockTabs } from "./CodeBlockTabs";
 import { DecisionsBlock } from "./DecisionsBlock";
 import { ListBlock } from "./ListBlock";
 import { ResultBlock } from "./ResultBlock";
+import { ShowcaseBlock } from "./ShowcaseBlock";
 import { SpotlightItem } from "./types";
 
-interface AppClipFeatureProps {
+interface FeatureProps {
   item: SpotlightItem;
 }
 
-export function AppClipFeature({ item }: AppClipFeatureProps) {
-  const { challenge, analysis, decisions, result, codeSnippetTabs } = item;
+export function Feature({ item }: FeatureProps) {
+  const { challenge, decisions, analysis, result, codeSnippetTabs, showcase } = item;
 
   return (
     <div className="flex flex-col gap-8">
       {/* 1. Summary Layer */}
       <div className="space-y-4">
-        {/* Tag Cloud */}
         {item.tags && (
           <div className="flex flex-wrap gap-2">
             {item.tags.map((tag) => (
@@ -28,27 +28,38 @@ export function AppClipFeature({ item }: AppClipFeatureProps) {
             ))}
           </div>
         )}
-        {/* Key Sentence */}
         <p className="text-lg leading-relaxed font-bold text-gray-900 dark:text-gray-100">{item.summary}</p>
       </div>
 
       {/* 2. Logic Layer */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* Left Column: Challenge -> Analysis -> Decision */}
-        <div className="flex min-w-0 flex-col gap-4">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
+        {/* Left Column: Challenge -> Decisions */}
+        <div className="flex min-w-0 flex-1 flex-col gap-4">
           <ListBlock block={challenge} color="red" fallbackTitle="Challenge" icon={AlertTriangle} />
           {analysis && <ListBlock block={analysis} color="yellow" fallbackTitle="Analysis" icon={Info} />}
           {decisions && <DecisionsBlock block={decisions} />}
         </div>
 
         {/* Right Column: Code Snippet */}
-        <div className="flex min-w-0 flex-1 flex-col">
-          {codeSnippetTabs && <CodeBlockTabs tabs={codeSnippetTabs} className="h-full" />}
-        </div>
+        {codeSnippetTabs && (
+          <div className="flex min-w-0 flex-1 flex-col">
+            <CodeBlockTabs tabs={codeSnippetTabs} className="h-full" />
+          </div>
+        )}
       </div>
 
       {/* 3. Result Layer */}
-      <ResultBlock block={result} />
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
+        <div className="flex min-w-0 flex-1 flex-col">
+          <ResultBlock block={result} className="h-full" />
+        </div>
+
+        {showcase && (
+          <div className="flex min-w-0 flex-1 flex-col">
+            <ShowcaseBlock showcase={showcase} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

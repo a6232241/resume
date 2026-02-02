@@ -3,8 +3,7 @@
 import { Collapsible } from "@components/ui/Collapsible";
 import { Database, Layout, Shield, Smartphone, Zap } from "lucide-react";
 import React, { useState } from "react";
-import { AppClipFeature } from "./AppClipFeature";
-import { RewardsRefactorFeature } from "./RewardsRefactorFeature";
+import { Feature } from "./Feature";
 import { SpotlightIconType, SpotlightItem } from "./types";
 
 // --- Icons Map ---
@@ -41,8 +40,7 @@ export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
             icon={ICON_MAP[item.icon]}
             isOpen={isOpenId !== null ? isOpenId === item.id : false}
             onToggle={() => handleToggle(item.id)}>
-            {item.id === "app-clip" && <AppClipFeature item={item} />}
-            {item.id === "optimize-and-refactor-rewards" && <RewardsRefactorFeature item={item} />}
+            <Feature item={item} />
           </Collapsible>
         ))}
       </div>
