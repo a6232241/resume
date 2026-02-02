@@ -51,13 +51,12 @@ export function DecisionsBlock({ block }: DecisionsBlockProps) {
                         <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">{solution.desc}</p>
                       )}
                     </div>
-                    {solution.highlight && (
+                    {solution.highlight ? (
                       <span className="shrink-0 rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
                         {t("selectedDecision")}
                       </span>
-                    )}
-                    {!solution.highlight && (
-                      <span className="rounded border border-slate-300 px-1.5 py-0.5 text-[10px] text-slate-500 opacity-60 dark:border-slate-700 dark:text-slate-500">
+                    ) : (
+                      <span className="shrink-0 rounded border border-slate-300 px-1.5 py-0.5 text-[10px] text-slate-500 opacity-60 dark:border-slate-700 dark:text-slate-500">
                         {t("notSelectedDecision")}
                       </span>
                     )}

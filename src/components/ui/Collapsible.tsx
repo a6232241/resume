@@ -20,7 +20,7 @@ export function Collapsible({ title, children, icon, subtitle, badge, className,
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-xl border border-gray-200 bg-white backdrop-blur-sm transition-all dark:border-gray-800 dark:bg-gray-900/50",
+        "relative transform-gpu overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900/50",
         isOpen ? "shadow-md ring-1 ring-purple-500/20" : "shadow-sm hover:border-gray-300 dark:hover:border-gray-700",
         className,
       )}>
