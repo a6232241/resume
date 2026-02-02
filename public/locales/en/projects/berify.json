@@ -223,6 +223,108 @@
             ]
           }
         ]
+      },
+      {
+        "id": "native-stability-engineering",
+        "title": "Native Build Stability Engineering: Eliminating iOS Build Blockers & Android Runtime Crashes",
+        "role": "Mobile Infrastructure Lead",
+        "icon": "smartphone",
+        "summary": "Established native build environment standardization and resolved Xcode toolchain conflicts via compiler flag injection, ensuring build stability.",
+        "tags": ["Native Infrastructure", "Build Automation", "Cross-Platform Stability"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "Xcode upgrade triggered Binary SDK interface hash conflicts, blocking the build process.",
+            "Specific version of native module caused camera crashes, interrupting the core IDV identity verification flow."
+          ]
+        },
+        "analysis": {
+          "title": "Analysis",
+          "items": [
+            "Analyzed Build Logs to diagnose interface hash conflicts between Binary SDK and new Swift compiler.",
+            "Captured runtime error logs via Logcat, pinpointing internal camera module anomalies within the SDK."
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "iOS: Downgrade Dev Environment vs. Inject Compiler Flags",
+              "items": [
+                {
+                  "title": "Inject compiler flags via Podfile to bypass hash verification",
+                  "desc": "Pros: Instantly restores build flow with low intrusion while waiting for vendor fix.",
+                  "highlight": true
+                },
+                {
+                  "title": "Downgrade Development Environment",
+                  "desc": "Cons: Sacrifices performance benefits and new features of newer Xcode, delaying technical debt repayment."
+                },
+                {
+                  "title": "Wait for Vendor SDK Release",
+                  "desc": "Cons: Uncontrollable vendor update schedule."
+                }
+              ]
+            },
+            {
+              "title": "Android: Loose Versioning vs. Strict Dependency Locking",
+              "items": [
+                {
+                  "title": "Migrate to official Scoped Package and implement strict version locking",
+                  "desc": "Pros: Ensures build environment idempotency, fundamentally eliminating runtime crashes caused by dependency shifts.",
+                  "highlight": true
+                },
+                {
+                  "title": "Use Range Versioning (e.g., 2.6.+) for Automatic Updates",
+                  "desc": "Cons: Introduces non-deterministic risks, unable to guarantee build consistency, potentially leading to recurrent crashes."
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Established cross-platform compatibility standards, reducing repetitive debugging time caused by environmental discrepancies.",
+            "Completely eradicated native layer camera crashes, restoring stable operation of IDV identity verification."
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "iOS Build Automation",
+            "title": "Build Automation: Compiler Flag Injection & Environment Standardization",
+            "language": "ruby",
+            "code": "installer.pods_project.targets.each do |target|\\n  target.build_configurations.each do |config|\\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] =\\n     '12.4'\\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||=\\n     [\\n      '$(inherited)',\\n      '-no-verify-emitted-module-interface'\\n     ]\\n  end\\nend",
+            "highlights": [3, 4, 5, 6, 7, 8, 9],
+            "tooltips": [
+              {
+                "line": 3,
+                "content": "Standardize target version for all 3rd-party pods to eliminate compatibility warnings after Xcode upgrade"
+              },
+              {
+                "line": 5,
+                "content": "Tell compiler to skip hash verification for Binary SDK, resolving conflicts between old SDK and new Swift"
+              }
+            ]
+          },
+          {
+            "label": "Android Dependency",
+            "title": "Dependency Governance: Strict Locking & Idempotency",
+            "language": "groovy",
+            "code": "dependencies {\\n  // implementation 'com.incode.sdk:core-light:2.6.+'\\n  implementation 'com.incode.sdk:core-light:2.6.1'\\n}",
+            "highlights": [2, 3],
+            "tooltips": [
+              {
+                "line": 2,
+                "content": "Avoid using range versions"
+              },
+              {
+                "line": 3,
+                "content": "Force lock to specific Patch version to ensure build environment idempotency"
+              }
+            ]
+          }
+        ]
       }
     ],
     "gallery": {

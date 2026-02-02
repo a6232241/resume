@@ -9,14 +9,13 @@ interface CollapsibleProps {
   defaultOpen?: boolean;
   children: React.ReactNode;
   icon?: React.ReactNode;
-  subtitle?: string;
   badge?: string;
   className?: string;
   isOpen: boolean;
   onToggle: () => void;
 }
 
-export function Collapsible({ title, children, icon, subtitle, badge, className, isOpen, onToggle }: CollapsibleProps) {
+export function Collapsible({ title, children, icon, badge, className, isOpen, onToggle }: CollapsibleProps) {
   return (
     <div
       className={cn(
@@ -24,10 +23,8 @@ export function Collapsible({ title, children, icon, subtitle, badge, className,
         isOpen ? "shadow-md ring-1 ring-purple-500/20" : "shadow-sm hover:border-gray-300 dark:hover:border-gray-700",
         className,
       )}>
-      <button
-        onClick={onToggle}
-        className="flex w-full items-center justify-between gap-4 p-5 text-left focus:outline-none">
-        <div className="flex items-center gap-4">
+      <button onClick={onToggle} className="flex w-full items-center gap-4 p-5 text-left focus:outline-none">
+        <div className="flex flex-1 items-center gap-4">
           {icon && (
             <div
               className={cn(
@@ -39,25 +36,23 @@ export function Collapsible({ title, children, icon, subtitle, badge, className,
               {icon}
             </div>
           )}
-          <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
-            {subtitle && <div className="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">{subtitle}</div>}
+          <div className="flex flex-1 flex-col items-start gap-2 lg:flex-row lg:items-center">
+            <h3 className="flex-1 text-lg font-bold text-gray-900 dark:text-white">{title}</h3>
+
+            {badge && (
+              <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                {badge}
+              </span>
+            )}
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          {badge && (
-            <span className="rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
-              {badge}
-            </span>
-          )}
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.2 }}
-            className="text-gray-400 dark:text-gray-500">
-            <ChevronDown className="h-5 w-5" />
-          </motion.div>
-        </div>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-gray-400 dark:text-gray-500">
+          <ChevronDown className="h-5 w-5" />
+        </motion.div>
       </button>
 
       <AnimatePresence initial={false}>

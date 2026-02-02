@@ -190,6 +190,102 @@
             "tooltips": [{ "line": 10, "content": "綁定 Animated.event：直接連結 ScrollView 偏移量與 Animated.Value" }]
           }
         ]
+      },
+      {
+        "id": "native-stability-engineering",
+        "title": "原生構建穩定性工程：消除 iOS 建構阻斷與 Android 執行期崩潰",
+        "role": "移動端基礎架構負責人",
+        "icon": "smartphone",
+        "summary": "建立原生建置環境標準化規範，並透過編譯參數注入解決 Xcode 工具鏈衝突，確保構建穩定性",
+        "tags": ["Native Infrastructure", "Build Automation", "Cross-Platform Stability"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "Xcode 升級引發 Binary SDK 介面雜湊衝突，阻斷建構流程",
+            "特定版本原生模組導致相機崩潰，中斷核心 IDV 身份驗證流程"
+          ]
+        },
+        "analysis": {
+          "title": "分析",
+          "items": [
+            "分析 Build Log 診斷出 Binary SDK 與新版 Swift 編譯器的介面雜湊衝突",
+            "透過 Logcat 捕捉運行時錯誤日誌，定位出 SDK 內部相機模組異常"
+          ]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "iOS：降級開發環境 vs. 注入編譯旗標",
+              "items": [
+                {
+                  "title": "透過 Podfile 注入編譯旗標，繞過雜湊驗證",
+                  "desc": "優點：在等待廠商修復期間，以低侵入方式即刻恢復建構流程",
+                  "highlight": true
+                },
+                {
+                  "title": "降級開發環境",
+                  "desc": "缺點：犧牲新版 Xcode 的性能優勢與新功能，延遲技術債的償還"
+                },
+                {
+                  "title": "等待廠商釋出新版 SDK",
+                  "desc": "缺點：廠商更新時程不可控"
+                }
+              ]
+            },
+            {
+              "title": "Android：寬鬆版控 vs. 嚴格依賴鎖定",
+              "items": [
+                {
+                  "title": "遷移至官方 Scoped Package 並實作嚴格版本鎖定",
+                  "desc": "優點：確保構建環境的冪等性，從根本根除因依賴變動導致的執行期崩潰",
+                  "highlight": true
+                },
+                {
+                  "title": "使用範圍版本 (如 2.6.+) 自動更新依賴",
+                  "desc": "缺點：引入非確定性風險，無法保證建構環境的一致性，可能隨時再次崩潰"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": [
+            "建立跨平台版本相容性規範，減少因環境差異導致的重複除錯時間",
+            "徹底根除原生層相機崩潰，恢復 IDV 身份驗證流程的穩定運行"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "iOS Build Automation",
+            "title": "建置自動化：編譯參數注入與環境標準化",
+            "language": "ruby",
+            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] =\n     '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||=\n     [\n      '$(inherited)',\n      '-no-verify-emitted-module-interface'\n     ]\n  end\nend",
+            "highlights": [3, 4, 5, 6, 7, 8, 9],
+            "tooltips": [
+              { "line": 3, "content": "統一所有第三方套件的目標版本，消除 Xcode 升級後的版本相容性警告" },
+              { "line": 5, "content": "告知編譯器跳過 Binary SDK 的雜湊驗證，解決舊版 SDK 與新版 Swift 的衝突" }
+            ]
+          },
+          {
+            "label": "Android Dependency",
+            "title": "依賴治理：嚴格版本鎖定與冪等性確保",
+            "language": "groovy",
+            "code": "dependencies {\n  // implementation 'com.incode.sdk:core-light:2.6.+'\n  implementation 'com.incode.sdk:core-light:2.6.1'\n}",
+            "highlights": [2, 3],
+            "tooltips": [
+              {
+                "line": 2,
+                "content": "避免使用範圍版本"
+              },
+              {
+                "line": 3,
+                "content": "強制鎖定特定 Patch 版本，確保構建環境的冪等性"
+              }
+            ]
+          }
+        ]
       }
     ],
     "gallery": {

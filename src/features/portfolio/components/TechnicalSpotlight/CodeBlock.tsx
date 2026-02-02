@@ -11,7 +11,7 @@ export function CodeBlock({ snippet, className }: CodeBlockProps) {
   return (
     <div
       className={cn(
-        "group relative flex h-full min-h-[400px] flex-col overflow-hidden rounded-xl border border-gray-800 bg-[#0d1117] shadow-xl",
+        "group relative flex h-full flex-col overflow-hidden rounded-xl border border-gray-800 bg-[#0d1117] shadow-xl",
         className,
       )}>
       {/* Header */}
