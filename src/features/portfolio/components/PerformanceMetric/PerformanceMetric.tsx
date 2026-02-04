@@ -80,4 +80,3 @@ export function PerformanceMetric({ metrics }: Props) {
     </div>
   );
 }
-

@@ -114,4 +114,3 @@ export default function ProjectOverview({ overview, description, techBadgeColor 
     </section>
   );
 }
-

@@ -42,4 +42,3 @@ export function StoreSection({ appleAppStoreLink, googlePlayStoreLink, websiteLi
     </section>
   );
 }
-

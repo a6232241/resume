@@ -68,4 +68,3 @@ export function highlightCode(code: string, terms: string[]): React.ReactNode {
     );
   });
 }
-

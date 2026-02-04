@@ -82,4 +82,3 @@ export function DecisionsBlock({ block }: DecisionsBlockProps) {
     </div>
   );
 }
-

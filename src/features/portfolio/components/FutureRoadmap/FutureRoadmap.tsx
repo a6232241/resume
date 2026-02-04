@@ -39,4 +39,3 @@ export function FutureRoadmap({ title, subtitle, categories }: FutureRoadmapProp
     </section>
   );
 }
-

@@ -183,4 +183,3 @@ export function TechnicalChallengeCard({ challenges }: TechnicalChallengeCardPro
     </section>
   );
 }
-

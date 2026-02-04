@@ -186,4 +186,3 @@ export function TechnicalInsights({ insights }: TechnicalInsightsProps) {
     </section>
   );
 }
-

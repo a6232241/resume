@@ -37,4 +37,3 @@ export function ResultBlock({ block, className }: ResultBlockProps) {
     </div>
   );
 }
-

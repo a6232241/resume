@@ -46,4 +46,3 @@ export function ArchitecturalDecisions({ title, subtitle, items }: Architectural
     </section>
   );
 }
-

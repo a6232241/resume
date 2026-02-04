@@ -73,4 +73,3 @@ export function SolutionEvaluation({ title, approaches }: SolutionEvaluationProp
     </section>
   );
 }
-

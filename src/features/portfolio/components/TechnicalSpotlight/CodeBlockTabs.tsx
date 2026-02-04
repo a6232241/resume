@@ -47,4 +47,3 @@ export function CodeBlockTabs({ tabs, className }: CodeBlockTabsProps) {
     </div>
   );
 }
-

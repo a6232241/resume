@@ -51,4 +51,3 @@ export const ListBlock = ({ block, color, fallbackTitle, icon: Icon }: ListBlock
     </div>
   );
 };
-

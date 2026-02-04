@@ -13,4 +13,3 @@ export function LegalDisclaimer({ text }: LegalDisclaimerProps) {
     </footer>
   );
 }
-

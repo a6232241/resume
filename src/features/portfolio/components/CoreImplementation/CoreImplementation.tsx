@@ -48,4 +48,3 @@ export function CoreImplementation({ title, subtitle, categories }: CoreImplemen
     </section>
   );
 }
-

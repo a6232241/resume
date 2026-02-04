@@ -119,4 +119,3 @@ export function DiagnosticProcess({ process, findings }: DiagnosticProcessProps)
     </section>
   );
 }
-

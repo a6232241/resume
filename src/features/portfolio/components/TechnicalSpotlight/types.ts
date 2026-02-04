@@ -46,4 +46,3 @@ export interface ResultBlock {
   title: string;
   items: string[];
 }
-

@@ -47,4 +47,3 @@ export function TechnicalSpotlight({ title, items }: TechnicalSpotlightProps) {
     </section>
   );
 }
-

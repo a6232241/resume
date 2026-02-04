@@ -133,4 +133,3 @@ export function TechnicalImplementation({ phases }: TechnicalImplementationProps
     </section>
   );
 }
-
