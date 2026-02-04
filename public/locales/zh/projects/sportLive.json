@@ -1,0 +1,275 @@
+{
+  "shortDesc": "結合 Redux Toolkit 的 React Native 運動直播平台",
+  "technologies": ["React Native", "Redux Toolkit"],
+  "role": "前端工程師",
+  "achievements": [],
+  "detail": {
+    "hero": {
+      "title": "Sport live",
+      "tagline": ""
+    },
+    "overview": {
+      "description": "專注於 React Native 基礎設施，優化效能與修復原生問題",
+      "duration": "2024 - 至今",
+      "team": "4 人團隊合作",
+      "projectType": "商業產品",
+      "mainTechs": ["React Native", "Redux Toolkit"],
+      "platforms": ["iOS", "Android"]
+    },
+    "technicalSpotlight": [
+      {
+        "id": "10s-app-speed-optimization",
+        "title": "效能優化：載入時間從 10 多秒縮短至 1 秒內",
+        "role": "技術負責人",
+        "icon": "smartphone",
+        "summary": "透過底層架構重構，將首頁載入時間從 10 多秒縮短至 1 秒內",
+        "tags": ["Redux Toolkit", "React Native"],
+        "challenge": {
+          "title": "挑戰",
+          "items": ["在直播間進行", "此現象導致用戶在實體場景操作中斷，直接影響掃描轉換率"]
+        },
+        "analysis": {
+          "title": "分析與工具",
+          "items": [
+            "查閱 SceneDelegate 與根視圖控制器的邏輯",
+            "追蹤 UIViewController 的 presented 狀態鏈條，確認系統無法自動重置 Modal Presentation"
+          ]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "方案評估：如何重置導航狀態？",
+              "items": [
+                {
+                  "title": "更新彈窗內容",
+                  "desc": "缺點：需要考慮多個狀態，例如：加載中、動畫播放中、失敗、成功等"
+                },
+                {
+                  "title": "透過遞迴尋找最上層控制器，並強制關閉",
+                  "desc": "優點：可以重置視圖狀態，確保生命週期一致性",
+                  "highlight": true
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["消除 UI 衝突導致的導航阻斷", "提升使用者掃描到查看商品頁面的流暢度"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Main Logic",
+            "title": "原生 UI 堆疊清理邏輯",
+            "language": "swift",
+            "code": "// 透過遞迴 dismiss 確保每次掃描都能從初始的 Landing 狀態啟動\nfunc useLandingController() -> LandingViewController? {\n  let keyWindow = UIApplication.shared.windows.filter {\n    $0.isKeyWindow\n  }.first\n\n  if var topController = keyWindow?.rootViewController {\n    while let presented = \n      topController.presentedViewController {\n      topController = presented\n    }\n\n    if topController is ScanResultViewController ||\n       topController is ScanErrorViewController {\n        topController.dismiss(animated: false)\n    }\n  }\n  return keyWindow?.rootViewController as? LandingViewController\n}",
+            "highlights": [8, 9, 10, 13, 14, 15],
+            "tooltips": [
+              { "line": 8, "content": "遞迴查找最上層 Presented VC" },
+              { "line": 13, "content": "僅針對特定視圖類型執行清理" },
+              { "line": 15, "content": "強制移除殘留視窗" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "optimize-and-refactor-rewards",
+        "title": "獎勵系統重構：實現跨模組視差滾動與狀態同步",
+        "role": "模組架構負責人",
+        "icon": "smartphone",
+        "summary": "結合 Module-Scoped Context 與 CustomFlatList 泛型封裝，建立標準化的動畫狀態流，解決複雜嵌套滾動衝突並確保跨頁面 UI 與數據的精確同步",
+        "tags": ["React Context", "Custom Hook Encapsulation"],
+        "challenge": {
+          "title": "挑戰",
+          "items": ["跨頁面數據未同步，點數顯示錯誤頻發引發客訴", "標準組件無法支撐複雜視差，導致滾動體驗嚴重卡頓"]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "決策一：狀態管理方案選型 - 解決多源數據同步問題",
+              "items": [
+                {
+                  "title": "構建模組級 Context State，自動廣播狀態變更",
+                  "desc": "優點：Context 能在不增加額外 bundle size 的前提下解決局部狀態共享問題，且符合當下的架構",
+                  "highlight": true
+                },
+                {
+                  "title": "引入 Redux 或 React Query 集中管理伺服器狀態",
+                  "desc": "缺點：當前專案架構並沒有設計 Redux，引入會增加額外的架構複雜度"
+                }
+              ]
+            },
+            {
+              "title": "決策二：視差滾動方案選型 - 解決複雜視差滾動問題",
+              "items": [
+                {
+                  "title": "CustomFlatList (自訂封裝)",
+                  "desc": "優點：結合 Content Padding 與 Native Driver，達成流暢的視差滾動",
+                  "highlight": true
+                },
+                {
+                  "title": "ScrollView",
+                  "desc": "缺點：全量渲染導致主線程阻塞，無法支撐長列表效能"
+                },
+                {
+                  "title": "FlatList",
+                  "desc": "缺點：標準 Header 耦合滾動流，無法實現視差縮放與圖層分離"
+                },
+                {
+                  "title": "Reanimated + FlatList",
+                  "desc": "缺點：不符合當前專案架構"
+                }
+              ]
+            }
+          ]
+        },
+        "showcase": {
+          "alt": "展示 CustomFlatList 的視差滾動效果"
+        },
+        "result": {
+          "title": "結果",
+          "items": [
+            "統一跨頁面狀態管理，解決點數顯示錯誤引發的客訴問題",
+            "突破原生組件限制，完美還原設計師要求的高複雜度視差體驗"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Logic & Context",
+            "title": "原生驅動視差滾動：Context 狀態流與插值運算",
+            "language": "typescript",
+            "code": "// 1. 在 Context 中定義原生動畫插值 (Interpolation)\nconst styles = useMemo(() => ({\n  background: {\n    transform: [\n      {\n        translateY: scrollY.interpolate({\n          inputRange: [0, headerHeight],\n          outputRange: [0, -headerHeight]\n        })\n      },\n      {\n        scale: scrollY.interpolate({\n          inputRange: [-windowHeight, 0],\n          outputRange: [4.2, 1]\n        })\n      }\n    ]\n  }\n}), [scrollY, headerHeight]);\n\nconst onScroll = Animated.event(\n  [{ nativeEvent: { contentOffset: { y: scrollY } } }],\n  { useNativeDriver: true }\n);",
+            "highlights": [6, 7, 8, 12, 13, 14, 23],
+            "tooltips": [
+              { "line": 6, "content": "計算 Parallax 位移：隨滾動向上移動背景，創造層次感" },
+              { "line": 12, "content": "計算 Scale 縮放：下拉時放大背景圖，模擬原生 iOS 彈性效果" },
+              { "line": 23, "content": "啟用 useNativeDriver：將計算卸載至 UI 線程，確保幀率穩定" }
+            ]
+          },
+          {
+            "label": "Component View",
+            "title": "原生驅動視差滾動：Context 狀態流與插值運算",
+            "language": "typescript",
+            "code": "// 2. 在 UI 層消費 Context 並綁定動畫\nfunction CustomFlatList({ children, BackgroundComponent }) {\n  const { styles, onScroll } = useCustomFlatListContext();\n  return (\n    <Stack>\n      <Animated.View style={[styles.background]} pointerEvents='box-none'>\n        {BackgroundComponent}\n      </Animated.View>\n      <Animated.FlatList\n        onScroll={onScroll}\n        scrollEventThrottle={16}\n        {...props}\n      />\n    </Stack>\n  );\n}",
+            "highlights": [10],
+            "tooltips": [{ "line": 10, "content": "綁定 Animated.event：直接連結 ScrollView 偏移量與 Animated.Value" }]
+          }
+        ]
+      },
+      {
+        "id": "native-stability-engineering",
+        "title": "原生構建穩定性工程：消除 iOS 建構阻斷與 Android 執行期崩潰",
+        "role": "移動端基礎架構負責人",
+        "icon": "smartphone",
+        "summary": "建立原生建置環境標準化規範，並透過編譯參數注入解決 Xcode 工具鏈衝突，確保構建穩定性",
+        "tags": ["Native Infrastructure", "Build Automation", "Cross-Platform Stability"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "Xcode 升級引發 Binary SDK 介面雜湊衝突，阻斷建構流程",
+            "特定版本原生模組導致相機崩潰，中斷核心 IDV 身份驗證流程"
+          ]
+        },
+        "analysis": {
+          "title": "分析",
+          "items": [
+            "分析 Build Log 診斷出 Binary SDK 與新版 Swift 編譯器的介面雜湊衝突",
+            "透過 Logcat 捕捉運行時錯誤日誌，定位出 SDK 內部相機模組異常"
+          ]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "iOS：降級開發環境 vs. 注入編譯旗標",
+              "items": [
+                {
+                  "title": "透過 Podfile 注入編譯旗標，繞過雜湊驗證",
+                  "desc": "優點：在等待廠商修復期間，以低侵入方式即刻恢復建構流程",
+                  "highlight": true
+                },
+                {
+                  "title": "降級開發環境",
+                  "desc": "缺點：犧牲新版 Xcode 的性能優勢與新功能，延遲技術債的償還"
+                },
+                {
+                  "title": "等待廠商釋出新版 SDK",
+                  "desc": "缺點：廠商更新時程不可控"
+                }
+              ]
+            },
+            {
+              "title": "Android：寬鬆版控 vs. 嚴格依賴鎖定",
+              "items": [
+                {
+                  "title": "遷移至官方 Scoped Package 並實作嚴格版本鎖定",
+                  "desc": "優點：確保構建環境的冪等性，從根本根除因依賴變動導致的執行期崩潰",
+                  "highlight": true
+                },
+                {
+                  "title": "使用範圍版本 (如 2.6.+) 自動更新依賴",
+                  "desc": "缺點：引入非確定性風險，無法保證建構環境的一致性，可能隨時再次崩潰"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": [
+            "建立跨平台版本相容性規範，減少因環境差異導致的重複除錯時間",
+            "徹底根除原生層相機崩潰，恢復 IDV 身份驗證流程的穩定運行"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "iOS Build Automation",
+            "title": "建置自動化：編譯參數注入與環境標準化",
+            "language": "ruby",
+            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] =\n     '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||=\n     [\n      '$(inherited)',\n      '-no-verify-emitted-module-interface'\n     ]\n  end\nend",
+            "highlights": [3, 4, 5, 6, 7, 8, 9],
+            "tooltips": [
+              { "line": 3, "content": "統一所有第三方套件的目標版本，消除 Xcode 升級後的版本相容性警告" },
+              { "line": 5, "content": "告知編譯器跳過 Binary SDK 的雜湊驗證，解決舊版 SDK 與新版 Swift 的衝突" }
+            ]
+          },
+          {
+            "label": "Android Dependency",
+            "title": "依賴治理：嚴格版本鎖定與冪等性確保",
+            "language": "groovy",
+            "code": "dependencies {\n  // implementation 'com.incode.sdk:core-light:2.6.+'\n  implementation 'com.incode.sdk:core-light:2.6.1'\n}",
+            "highlights": [2, 3],
+            "tooltips": [
+              {
+                "line": 2,
+                "content": "避免使用範圍版本"
+              },
+              {
+                "line": 3,
+                "content": "強制鎖定特定 Patch 版本，確保構建環境的冪等性"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "gallery": {
+      "tabs": {
+        "consumerApp": "消費者體驗"
+      },
+      "consumerApp": {
+        "home": {
+          "title": "NFC 產品掃描入口",
+          "desc": "核心亮點：App Clip 生命週期重構、Landing 生命週期競態條件排除、高強韌性 NFC 掃描交互 (AbortController)"
+        },
+        "productDetail": { "title": "區塊鏈驗證資訊與 NFT 資產", "desc": "核心亮點：商務邏輯狀態機、客製化手勢交互" },
+        "chat": { "title": "即時互動", "desc": "WebSocket 品牌聊天室" },
+        "rewardsDetail": { "title": "獎勵詳情", "desc": "點數兌換專屬折扣" },
+        "scanHistory": { "title": "掃描歷程", "desc": "產品互動記錄" }
+      }
+    },
+    "disclaimer": "本頁面展示的內容為商業專案，相關截圖僅供作品集展示用途。"
+  }
+}
