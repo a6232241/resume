@@ -11,6 +11,7 @@ export { ProjectCard } from "./ProjectCard";
 export { default as ProjectHero } from "./ProjectHero";
 export { default as ProjectOverview } from "./ProjectOverview";
 export { ProjectPageTemplate } from "./ProjectPageTemplate";
+export { ShowcaseGallery } from "./ShowcaseGallery";
 export { SolutionEvaluation } from "./SolutionEvaluation";
 export { default as SourceCodeLink } from "./SourceCodeLink";
 export { StoreSection } from "./StoreSection";

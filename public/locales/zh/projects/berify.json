@@ -290,26 +290,17 @@
     ],
     "gallery": {
       "tabs": {
-        "consumerApp": "消費者體驗",
-        "merchantDashboard": "商家管理"
+        "consumerApp": "消費者體驗"
       },
       "consumerApp": {
-        "home": { "title": "首頁", "desc": "NFC 產品驗證入口" },
-        "productDetail": { "title": "產品詳情", "desc": "區塊鏈驗證資訊與 NFT 資產" },
+        "home": {
+          "title": "NFC 產品掃描入口",
+          "desc": "核心亮點：App Clip 生命週期重構、Landing 生命週期競態條件排除、高強韌性 NFC 掃描交互 (AbortController)"
+        },
+        "productDetail": { "title": "區塊鏈驗證資訊與 NFT 資產", "desc": "核心亮點：商務邏輯狀態機、客製化手勢交互" },
         "chat": { "title": "即時互動", "desc": "WebSocket 品牌聊天室" },
-        "rewards": { "title": "獎勵中心", "desc": "Shopify 折扣碼同步" },
         "rewardsDetail": { "title": "獎勵詳情", "desc": "點數兌換專屬折扣" },
-        "notifications": { "title": "通知中心", "desc": "AWS SNS 推播" },
-        "profile": { "title": "個人檔案", "desc": "個人檔案" },
         "scanHistory": { "title": "掃描歷程", "desc": "產品互動記錄" }
-      },
-      "merchantDashboard": {
-        "dashboard": { "title": "儀表板", "desc": "多維度分析" },
-        "inventory": { "title": "庫存管理", "desc": "數位標籤管理" },
-        "experience": { "title": "體驗管理", "desc": "跨分店數位體驗" },
-        "experienceDetail": { "title": "體驗詳情", "desc": "抽獎規則與 NFT 內容" },
-        "rewards": { "title": "獎勵策略", "desc": "O2O 促銷規則" },
-        "account": { "title": "權限管理", "desc": "細粒度角色與存取" }
       }
     },
     "disclaimer": "本頁面展示的內容為商業專案，相關截圖僅供作品集展示用途。"

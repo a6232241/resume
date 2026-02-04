@@ -1,8 +1,8 @@
-import { TabbedGallery } from "@components/shared/TabbedGallery";
 import {
   BerifyEngineeringSection,
   ProjectHero,
   ProjectOverview,
+  ShowcaseGallery,
   StoreSection,
   TechnicalSpotlight,
   type SpotlightItem,
@@ -85,10 +85,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     { key: "home", file: "home_screen.png" },
     { key: "productDetail", file: "product_detail_screen.png" },
     { key: "chat", file: "product_detail_screen-show_chat.png" },
-    { key: "rewards", file: "rewards_screen.png" },
     { key: "rewardsDetail", file: "rewards_detail_screen.png" },
-    { key: "notifications", file: "notifications_screen.png" },
-    { key: "profile", file: "profile_screen.png" },
     { key: "scanHistory", file: "scan_history_screen.png" },
   ].map((item) => ({
     type: "image" as const,
@@ -97,26 +94,6 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
     title: galleryRaw.consumerApp[item.key]?.title,
     description: galleryRaw.consumerApp[item.key]?.desc,
   }));
-
-  const merchantDashboardItems = [
-    { key: "dashboard", file: "CMS-analytics_page.png" },
-    { key: "inventory", file: "CMS-inventory_page.png" },
-    { key: "experience", file: "CMS-experience_page.png" },
-    { key: "experienceDetail", file: "CMS-experience_detail_page.png" },
-    { key: "rewards", file: "CMS-rewards_page.png" },
-    { key: "account", file: "CMS-account_page.png" },
-  ].map((item) => ({
-    type: "image" as const,
-    src: getMediaUrl(`/berify/${item.file}`),
-    alt: galleryRaw.merchantDashboard[item.key]?.title || item.key,
-    title: galleryRaw.merchantDashboard[item.key]?.title,
-    description: galleryRaw.merchantDashboard[item.key]?.desc,
-  }));
-
-  const galleryTabs = [
-    { label: galleryRaw.tabs.consumerApp, items: consumerAppItems },
-    { label: galleryRaw.tabs.merchantDashboard, items: merchantDashboardItems },
-  ];
 
   return (
     <main className="container mx-auto flex max-w-6xl flex-col gap-6 px-6 py-12">
@@ -144,7 +121,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       <TechnicalSpotlight title={commonT("technicalSpotlight")} items={technicalSpotlightData} />
 
       {/* Gallery Section */}
-      <TabbedGallery tabs={galleryTabs} title={commonT("projectShowcase")} />
+      <ShowcaseGallery items={consumerAppItems} title={commonT("projectShowcase")} />
 
       {/* Store Section */}
       <StoreSection {...storeLink} />

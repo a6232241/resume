@@ -329,26 +329,14 @@
     ],
     "gallery": {
       "tabs": {
-        "consumerApp": "Consumer Experience",
-        "merchantDashboard": "Merchant Dashboard"
+        "consumerApp": "Consumer Experience"
       },
       "consumerApp": {
         "home": { "title": "Home", "desc": "NFC Product Verification Portal" },
         "productDetail": { "title": "Product Detail", "desc": "Blockchain Verification & NFT Assets" },
         "chat": { "title": "Real-time Interaction", "desc": "WebSocket Brand Community Chat" },
-        "rewards": { "title": "Rewards Center", "desc": "Shopify Discount Sync" },
         "rewardsDetail": { "title": "Reward Detail", "desc": "Redeem Points for Exclusive Discounts" },
-        "notifications": { "title": "Notification Center", "desc": "AWS SNS Cloud Push" },
-        "profile": { "title": "Profile", "desc": "Personal Profile" },
         "scanHistory": { "title": "Scan History", "desc": "Product Interaction Records" }
-      },
-      "merchantDashboard": {
-        "dashboard": { "title": "Dashboard", "desc": "Multi-dimensional Analytics" },
-        "inventory": { "title": "Inventory Management", "desc": "Digital Tag Management" },
-        "experience": { "title": "Experience Management", "desc": "Cross-branch Digital Experiences" },
-        "experienceDetail": { "title": "Experience Detail", "desc": "Raffle Rules & NFT Configuration" },
-        "rewards": { "title": "Reward Strategies", "desc": "O2O Promotion Rules" },
-        "account": { "title": "Access Management", "desc": "Granular Roles & Permissions" }
       }
     },
     "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."
