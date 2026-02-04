@@ -1,6 +1,6 @@
 "use client";
 
-import { ProjectImageItem, type ProjectImageGridItem } from "@components/shared/ProjectImageItem";
+import { ProjectImageItem, type ProjectImageItemProps } from "@components/shared/ProjectImageItem";
 import { LightBox, type LightBoxMediaItem } from "@components/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
@@ -8,7 +8,7 @@ import { useState } from "react";
 
 export interface ShowcaseGalleryProps {
   title?: string;
-  items: ProjectImageGridItem[];
+  items: ProjectImageItemProps[];
   className?: string;
   itemAspectRatio?: string;
   accentColor?: "purple" | "orange" | "blue" | "red" | "green";
