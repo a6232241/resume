@@ -13,7 +13,6 @@ import { getTranslations } from "next-intl/server";
 const storeLink = {
   appleAppStoreLink: "https://apps.apple.com/us/app/berify/id1526630785",
   googlePlayStoreLink: "https://play.google.com/store/apps/details?id=com.berify",
-  websiteLink: "https://dashboard.berify.io/auth/sign-in",
 };
 
 export default async function BerifyPage({ params }: { params: Promise<{ lang: string }> }) {
@@ -127,9 +126,7 @@ export default async function BerifyPage({ params }: { params: Promise<{ lang: s
       <StoreSection {...storeLink} />
 
       {/* Disclaimer */}
-      <div className="rounded-lg bg-gray-50 p-4 text-center text-sm text-gray-500 dark:bg-gray-900 dark:text-gray-400">
-        {t("disclaimer")}
-      </div>
+      <div className="mt-4 text-center text-xs text-slate-500">{t("disclaimer")}</div>
     </main>
   );
 }
