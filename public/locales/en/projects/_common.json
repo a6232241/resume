@@ -12,5 +12,6 @@
   "platforms": "Platforms",
   "techStack": "Tech Stack",
   "selectedDecision": "Selected Strategy",
-  "notSelectedDecision": "Not Selected"
+  "notSelectedDecision": "Not Selected",
+  "showMoreMedia": "Show More Media"
 }

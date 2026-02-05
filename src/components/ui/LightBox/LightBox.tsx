@@ -107,7 +107,7 @@ export default function LightBox({
             e.stopPropagation();
             handlePrevious();
           }}
-          className="absolute left-4 z-50 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
+          className="absolute left-4 z-50 rounded-full bg-white/10 p-2 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
           aria-label="Previous media">
           <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -121,7 +121,7 @@ export default function LightBox({
             e.stopPropagation();
             handleNext();
           }}
-          className="absolute right-4 z-50 rounded-full bg-white/10 p-3 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
+          className="absolute right-4 z-50 rounded-full bg-white/10 p-2 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
           aria-label="Next media">
           <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -151,9 +151,11 @@ export default function LightBox({
         </div>
 
         {showCaption && currentItem.title && (
-          <div className="mx-auto max-w-2xl rounded-xl bg-black/60 p-4 text-center text-white">
-            <h3 className="text-xl font-bold">{currentItem.title}</h3>
-            {currentItem.description && <p className="mt-2 text-sm text-gray-200">{currentItem.description}</p>}
+          <div className="mx-auto max-w-2xl rounded-xl bg-black/60 p-6 text-center text-white">
+            <h3 className="mb-2 text-2xl font-bold text-white">{currentItem.title}</h3>
+            {currentItem.description && (
+              <p className="text-sm leading-relaxed tracking-wide text-slate-200">{currentItem.description}</p>
+            )}
             <div className="mt-2 text-xs text-gray-400">
               ({currentIndex + 1} / {mediaItems.length})
             </div>

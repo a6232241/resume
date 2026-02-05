@@ -4,6 +4,7 @@ import { ProjectImageItem, type ProjectImageItemProps } from "@components/shared
 import { LightBox, type LightBoxMediaItem } from "@components/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 export interface ShowcaseGalleryProps {
@@ -23,10 +24,10 @@ export function ShowcaseGallery({
 }: ShowcaseGalleryProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const t = useTranslations("projects");
 
-  // Default show 3 items, or all if expanded
-  const displayedItems = isExpanded ? items : items.slice(0, 3);
-  const hasMore = items.length > 3;
+  const displayedItems = isExpanded ? items : items.slice(0, 6);
+  const hasMore = items.length > 6;
 
   const lightBoxMediaItems: LightBoxMediaItem[] = items.map((item) => ({
     type: item.type,
@@ -70,7 +71,7 @@ export function ShowcaseGallery({
         <button
           onClick={() => setIsExpanded(true)}
           className="group flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 py-4 text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800">
-          <span>Show More Projects</span>
+          <span>{t("showMoreMedia")}</span>
           <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
         </button>
       )}

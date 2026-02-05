@@ -7,7 +7,7 @@
   "detail": {
     "hero": {
       "title": "Berify",
-      "tagline": "Distributed O2O Ecosystem · 9 Independent Sub-projects",
+      "tagline": "Distributed O2O Ecosystem · Microservices Architecture",
       "statusBadge": "Currently in Production"
     },
     "overview": {
@@ -329,14 +329,29 @@
     ],
     "gallery": {
       "tabs": {
-        "consumerApp": "Consumer Experience"
+        "consumerApp": "Consumer App"
       },
       "consumerApp": {
-        "home": { "title": "Home", "desc": "NFC Product Verification Portal" },
-        "productDetail": { "title": "Product Detail", "desc": "Blockchain Verification & NFT Assets" },
-        "chat": { "title": "Real-time Interaction", "desc": "WebSocket Brand Community Chat" },
-        "rewardsDetail": { "title": "Reward Detail", "desc": "Redeem Points for Exclusive Discounts" },
-        "scanHistory": { "title": "Scan History", "desc": "Product Interaction Records" }
+        "home": {
+          "title": "Home",
+          "desc": "Core Routing: Unified dispatch of NFC events and application initialization flow."
+        },
+        "productDetail": {
+          "title": "Product Detail",
+          "desc": "Banner View: Optimized horizontal scrolling via native ScrollView, ensuring seamless switching and rendering between product info and NFT credentials."
+        },
+        "chat": {
+          "title": "Message Board",
+          "desc": "Optimistic Updates: Implemented frontend caching and failure persistence to achieve zero-latency posting experience with offline retry support."
+        },
+        "rewardsDetail": {
+          "title": "Reward Detail",
+          "desc": "Advanced Scroll Interaction: Encapsulated CustomFlatList to deliver native-grade experiences like Parallax scrolling and Sticky Headers."
+        },
+        "scanHistory": {
+          "title": "Scan History",
+          "desc": "Virtualized List Rendering: Implemented viewport detection to intelligently load video/image assets only within the visible area, significantly reducing memory usage."
+        }
       }
     },
     "disclaimer": "This page showcases content from a commercial project. Screenshots are for portfolio demonstration purposes only."
