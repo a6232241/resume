@@ -1,6 +1,6 @@
 "use client";
 
-import { getVideoMimeType } from "@src/util";
+import { cn, getVideoMimeType } from "@src/util";
 import Image from "next/image";
 
 export interface ProjectImageItemProps {
@@ -24,6 +24,7 @@ export interface ProjectImageItemProps {
   onClick?: () => void;
   /** 補充說明/註解 */
   comment?: string;
+  className?: string;
 }
 
 const accentColorMap = {
@@ -74,6 +75,7 @@ export function ProjectImageItem({
   status,
   onClick,
   comment,
+  className,
 }: ProjectImageItemProps) {
   const getStatusType = (s?: string) => {
     if (!s) return null;
@@ -89,7 +91,12 @@ export function ProjectImageItem({
 
   return (
     <div
-      className={`group relative cursor-pointer overflow-hidden rounded-xl border bg-gray-50 transition-all hover:scale-[1.02] hover:shadow-lg dark:bg-gray-800 ${colorStyles.border} ${statusStyles ? `border-2 ${statusStyles.container}` : "border border-gray-200 dark:border-gray-700"}`}
+      className={cn(
+        "group relative h-full cursor-pointer overflow-hidden rounded-2xl border bg-gray-50 transition-all hover:scale-[1.02] hover:shadow-lg dark:bg-gray-800",
+        colorStyles.border,
+        statusStyles ? `border-2 ${statusStyles.container}` : "border border-gray-200 dark:border-gray-800",
+        className,
+      )}
       onClick={onClick}>
       {/* Status Badge (Before/After) */}
       {statusStyles && (

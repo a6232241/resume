@@ -7,7 +7,7 @@ export default function DayNightVisuals() {
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-blue-500/20 transition-colors duration-1000 ease-in-out dark:bg-blue-500/10" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-transparent transition-colors duration-1000 ease-in-out" />
 
       <div
         className={`pointer-events-none fixed top-50 right-4 -z-10 ${hasFirstToggle ? "animate-[planetShow_1s_linear_forwards] dark:animate-[planetHide_1s_linear_forwards]" : "opacity-100 dark:opacity-0"}`}>

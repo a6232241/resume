@@ -11,8 +11,8 @@ interface DecisionsBlockProps {
 
 export function DecisionsBlock({ block }: DecisionsBlockProps) {
   const containerClass =
-    "border-green-200/30 bg-green-50/50 text-green-900 dark:border-green-900/30 dark:bg-green-900/10 dark:text-green-200";
-  const iconBgClass = "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/30";
+    "border-blue-200 bg-blue-500/10 text-blue-900 border-l-4 border-l-blue-500 dark:border-blue-900/30 dark:bg-blue-900/10 dark:text-blue-200 dark:border-l-blue-500";
+  const iconBgClass = "text-blue-700 dark:text-blue-400 bg-blue-500/10 dark:bg-blue-900/30";
 
   const t = useTranslations("projects");
 
@@ -31,7 +31,7 @@ export function DecisionsBlock({ block }: DecisionsBlockProps) {
                   className={cn(
                     "rounded-lg p-3 transition-colors",
                     solution.highlight
-                      ? "-mx-3 border border-emerald-500/20 bg-emerald-500/10"
+                      ? "-mx-3 border border-blue-500/20 bg-blue-500/10"
                       : "border border-dashed border-slate-300 bg-slate-50/50 dark:border-slate-700 dark:bg-slate-800/20",
                   )}>
                   <div className="flex items-start justify-between gap-4">
@@ -41,7 +41,7 @@ export function DecisionsBlock({ block }: DecisionsBlockProps) {
                           className={cn(
                             "text-sm font-bold",
                             solution.highlight
-                              ? "text-emerald-600 dark:text-emerald-400"
+                              ? "text-blue-600 dark:text-blue-400"
                               : "text-slate-600 dark:text-slate-400",
                           )}>
                           {solution.title}
@@ -52,7 +52,7 @@ export function DecisionsBlock({ block }: DecisionsBlockProps) {
                       )}
                     </div>
                     {solution.highlight ? (
-                      <span className="shrink-0 rounded bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold tracking-wider text-emerald-600 uppercase dark:text-emerald-400">
+                      <span className="shrink-0 rounded bg-blue-500/20 px-2 py-0.5 text-[10px] font-bold tracking-wider text-blue-600 uppercase dark:text-blue-400">
                         {t("selectedDecision")}
                       </span>
                     ) : (

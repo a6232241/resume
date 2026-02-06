@@ -46,19 +46,19 @@
       "title": "Core Engineering & Contributions",
       "list": [
         {
-          "title": "Modular Scale",
-          "metric": "9 Distributed Service Units / 188+ Domain Models",
+          "title": "Immersive Interaction Experience",
+          "metric": "Native-grade Fluidity",
           "desc": [
-            "Designed and led 3-tier collection system, integrating e-commerce data flow",
-            "Integrated biometric IDV security system"
+            "Encapsulated CustomFlatList to achieve parallax scrolling and sticky headers, providing a native-level smooth experience",
+            "Implemented list viewport detection to precisely control asset loading timing within the visible area"
           ]
         },
         {
-          "title": "Data Evolution",
-          "metric": "114+ DB Schema Evolutions",
+          "title": "High-Resilience Social Architecture",
+          "metric": "Zero-Latency Feedback",
           "desc": [
-            "Designed flattened comment model to avoid N+1 query issues",
-            "Maintained consistency during frequent migrations via Prisma constraints"
+            "Introduced optimistic updates to eliminate API wait times, significantly enhancing perceived performance",
+            "Built offline retry queues to ensure eventual data consistency under unstable network conditions"
           ]
         },
         {
@@ -294,7 +294,7 @@
             "label": "iOS Build Automation",
             "title": "Build Automation: Compiler Flag Injection & Environment Standardization",
             "language": "ruby",
-            "code": "installer.pods_project.targets.each do |target|\\n  target.build_configurations.each do |config|\\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] =\\n     '12.4'\\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||=\\n     [\\n      '$(inherited)',\\n      '-no-verify-emitted-module-interface'\\n     ]\\n  end\\nend",
+            "code": "installer.pods_project.targets.each do |target|\n  target.build_configurations.each do |config|\n    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] =\n     '12.4'\n    config.build_settings['OTHER_SWIFT_FLAGS'] ||=\n     [\n      '$(inherited)',\n      '-no-verify-emitted-module-interface'\n     ]\n  end\nend",
             "highlights": [3, 4, 5, 6, 7, 8, 9],
             "tooltips": [
               {
@@ -311,7 +311,7 @@
             "label": "Android Dependency",
             "title": "Dependency Governance: Strict Locking & Idempotency",
             "language": "groovy",
-            "code": "dependencies {\\n  // implementation 'com.incode.sdk:core-light:2.6.+'\\n  implementation 'com.incode.sdk:core-light:2.6.1'\\n}",
+            "code": "dependencies {\n  // implementation 'com.incode.sdk:core-light:2.6.+'\n  implementation 'com.incode.sdk:core-light:2.6.1'\n}",
             "highlights": [2, 3],
             "tooltips": [
               {

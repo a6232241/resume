@@ -13,17 +13,17 @@ export const ListBlock = ({ block, color, fallbackTitle, icon: Icon }: ListBlock
   if (!block) return null;
 
   const colorStyles = {
-    red: "border-red-200/30 bg-red-50/50 text-red-900 dark:border-red-900/30 dark:bg-red-900/10 dark:text-red-200",
+    red: "border-red-200 bg-red-500/10 border-l-4 border-l-red-500 text-red-900 dark:border-red-900/30 dark:bg-red-900/10 dark:text-red-200 dark:border-l-red-500",
     yellow:
-      "border-yellow-200/30 bg-yellow-50/50 text-yellow-900 dark:border-yellow-900/30 dark:bg-yellow-900/10 dark:text-yellow-200",
+      "border-yellow-200 bg-yellow-500/10 border-l-4 border-l-yellow-500 text-yellow-900 dark:border-yellow-900/30 dark:bg-yellow-900/10 dark:text-yellow-200 dark:border-l-yellow-500",
     green:
-      "border-green-200/30 bg-green-50/50 text-green-900 dark:border-green-900/30 dark:bg-green-900/10 dark:text-green-200",
+      "border-emerald-200 bg-emerald-500/10 border-l-4 border-l-emerald-500 text-emerald-900 dark:border-emerald-900/30 dark:bg-emerald-900/10 dark:text-emerald-200 dark:border-l-emerald-500",
   };
 
   const headerStyles = {
-    red: "text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/30",
-    yellow: "text-yellow-700 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900/30",
-    green: "text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/30",
+    red: "text-red-700 dark:text-red-400 bg-red-500/10 dark:bg-red-900/30",
+    yellow: "text-yellow-700 dark:text-yellow-400 bg-yellow-500/10 dark:bg-yellow-900/30",
+    green: "text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 dark:bg-emerald-900/30",
   };
 
   return (
@@ -41,7 +41,9 @@ export const ListBlock = ({ block, color, fallbackTitle, icon: Icon }: ListBlock
       <div>
         <ul className="flex flex-col gap-2">
           {block.items.map((text, idx) => (
-            <li key={idx} className="flex items-start gap-2 text-sm leading-relaxed font-medium text-slate-200">
+            <li
+              key={idx}
+              className="flex items-start gap-2 text-sm leading-relaxed font-medium text-slate-700 dark:text-slate-200">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-current/60" />
               <span>{text}</span>
             </li>

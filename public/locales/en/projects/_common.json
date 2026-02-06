@@ -2,7 +2,6 @@
   "sourceCode": "Source Code",
   "storeTitle": "Live Environment",
   "projectDemo": "Project Demo",
-  "keyContributions": "Key Contributions",
   "projectShowcase": "Project Showcase",
   "codeSnippet": "Core Code",
   "technicalSpotlight": "Technical Challenges & Solutions",
@@ -11,6 +10,7 @@
   "projectType": "Project Type",
   "platforms": "Platforms",
   "techStack": "Tech Stack",
+  "showcase": "Showcase",
   "selectedDecision": "Selected Strategy",
   "notSelectedDecision": "Not Selected",
   "showMoreMedia": "Show More Media"

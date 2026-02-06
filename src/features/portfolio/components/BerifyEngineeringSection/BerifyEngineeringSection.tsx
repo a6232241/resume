@@ -20,7 +20,7 @@ export const BerifyEngineeringSection = ({
   architectureMetrics,
 }: BerifyEngineeringSectionProps) => {
   return (
-    <section className="rounded-2xl border border-gray-200 bg-white p-6 backdrop-blur-sm transition-all dark:border-gray-800 dark:bg-gray-900/50">
+    <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm backdrop-blur-sm transition-all dark:border-gray-800 dark:bg-gray-900/50">
       {/* Header */}
       <div className="mb-6 flex items-center gap-3 border-b border-gray-100 pb-4 dark:border-gray-800">
         <div className="rounded-lg bg-blue-100 p-2 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
@@ -88,7 +88,7 @@ export const BerifyEngineeringSection = ({
               {/* --- Individual Impact Layer (Bottom - Light) --- */}
               <div className="flex flex-1 flex-col p-5 pt-6">
                 {/* Action Items */}
-                <div className="mt-auto text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                <div className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                   <ul className="flex flex-col gap-3 pl-1">
                     {Array.isArray(item.desc) ? (
                       item.desc.map((point: string, idx: number) => {

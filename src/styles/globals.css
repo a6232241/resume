@@ -2,14 +2,14 @@
 
 :root {
   color-scheme: light;
-  --background: var(--color-white);
+  --background: #F8FAFC;
   --foreground: var(--color-neutral-950);
 }
 
 html.dark {
   color-scheme: dark;
   --background: var(--color-neutral-950);
-  --foreground: var(--color-white);
+  --foreground: #F8FAFC;
 }
 
 @theme inline {

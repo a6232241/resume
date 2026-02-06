@@ -91,10 +91,12 @@ export default function LightBox({
   const showNextButton = loop || currentIndex < mediaItems.length - 1;
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-md dark:bg-black/95 dark:backdrop-blur-sm"
+      onClick={onClose}>
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 z-50 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+        className="absolute top-4 right-4 z-50 rounded-full bg-white/50 p-2 text-slate-600 shadow-md backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
         aria-label="Close lightbox">
         <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -107,7 +109,7 @@ export default function LightBox({
             e.stopPropagation();
             handlePrevious();
           }}
-          className="absolute left-4 z-50 rounded-full bg-white/10 p-2 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
+          className="absolute left-4 z-50 rounded-full bg-white/50 p-2 text-slate-600 shadow-md backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
           aria-label="Previous media">
           <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -121,7 +123,7 @@ export default function LightBox({
             e.stopPropagation();
             handleNext();
           }}
-          className="absolute right-4 z-50 rounded-full bg-white/10 p-2 text-white backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white/20"
+          className="absolute right-4 z-50 rounded-full bg-white/50 p-2 text-slate-600 shadow-md backdrop-blur-sm transition-transform hover:scale-110 hover:bg-white dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
           aria-label="Next media">
           <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -151,19 +153,21 @@ export default function LightBox({
         </div>
 
         {showCaption && currentItem.title && (
-          <div className="mx-auto max-w-2xl rounded-xl bg-black/60 p-6 text-center text-white">
-            <h3 className="mb-2 text-2xl font-bold text-white">{currentItem.title}</h3>
+          <div className="mx-auto max-w-2xl rounded-xl border-t border-slate-100 bg-white p-6 shadow-2xl dark:border-none dark:bg-black/60">
+            <h3 className="mb-2 text-center text-2xl font-bold text-slate-900 dark:text-white">{currentItem.title}</h3>
             {currentItem.description && (
-              <p className="text-sm leading-relaxed tracking-wide text-slate-200">{currentItem.description}</p>
+              <p className="text-center text-sm leading-relaxed tracking-wide text-slate-600 dark:text-slate-200">
+                {currentItem.description}
+              </p>
             )}
-            <div className="mt-2 text-xs text-gray-400">
+            <div className="mt-2 text-center text-xs text-slate-400 dark:text-gray-400">
               ({currentIndex + 1} / {mediaItems.length})
             </div>
           </div>
         )}
 
         {!showCaption && (
-          <div className="mt-4 rounded-full bg-white/10 px-2 py-1 text-xs text-white">
+          <div className="mt-4 rounded-full bg-white/50 px-2 py-1 text-xs text-slate-600 dark:bg-white/10 dark:text-white">
             {currentIndex + 1} / {mediaItems.length}
           </div>
         )}

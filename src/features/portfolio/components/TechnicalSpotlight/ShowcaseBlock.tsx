@@ -26,10 +26,13 @@ export function ShowcaseBlock({ showcase, className }: ShowcaseBlockProps) {
   return (
     <>
       <div
-        className={cn("relative overflow-hidden rounded-xl border border-emerald-900/30 bg-slate-900 p-6", className)}>
-        <div className="relative">
-          <div className="mb-4">
-            <h4 className="text-xl font-bold tracking-tight text-white">{t("showcase")}</h4>
+        className={cn(
+          "relative overflow-hidden rounded-xl border border-slate-100 bg-white p-6 shadow-sm dark:border-emerald-900/30 dark:bg-slate-900",
+          className,
+        )}>
+        <div className="flex h-full flex-col items-center">
+          <div className="mb-8 w-full">
+            <h4 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{t("showcase")}</h4>
           </div>
           <ProjectImageItem {...showcase} onClick={() => setIsOpen(true)} />
         </div>
