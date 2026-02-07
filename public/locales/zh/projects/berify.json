@@ -1,4 +1,5 @@
 {
+  "title": "Berify",
   "shortDesc": "整合 NFC 與 MPC 的 Web3 RWA 虛實整合平台",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
   "role": "軟體開發者",

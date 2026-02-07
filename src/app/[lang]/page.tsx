@@ -25,23 +25,21 @@ const skills = [
 
 const workProjects = [
   {
-    title: "Visual Streaming",
+    title: "projects.visualStreaming.title",
     description: "projects.visualStreaming.shortDesc",
     technologies: "projects.visualStreaming.technologies",
     badge: "projects.visualStreaming.badge",
     achievements: "projects.visualStreaming.achievements",
     role: "projects.visualStreaming.role",
-    imageUrl: getMediaUrl("/visual-streaming/demo_preview.png"),
     link: "visual-streaming",
     period: "2025/04 - 2025/07",
   },
   {
-    title: "Berify",
+    title: "projects.berify.title",
     description: "projects.berify.shortDesc",
     technologies: "projects.berify.technologies",
     achievements: "projects.berify.achievements",
     role: "projects.berify.role",
-    imageUrl: getMediaUrl("/berify/preview.png"),
     link: "berify",
     period: "2023/05 - 2024/09",
   },
@@ -61,7 +59,7 @@ const workExperiences = [
 
 const personalProjects = [
   {
-    title: "Music Player",
+    title: "projects.musicPlayer.title",
     description: "projects.musicPlayer.shortDesc",
     technologies: "projects.musicPlayer.technologies",
     badge: "projects.musicPlayer.badge",
@@ -71,7 +69,7 @@ const personalProjects = [
     role: "projects.musicPlayer.role",
   },
   {
-    title: "AI Chat App",
+    title: "projects.aiChatApp.title",
     description: "projects.aiChatApp.shortDesc",
     technologies: "projects.aiChatApp.technologies",
     badge: "projects.aiChatApp.badge",
@@ -101,9 +99,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {workProjects.map((project, index) => (
               <ProjectCard
                 key={index}
-                title={project.title}
+                title={t(project.title)}
                 description={t(project.description)}
-                imageUrl={project.imageUrl}
                 link={`/${lang}/project-demo/${project.link}`}
                 period={project.period}
                 technologies={t.raw(project?.technologies) ?? []}
@@ -139,7 +136,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             {personalProjects.map((project, index) => (
               <ProjectCard
                 key={index}
-                title={project.title}
+                title={t(project.title)}
                 description={t(project.description)}
                 imageUrl={project.imageUrl}
                 link={`/${lang}/project-demo/${project.link}`}
@@ -151,6 +148,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             ))}
           </div>
         </section>
+
+        <div className="mt-4 text-center text-xs text-slate-500">{t("disclaimer")}</div>
       </main>
     </div>
   );

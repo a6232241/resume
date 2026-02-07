@@ -1,8 +1,8 @@
 {
   "title": "10x App Speed",
-  "shortDesc": "主導深度架構重構，成功將載入耗時降低 90%，並建立全域狀態管理規範。",
+  "shortDesc": "主導深度架構重構，成功解決複雜渲染瓶頸，並顯著提升效能，並建立全域狀態管理規範。",
   "technologies": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
-  "badge": "-90% 延遲時間",
+  "badge": "減少約 9成延遲時間",
   "role": "單人研究 / 優化",
   "detail": {
     "hero": {

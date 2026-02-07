@@ -1,8 +1,8 @@
 {
-  "shortDesc": "在直播預覽中即時替換臉部，驗證高效能影像處理與原生整合可行性。",
-  "technologies": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
+  "title": "跨平台即時計算視覺研發專案",
+  "shortDesc": "使用 React Native 與 C++ 整合影像處理函式庫，達成即時影像過濾與特徵偵測",
+  "technologies": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "JSI"],
   "achievements": [
-    "單人 4 個月完成 Android/iOS 雙平台 Demo",
     "C++ 代碼複用率 80%+，跨平台共用核心邏輯",
     "採用 RN 新架構 Fabric & TurboModules，開發 Native Component"
   ],
@@ -10,7 +10,7 @@
   "badge": "高效能架構",
   "detail": {
     "hero": {
-      "title": "Visual Streaming",
+      "title": "跨平台即時計算視覺研發專案",
       "tagline": "實時直播換臉特效 PoC",
       "summary": {
         "problem": {
@@ -33,7 +33,7 @@
       "team": "獨立開發",
       "projectType": "PoC 探索性項目",
       "focus": ["JSI 跨層通訊", "座標系統映射", "C++ 跨平台複用"],
-      "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
+      "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "JSI"],
       "platforms": ["Android", "iOS"]
     },
     "challenges": [

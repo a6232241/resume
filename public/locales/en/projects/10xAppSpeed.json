@@ -1,8 +1,8 @@
 {
   "title": "10x App Speed",
-  "shortDesc": "Spearheaded deep architectural refactoring, slashing loading times by 90% and establishing global state management standards.",
+  "shortDesc": "Spearheaded deep architectural refactoring, successfully resolving complex rendering bottlenecks and significantly improving performance, while establishing global state management standards.",
   "technologies": ["React Native", "Redux Toolkit", "React Query", "React DevTools", "Flipper"],
-  "badge": "-90% Latency",
+  "badge": "Reduced Latency by ~90%",
   "role": "Individual Research / Optimization",
   "detail": {
     "hero": {

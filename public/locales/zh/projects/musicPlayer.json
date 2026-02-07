@@ -1,4 +1,5 @@
 {
+  "title": "音樂播放器",
   "shortDesc": "這是一個音樂播放器 App，讓使用者輕鬆收聽音樂。",
   "technologies": ["React Native", "Expo", "SQLite", "Node.js"],
   "badge": "離線優先 (Offline-First)",

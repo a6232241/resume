@@ -1,4 +1,5 @@
 {
+  "title": "Music Player",
   "shortDesc": "A music player app for easy music listening.",
   "technologies": ["React Native", "Expo", "SQLite", "Node.js"],
   "badge": "Offline-First",

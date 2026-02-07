@@ -1,8 +1,8 @@
 {
-  "shortDesc": "Real-time face swapping in live previews to verify the feasibility of high-performance image processing and native integration.",
-  "technologies": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
+  "title": "Cross-platform real-time computer vision R&D project",
+  "shortDesc": "Using React Native and C++ to integrate image processing libraries, achieving real-time image filtering and feature detection.",
+  "technologies": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "JSI"],
   "achievements": [
-    "Solo developer completed Android/iOS dual-platform Demo in 4 months",
     "80%+ C++ code reuse rate, sharing core logic across platforms",
     "Developed Native Components using RN's new architecture (Fabric & TurboModules)"
   ],
@@ -10,7 +10,7 @@
   "badge": "High-Performance Arch",
   "detail": {
     "hero": {
-      "title": "Visual Streaming",
+      "title": "Cross-platform real-time computer vision R&D project",
       "tagline": "Real-time Live Streaming Face Swap PoC",
       "summary": {
         "problem": {
@@ -33,7 +33,7 @@
       "team": "Solo Developer",
       "projectType": "Exploratory PoC Project",
       "focus": ["JSI Cross-layer Communication", "Coordinate System Mapping", "C++ Cross-platform Reuse"],
-      "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "Vision Camera", "Fabric & TurboModules", "ML Kit"],
+      "mainTechs": ["React Native", "Kotlin/ObjC", "C++", "OpenCV", "JSI"],
       "platforms": ["Android", "iOS"]
     },
     "challenges": [

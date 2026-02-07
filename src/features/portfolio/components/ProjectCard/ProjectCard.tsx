@@ -49,7 +49,14 @@ export default function ProjectCard({
       {/* 內容區 */}
       <div className="space-y-3 p-6">
         {/* 標題 */}
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
+          {!imageUrl && badge && (
+            <div className="invisible flex-shrink-0 px-3 py-1.5">
+              <span className="text-xs font-bold text-white">{badge}</span>
+            </div>
+          )}
+        </div>
 
         {/* 核心場景描述 */}
         {description && (

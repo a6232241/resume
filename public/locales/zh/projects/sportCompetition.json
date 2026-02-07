@@ -1,0 +1,130 @@
+{
+  "title": "運動賽事",
+  "shortDesc": "負責大型運動資訊平台的前端架構，處理 Redux Toolkit 狀態管理與效能優化",
+  "technologies": ["React Native", "Redux Toolkit"],
+  "role": "前端工程師",
+  "achievements": [],
+  "detail": {
+    "hero": {
+      "title": "運動賽事",
+      "tagline": ""
+    },
+    "overview": {
+      "description": "專注於 React Native 基礎設施，優化效能與修復原生問題",
+      "duration": "2024 - 至今",
+      "team": "4 人團隊合作",
+      "projectType": "商業產品",
+      "mainTechs": ["React Native", "Redux Toolkit"],
+      "platforms": ["iOS", "Android"]
+    },
+    "technicalSpotlight": [
+      {
+        "id": "10s-app-speed-optimization",
+        "title": "Redux 狀態架構重構：消除 90% 的登入與導航延遲",
+        "role": "前端架構負責人",
+        "icon": "zap",
+        "summary": "診斷 Redux Toolkit 緩存失效與無效渲染問題，透過 createSelector 記憶化與狀態管理重構，將登入耗時從 10s 降至 1s 內",
+        "tags": ["Redux Toolkit", "Performance Optimization", "System Architecture"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "登入後觸發全應用級的無效渲染，且 selectFromResult 缺乏記憶化導致淺比較失敗",
+            "經歷長達 10 秒的白屏與操作延遲，導致 QA 階段累積大量性能投訴，嚴重影響產品發布信心"
+          ]
+        },
+        "analysis": {
+          "title": "分析與工具",
+          "items": [
+            "透過 React DevTools 分析 Render Flamegraph 發現渲染次數過高，且大多與流程無關",
+            "透過 Flipper 發現 API 狀態重置 (resetApiState) 被重複調用，引發組件重新渲染",
+            "定位到 selectFromResult 在每次 Store 更新時都會重新計算，缺乏緩存機制導致依賴追蹤失效"
+          ]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "方案評估：如何解決過度渲染？",
+              "items": [
+                {
+                  "title": "修改 RTK Query 源代碼",
+                  "desc": "缺點：維護成本過高，且每次庫更新都需要重新維護 Patch"
+                },
+                {
+                  "title": "實作 createSelector 進行依賴記憶化 (Memoization)",
+                  "desc": "優點：安全且符合官方最佳實踐，確保僅在相關數據變更時才觸發 React 更新",
+                  "highlight": true
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["登入速度提升 90% (10x)，徹底消除白屏卡頓感", "建立系統化的性能診斷流程，預防未來的類似技術債"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Optimization",
+            "title": "選擇器記憶化 (Memoization) 實作",
+            "language": "typescript",
+            "code": "// 優化前：selectFromResult 缺乏記憶化，每次 Store 變更都會觸發 Re-render\n// selectFromResult: ({ data }) => ({\n//   user: data?.find(u => u.id === id) // 🔴 返回新引用導致淺比較失敗\n// })\n\n// 優化後：使用 createSelector 建立穩定的記憶化選擇器\nconst selectUserById = createSelector(\n  [\n    (res: QueryResult) => res.data,\n    (_: any, id: string) => id\n  ],\n  (data, id) => data?.find(user => user.id === id) // 🟢 僅在 data 或 id 變更時執行\n);",
+            "highlights": [7, 8, 9, 10, 11, 12, 13],
+            "tooltips": [
+              { "line": 7, "content": "createSelector：建立具有緩存能力的選擇器" },
+              { "line": 13, "content": "Memoization：若輸入參數未變，直接返回上次計算結果，阻斷渲染鏈" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "rtk-query-subscription-lifecycle",
+        "title": "RTK Query 核心源碼逆向：根除首頁空白加載異常",
+        "role": "前端核心架構優化者",
+        "icon": "cpu",
+        "summary": "深入剖析 Redux Toolkit 中間件的 Reference Counting 機制，解決了複雜導航場景下 `resetApi` 與 `skipToken` 交互引發的緩存過早釋放問題，確保數據流與 UI 狀態絕對同步。",
+        "tags": ["RTK Query Internal", "Cache Lifecycle", "Race Condition Handling"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "RTK Query 在 skip 發生改變時，在特定的生命週期狀況下，會導致訂閱狀態與資料脫鉤",
+            "造成首頁在刷新時，資料移除，但沒有重新訂閱，導致首頁長時間處於 loading 狀態"
+          ]
+        },
+        "analysis": {
+          "title": "分析與工具",
+          "items": [
+            "查看 Redux Toolkit 原始碼得知，當一個 Query 處於 `skip` 狀態時，會觸發 unsubscribe",
+            "每個 useQuery 都有一個獨立的 requestId 來綁定訂閱狀態，因此觸發 unsubscribe 會導致該 requestId 被移除",
+            "返回首頁時，因為 requestId 是 undefined，達成 initiate 的條件，但因為資料依舊存在，所以沒有觸發 api 和 重新訂閱",
+            "下拉重新刷新時，會執行 resetApiState，移除所有資料，但新的 requestId 不存在於 apiState 中，因此沒有辦法觸發 api 的重新訂閱，最終導致資料被移除，但沒有獲取新資料的情況"
+          ]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "方案評估：如何解決訂閱異常的問題？",
+              "items": [
+                {
+                  "title": "所有帶有 skip 的 query，添加 refetchOnMountOrArgChange",
+                  "desc": "優點：讓每次 skip 發生變化時，都能觸發重新訂閱，能夠保留快取資料，且符合官方最佳實踐",
+                  "highlight": true
+                },
+                {
+                  "title": "在 createApi 設定 keepUnusedDataFor: 0 ，當最後的訂閱被清除時，直接清除資料",
+                  "desc": "缺點：無法保留快取資料"
+                },
+                {
+                  "title": "在 resetApiState 時，如果有 requestId 且訂閱找不到該 requestId，則重新訂閱",
+                  "desc": "缺點：該方法僅適用 iOS"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "disclaimer": "本頁面展示的內容為商業專案，相關截圖僅供作品集展示用途。"
+  }
+}

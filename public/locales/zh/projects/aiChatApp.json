@@ -1,4 +1,5 @@
 {
+  "title": "AI 聊天 App",
   "shortDesc": "基於 GitHub Models API 與離線優先架構的 AI 聊天應用",
   "technologies": ["React Native", "Expo", "SQLite", "GitHub Models API"],
   "badge": "原生整合",

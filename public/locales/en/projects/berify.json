@@ -1,9 +1,10 @@
 {
-  "shortDesc": "Led the development of a Web3 O2O ecosystem comprising 9 microservices. Delivered full-lifecycle features from DB schema design to mobile UI, integrating NFC verification and Shopify automation.",
+  "title": "Berify",
+  "shortDesc": "Web3 RWA Phygital Platform integrating NFC and MPC",
   "technologies": ["React Native", "Swift App Clips", "Next.js", "Node.js", "Prisma", "Shopify API", "Web3"],
   "role": "Software Developer",
   "achievements": [],
-  "fullDesc": "A comprehensive Web3 smart retail ecosystem. Merchants manage and analyze products via a backend dashboard, while consumers scan product tags to unlock verified information, special promotions, NFTs, and giveaways, integrated with third-party wallets.",
+
   "detail": {
     "hero": {
       "title": "Berify",
@@ -11,7 +12,7 @@
       "statusBadge": "Currently in Production"
     },
     "overview": {
-      "description": "Combining <b>automated builds</b> and <b>non-recursive architecture</b> to resolve cross-platform compilation and performance bottlenecks. Bridging the O2O loop from <b>biometrics</b> to <b>Shopify</b>, providing <b>precise market insights</b> for merchants.",
+      "description": "Focused on React Native infrastructure, collaborating on Web integration, maintaining native layer stability and version upgrades, leading the complete refactor and decoupling of the Rewards module, and collaborating on the maintenance of the IDV identity verification module.",
       "duration": "Tenure: 1 Year 5 Months (2023 - 2024)",
       "team": "8-Person Collaborative Team",
       "projectType": "Commercial Product",
