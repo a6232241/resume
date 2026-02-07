@@ -1,0 +1,136 @@
+{
+  "title": "Live Streaming Platform",
+  "shortDesc": "Responsible for the frontend architecture of a large-scale live streaming platform, handling Redux Toolkit state management and performance optimization.",
+  "technologies": ["React Native", "Redux Toolkit"],
+  "role": "Frontend Engineer",
+  "achievements": [],
+  "detail": {
+    "hero": {
+      "title": "Live Streaming Platform",
+      "tagline": ""
+    },
+    "overview": {
+      "description": "Focused on React Native infrastructure, performance optimization, and fixing native issues.",
+      "duration": "2024 - Present",
+      "team": "4 members",
+      "projectType": "Commercial Product",
+      "mainTechs": ["React Native", "Redux Toolkit"],
+      "platforms": ["iOS", "Android"]
+    },
+    "technicalSpotlight": [
+      {
+        "id": "10s-app-speed-optimization",
+        "title": "Redux Architecture Refactor: 90% Faster Login & Navigation",
+        "role": "Frontend Architecture Lead",
+        "icon": "zap",
+        "summary": "Diagnosed Redux Toolkit cache invalidation and invalid rendering issues. Reduced login time from 10s to under 1s through createSelector memoization and state management refactoring.",
+        "tags": ["Redux Toolkit", "Performance Optimization", "System Architecture"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "Triggered app-wide invalid rendering after login, and selectFromResult failed shallow comparison due to lack of memoization.",
+            "Experienced up to 10 seconds of white screen and operation delay, leading to numerous performance complaints during QA and severely affecting release confidence."
+          ]
+        },
+        "analysis": {
+          "title": "Analysis & Tools",
+          "items": [
+            "Used React DevTools to analyze Render Flamegraph, discovering excessive rendering, mostly unrelated to the flow.",
+            "Used Flipper to find that API state reset (resetApiState) was repeatedly called, triggering component re-renders.",
+            "Pinpointed that selectFromResult recalculated on every Store update due to lack of caching mechanism, causing dependency tracking failure."
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "Solution Evaluation: How to resolve excessive rendering?",
+              "items": [
+                {
+                  "title": "Modify RTK Query Source Code",
+                  "desc": "Con: High maintenance cost; requires patch maintenance with every library update."
+                },
+                {
+                  "title": "Implement Dependency Memoization with createSelector",
+                  "desc": "Pro: Safe and aligns with official best practices, ensuring React updates trigger only when relevant data changes.",
+                  "highlight": true
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Login speed improved by 90% (10x), completely eliminating white screen lag.",
+            "Established a systematic performance diagnosis process to prevent similar technical debt in the future."
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Optimization",
+            "title": "Selector Memoization Implementation",
+            "language": "typescript",
+            "code": "// Before: selectFromResult lacks memoization, triggering Re-render on every Store change\n// selectFromResult: ({ data }) => ({\n//   user: data?.find(u => u.id === id) // 🔴 Returns new reference causing shallow comparison failure\n// })\n\n// After: Use createSelector to build stable memoized selectors\nconst selectUserById = createSelector(\n  [\n    (res: QueryResult) => res.data,\n    (_: any, id: string) => id\n  ],\n  (data, id) => data?.find(user => user.id === id) // 🟢 Executes only when data or id changes\n);",
+            "highlights": [7, 8, 9, 10, 11, 12, 13],
+            "tooltips": [
+              { "line": 7, "content": "createSelector: Builds selectors with caching capabilities" },
+              {
+                "line": 13,
+                "content": "Memoization: If input parameters haven't changed, strictly returns the previous calculation result, blocking the render chain"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "rtk-query-subscription-lifecycle",
+        "title": "Reverse Engineering RTK Query Core: Eliminating Home Page White Screen",
+        "role": "Frontend Core Architecture Optimizer",
+        "icon": "cpu",
+        "summary": "Deep dive into Redux Toolkit middleware's Reference Counting mechanism. Resolved premature cache release issues caused by `resetApi` and `skipToken` interaction in complex navigation scenarios, ensuring absolute synchronization between data flow and UI state.",
+        "tags": ["RTK Query Internal", "Cache Lifecycle", "Race Condition Handling"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "When a query with `skip` changes, under specific lifecycle conditions, it caused subscription state to decouple from data.",
+            "This resulted in the home page removing data upon refresh but failing to resubscribe, leaving the page in a loading state for an extended period."
+          ]
+        },
+        "analysis": {
+          "title": "Analysis & Tools",
+          "items": [
+            "Examining Redux Toolkit source code revealed that when a Query enters `skip` state, it triggers an unsubscribe.",
+            "Each useQuery has a unique requestId binding its subscription state; thus, triggering unsubscribe removes that requestId.",
+            "Returning to the home page, since requestId is undefined, initiate conditions are met, but because data still exists, it doesn't trigger API call or resubscription.",
+            "Pull-to-refresh executes resetApiState, clearing all data. However, the new requestId doesn't exist in apiState, so it fails to trigger API resubscription, leading to data removal without fetching new data."
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "Solution Evaluation: How to fix subscription anomalies?",
+              "items": [
+                {
+                  "title": "Add refetchOnMountOrArgChange to all queries with skip",
+                  "desc": "Pro: Ensures resubscription whenever skip changes, retaining cached data, and adheres to official best practices.",
+                  "highlight": true
+                },
+                {
+                  "title": "Set keepUnusedDataFor: 0 in createApi to clear data immediately when last subscription is removed",
+                  "desc": "Con: Cannot retain cached data."
+                },
+                {
+                  "title": "Resubscribe if requestId exists but subscription cannot find it during resetApiState",
+                  "desc": "Con: This method is only applicable to iOS."
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "disclaimer": "The content shown on this page is from a commercial project; screenshots are for portfolio demonstration purposes only."
+  }
+}

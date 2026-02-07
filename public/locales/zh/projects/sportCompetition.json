@@ -1,12 +1,12 @@
 {
-  "title": "運動賽事",
-  "shortDesc": "負責大型運動資訊平台的前端架構，處理 Redux Toolkit 狀態管理與效能優化",
+  "title": "實時數據串流平台",
+  "shortDesc": "負責大型直播平台的前端架構，處理 Redux Toolkit 狀態管理與效能優化",
   "technologies": ["React Native", "Redux Toolkit"],
   "role": "前端工程師",
   "achievements": [],
   "detail": {
     "hero": {
-      "title": "運動賽事",
+      "title": "實時數據串流平台",
       "tagline": ""
     },
     "overview": {

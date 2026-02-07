@@ -1,7 +1,15 @@
 import { getRequestConfig } from "next-intl/server";
 
 // List of project keys to load dynamically
-const PROJECT_KEYS = ["musicPlayer", "visualStreaming", "aiChatApp", "10xAppSpeed", "berify", "_common"] as const;
+const PROJECT_KEYS = [
+  "musicPlayer",
+  "visualStreaming",
+  "aiChatApp",
+  "10xAppSpeed",
+  "berify",
+  "sportCompetition",
+  "_common",
+] as const;
 
 type ProjectKey = (typeof PROJECT_KEYS)[number];
 

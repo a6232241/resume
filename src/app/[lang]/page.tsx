@@ -43,6 +43,15 @@ const workProjects = [
     link: "berify",
     period: "2023/05 - 2024/09",
   },
+  {
+    title: "projects.sportCompetition.title",
+    description: "projects.sportCompetition.shortDesc",
+    technologies: "projects.sportCompetition.technologies",
+    achievements: "projects.sportCompetition.achievements",
+    role: "projects.sportCompetition.role",
+    link: "sport-competition",
+    period: "2024 - Present",
+  },
 ];
 
 const workExperiences = [
