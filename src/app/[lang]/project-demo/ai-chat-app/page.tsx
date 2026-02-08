@@ -61,10 +61,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
   };
 
   // --- Technical Spotlight Data ---
-  const technicalSpotlightRaw = t.raw("technicalSpotlight") as SpotlightItem[];
-  const technicalSpotlightData = technicalSpotlightRaw.map((item) => ({
-    ...item,
-  }));
+  const technicalSpotlightData = t.raw("technicalSpotlight") as SpotlightItem[];
 
   // --- Architectural Decisions Data ---
   const decisionsData = {

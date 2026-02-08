@@ -32,85 +32,189 @@
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
       "platforms": ["iOS"]
     },
-    "challenges": [
+    "technicalSpotlight": [
       {
-        "id": 1,
+        "id": "conditional-playback-lock",
         "title": "Conditional Playback Lock - Filter Without Interruption",
-        "symptom": "UI updates caused unintended player re-initialization",
-        "rootCause": "View layer tightly coupled with native player instance, filtering triggers player reset",
-        "impact": "User experience interrupted, need to reselect song",
-        "badge": "Stability: 100%",
-        "metrics": {
-          "label": "Playback Interruption Rate",
-          "before": "100%",
-          "after": "0%"
+        "role": "React Native Developer",
+        "icon": "play-circle",
+        "summary": "Decoupled view layer from native player instance using !player.playing to ensure continuous playback during filtering.",
+        "tags": ["State Management", "Audio Playback", "UX"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "UI updates caused unintended player re-initialization",
+            "View layer was tightly coupled with native player instance; filtering triggered player reset",
+            "User experience was interrupted, forcing users to reselect songs"
+          ]
         },
-        "filePath": "app/(tabs)/index.tsx",
-        "codeSnippet": "if (list.length > 0 && !player.playing) {\n  const filePath = await getDocumentFile(\n    `audio/${list[0].fileName}`\n  );\n  if (filePath) {\n    player.replace(filePath.uri);\n    setAudioId(list[0]?.id);\n  }\n}\nsetAudios(list);",
-        "highlightTerms": ["!player.playing"],
-        "solution": {
-          "approach": "Conditional Playback Lock (!player.playing)",
-          "details": [
-            "Use !player.playing to decouple view layer from native player instance",
-            "Check playback state before filtering, only reset player when not playing",
-            "When playing, only update list view to ensure continuous playback"
-          ],
-          "result": "Music continues playing during tag filtering, view and player fully decoupled",
-          "category": "State Management"
-        }
+        "analysis": {
+          "title": "Analysis",
+          "items": [
+            "Analyzed React Native lifecycle impact on native player instance",
+            "Confirmed that re-renders triggered by filtering operations caused Context reset"
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "Playback State Management Strategy",
+              "items": [
+                {
+                  "title": "Conditional Playback Lock (!player.playing)",
+                  "desc": "Pros: Decouples view layer from native player instance. Checks playback state before filtering and only resets player when not playing.",
+                  "highlight": true
+                },
+                {
+                  "title": "Reset Player on Every Filter",
+                  "desc": "Cons: Interrupts user experience; music cannot continue playing in the background."
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Music continues playing during tag filtering; view and player are fully decoupled",
+            "Reduced playback interruption rate to 0%"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Logic",
+            "title": "Conditional Playback Lock",
+            "language": "typescript",
+            "code": "if (list.length > 0 && !player.playing) {\n  const filePath = await getDocumentFile(\n    `audio/${list[0].fileName}`\n  );\n  if (filePath) {\n    player.replace(filePath.uri);\n    setAudioId(list[0]?.id);\n  }\n}\nsetAudios(list);",
+            "highlights": [1],
+            "tooltips": [{ "line": 1, "content": "Initialize only when not playing" }]
+          }
+        ]
       },
       {
-        "id": 2,
+        "id": "sqlite-migration",
         "title": "SQLite Migration - Version Control",
-        "symptom": "App updates with schema changes may cause crashes",
-        "rootCause": "Lack of version control mechanism to track database schema changes",
-        "impact": "Users may lose data or experience crashes after upgrade",
-        "badge": "Data Integrity: 100%",
-        "metrics": {
-          "label": "Upgrade Data Loss Rate",
-          "before": "Risk",
-          "after": "0%"
+        "role": "React Native Developer",
+        "icon": "database",
+        "summary": "Implemented PRAGMA user_version version control mechanism to support smooth database upgrades.",
+        "tags": ["SQLite", "Database Migration", "Data Integrity"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "App updates with schema changes could cause crashes",
+            "Lack of version control mechanism made it impossible to track database schema changes",
+            "Users risked losing data or experiencing crashes after upgrades"
+          ]
         },
-        "filePath": "utils/sqlite/init.ts",
-        "codeSnippet": "const DATABASE_VERSION = 2;\n\nconst currentDbVersion = (\n  await db.getFirstAsync<{ user_version: number }>(\n    \"PRAGMA user_version\"\n  )\n)?.user_version ?? null;\n\nif (currentDbVersion < DATABASE_VERSION) {\n  await runMigrations(currentDbVersion);\n}\n\nawait db.execAsync(\n  `PRAGMA user_version = ${DATABASE_VERSION}`\n);",
-        "highlightTerms": ["PRAGMA user_version", "DATABASE_VERSION"],
-        "solution": {
-          "approach": "PRAGMA user_version Versioning",
-          "details": [
-            "Use PRAGMA user_version to track database version",
-            "Check version number on app startup",
-            "Execute corresponding migration scripts based on version diff",
-            "Update user_version after migration completes"
-          ],
-          "result": "Supports smooth database upgrades, user data preserved",
-          "category": "Database Management"
-        }
+        "analysis": {
+          "title": "Analysis",
+          "items": [
+            "Evaluated different SQLite version management schemes",
+            "Researched expo-sqlite migration support and native PRAGMA commands"
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "Database Upgrade Strategy",
+              "items": [
+                {
+                  "title": "PRAGMA user_version Versioning",
+                  "desc": "Pros: Directly utilizes SQLite built-in versioning, independent of extra tables, and allows precise control over migration flow.",
+                  "highlight": true
+                },
+                {
+                  "title": "No Version Control",
+                  "desc": "Cons: Schema changes require manual database deletion, resulting in user data loss."
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Supports smooth database upgrades with full user data preservation",
+            "Eliminated crash risks caused by schema changes"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Migration",
+            "title": "Database Version Check & Migration",
+            "language": "typescript",
+            "code": "const DATABASE_VERSION = 2;\n\nconst currentDbVersion = (\n  await db.getFirstAsync<{ user_version: number }>(\n    \"PRAGMA user_version\"\n  )\n)?.user_version ?? null;\n\nif (currentDbVersion < DATABASE_VERSION) {\n  await runMigrations(currentDbVersion);\n}\n\nawait db.execAsync(\n  `PRAGMA user_version = ${DATABASE_VERSION}`\n);",
+            "highlights": [1, 5, 13],
+            "tooltips": [
+              { "line": 5, "content": "Read current DB version" },
+              { "line": 13, "content": "Update version after migration" }
+            ]
+          }
+        ]
       },
       {
-        "id": 3,
+        "id": "high-stability-download",
         "title": "High-Stability Download Engine - Large File Transfer",
-        "symptom": "UI blocks during large file downloads, no progress tracking",
-        "rootCause": "Native download API lacks progress callback and non-blocking transfer mechanism",
-        "impact": "Users cannot track download status, poor experience",
-        "badge": "UX Feedback: Real-time",
-        "metrics": {
-          "label": "Progress Tracking",
-          "before": "None",
-          "after": "Real-time"
+        "role": "React Native Developer",
+        "icon": "download-cloud",
+        "summary": "Wrapped createDownloadResumable to achieve non-blocking transfer and real-time progress tracking.",
+        "tags": ["File System", "Async Storage", "UX"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "UI blocked during large file downloads; progress tracking was unavailable",
+            "Native download API lacked progress callbacks and non-blocking transfer mechanisms",
+            "Users were unable to know download status, leading to poor experience"
+          ]
         },
-        "filePath": "utils/Apis/File/index.ts",
-        "codeSnippet": "const downloadResumable = FileSystem\n  .createDownloadResumable(\n    `${this.origin}/${remotePath}`,\n    localTempPath,\n    {},\n    (progress) => onProgress?.({\n      progress: progress.totalBytesWritten /\n        progress.totalBytesExpectedToWrite\n    })\n  );\n\nconst result = await downloadResumable\n  .downloadAsync();",
-        "highlightTerms": ["createDownloadResumable", "onProgress"],
-        "solution": {
-          "approach": "High-Stability Download Engine",
-          "details": [
-            "Wrap createDownloadResumable for non-blocking transfer",
-            "Real-time progress callback (onProgress) updates UI",
-            "UI layer decoupled from download layer, large file transfer doesn't block main thread"
-          ],
-          "result": "Real-time progress tracking, UI non-blocking large file transfer",
-          "category": "File Management"
-        }
+        "analysis": {
+          "title": "Analysis",
+          "items": [
+            "Researched expo-file-system download mechanisms",
+            "Investigated implementation of non-blocking progress listener callbacks"
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "File Transfer Strategy",
+              "items": [
+                {
+                  "title": "High-Stability Download Engine",
+                  "desc": "Pros: Wraps createDownloadResumable for non-blocking transfer with real-time progress callback (onProgress) to update UI.",
+                  "highlight": true
+                },
+                {
+                  "title": "Simple fetch/downloadAsync",
+                  "desc": "Cons: UI freezes during download; does not support resumable downloads."
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Real-time progress tracking with non-blocking large file transfer",
+            "Improved stability and user experience for large file operations"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Download",
+            "title": "Resumable Download Wrapper",
+            "language": "typescript",
+            "code": "const downloadResumable = FileSystem\n  .createDownloadResumable(\n    `${this.origin}/${remotePath}`,\n    localTempPath,\n    {},\n    (progress) => onProgress?.({\n      progress: progress.totalBytesWritten /\n        progress.totalBytesExpectedToWrite\n    })\n  );\n\nconst result = await downloadResumable\n  .downloadAsync();",
+            "highlights": [2, 5],
+            "tooltips": [
+              { "line": 2, "content": "Create resumable download instance" },
+              { "line": 5, "content": "Inject progress listener" }
+            ]
+          }
+        ]
       }
     ],
     "gallery": {

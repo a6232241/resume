@@ -5,7 +5,8 @@ import {
   ProjectHero,
   ProjectOverview,
   SourceCodeLink,
-  TechnicalChallengeCard,
+  TechnicalSpotlight,
+  type SpotlightItem,
 } from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
@@ -57,29 +58,8 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
     description: t("overview.description"),
   };
 
-  // --- Challenges Data ---
-  const challengesRaw = t.raw("challenges") as Array<{
-    id: number;
-    title: string;
-    symptom: string;
-    rootCause: string;
-    impact: string;
-    badge?: string;
-    metrics?: {
-      label: string;
-      before: string;
-      after: string;
-    };
-    filePath?: string;
-    codeSnippet: string;
-    highlightTerms: string[];
-    solution: {
-      approach: string;
-      details: string[];
-      result: string;
-      category: string;
-    };
-  }>;
+  // --- Technical Spotlight Data ---
+  const technicalSpotlightData = t.raw("technicalSpotlight") as SpotlightItem[];
 
   // --- Gallery Data ---
   const galleryRaw = t.raw("gallery") as {
@@ -142,7 +122,7 @@ export default async function MusicPlayerPage({ params }: { params: Promise<{ la
         borderGradientClass="from-purple-600/20 via-pink-600/20 to-orange-500/20"
       />
       <ProjectOverview {...overviewData} techBadgeColor="purple" />
-      <TechnicalChallengeCard challenges={challengesRaw} />
+      <TechnicalSpotlight title={commonT("technicalSpotlight")} items={technicalSpotlightData} />
       <TabbedGallery title={commonT("projectShowcase")} tabs={galleryTabs} accentColor="orange" />
       <FutureRoadmap {...roadmapData} />
       <SourceCodeLink href="https://github.com/a6232241/music-player" />

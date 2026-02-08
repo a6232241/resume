@@ -32,85 +32,174 @@
       "mainTechs": ["React Native", "Expo", "SQLite", "Node.js"],
       "platforms": ["iOS"]
     },
-    "challenges": [
+    "technicalSpotlight": [
       {
-        "id": 1,
+        "id": "conditional-playback-lock",
         "title": "Conditional Playback Lock - 過濾不斷歌",
-        "symptom": "UI 更新導致播放器意外重新初始化",
-        "rootCause": "視圖層與原生播放器實例沒有去耦合，過濾操作觸發播放器重置",
-        "impact": "用戶體驗中斷，需要重新選擇歌曲",
-        "badge": "穩定性: 100%",
-        "metrics": {
-          "label": "播放中斷率",
-          "before": "100%",
-          "after": "0%"
+        "role": "React Native 開發者",
+        "icon": "play-circle",
+        "summary": "使用 !player.playing 將視圖層與原生播放器實例解耦，確保持續播放",
+        "tags": ["State Management", "Audio Playback", "UX"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "UI 更新導致播放器意外重新初始化",
+            "視圖層與原生播放器實例沒有去耦合，過濾操作觸發播放器重置",
+            "用戶體驗中斷，需要重新選擇歌曲"
+          ]
         },
-        "filePath": "app/(tabs)/index.tsx",
-        "codeSnippet": "if (list.length > 0 && !player.playing) {\n  const filePath = await getDocumentFile(\n    `audio/${list[0].fileName}`\n  );\n  if (filePath) {\n    player.replace(filePath.uri);\n    setAudioId(list[0]?.id);\n  }\n}\nsetAudios(list);",
-        "highlightTerms": ["!player.playing"],
-        "solution": {
-          "approach": "Conditional Playback Lock (!player.playing)",
-          "details": [
-            "使用 !player.playing 將視圖層與原生播放器實例解耦",
-            "在過濾前檢查播放狀態，僅在非播放狀態時重置播放器",
-            "播放中，僅更新列表視圖，確保持續播放"
-          ],
-          "result": "篩選標籤時，音樂持續播放，視圖與播放器完全解耦",
-          "category": "狀態管理"
-        }
+        "analysis": {
+          "title": "分析",
+          "items": [
+            "分析 React Native 生命週期對原生播放器實例的影響",
+            "確認過濾操作觸發的 Re-render 導致 Context 重置"
+          ]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "播放狀態管理策略",
+              "items": [
+                {
+                  "title": "Conditional Playback Lock (!player.playing)",
+                  "desc": "優點：將視圖層與原生播放器實例解耦，在過濾前檢查播放狀態，僅在非播放狀態時重置播放器",
+                  "highlight": true
+                },
+                {
+                  "title": "每次過濾重置播放器",
+                  "desc": "缺點：使用者體驗中斷，音樂無法在背景持續播放"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["篩選標籤時，音樂持續播放，視圖與播放器完全解耦", "播放中斷率降至 0%"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Logic",
+            "title": "條件式播放鎖定",
+            "language": "typescript",
+            "code": "if (list.length > 0 && !player.playing) {\n  const filePath = await getDocumentFile(\n    `audio/${list[0].fileName}`\n  );\n  if (filePath) {\n    player.replace(filePath.uri);\n    setAudioId(list[0]?.id);\n  }\n}\nsetAudios(list);",
+            "highlights": [1],
+            "tooltips": [{ "line": 1, "content": "僅在非播放狀態下執行初始化" }]
+          }
+        ]
       },
       {
-        "id": 2,
+        "id": "sqlite-migration",
         "title": "SQLite Migration - 版本控管",
-        "symptom": "App 更新後，資料庫結構變更可能導致崩潰",
-        "rootCause": "缺乏版本控管機制，無法追蹤資料庫 schema 變更",
-        "impact": "用戶升級後，可能丟失資料或 App 崩潰",
-        "badge": "資料完整性: 100%",
-        "metrics": {
-          "label": "升級資料丟失率",
-          "before": "風險",
-          "after": "0%"
+        "role": "React Native 開發者",
+        "icon": "database",
+        "summary": "實作 PRAGMA user_version 版本控管機制，支援平滑的資料庫升級",
+        "tags": ["SQLite", "Database Migration", "Data Integrity"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "App 更新後，資料庫結構變更可能導致崩潰",
+            "缺乏版本控管機制，無法追蹤資料庫 schema 變更",
+            "用戶升級後，可能丟失資料或 App 崩潰"
+          ]
         },
-        "filePath": "utils/sqlite/init.ts",
-        "codeSnippet": "const DATABASE_VERSION = 2;\n\nconst currentDbVersion = (\n  await db.getFirstAsync<{ user_version: number }>(\n    \"PRAGMA user_version\"\n  )\n)?.user_version ?? null;\n\nif (currentDbVersion < DATABASE_VERSION) {\n  await runMigrations(currentDbVersion);\n}\n\nawait db.execAsync(\n  `PRAGMA user_version = ${DATABASE_VERSION}`\n);",
-        "highlightTerms": ["PRAGMA user_version", "DATABASE_VERSION"],
-        "solution": {
-          "approach": "PRAGMA user_version 版本控管",
-          "details": [
-            "使用 PRAGMA user_version 追蹤資料庫版本",
-            "App 啟動時，檢查版本號",
-            "根據版本差異執行對應的遷移腳本",
-            "遷移完成後更新 user_version"
-          ],
-          "result": "支援平滑的資料庫升級，用戶資料完整保留",
-          "category": "數據庫管理"
-        }
+        "analysis": {
+          "title": "分析",
+          "items": ["評估不同 SQLite 版本管理方案", "研究 expo-sqlite 的遷移支援與原生 PRAGMA 指令"]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "資料庫升級策略",
+              "items": [
+                {
+                  "title": "PRAGMA user_version 版本控管",
+                  "desc": "優點：直接利用 SQLite 內建版本號，不依賴額外資料表，且能精準控制遷移流程",
+                  "highlight": true
+                },
+                {
+                  "title": "無版本控管",
+                  "desc": "缺點：Schema 變更時需手動刪除資料庫，導致用戶資料遺失"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["支援平滑的資料庫升級，用戶資料完整保留", "消除因 Schema 變更導致的崩潰風險"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Migration",
+            "title": "資料庫版本檢查與遷移",
+            "language": "typescript",
+            "code": "const DATABASE_VERSION = 2;\n\nconst currentDbVersion = (\n  await db.getFirstAsync<{ user_version: number }>(\n    \"PRAGMA user_version\"\n  )\n)?.user_version ?? null;\n\nif (currentDbVersion < DATABASE_VERSION) {\n  await runMigrations(currentDbVersion);\n}\n\nawait db.execAsync(\n  `PRAGMA user_version = ${DATABASE_VERSION}`\n);",
+            "highlights": [1, 5, 13],
+            "tooltips": [
+              { "line": 5, "content": "讀取目前資料庫版本" },
+              { "line": 13, "content": "遷移完成後更新版本號" }
+            ]
+          }
+        ]
       },
       {
-        "id": 3,
+        "id": "high-stability-download",
         "title": "High-Stability Download Engine - 大檔案傳輸",
-        "symptom": "大檔案下載時 UI 阻塞，無法追蹤進度",
-        "rootCause": "原生下載 API 缺乏進度回調與非阻塞傳輸機制",
-        "impact": "用戶無法得知下載狀態，體驗不佳",
-        "badge": "UX 回饋: 即時",
-        "metrics": {
-          "label": "進度追蹤",
-          "before": "無",
-          "after": "即時"
+        "role": "React Native 開發者",
+        "icon": "download-cloud",
+        "summary": "封裝 createDownloadResumable 實現非阻塞傳輸與即時進度追蹤",
+        "tags": ["File System", "Async Storage", "UX"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "大檔案下載時 UI 阻塞，無法追蹤進度",
+            "原生下載 API 缺乏進度回調與非阻塞傳輸機制",
+            "用戶無法得知下載狀態，體驗不佳"
+          ]
         },
-        "filePath": "utils/Apis/File/index.ts",
-        "codeSnippet": "const downloadResumable = FileSystem\n  .createDownloadResumable(\n    `${this.origin}/${remotePath}`,\n    localTempPath,\n    {},\n    (progress) => onProgress?.({\n      progress: progress.totalBytesWritten /\n        progress.totalBytesExpectedToWrite\n    })\n  );\n\nconst result = await downloadResumable\n  .downloadAsync();",
-        "highlightTerms": ["createDownloadResumable", "onProgress"],
-        "solution": {
-          "approach": "High-Stability Download Engine",
-          "details": [
-            "封裝 createDownloadResumable 實現非阻塞傳輸",
-            "即時進度回調 (onProgress) 更新 UI",
-            "UI 層與下載層解耦，大檔案傳輸不阻塞主執行緒"
-          ],
-          "result": "即時進度追蹤，UI 非阻塞大檔案傳輸",
-          "category": "檔案管理"
-        }
+        "analysis": {
+          "title": "分析",
+          "items": ["研究 expo-file-system 的如下載機制", "如何實作非阻塞的進度監聽回調"]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "檔案傳輸策略",
+              "items": [
+                {
+                  "title": "High-Stability Download Engine",
+                  "desc": "優點：封裝 createDownloadResumable 實現非阻塞傳輸，即時進度回調 (onProgress) 更新 UI",
+                  "highlight": true
+                },
+                {
+                  "title": "簡單 fetch/downloadAsync",
+                  "desc": "缺點：下載過程中 UI 凍結，且無法支援斷點續傳"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["即時進度追蹤，UI 非阻塞大檔案傳輸", "提升大檔案操作的穩定性與使用者體驗"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Download",
+            "title": "可恢復式下載封裝",
+            "language": "typescript",
+            "code": "const downloadResumable = FileSystem\n  .createDownloadResumable(\n    `${this.origin}/${remotePath}`,\n    localTempPath,\n    {},\n    (progress) => onProgress?.({\n      progress: progress.totalBytesWritten /\n        progress.totalBytesExpectedToWrite\n    })\n  );\n\nconst result = await downloadResumable\n  .downloadAsync();",
+            "highlights": [2, 5],
+            "tooltips": [
+              { "line": 2, "content": "建立可恢復的下載實例" },
+              { "line": 5, "content": "注入進度監聽回調" }
+            ]
+          }
+        ]
       }
     ],
     "gallery": {
