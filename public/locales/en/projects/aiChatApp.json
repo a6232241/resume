@@ -32,69 +32,195 @@
       "focus": ["Native Module Bridging", "SQLite Persistence", "Context Menu Integration"],
       "platforms": ["iOS", "Android"]
     },
-    "challenges": [
+    "technicalSpotlight": [
       {
-        "id": 1,
-        "title": "Deep Native Integration via Bare Workflow",
-        "symptom": "Standard Expo Go restricted custom native module extensibility",
-        "rootCause": "Managed workflow abstracts native layer, blocking advanced haptics and system-level UI controls",
-        "impact": "Unable to implement context menus and advanced gesture handling",
-        "badge": "Verified",
-        "filePath": "app.json",
-        "codeSnippet": "{\n  \"expo\": {\n    \"ios\": {\n      \"bundleIdentifier\": \"com.a55663340.ai-chat-app\",\n      \"appleTeamId\": \"854H39T4U5\"\n    },\n    \"android\": {\n      \"package\": \"com.a55663340.aichatapp\"\n    },\n    \"plugins\": [\n      \"expo-router\",\n      [\"expo-sqlite\", { \"enableFTS\": true }]\n    ]\n  }\n}",
-        "highlightTerms": ["bundleIdentifier", "package", "plugins"],
-        "solution": {
-          "approach": "Expo Bare Workflow Migration",
-          "details": [
-            "Migrated from Managed to Bare Workflow",
-            "Retained Expo DX while gaining native project access",
-            "Integrated react-native-context-menu-view for iOS"
-          ],
-          "result": "Full control over Android/iOS projects with Expo's rapid iteration benefits",
-          "category": "Architecture"
-        }
+        "id": "expo-bare-workflow",
+        "title": "Expo Bare Workflow & Deep Native Integration",
+        "role": "React Native Developer",
+        "icon": "layers",
+        "summary": "Migrated from Managed Workflow to Bare Workflow, retaining Expo DX while gaining specialized native project access.",
+        "tags": ["Expo Bare Workflow", "Native Modules", "Architecture"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "Standard Expo Go restricted custom native module extensibility",
+            "Managed workflow abstracts native layer, blocking advanced haptics and system-level UI controls",
+            "Unable to implement context menus and advanced gesture handling"
+          ]
+        },
+        "analysis": {
+          "title": "Analysis",
+          "items": [
+            "Evaluated differences between Expo Prebuild and Bare Workflow",
+            "Confirmed react-native-context-menu-view required native linking"
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "Migration Strategy",
+              "items": [
+                {
+                  "title": "Migrate to Bare Workflow",
+                  "desc": "Pros: Retains Expo DX while gaining full native project access",
+                  "highlight": true
+                },
+                {
+                  "title": "Stay on Managed Workflow",
+                  "desc": "Cons: Unable to integrate third-party libraries involving native UI View hierarchy"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Full control over Android/iOS projects with Expo's rapid iteration benefits",
+            "Successfully integrated native Context Menu"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Config",
+            "title": "Expo Config Plugin Setup",
+            "language": "json",
+            "code": "{\n  \"expo\": {\n    \"ios\": {\n      \"bundleIdentifier\": \"com.a55663340.ai-chat-app\",\n      \"appleTeamId\": \"854H39T4U5\"\n    },\n    \"android\": {\n      \"package\": \"com.a55663340.aichatapp\"\n    },\n    \"plugins\": [\n      \"expo-router\",\n      [\"expo-sqlite\", { \"enableFTS\": true }]\n    ]\n  }\n}",
+            "highlights": [4, 8, 10],
+            "tooltips": [
+              { "line": 4, "content": "Define iOS Bundle ID" },
+              { "line": 8, "content": "Define Android Package Name" },
+              { "line": 10, "content": "Configure Native Plugins" }
+            ]
+          }
+        ]
       },
       {
-        "id": 2,
-        "title": "Persistence Strategy Balancing Responsiveness and Durability",
-        "symptom": "Trade-off between immediate user feedback and data persistence guarantees",
-        "rootCause": "Pure optimistic UI risks data loss; pure DB-first creates perceived latency",
-        "impact": "Needed instant feedback while ensuring messages are staged locally before the network request",
-        "badge": "High Reliability",
-        "filePath": "app/index.tsx",
-        "codeSnippet": "// 1. Optimistic UI update: Provides immediate response experience\nsetMessages((prev) => [userMessage, ...prev]);\n\n// 2. Pre-network Persistence: Mandatory SQLite write before API call\nif (conversationId) {\n  await Apis.sqlite.message.putMessage({ ...userMessage, conversationId });\n}\n\n// 3. Initiate API call: Perform remote chat request\nconst response = await Apis.githubModel.postMessageToChat(...);",
-        "highlightTerms": ["setMessages", "putMessage", "postMessageToChat"],
-        "solution": {
-          "approach": "Optimistic UI + Pre-network Persistence",
-          "details": [
-            "Immediate UI updates provide zero-latency perceived experience",
-            "Mandatory SQLite write stages data locally prior to asynchronous API calls",
-            "Ensures data durability for manual recovery even if the app crashes or network fails"
-          ],
-          "result": "Verified high-reliability data protection with extreme perceived responsiveness",
-          "category": "UX & Data Integrity"
-        }
+        "id": "offline-persistence",
+        "title": "Persistence Strategy: Balancing Responsiveness & Durability",
+        "role": "React Native Developer",
+        "icon": "database",
+        "summary": "Combined Optimistic UI updates with Pre-network Persistence to ensure extreme perceived responsiveness and high data reliability.",
+        "tags": ["Optimistic UI", "SQLite", "Offline First"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "Trade-off between immediate user feedback and data persistence guarantees",
+            "Pure optimistic UI risks data loss; pure DB-first creates perceived latency",
+            "Needed instant feedback while ensuring messages are staged locally before the network request"
+          ]
+        },
+        "analysis": {
+          "title": "Analysis",
+          "items": [
+            "Analyzed impact of different persistence timing on UX and data safety",
+            "Evaluated SQLite efficiency as a local cache"
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "Data Synchronization Strategy",
+              "items": [
+                {
+                  "title": "Optimistic UI + Pre-network Persistence",
+                  "desc": "Pros: Immediate UI updates provide zero-latency experience, and mandatory SQLite write before API execution ensures data safety",
+                  "highlight": true
+                },
+                {
+                  "title": "Pure Optimistic UI",
+                  "desc": "Cons: If App crashes during API request, data is permanently lost"
+                },
+                {
+                  "title": "Wait for API Response",
+                  "desc": "Cons: Users perceive noticeable latency, poor experience"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Verified high-reliability data protection with extreme perceived responsiveness",
+            "Ensured messages are locally staged even if crash occurs"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Logic",
+            "title": "Optimistic Update & Persistence Flow",
+            "language": "typescript",
+            "code": "// 1. Optimistic UI update: Provides immediate response experience\nsetMessages((prev) => [userMessage, ...prev]);\n\n// 2. Pre-network Persistence: Mandatory SQLite write before API call\nif (conversationId) {\n  await Apis.sqlite.message.putMessage({ ...userMessage, conversationId });\n}\n\n// 3. Initiate API call: Perform remote chat request\nconst response = await Apis.githubModel.postMessageToChat(...);",
+            "highlights": [2, 6, 10],
+            "tooltips": [
+              { "line": 2, "content": "Immediately update UI state" },
+              { "line": 6, "content": "Synchronously write to local database" },
+              { "line": 10, "content": "Send network request" }
+            ]
+          }
+        ]
       },
       {
-        "id": 3,
+        "id": "inverted-chat-list",
         "title": "Inverted List Implementation",
-        "symptom": "Chat messages displayed in wrong order (newest at top)",
-        "rootCause": "Standard FlatList renders items top-to-bottom, opposite of chat UX expectations",
-        "impact": "Users expected newest messages at bottom with auto-scroll",
-        "badge": "Implemented",
-        "filePath": "app/index.tsx",
-        "codeSnippet": "<FlatList\n  ref={flatListRef}\n  inverted\n  data={messages}\n  keyExtractor={(item) =>\n    item.id.toString()\n  }\n  renderItem={renderMessageItem}\n/>",
-        "highlightTerms": ["inverted", "FlatList", "ref"],
-        "solution": {
-          "approach": "FlatList inverted Prop",
-          "details": [
-            "Used FlatList's native inverted prop",
-            "Newest messages appear at bottom automatically",
-            "Maintains scroll position on new messages"
-          ],
-          "result": "Natural chat interface with correct message ordering",
-          "category": "UI/UX"
-        }
+        "role": "React Native Developer",
+        "icon": "list",
+        "summary": "Utilized FlatList native inverted prop to achieve a natural chat interface and correct message ordering.",
+        "tags": ["FlatList", "UI/UX", "Inverted List"],
+        "challenge": {
+          "title": "Challenge",
+          "items": [
+            "Chat messages displayed in wrong order (newest at top)",
+            "Standard FlatList renders items top-to-bottom, opposite of chat UX expectations",
+            "Users expected newest messages at bottom with auto-scroll"
+          ]
+        },
+        "analysis": {
+          "title": "Analysis",
+          "items": [
+            "Studied FlatList inverted prop mechanism",
+            "Compared performance between manual array reversal and native prop usage"
+          ]
+        },
+        "decisions": {
+          "title": "Engineering Decisions",
+          "items": [
+            {
+              "title": "List Rendering Strategy",
+              "items": [
+                {
+                  "title": "FlatList inverted Prop",
+                  "desc": "Pros: Native implementation, newest messages automatically at bottom, stable scroll position on data updates",
+                  "highlight": true
+                },
+                {
+                  "title": "Manual Array Reversal",
+                  "desc": "Cons: Requires re-calculating array on every render"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "Result",
+          "items": [
+            "Natural chat interface with correct message ordering",
+            "Fluid scrolling experience when new messages arrive"
+          ]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Component",
+            "title": "Inverted FlatList Implementation",
+            "language": "tsx",
+            "code": "<FlatList\n  ref={flatListRef}\n  inverted\n  data={messages}\n  keyExtractor={(item) =>\n    item.id.toString()\n  }\n  renderItem={renderMessageItem}\n/>",
+            "highlights": [3],
+            "tooltips": [{ "line": 3, "content": "Enable inverted rendering mode" }]
+          }
+        ]
       }
     ],
     "decisions": {

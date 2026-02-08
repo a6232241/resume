@@ -7,7 +7,8 @@ import {
   ProjectHero,
   ProjectOverview,
   SourceCodeLink,
-  TechnicalChallengeCard,
+  TechnicalSpotlight,
+  type SpotlightItem,
 } from "@features/portfolio/components";
 import { getMediaUrl } from "@src/util";
 import { getTranslations } from "next-intl/server";
@@ -59,29 +60,11 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
     description: t("overview.description"),
   };
 
-  // --- Challenges Data ---
-  const challengesRaw = t.raw("challenges") as Array<{
-    id: number;
-    title: string;
-    symptom: string;
-    rootCause: string;
-    impact: string;
-    badge?: string;
-    metrics?: {
-      label: string;
-      before: string;
-      after: string;
-    };
-    filePath?: string;
-    codeSnippet: string;
-    highlightTerms: string[];
-    solution: {
-      approach: string;
-      details: string[];
-      result: string;
-      category: string;
-    };
-  }>;
+  // --- Technical Spotlight Data ---
+  const technicalSpotlightRaw = t.raw("technicalSpotlight") as SpotlightItem[];
+  const technicalSpotlightData = technicalSpotlightRaw.map((item) => ({
+    ...item,
+  }));
 
   // --- Architectural Decisions Data ---
   const decisionsData = {
@@ -169,7 +152,7 @@ export default async function AIChatAppPage({ params }: { params: Promise<{ lang
         borderGradientClass="from-cyan-600/20 via-blue-600/20 to-purple-500/20"
       />
       <ProjectOverview {...overviewData} techBadgeColor="purple" />
-      <TechnicalChallengeCard challenges={challengesRaw} />
+      <TechnicalSpotlight title={commonT("technicalSpotlight")} items={technicalSpotlightData} />
       <ArchitecturalDecisions {...decisionsData} />
       <TabbedGallery title={commonT("projectShowcase")} tabs={galleryTabs} accentColor="blue" />
       {coreImplementationRaw && (

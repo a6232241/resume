@@ -32,65 +32,177 @@
       "focus": ["原生模組橋接", "SQLite 持久化", "Context Menu 整合"],
       "platforms": ["iOS", "Android"]
     },
-    "challenges": [
+    "technicalSpotlight": [
       {
-        "id": 1,
+        "id": "expo-bare-workflow",
         "title": "Expo Bare Workflow 與原生深度整合",
-        "symptom": "標準 Expo Go 限制了自定義原生模組的擴充性",
-        "rootCause": "託管工作流程抽象化原生層，阻礙進階觸覺回饋與系統級 UI 控制",
-        "impact": "無法實作上下文選單與進階手勢處理",
-        "badge": "已驗證",
-        "filePath": "app.json",
-        "codeSnippet": "{\n  \"expo\": {\n    \"ios\": {\n      \"bundleIdentifier\": \"com.a55663340.ai-chat-app\",\n      \"appleTeamId\": \"854H39T4U5\"\n    },\n    \"android\": {\n      \"package\": \"com.a55663340.aichatapp\"\n    },\n    \"plugins\": [\n      \"expo-router\",\n      [\"expo-sqlite\", { \"enableFTS\": true }]\n    ]\n  }\n}",
-        "highlightTerms": ["bundleIdentifier", "package", "plugins"],
-        "solution": {
-          "approach": "Expo Bare Workflow 遷移",
-          "details": [
-            "從託管模式遷移至 Bare Workflow",
-            "保留 Expo 開發體驗，同時獲得原生專案存取權",
-            "整合 react-native-context-menu-view 於 iOS"
-          ],
-          "result": "完整控制 Android/iOS 專案，同時享有 Expo 的快速迭代優勢",
-          "category": "架構"
-        }
+        "role": "React Native 開發者",
+        "icon": "layers",
+        "summary": "從託管模式遷移至 Bare Workflow，保留 Expo 開發體驗同時獲得原生專案存取權",
+        "tags": ["Expo Bare Workflow", "Native Modules", "Architecture"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "標準 Expo Go 限制了自定義原生模組的擴充性",
+            "託管工作流程抽象化原生層，阻礙進階觸覺回饋與系統級 UI 控制",
+            "無法實作上下文選單與進階手勢處理"
+          ]
+        },
+        "analysis": {
+          "title": "分析",
+          "items": ["評估 Expo Prebuild 與 Bare Workflow 的差異", "確認 react-native-context-menu-view 需要原生連結"]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "架構遷移策略",
+              "items": [
+                {
+                  "title": "遷移至 Bare Workflow",
+                  "desc": "優點：保留 Expo 開發體驗，同時獲得原生專案存取權",
+                  "highlight": true
+                },
+                {
+                  "title": "維持 Managed Workflow",
+                  "desc": "缺點：無法整合涉及原生 UI View 階層的第三方函式庫"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["完整控制 Android/iOS 專案，同時享有 Expo 的快速迭代優勢", "成功整合原生 Context Menu"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Config",
+            "title": "Expo Config Plugin 設定",
+            "language": "json",
+            "code": "{\n  \"expo\": {\n    \"ios\": {\n      \"bundleIdentifier\": \"com.a55663340.ai-chat-app\",\n      \"appleTeamId\": \"854H39T4U5\"\n    },\n    \"android\": {\n      \"package\": \"com.a55663340.aichatapp\"\n    },\n    \"plugins\": [\n      \"expo-router\",\n      [\"expo-sqlite\", { \"enableFTS\": true }]\n    ]\n  }\n}",
+            "highlights": [4, 8, 10],
+            "tooltips": [
+              { "line": 4, "content": "定義 iOS Bundle ID" },
+              { "line": 8, "content": "定義 Android Package Name" },
+              { "line": 10, "content": "配置原生插件" }
+            ]
+          }
+        ]
       },
       {
-        "id": 2,
+        "id": "offline-persistence",
         "title": "兼顧響應性與耐用性的持久化策略",
-        "symptom": "即時使用者回饋與資料持久化保證之間的取捨",
-        "rootCause": "純樂觀式 UI 有資料遺失風險；純 DB-First 會造成感知延遲",
-        "impact": "需要即時回饋，同時確保訊息在閃退或網路故障前已完成本地備份",
-        "badge": "高可靠性",
-        "filePath": "app/index.tsx",
-        "codeSnippet": "// 1. 樂觀 UI 更新：提供即時的響應體驗\nsetMessages((prev) => [userMessage, ...prev]);\n\n// 2. 預寫持久化：在網路請求前強制寫入 SQLite 確保數據安全\nif (conversationId) {\n  await Apis.sqlite.message.putMessage({ ...userMessage, conversationId });\n}\n\n// 3. 執行 API：進行遠端對話請求\nconst response = await Apis.githubModel.postMessageToChat(...);",
-        "highlightTerms": ["setMessages", "putMessage", "postMessageToChat"],
-        "solution": {
-          "approach": "樂觀式 UI + 網路前持久化",
-          "details": [
-            "即時 UI 更新提供零延遲的使用者體驗",
-            "在執行異步 API 請求前，強制完成 SQLite 寫入",
-            "確保異常崩潰時，訊息已在本地完成暫存，支援後續錯誤復原"
-          ],
-          "result": "驗證高可靠性數據保護，同時具備極致的感知響應性",
-          "category": "UX 與數據可靠性"
-        }
+        "role": "React Native 開發者",
+        "icon": "database",
+        "summary": "結合樂觀式 UI 更新與網路前持久化策略，確保極致的感知響應性與數據高可靠性",
+        "tags": ["Optimistic UI", "SQLite", "Offline First"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "即時使用者回饋與資料持久化保證之間的取捨",
+            "純樂觀式 UI 有資料遺失風險；純 DB-First 會造成感知延遲",
+            "需要即時回饋，同時確保訊息在閃退或網路故障前已完成本地備份"
+          ]
+        },
+        "analysis": {
+          "title": "分析",
+          "items": ["分析不同持久化時機點對 UX 與數據安全性的影響", "評估 SQLite 作為本地快取的效能"]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "數據同步策略",
+              "items": [
+                {
+                  "title": "樂觀式 UI + 網路前持久化",
+                  "desc": "優點：即時 UI 更新提供零延遲體驗，且在 API 請求前強制寫入 SQLite 確保數據安全",
+                  "highlight": true
+                },
+                {
+                  "title": "純樂觀式 UI",
+                  "desc": "缺點：若 API 請求期間 App 崩潰，將導致數據永久遺失"
+                },
+                {
+                  "title": "等待 API 回應後更新",
+                  "desc": "缺點：使用者感受到明顯延遲，體驗不佳"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["驗證高可靠性數據保護，同時具備極致的感知響應性", "確保異常崩潰時，訊息已在本地完成暫存"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Logic",
+            "title": "樂觀更新與持久化流程",
+            "language": "typescript",
+            "code": "// 1. 樂觀 UI 更新：提供即時的響應體驗\nsetMessages((prev) => [userMessage, ...prev]);\n\n// 2. 預寫持久化：在網路請求前強制寫入 SQLite 確保數據安全\nif (conversationId) {\n  await Apis.sqlite.message.putMessage({ ...userMessage, conversationId });\n}\n\n// 3. 執行 API：進行遠端對話請求\nconst response = await Apis.githubModel.postMessageToChat(...);",
+            "highlights": [2, 6, 10],
+            "tooltips": [
+              { "line": 2, "content": "立即更新 UI 狀態" },
+              { "line": 6, "content": "同步寫入本地資料庫" },
+              { "line": 10, "content": "發送網路請求" }
+            ]
+          }
+        ]
       },
       {
-        "id": 3,
+        "id": "inverted-chat-list",
         "title": "倒序列表實作",
-        "symptom": "聊天訊息以錯誤順序顯示（最新在上方）",
-        "rootCause": "標準 FlatList 從上到下渲染項目，與聊天 UX 預期相反",
-        "impact": "使用者期望最新訊息在底部並自動滾動",
-        "badge": "已實作",
-        "filePath": "app/index.tsx",
-        "codeSnippet": "<FlatList\n  ref={flatListRef}\n  inverted\n  data={messages}\n  keyExtractor={(item) =>\n    item.id.toString()\n  }\n  renderItem={renderMessageItem}\n/>",
-        "highlightTerms": ["inverted", "FlatList", "ref"],
-        "solution": {
-          "approach": "FlatList inverted 屬性",
-          "details": ["使用 FlatList 原生 inverted 屬性", "最新訊息自動顯示在底部", "新訊息時保持滾動位置"],
-          "result": "自然的聊天介面，訊息順序正確",
-          "category": "UI/UX"
-        }
+        "role": "React Native 開發者",
+        "icon": "list",
+        "summary": "使用 FlatList 原生 inverted 屬性，實現自然的聊天介面與正確的訊息順序",
+        "tags": ["FlatList", "UI/UX", "Inverted List"],
+        "challenge": {
+          "title": "挑戰",
+          "items": [
+            "聊天訊息以錯誤順序顯示（最新在上方）",
+            "標準 FlatList 從上到下渲染項目，與聊天 UX 預期相反",
+            "使用者期望最新訊息在底部並自動滾動"
+          ]
+        },
+        "analysis": {
+          "title": "分析",
+          "items": ["研究 FlatList 的 inverted 屬性原理", "比較手動反轉陣列與使用原生屬性的效能差異"]
+        },
+        "decisions": {
+          "title": "工程決策",
+          "items": [
+            {
+              "title": "列表渲染策略",
+              "items": [
+                {
+                  "title": "FlatList inverted 屬性",
+                  "desc": "優點：使用原生實作，最新訊息自動顯示在底部，資料變更時維持滾動位置穩定",
+                  "highlight": true
+                },
+                {
+                  "title": "手動反轉資料陣列",
+                  "desc": "缺點：每次渲染都需要重新計算陣列"
+                }
+              ]
+            }
+          ]
+        },
+        "result": {
+          "title": "結果",
+          "items": ["自然的聊天介面，訊息順序正確", "新訊息加入時保持流暢的滾動體驗"]
+        },
+        "codeSnippetTabs": [
+          {
+            "label": "Component",
+            "title": "Inverted FlatList 實作",
+            "language": "tsx",
+            "code": "<FlatList\n  ref={flatListRef}\n  inverted\n  data={messages}\n  keyExtractor={(item) =>\n    item.id.toString()\n  }\n  renderItem={renderMessageItem}\n/>",
+            "highlights": [3],
+            "tooltips": [{ "line": 3, "content": "啟用倒序渲染模式" }]
+          }
+        ]
       }
     ],
     "decisions": {
